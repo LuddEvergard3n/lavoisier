@@ -1,0 +1,301 @@
+/*
+ * base.css — Design tokens, reset e tipografia
+ * Lavoisier — Laboratório Visual de Química
+ * =====================================================================
+ */
+
+/* -----------------------------------------------------------------------
+   Tokens de design
+----------------------------------------------------------------------- */
+:root {
+  /* Paleta — tema escuro (padrão) */
+  --bg-base:         #0d1117;
+  --bg-surface:      #161b22;
+  --bg-raised:       #1c2128;
+  --bg-overlay:      #21262d;
+  --border-subtle:   #21262d;
+  --border-default:  #30363d;
+  --border-strong:   #484f58;
+
+  /* Texto */
+  --text-primary:    #e6edf3;
+  --text-secondary:  #8b949e;
+  --text-muted:      #6e7681;
+  --text-inverse:    #0d1117;
+
+  /* Acentos temáticos */
+  --accent-electron: #4fc3f7;   /* elétrons, ciência, azul */
+  --accent-bond:     #ffd166;   /* ligações, amber */
+  --accent-organic:  #6bcb77;   /* orgânica, verde */
+  --accent-reaction: #ef476f;   /* reações, vermelho-rosa */
+  --accent-energy:   #ffa726;   /* energia, laranja */
+  --accent-neutral:  #b39ddb;   /* neutro, lilás */
+
+  /* Estado */
+  --state-correct:   #3fb950;
+  --state-error:     #f85149;
+  --state-hint:      #e3b341;
+  --state-neutral:   #8b949e;
+
+  /* Tipografia */
+  --font-body:    "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "Cascadia Code", "Fira Code", "Consolas", monospace;
+  --font-display: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  /* Escala tipográfica — proporção 1.25 (Major Third) */
+  --text-xs:   0.64rem;
+  --text-sm:   0.8rem;
+  --text-base: 1rem;
+  --text-md:   1.25rem;
+  --text-lg:   1.563rem;
+  --text-xl:   1.953rem;
+  --text-2xl:  2.441rem;
+  --text-3xl:  3.052rem;
+
+  /* Espaçamento */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Bordas */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Sombras */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,0.6);
+  --shadow-glow-electron: 0 0 12px rgba(79,195,247,0.35);
+  --shadow-glow-bond:     0 0 12px rgba(255,209,102,0.35);
+  --shadow-glow-organic:  0 0 12px rgba(107,203,119,0.35);
+
+  /* Transições */
+  --transition-fast:   120ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow:   350ms ease;
+
+  /* Layout */
+  --header-height: 56px;
+  --sidebar-width: 260px;
+  --content-max:   1100px;
+  --module-max:    900px;
+
+  /* Z-index */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-overlay: 100;
+  --z-sidebar: 200;
+  --z-toast:   300;
+  --z-modal:   400;
+}
+
+/* -----------------------------------------------------------------------
+   Alto contraste
+----------------------------------------------------------------------- */
+@media (prefers-contrast: high) {
+  :root {
+    --border-default: #6e7681;
+    --text-secondary: #b1bac4;
+    --bg-surface:     #0d1117;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Reset
+----------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-base);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+canvas {
+  display: block;
+  /* Sem max-width: canvas precisa de tamanho fixo para hit detection correta */
+}
+
+a {
+  color: var(--accent-electron);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+}
+
+/* -----------------------------------------------------------------------
+   Acessibilidade — foco visível
+----------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--accent-electron);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--accent-electron);
+  color: var(--text-inverse);
+  padding: var(--space-2) var(--space-4);
+  z-index: var(--z-modal);
+  border-radius: 0 0 var(--radius-md) 0;
+  font-weight: 600;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* -----------------------------------------------------------------------
+   Barra de rolagem personalizada
+----------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* -----------------------------------------------------------------------
+   Animação de carregamento
+----------------------------------------------------------------------- */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: var(--space-6);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  letter-spacing: 0.05em;
+}
+
+.loading-atom {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.loading-nucleus {
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-electron);
+  box-shadow: var(--shadow-glow-electron);
+}
+
+.loading-orbit {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(79, 195, 247, 0.3);
+}
+
+.loading-orbit.orbit-1 { animation: spin 1.6s linear infinite; }
+.loading-orbit.orbit-2 { animation: spin 2.4s linear infinite reverse; transform: rotate(60deg); }
+
+.loading-electron {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-electron);
+  box-shadow: var(--shadow-glow-electron);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* -----------------------------------------------------------------------
+   Notação química inline
+----------------------------------------------------------------------- */
+sub { font-size: 0.75em; vertical-align: sub; }
+sup { font-size: 0.75em; vertical-align: super; }
+
+.chem-formula {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  color: var(--accent-electron);
+}
+
+.chem-ion {
+  font-family: var(--font-mono);
+  color: var(--accent-bond);
+}

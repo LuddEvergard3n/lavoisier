@@ -1,0 +1,454 @@
+[
+  {
+    "id": "atomic-structure",
+    "title": "Estrutura Atômica",
+    "subtitle": "Prótons, elétrons, nêutrons e modelos do átomo",
+    "icon": "&#9737;",
+    "accentClass": "badge-electron",
+    "route": "/module/atomic-structure",
+    "status": "available",
+    "sections": [
+      "phenomenon",
+      "visualization",
+      "interaction",
+      "explanation",
+      "exercise",
+      "reallife"
+    ],
+    "concepts": [
+      "O átomo é composto por núcleo (prótons e nêutrons) e eletrosfera (elétrons)",
+      "O número atômico (Z) define o elemento; o número de massa (A = Z + N) define o isótopo",
+      "Elétrons se distribuem em camadas com capacidade máxima definida",
+      "A perda ou ganho de elétrons cria íons carregados",
+      "Os modelos atômicos evoluíram: Thomson, Rutherford, Bohr, mecânica quântica"
+    ],
+    "exercises": [
+      {
+        "id": "as-ex-01",
+        "type": "choice",
+        "question": "Um átomo de oxigênio (Z=8) tem 8 prótons. Quantos elétrons tem o átomo neutro?",
+        "options": [
+          "6",
+          "8",
+          "10",
+          "16"
+        ],
+        "answer": "8",
+        "hints": [
+          "No átomo neutro, as cargas se equilibram.",
+          "Se Z = 8 (prótons positivos) e o átomo é neutro, o número de elétrons deve neutralizar a carga.",
+          "Número de elétrons = número de prótons no átomo neutro."
+        ],
+        "explanation": "No átomo neutro a carga total é zero. Cada próton tem carga +1 e cada elétron tem carga -1. Para que a soma seja zero: 8 prótons e 8 elétrons."
+      },
+      {
+        "id": "as-ex-02",
+        "type": "choice",
+        "question": "O íon Na⁺ tem 11 prótons. Quantos elétrons ele possui?",
+        "options": [
+          "12",
+          "11",
+          "10",
+          "9"
+        ],
+        "answer": "10",
+        "hints": [
+          "O símbolo Na⁺ indica que o sódio perdeu elétrons.",
+          "A carga +1 significa que há 1 elétron a menos que prótons.",
+          "11 prótons - 1 elétron = ?"
+        ],
+        "explanation": "Na⁺ perdeu 1 elétron para atingir configuração estável. Com 11 prótons (+11) e 10 elétrons (-10), a carga resultante é +1."
+      },
+      {
+        "id": "as-ex-03",
+        "type": "choice",
+        "question": "Qual modelo atômico introduziu o conceito de órbitas definidas para os elétrons?",
+        "options": [
+          "Thomson",
+          "Dalton",
+          "Bohr",
+          "Rutherford"
+        ],
+        "answer": "Bohr",
+        "hints": [
+          "Thomson descobriu o elétron mas propôs um modelo sem órbitas definidas.",
+          "Rutherford descobriu o núcleo mas não definiu onde ficavam os elétrons.",
+          "Qual cientista calculou raios precisos para as órbitas eletrônicas?"
+        ],
+        "explanation": "Niels Bohr (1913) propôs que os elétrons orbitam o núcleo em camadas de energia definida. Ao saltar entre camadas, o átomo emite ou absorve fótons de energia específica."
+      }
+    ],
+    "realLife": [
+      {
+        "context": "Medicina",
+        "example": "Na radioterapia, isótopos radioativos emitem radiação que destrói células tumorais. Isso só é possível porque entendemos o núcleo atômico."
+      },
+      {
+        "context": "Eletrônica",
+        "example": "O silício (Z=14) semicondutor só tem essas propriedades por causa da configuração eletrônica de sua camada de valência — a base de todo chip moderno."
+      },
+      {
+        "context": "Cozinha",
+        "example": "O sal de cozinha (NaCl) se dissolve em água porque o Na perde 1 elétron e vira Na⁺, e o Cl ganha 1 elétron e vira Cl⁻. Esses íons são atraídos pelas moléculas polares da água."
+      }
+    ]
+  },
+  {
+    "id": "periodic-table",
+    "title": "Tabela Periódica",
+    "subtitle": "Famílias, períodos, tendências e propriedades",
+    "icon": "&#9783;",
+    "accentClass": "badge-neutral",
+    "route": "/module/periodic-table",
+    "status": "available",
+    "sections": [
+      "phenomenon",
+      "visualization",
+      "interaction",
+      "explanation",
+      "exercise",
+      "reallife"
+    ],
+    "concepts": [
+      "Os elementos são organizados por número atômico crescente",
+      "Elementos da mesma família (coluna) têm configuração eletrônica similar na camada de valência",
+      "Elementos do mesmo período (linha) têm o mesmo número de camadas eletrônicas",
+      "Eletronegatividade, raio atômico e energia de ionização variam sistematicamente",
+      "Metais conduzem eletricidade; não-metais geralmente não conduzem"
+    ],
+    "exercises": [
+      {
+        "id": "pt-ex-01",
+        "type": "choice",
+        "question": "Ao percorrer um período da esquerda para a direita, o raio atômico tende a:",
+        "options": [
+          "Aumentar",
+          "Diminuir",
+          "Permanecer constante",
+          "Variar aleatoriamente"
+        ],
+        "answer": "Diminuir",
+        "hints": [
+          "Em um período, o número de camadas eletrônicas não muda.",
+          "Mas o número de prótons no núcleo aumenta. O que isso faz com a atração sobre os elétrons?",
+          "Mais prótons = maior atração = elétrons ficam mais próximos do núcleo."
+        ],
+        "explanation": "No mesmo período, o número de camadas é igual, mas o número de prótons (Z) aumenta. A maior carga nuclear atrai os elétrons com mais força, contraindo o raio atômico."
+      },
+      {
+        "id": "pt-ex-02",
+        "type": "choice",
+        "question": "Que família contém os elementos mais reativos da tabela periódica (metais)?",
+        "options": [
+          "Família IIA (alcalinoterrosos)",
+          "Família IA (metais alcalinos)",
+          "Família VIIA (halogênios)",
+          "Família 0 (gases nobres)"
+        ],
+        "answer": "Família IA (metais alcalinos)",
+        "hints": [
+          "Reatividade de metais aumenta ao descer em um grupo.",
+          "Os metais alcalinos têm apenas 1 elétron na camada de valência.",
+          "Esse elétron é facilmente cedido, tornando esses metais muito reativos."
+        ],
+        "explanation": "Os metais alcalinos (Li, Na, K, Rb, Cs, Fr) têm apenas 1 elétron de valência. A baixa energia de ionização os torna extremamente reativos — o francês (Fr) reage explosivamente com água."
+      }
+    ],
+    "realLife": [
+      {
+        "context": "Saúde",
+        "example": "O iodo (Z=53, família VIIA) é essencial para a glândula tireoide. O sal iodado previne bócio, uma doença por deficiência desse halogênio."
+      },
+      {
+        "context": "Tecnologia",
+        "example": "Os lantanídeos (terras raras) da tabela são usados em ímãs de turbinas eólicas, telas de celular e sistemas de guiamento de mísseis."
+      },
+      {
+        "context": "Ambiente",
+        "example": "Os gases nobres (Família 0) não reagem — por isso o argônio é usado como gás inerte em soldagem para proteger o metal fundido de oxidação."
+      }
+    ]
+  },
+  {
+    "id": "chemical-bonds",
+    "title": "Ligações Químicas",
+    "subtitle": "Iônica, covalente, metálica e polaridade",
+    "icon": "&#8734;",
+    "accentClass": "badge-bond",
+    "route": "/module/chemical-bonds",
+    "status": "available",
+    "sections": [
+      "phenomenon",
+      "visualization",
+      "interaction",
+      "explanation",
+      "exercise",
+      "reallife"
+    ],
+    "concepts": [
+      "Átomos se ligam para atingir a configuração eletrônica estável (octeto)",
+      "Ligação iônica: transferência de elétrons entre metal e não-metal",
+      "Ligação covalente: compartilhamento de elétrons entre não-metais",
+      "Ligação metálica: elétrons livres entre cátions metálicos",
+      "A diferença de eletronegatividade determina o tipo e a polaridade da ligação"
+    ],
+    "exercises": [
+      {
+        "id": "cb-ex-01",
+        "type": "choice",
+        "question": "A ligação no NaCl (sal de cozinha) é melhor descrita como:",
+        "options": [
+          "Covalente polar",
+          "Covalente apolar",
+          "Iônica",
+          "Metálica"
+        ],
+        "answer": "Iônica",
+        "hints": [
+          "NaCl é formado por sódio (metal) e cloro (não-metal).",
+          "Quando a diferença de eletronegatividade é muito grande (>1,7), ocorre transferência de elétrons.",
+          "Na perde 1 elétron e vira Na⁺; Cl ganha esse elétron e vira Cl⁻."
+        ],
+        "explanation": "A diferença de eletronegatividade entre Na (0,93) e Cl (3,16) é 2,23 — acima de 1,7. Isso gera transferência de elétrons, formando íons opostos (Na⁺ e Cl⁻) atraídos por força eletrostática: ligação iônica."
+      },
+      {
+        "id": "cb-ex-02",
+        "type": "choice",
+        "question": "A molécula de H₂O é polar porque:",
+        "options": [
+          "O hidrogênio é muito reativo",
+          "O oxigênio tem mais prótons que o hidrogênio",
+          "O ângulo H-O-H e a eletronegatividade do O criam um dipolo permanente",
+          "A água tem alta temperatura de ebulição"
+        ],
+        "answer": "O ângulo H-O-H e a eletronegatividade do O criam um dipolo permanente",
+        "hints": [
+          "Polaridade não depende apenas dos tipos de átomos, mas também da geometria.",
+          "Se a molécula fosse linear (180°), os dipolos se cancelariam.",
+          "O oxigênio é muito mais eletronegativo que o hidrogênio. Onde ficam os elétrons?"
+        ],
+        "explanation": "O oxigênio (eletronegatividade 3,44) puxa os elétrons com muito mais força que o hidrogênio (2,20). O ângulo de 104,5° não permite cancelamento dos dipolos O-H, resultando em um dipolo molecular permanente — a molécula é polar."
+      }
+    ],
+    "realLife": [
+      {
+        "context": "Culinária",
+        "example": "Água dissolve sal mas não dissolve óleo. Isso é polaridade: a água polar dissolve substâncias iônicas e polares ('semelhante dissolve semelhante')."
+      },
+      {
+        "context": "Materiais",
+        "example": "O diamante e o grafite são ambos carbono puro, mas com ligações diferentes. No diamante: rede covalente tridimensional (dureza máxima). No grafite: camadas covalentes fracamente ligadas (lubrificante)."
+      },
+      {
+        "context": "Eletricidade",
+        "example": "Metais conduzem eletricidade por causa da ligação metálica: os elétrons livres se movem quando há diferença de potencial. Por isso o cobre é usado em fios elétricos."
+      }
+    ]
+  },
+  {
+    "id": "reactions",
+    "title": "Reações Químicas",
+    "subtitle": "Reagentes, produtos, balanceamento e energia",
+    "icon": "&#8651;",
+    "accentClass": "badge-reaction",
+    "route": "/module/reactions",
+    "status": "available",
+    "sections": [
+      "phenomenon",
+      "visualization",
+      "interaction",
+      "explanation",
+      "exercise",
+      "reallife"
+    ],
+    "concepts": [
+      "Reações químicas transformam reagentes em produtos com redistribuição de átomos",
+      "A massa total é conservada (Lei de Lavoisier): nenhum átomo é criado ou destruído",
+      "Equações balanceadas respeitam a conservação: mesma quantidade de cada elemento nos dois lados",
+      "Reações podem liberar energia (exotérmicas) ou absorver energia (endotérmicas)",
+      "A velocidade de reação depende de temperatura, concentração, superfície de contato e catalisadores"
+    ],
+    "exercises": [
+      {
+        "id": "rx-ex-01",
+        "type": "choice",
+        "question": "Na reação H₂ + O₂ → H₂O, qual é o coeficiente correto para balancear?",
+        "options": [
+          "H₂ + O₂ → H₂O",
+          "H₂ + O₂ → 2H₂O",
+          "2H₂ + O₂ → 2H₂O",
+          "2H₂ + 2O₂ → 2H₂O"
+        ],
+        "answer": "2H₂ + O₂ → 2H₂O",
+        "hints": [
+          "Conte os átomos de cada lado na equação não balanceada.",
+          "No lado direito (H₂O): H=2, O=1. No esquerdo: H=2, O=2. O oxigênio não está balanceado.",
+          "Se colocarmos 2H₂O no produto: H=4, O=2. Precisamos de 2H₂ no reagente. Confira!"
+        ],
+        "explanation": "Balanceamento: 2H₂ (4H, 0O) + O₂ (0H, 2O) → 2H₂O (4H, 2O). A massa é conservada: 4 átomos de H e 2 de O em cada lado."
+      },
+      {
+        "id": "rx-ex-02",
+        "type": "choice",
+        "question": "Queimar madeira é uma reação exotérmica porque:",
+        "options": [
+          "Produz CO₂ e H₂O",
+          "Os produtos têm energia maior que os reagentes",
+          "A energia dos produtos é menor que dos reagentes, sendo liberada como calor e luz",
+          "Consome oxigênio do ar"
+        ],
+        "answer": "A energia dos produtos é menor que dos reagentes, sendo liberada como calor e luz",
+        "hints": [
+          "Exotérmico vem do grego 'exo' (para fora) + 'termos' (calor).",
+          "Energia é conservada. Se é liberada, onde estava antes?",
+          "Os reagentes (madeira + O₂) têm energia química armazenada nas ligações."
+        ],
+        "explanation": "Em reações exotérmicas, a energia necessária para quebrar ligações dos reagentes é menor que a energia liberada ao formar as ligações dos produtos. Essa diferença sai como calor e luz."
+      }
+    ],
+    "realLife": [
+      {
+        "context": "Cozinha",
+        "example": "Cozinhar um ovo é uma reação química irreversível: as proteínas se desnaturalizam por calor. Diferente de derreter manteiga (processo físico, reversível)."
+      },
+      {
+        "context": "Ferrugem",
+        "example": "4Fe + 3O₂ → 2Fe₂O₃. O ferro reage lentamente com o oxigênio do ar e água, formando óxido de ferro (ferrugem). É uma reação de oxidação exotérmica lenta."
+      },
+      {
+        "context": "Segurança",
+        "example": "O extintor de CO₂ age de duas formas: abafa o fogo (retira O₂) e resfria a superfície. A reação de combustão precisa de oxigênio para continuar."
+      }
+    ]
+  },
+  {
+    "id": "stoichiometry",
+    "title": "Estequiometria",
+    "subtitle": "Proporções, mol e massa molar",
+    "icon": "&#8736;",
+    "accentClass": "badge-neutral",
+    "route": "/module/stoichiometry",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "solutions",
+    "title": "Soluções e pH",
+    "subtitle": "Dissolução, concentração, acidez e basicidade",
+    "icon": "&#9680;",
+    "accentClass": "badge-organic",
+    "route": "/module/solutions",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "thermochemistry",
+    "title": "Termoquímica",
+    "subtitle": "Calor, entalpia, reações endotérmicas e exotérmicas",
+    "icon": "&#9651;",
+    "accentClass": "badge-energy",
+    "route": "/module/thermochemistry",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "kinetics",
+    "title": "Cinética e Equilíbrio",
+    "subtitle": "Velocidade de reação e equilíbrio dinâmico",
+    "icon": "&#8651;",
+    "accentClass": "badge-reaction",
+    "route": "/module/kinetics",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "electrochemistry",
+    "title": "Eletroquímica",
+    "subtitle": "Pilhas, fluxo de elétrons, oxidação e redução",
+    "icon": "&#9889;",
+    "accentClass": "badge-electron",
+    "route": "/module/electrochemistry",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "organic",
+    "title": "Química Orgânica",
+    "subtitle": "Cadeias carbônicas, funções orgânicas e cotidiano",
+    "icon": "&#9675;",
+    "accentClass": "badge-organic",
+    "route": "/module/organic",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "gases",
+    "title": "Gases",
+    "subtitle": "PV=nRT, Van der Waals, Dalton e Graham",
+    "icon": "&#9711;",
+    "accentClass": "badge-electron",
+    "route": "/module/gases",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "analytical",
+    "title": "Química Analítica",
+    "subtitle": "Titulação, Beer-Lambert, Ksp e propriedades coligativas",
+    "icon": "&#9680;",
+    "accentClass": "badge-organic",
+    "route": "/module/analytical",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "biochemistry",
+    "title": "Bioquímica",
+    "subtitle": "Aminoácidos, proteínas, DNA, glicídios, lipídios e enzimas",
+    "icon": "&#9675;",
+    "accentClass": "badge-organic",
+    "route": "/module/biochemistry",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "nuclear",
+    "title": "Química Nuclear",
+    "subtitle": "Radioatividade, meia-vida, fissão e fusão",
+    "icon": "&#9733;",
+    "accentClass": "badge-reaction",
+    "route": "/module/nuclear",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  }
+]

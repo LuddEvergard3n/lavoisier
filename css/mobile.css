@@ -1,0 +1,176 @@
+/*
+ * mobile.css — Overrides responsivos (mobile-first)
+ * Lavoisier — Laboratório Visual de Química
+ */
+
+/* -----------------------------------------------------------------------
+   Breakpoints de referência:
+   sm:  640px
+   md:  768px
+   lg:  1024px
+----------------------------------------------------------------------- */
+
+/* -----------------------------------------------------------------------
+   Header — mobile
+----------------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .header-nav {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .header-inner {
+    gap: var(--space-4);
+    padding: 0 var(--space-4);
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Páginas — padding reduzido
+----------------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .page,
+  .module-page {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    padding-top: var(--space-6);
+  }
+
+  .home-hero {
+    padding: var(--space-10) 0 var(--space-8);
+  }
+
+  .home-hero-title {
+    font-size: var(--text-xl);
+  }
+
+  .home-hero-desc {
+    font-size: var(--text-base);
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Module grid — single col em mobile
+----------------------------------------------------------------------- */
+@media (max-width: 479px) {
+  .module-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Element detail — empilhar em mobile
+----------------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .element-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .element-detail-symbol {
+    align-self: center;
+    justify-self: center;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Tabela periódica — escala reduzida
+----------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .periodic-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-4);
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Reaction equation — empilhar
+----------------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .reaction-equation {
+    font-size: var(--text-base);
+    gap: var(--space-2);
+  }
+
+  .mass-balance {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .mass-balanced {
+    font-size: var(--text-lg);
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Sim panel — single col
+----------------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .sim-slider {
+    width: 120px;
+  }
+
+  .sim-controls {
+    gap: var(--space-4);
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Touch — aumenta alvos de toque
+----------------------------------------------------------------------- */
+@media (hover: none) and (pointer: coarse) {
+  .nav-btn,
+  .btn,
+  .exercise-option,
+  .atom-btn,
+  .element-cell {
+    min-height: 44px;
+  }
+
+  .element-cell {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Preferência de movimento reduzido
+----------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .loading-orbit { animation: none !important; }
+}
+
+/* -----------------------------------------------------------------------
+   Print
+----------------------------------------------------------------------- */
+@media print {
+  .app-header,
+  .sidebar,
+  .sidebar-overlay,
+  .toast-region,
+  .skip-link {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .module-page, .page {
+    padding: 0;
+    max-width: 100%;
+  }
+}

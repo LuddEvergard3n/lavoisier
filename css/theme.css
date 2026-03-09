@@ -1,0 +1,167 @@
+/*
+ * theme.css — Aplicação de cores e variantes de tema
+ * Lavoisier — Laboratório Visual de Química
+ */
+
+/* -----------------------------------------------------------------------
+   Categorias de elementos (usadas na tabela periódica e módulos)
+----------------------------------------------------------------------- */
+.cat-alkali-metal      { --cat-color: #ef5350; }
+.cat-alkaline-earth    { --cat-color: #ffa726; }
+.cat-transition-metal  { --cat-color: #ffd166; }
+.cat-post-transition   { --cat-color: #a5d6a7; }
+.cat-metalloid         { --cat-color: #80cbc4; }
+.cat-nonmetal          { --cat-color: #4fc3f7; }
+.cat-halogen           { --cat-color: #b39ddb; }
+.cat-noble-gas         { --cat-color: #f48fb1; }
+.cat-lanthanide        { --cat-color: #ffcc02; }
+.cat-actinide          { --cat-color: #ff7043; }
+
+/* -----------------------------------------------------------------------
+   Indicador de estado de exercício
+----------------------------------------------------------------------- */
+.state-correct  { color: var(--state-correct); }
+.state-error    { color: var(--state-error); }
+.state-hint     { color: var(--state-hint); }
+.state-neutral  { color: var(--state-neutral); }
+
+.bg-correct  { background: rgba(63, 185, 80, 0.12); border-color: rgba(63, 185, 80, 0.4); }
+.bg-error    { background: rgba(248, 81, 73, 0.12); border-color: rgba(248, 81, 73, 0.4); }
+.bg-hint     { background: rgba(227, 179, 65, 0.12); border-color: rgba(227, 179, 65, 0.4); }
+
+/* -----------------------------------------------------------------------
+   Destaque de fenômeno
+----------------------------------------------------------------------- */
+.phenomenon-card {
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-raised) 100%);
+  border: 1px solid var(--border-default);
+  border-left: 3px solid var(--accent-electron);
+}
+
+.phenomenon-card.bond    { border-left-color: var(--accent-bond); }
+.phenomenon-card.organic { border-left-color: var(--accent-organic); }
+.phenomenon-card.reaction { border-left-color: var(--accent-reaction); }
+.phenomenon-card.energy  { border-left-color: var(--accent-energy); }
+
+/* -----------------------------------------------------------------------
+   Canvas container estilizado
+----------------------------------------------------------------------- */
+.canvas-frame {
+  background: var(--bg-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+/* NÃO definir width no canvas via CSS — coordenadas de hit detection dependem
+   das dimensões físicas do canvas, não do display CSS */
+
+.canvas-label {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  pointer-events: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* -----------------------------------------------------------------------
+   Progresso do módulo
+----------------------------------------------------------------------- */
+.module-progress {
+  --progress-color: var(--accent-electron);
+  height: 3px;
+  background: var(--border-default);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.module-progress-bar {
+  height: 100%;
+  background: var(--progress-color);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+/* -----------------------------------------------------------------------
+   Badges de categoria
+----------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.badge-neutral { background: rgba(139,148,158,0.15); color: var(--text-muted); border-color: rgba(139,148,158,0.3); }
+
+/* -----------------------------------------------------------------------
+   Tabela periódica wrapper — scroll horizontal obrigatório
+----------------------------------------------------------------------- */
+.periodic-table-wrapper {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-bottom: var(--space-4);
+  /* Scrollbar estilizada */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.periodic-table-wrapper::-webkit-scrollbar {
+  height: 5px;
+}
+
+.periodic-table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+.badge-bond      { background: rgba(255,209,102,0.15); color: var(--accent-bond); border-color: rgba(255,209,102,0.3); }
+.badge-organic   { background: rgba(107,203,119,0.15); color: var(--accent-organic); border-color: rgba(107,203,119,0.3); }
+.badge-reaction  { background: rgba(239,71,111,0.15); color: var(--accent-reaction); border-color: rgba(239,71,111,0.3); }
+.badge-energy    { background: rgba(255,167,38,0.15); color: var(--accent-energy); border-color: rgba(255,167,38,0.3); }
+
+/* -----------------------------------------------------------------------
+   Toast de feedback
+----------------------------------------------------------------------- */
+.toast-region {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+  pointer-events: auto;
+  max-width: 320px;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.toast-correct  { border-left: 3px solid var(--state-correct); }
+.toast.toast-error    { border-left: 3px solid var(--state-error); }
+.toast.toast-hint     { border-left: 3px solid var(--state-hint); }
+.toast.toast-info     { border-left: 3px solid var(--accent-electron); }
