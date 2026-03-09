@@ -255,7 +255,334 @@ export function render(outlet) {
     <div id="exercise-feedback" style="margin-top:1rem"></div>
   </section>
 
-  <div class="real-life-card">
+  <!-- Titulação ácido-base: pH no ponto de equivalência -->
+  <section class="module-section">
+    <h2 class="module-section-title">Titulação ácido-base — ponto de equivalência</h2>
+    <p class="module-text">
+      No <strong>ponto de equivalência (PE)</strong>, moles de ácido = moles de base
+      (n_ácido = n_base). O pH no PE depende do tipo de titulação: forte-forte → pH = 7;
+      fraco-forte → pH > 7 (sal básico); forte-fraco → pH &lt; 7 (sal ácido).
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        n_ácido = C_ácido × V_ácido &nbsp;|&nbsp; n_base = C_base × V_base
+      </p>
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-bond);margin-bottom:.3rem">
+        V_equiv = (C_ácido × V_ácido) / C_base
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        No PE de ácido fraco (Ka) titulado com NaOH → [sal] = n / V_total.<br>
+        Ânion A⁻ hidrolisa: A⁻ + H₂O ⇌ HA + OH⁻ (Kh = Kw/Ka)<br>
+        pH_PE = 7 + ½(pKa + log C_sal) &nbsp;—&nbsp; fórmula aproximada válida quando Kh &lt;&lt; C
+      </p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">Tipo de titulação:</span>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap" id="tit-type-btns">
+          <button class="btn btn-xs btn-secondary" data-tittype="sfb">Forte–Forte</button>
+          <button class="btn btn-xs btn-ghost"     data-tittype="wfb">Fraco–Forte (HA + NaOH)</button>
+          <button class="btn btn-xs btn-ghost"     data-tittype="fsb">Forte–Fraco (HCl + NH₃)</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">C ácido (mol/L):</span>
+        <input type="range" id="tit-Ca" min="0.01" max="2" step="0.01" value="0.1"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="tit-Ca-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:70px">0,100 M</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">V ácido (mL):</span>
+        <input type="range" id="tit-Va" min="1" max="100" step="1" value="25"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="tit-Va-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:60px">25,0 mL</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">C base (mol/L):</span>
+        <input type="range" id="tit-Cb" min="0.01" max="2" step="0.01" value="0.1"
+               style="width:120px;accent-color:var(--accent-organic)">
+        <span id="tit-Cb-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:70px">0,100 M</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap" id="tit-pka-row">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">pKa do ácido fraco:</span>
+        <input type="range" id="tit-pKa" min="2" max="12" step="0.05" value="4.74"
+               style="width:120px;accent-color:var(--accent-reaction)">
+        <span id="tit-pKa-val" style="font-size:var(--text-sm);color:var(--accent-reaction);min-width:60px">4,74</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">V equivalente (mL)</p>
+        <div id="tit-Veq" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">pH no PE</p>
+        <div id="tit-pH-PE" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">n_ácido = n_base</p>
+        <div id="tit-n" style="font-size:var(--text-base);font-weight:600;color:var(--accent-organic)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Indicador adequado</p>
+        <div id="tit-indicator" style="font-size:var(--text-sm);font-weight:600;color:var(--text-secondary)">—</div>
+      </div>
+    </div>
+    <p id="tit-explanation" style="font-size:var(--text-sm);color:var(--text-secondary);margin-top:var(--space-4)"></p>
+  </section>
+
+    <!-- Equilíbrio iônico formal -->
+  <section class="module-section">
+    <h2 class="module-section-title">Equilíbrio iônico — cálculo formal</h2>
+    <p class="module-text">
+      Para ácidos fracos, a aproximação [H⁺] ≈ √(Ka·C) só é válida quando C/Ka ≥ 100.
+      Em concentrações baixas ou Ka alto, é necessário resolver a quadrática exata.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.4rem">
+        HA ⇌ H⁺ + A⁻ &nbsp;|&nbsp; Ka = x² / (C − x)
+      </p>
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-bond);margin-bottom:.4rem">
+        x = [H⁺] = (−Ka + √(Ka² + 4·Ka·C)) / 2
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        A aproximação x &lt;&lt; C é válida apenas se grau de ionização &lt; 5%.
+        Abaixo: calculadora que usa a quadrática exata.
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:180px">pKa do ácido:</span>
+        <input type="range" id="weak-pka" min="1" max="14" step="0.1" value="4.74"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="weak-pka-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:70px">4,74 (AcOH)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:180px">Concentração C (mol/L):</span>
+        <input type="range" id="weak-c" min="-4" max="1" step="0.1" value="-1"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="weak-c-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:80px">0,100 mol/L</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">pH (exato)</p>
+        <div id="weak-ph" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">pH (aprox. √)</p>
+        <div id="weak-ph-approx" style="font-size:var(--text-lg);font-weight:600;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">α (ionização)</p>
+        <div id="weak-alpha" style="font-size:var(--text-lg);font-weight:600;color:var(--accent-organic)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Aprox. válida?</p>
+        <div id="weak-valid" style="font-size:var(--text-sm);font-weight:600;color:var(--text-secondary)">—</div>
+      </div>
+    </div>
+
+    <!-- Hidrólise de sais -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Hidrólise de sais
+    </h3>
+    <p class="module-text">
+      Um sal de ácido fraco + base forte tem ânion básico (A⁻ + H₂O ⇌ HA + OH⁻ → pH &gt; 7).
+      Um sal de base fraca + ácido forte tem cátion ácido (BH⁺ ⇌ B + H⁺ → pH &lt; 7).
+      Relação: Kh = Kw / Ka (para ânion) ou Kw / Kb (para cátion).
+    </p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Sal</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Ácido/Base formadores</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">pH da solução</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Equilíbrio de hidrólise</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-family:monospace;font-weight:600;color:var(--accent-electron)">NaCl</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">HCl (forte) + NaOH (forte)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-organic)">= 7 (neutro)</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">Sem hidrólise</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-family:monospace;font-weight:600;color:var(--accent-bond)">CH₃COONa</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">AcOH (fraco, pKa=4,74) + NaOH</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-bond)">&gt; 7 (básico)</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">AcO⁻ + H₂O ⇌ AcOH + OH⁻ (Kh = Kw/Ka)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-family:monospace;font-weight:600;color:var(--accent-reaction)">NH₄Cl</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">HCl (forte) + NH₃ (fraca, pKb=4,74)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-reaction)">&lt; 7 (ácido)</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">NH₄⁺ ⇌ NH₃ + H⁺ (Ka = Kw/Kb)</td>
+          </tr>
+          <tr>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-weight:600;color:var(--text-muted)">CH₃COONH₄</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">AcOH + NH₃ (ambos fracos, pKa≈pKb)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-organic)">≈ 7 (neutro)</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">pH ≈ 7 + ½(pKa − pKb). Ambos hidrolisam.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+    <!-- Indicadores ácido-base -->
+  <section class="module-section">
+    <h2 class="module-section-title">Indicadores ácido-base</h2>
+    <p class="module-text">
+      Um indicador ácido-base é ele próprio um ácido ou base fraca (HIn) cuja forma ácida
+      (HIn) e básica (In⁻) têm cores diferentes. A transição de cor ocorre na faixa
+      pH = pKa_In ± 1. Por isso, a escolha do indicador deve ser compatível com o
+      salto de pH da titulação.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        [In⁻] / [HIn] = 10^(pH − pKa_In)
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        pH &lt; pKa−1 → cor ácida (HIn domina). pH &gt; pKa+1 → cor básica (In⁻ domina).<br>
+        Zona de transição: ambas as formas coexistem → cor mista.
+      </p>
+    </div>
+    <div style="overflow-x:auto;margin-bottom:var(--space-4)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Indicador</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Faixa pH</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Cor ácida</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Cor básica</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Uso típico</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['Azul de timol (1ª)',   '1,2–2,8', 'vermelho',   'amarelo',  'Ácidos muito fortes'],
+            ['Vermelho de metila',   '4,4–6,2', 'vermelho',   'amarelo',  'Titulação ácido forte–base'],
+            ['Azul de bromotimol',   '6,0–7,6', 'amarelo',    'azul',     'Próximo à neutralidade'],
+            ['Fenolftaleína',        '8,2–10',  'incolor',    'rosa',     'Clássico HCl–NaOH (salto 4–10)'],
+            ['Azul de timol (2ª)',   '8,0–9,6', 'amarelo',    'azul',     'Bases fracas'],
+            ['Alizarina amarela',    '10–12',   'amarelo',    'laranja',  'Bases fortes'],
+          ].map(([name,range,acid,base,use]) => `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-weight:600;color:var(--accent-electron)">${name}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;color:var(--accent-bond)">${range}</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-reaction)">${acid}</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-organic)">${base}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${use}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Simulador de cor do indicador -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Simulador de cor — fração de In⁻
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">pH da solução:</span>
+        <input type="range" id="ind-pH" min="0" max="14" step="0.1" value="7.0"
+               style="width:140px;accent-color:var(--accent-electron)">
+        <span id="ind-pH-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:50px">7,0</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">pKa do indicador:</span>
+        <input type="range" id="ind-pKa" min="1" max="13" step="0.1" value="9.0"
+               style="width:140px;accent-color:var(--accent-bond)">
+        <span id="ind-pKa-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:50px">9,0</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">[In⁻]/[HIn]</p>
+        <div id="ind-ratio" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">% forma básica</p>
+        <div id="ind-pct" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Cor observada</p>
+        <div id="ind-color" style="font-size:var(--text-sm);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Especiação de ácidos polipróticos -->
+  <section class="module-section">
+    <h2 class="module-section-title">Especiação de ácidos polipróticos — α(pH)</h2>
+    <p class="module-text">
+      Para ácidos diprotóticos H₂A, existem três espécies: H₂A, HA⁻ e A²⁻.
+      As frações de cada espécie (α₀, α₁, α₂) dependem do pH e das constantes Ka₁ e Ka₂.
+      O gráfico de especiação é ferramenta central em química analítica e ambiental.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-xs);color:var(--accent-electron);margin-bottom:.3rem;line-height:1.8">
+        D = [H⁺]² + Ka₁[H⁺] + Ka₁Ka₂<br>
+        α₀ = [H⁺]²/D &nbsp;&nbsp;|&nbsp;&nbsp; α₁ = Ka₁[H⁺]/D &nbsp;&nbsp;|&nbsp;&nbsp; α₂ = Ka₁Ka₂/D
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        Ácido carbônico: pKa₁ = 6,35; pKa₂ = 10,33 (H₂CO₃/HCO₃⁻/CO₃²⁻ — equilíbrio do oceano).<br>
+        Ácido fosfórico: pKa₁ = 2,15; pKa₂ = 7,20; pKa₃ = 12,35 (tampão fisiológico HPO₄²⁻/H₂PO₄⁻).
+      </p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap" id="polyprot-presets">
+        <button class="btn btn-xs btn-secondary" data-preset="carbonic">H₂CO₃</button>
+        <button class="btn btn-xs btn-ghost" data-preset="phosphoric">H₃PO₄</button>
+        <button class="btn btn-xs btn-ghost" data-preset="oxalic">H₂C₂O₄</button>
+        <button class="btn btn-xs btn-ghost" data-preset="custom">Custom</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:130px">pKa₁:</span>
+          <input type="range" id="pp-pka1" min="0" max="14" step="0.05" value="6.35"
+                 style="width:120px;accent-color:var(--accent-electron)">
+          <span id="pp-pka1-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:40px">6,35</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:130px">pKa₂:</span>
+          <input type="range" id="pp-pka2" min="0" max="14" step="0.05" value="10.33"
+                 style="width:120px;accent-color:var(--accent-bond)">
+          <span id="pp-pka2-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:40px">10,33</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:130px">pH atual:</span>
+          <input type="range" id="pp-pH" min="0" max="14" step="0.1" value="7.0"
+                 style="width:120px;accent-color:var(--accent-organic)">
+          <span id="pp-pH-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:40px">7,0</span>
+        </div>
+      </div>
+    </div>
+    <div class="canvas-frame" id="pp-frame" style="min-height:160px">
+      <canvas id="pp-canvas" aria-label="Diagrama de especiação"></canvas>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(3,1fr);margin-top:var(--space-3)">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">α₀ (H₂A)</p>
+        <div id="pp-a0" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-reaction)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">α₁ (HA⁻)</p>
+        <div id="pp-a1" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">α₂ (A²⁻)</p>
+        <div id="pp-a2" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+    </div>
+  </section>
+
+    <div class="real-life-card">
     <div class="real-life-label">No cotidiano</div>
     <p class="module-text">O sangue humano é mantido a pH 7,35–7,45 pelo sistema H₂CO₃/HCO₃⁻. Piscinas requerem pH 7,2–7,6 para eficácia do cloro. Solos ácidos são corrigidos com calcário. Laboratórios farmacêuticos calculam diluições seriadas para padronizar soluções de referência.</p>
   </div>
@@ -324,6 +651,297 @@ export function render(outlet) {
       }
     });
   });
+  _initWeakAcid();
+  _initIndicator();
+  _initPolyprotic();
+  _initTitration();
+}
+
+function _initWeakAcid() {
+  function updateWeak() {
+    const pKa = parseFloat(document.getElementById('weak-pka')?.value ?? 4.74);
+    const exp = parseFloat(document.getElementById('weak-c')?.value ?? -1);
+    const C   = Math.pow(10, exp);
+    const Ka  = Math.pow(10, -pKa);
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('weak-pka-val', pKa.toFixed(2));
+    set('weak-c-val',   C.toExponential(2) + ' mol/L');
+
+    // Exact quadratic: x² + Ka*x - Ka*C = 0
+    const x_exact = (-Ka + Math.sqrt(Ka * Ka + 4 * Ka * C)) / 2;
+    const ph_exact = -Math.log10(x_exact);
+    const alpha    = x_exact / C;
+
+    // Approximation: x ≈ sqrt(Ka * C)
+    const x_approx = Math.sqrt(Ka * C);
+    const ph_approx = -Math.log10(x_approx);
+
+    set('weak-ph',       ph_exact.toFixed(3));
+    set('weak-ph-approx', ph_approx.toFixed(3));
+    set('weak-alpha',    (alpha * 100).toFixed(2) + ' %');
+    set('weak-valid',    alpha < 0.05 ? 'Sim (α < 5%)' : 'Não (α = ' + (alpha*100).toFixed(0) + '%)');
+  }
+  if (document.getElementById('weak-pka')) {
+    updateWeak();
+    ['weak-pka', 'weak-c'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateWeak));
+  }
+}
+
+function _initIndicator() {
+  function updateInd() {
+    const pH  = parseFloat(document.getElementById('ind-pH')?.value  ?? 7.0);
+    const pKa = parseFloat(document.getElementById('ind-pKa')?.value ?? 9.0);
+    const ratio = Math.pow(10, pH - pKa);
+    const pct   = ratio / (1 + ratio) * 100;
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('ind-pH-val',  pH.toFixed(1));
+    set('ind-pKa-val', pKa.toFixed(1));
+    set('ind-ratio',   ratio < 0.001 ? ratio.toExponential(2) : ratio.toFixed(3));
+    set('ind-pct',     pct.toFixed(1) + ' %');
+
+    const colorEl = document.getElementById('ind-color');
+    if (colorEl) {
+      if (pct < 10)       { colorEl.textContent = 'Cor ácida (HIn)';  colorEl.style.color = 'var(--accent-reaction)'; }
+      else if (pct > 90)  { colorEl.textContent = 'Cor básica (In⁻)'; colorEl.style.color = 'var(--accent-organic)'; }
+      else                { colorEl.textContent = 'Zona de transição'; colorEl.style.color = 'var(--accent-bond)'; }
+    }
+  }
+  if (document.getElementById('ind-pH')) {
+    updateInd();
+    ['ind-pH','ind-pKa'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateInd));
+  }
+}
+
+function _initPolyprotic() {
+  const PRESETS = {
+    carbonic:   { pka1: 6.35,  pka2: 10.33, label: 'H₂CO₃' },
+    phosphoric: { pka1: 2.15,  pka2: 7.20,  label: 'H₃PO₄ (pKa₁/pKa₂)' },
+    oxalic:     { pka1: 1.25,  pka2: 4.27,  label: 'H₂C₂O₄' },
+    custom:     { pka1: 4.00,  pka2: 9.00,  label: 'Custom' },
+  };
+
+  function alphas(pH, pka1, pka2) {
+    const h   = Math.pow(10, -pH);
+    const Ka1 = Math.pow(10, -pka1);
+    const Ka2 = Math.pow(10, -pka2);
+    const D   = h * h + Ka1 * h + Ka1 * Ka2;
+    return { a0: h * h / D, a1: Ka1 * h / D, a2: Ka1 * Ka2 / D };
+  }
+
+  function drawSpeciation(ctx, W, H, pka1, pka2, pHcur) {
+    const { clearCanvas, COLOR } = { clearCanvas: (c,w,h)=>{ c.clearRect(0,0,w,h); c.fillStyle='#161b22'; c.fillRect(0,0,w,h); }, COLOR: {textMuted:'rgba(200,200,200,0.5)'} };
+    clearCanvas(ctx, W, H);
+    const MX = 35, MY = 10, PW = W - MX - 10, PH = H - MY - 25;
+
+    // Axes
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(MX, MY); ctx.lineTo(MX, MY + PH); ctx.lineTo(MX + PW, MY + PH); ctx.stroke();
+
+    // Grid x
+    ctx.fillStyle = 'rgba(200,200,200,0.45)'; ctx.font = '8px sans-serif'; ctx.textAlign = 'center';
+    for (let pH = 0; pH <= 14; pH += 2) {
+      const x = MX + pH / 14 * PW;
+      ctx.fillText(pH, x, MY + PH + 14);
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, MY); ctx.lineTo(x, MY + PH); ctx.stroke();
+    }
+    ctx.fillText('pH', MX + PW / 2, H - 2);
+
+    ctx.save(); ctx.translate(12, MY + PH / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillText('α', 0, 0); ctx.restore();
+
+    // Curves
+    const colors = ['#ef476f', '#4fc3f7', '#6bcb77'];
+    const labels = ['α₀ H₂A', 'α₁ HA⁻', 'α₂ A²⁻'];
+    [0,1,2].forEach(si => {
+      ctx.beginPath(); ctx.strokeStyle = colors[si]; ctx.lineWidth = 1.5;
+      for (let i = 0; i <= PW; i++) {
+        const pH = i / PW * 14;
+        const a  = alphas(pH, pka1, pka2);
+        const av = [a.a0, a.a1, a.a2][si];
+        const x  = MX + i;
+        const y  = MY + PH - av * PH;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      // Legend
+      const legendX = MX + PW - 60;
+      ctx.fillStyle = colors[si]; ctx.font = '8px sans-serif'; ctx.textAlign = 'left';
+      ctx.fillText(labels[si], legendX, MY + 10 + si * 11);
+    });
+
+    // pKa markers
+    [pka1, pka2].forEach((pk, i) => {
+      const x = MX + pk / 14 * PW;
+      ctx.strokeStyle = 'rgba(255,209,102,0.5)'; ctx.lineWidth = 1; ctx.setLineDash([2,3]);
+      ctx.beginPath(); ctx.moveTo(x, MY); ctx.lineTo(x, MY + PH); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(255,209,102,0.7)'; ctx.font = '8px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('pKa' + (i+1), x, MY + 6);
+    });
+
+    // Current pH marker
+    const cx = MX + pHcur / 14 * PW;
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx, MY); ctx.lineTo(cx, MY + PH); ctx.stroke();
+  }
+
+  let _pka1 = 6.35, _pka2 = 10.33, _ppPH = 7.0;
+  let _canvas = null, _ctx = null;
+
+  function initCanvas() {
+    _canvas = document.getElementById('pp-canvas');
+    const frame  = document.getElementById('pp-frame');
+    if (!_canvas || !frame) return;
+    const W = Math.min(frame.clientWidth || 560, 560);
+    const H = 160;
+    const dpr = window.devicePixelRatio || 1;
+    _canvas.width  = Math.round(W * dpr);
+    _canvas.height = Math.round(H * dpr);
+    _canvas.style.width  = W + 'px';
+    _canvas.style.height = H + 'px';
+    _ctx = _canvas.getContext('2d');
+    _ctx.scale(dpr, dpr);
+    redraw();
+  }
+
+  function redraw() {
+    if (!_ctx || !_canvas) return;
+    const W = parseInt(_canvas.style.width, 10);
+    const H = parseInt(_canvas.style.height, 10);
+    drawSpeciation(_ctx, W, H, _pka1, _pka2, _ppPH);
+
+    const a = alphas(_ppPH, _pka1, _pka2);
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('pp-a0', (a.a0 * 100).toFixed(2) + '%');
+    set('pp-a1', (a.a1 * 100).toFixed(2) + '%');
+    set('pp-a2', (a.a2 * 100).toFixed(2) + '%');
+  }
+
+  function applyPreset(key) {
+    const p = PRESETS[key] || PRESETS.carbonic;
+    _pka1 = p.pka1; _pka2 = p.pka2;
+    const s1 = document.getElementById('pp-pka1'); if (s1) s1.value = _pka1;
+    const s2 = document.getElementById('pp-pka2'); if (s2) s2.value = _pka2;
+    document.getElementById('pp-pka1-val').textContent = _pka1.toFixed(2);
+    document.getElementById('pp-pka2-val').textContent = _pka2.toFixed(2);
+    document.querySelectorAll('#polyprot-presets [data-preset]').forEach(b => {
+      b.className = 'btn btn-xs ' + (b.dataset.preset === key ? 'btn-secondary' : 'btn-ghost');
+    });
+    redraw();
+  }
+
+  if (!document.getElementById('pp-canvas')) return;
+  initCanvas();
+
+  document.getElementById('pp-pka1')?.addEventListener('input', e => {
+    _pka1 = parseFloat(e.target.value);
+    document.getElementById('pp-pka1-val').textContent = _pka1.toFixed(2);
+    redraw();
+  });
+  document.getElementById('pp-pka2')?.addEventListener('input', e => {
+    _pka2 = parseFloat(e.target.value);
+    document.getElementById('pp-pka2-val').textContent = _pka2.toFixed(2);
+    redraw();
+  });
+  document.getElementById('pp-pH')?.addEventListener('input', e => {
+    _ppPH = parseFloat(e.target.value);
+    document.getElementById('pp-pH-val').textContent = _ppPH.toFixed(1);
+    redraw();
+  });
+  document.querySelectorAll('#polyprot-presets [data-preset]').forEach(btn =>
+    btn.addEventListener('click', () => applyPreset(btn.dataset.preset)));
+}
+
+function _initTitration() {
+  const Kw = 1e-14;
+  let _titType = 'sfb';
+
+  function updateTit() {
+    const Ca  = parseFloat(document.getElementById('tit-Ca')?.value  ?? 0.1);
+    const Va  = parseFloat(document.getElementById('tit-Va')?.value  ?? 25) / 1000; // L
+    const Cb  = parseFloat(document.getElementById('tit-Cb')?.value  ?? 0.1);
+    const pKa = parseFloat(document.getElementById('tit-pKa')?.value ?? 4.74);
+    const Ka  = Math.pow(10, -pKa);
+    const Kb  = _titType === 'fsb' ? Math.pow(10, -4.74) : Ka; // NH₃ pKb≈4.74
+
+    const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('tit-Ca-val',  Ca.toFixed(3) + ' M');
+    set('tit-Va-val',  (Va * 1000).toFixed(1) + ' mL');
+    set('tit-Cb-val',  Cb.toFixed(3) + ' M');
+    set('tit-pKa-val', pKa.toFixed(2));
+
+    const na    = Ca * Va;
+    const Veq   = na / Cb;             // L
+    const Vtotal = Va + Veq;
+
+    set('tit-Veq', (Veq * 1000).toFixed(2) + ' mL');
+    set('tit-n',   (na * 1000).toFixed(3) + ' mmol');
+
+    let pH_PE, explanation, indicator;
+
+    if (_titType === 'sfb') {
+      // Forte + forte → sal neutro → pH = 7
+      pH_PE = 7.0;
+      explanation = 'Ácido forte + base forte: o sal formado (ex: NaCl) não hidrolisa. pH = 7,00 exatamente a 25°C.';
+      indicator = 'Qualquer (salto 4–10); fenolftaleína ou azul de bromotimol';
+    } else if (_titType === 'wfb') {
+      // Ácido fraco HA + NaOH forte → sal A⁻Na⁺ (básico)
+      // [A⁻] = na / Vtotal; hidrólise: Kh = Kw/Ka
+      const Csal = na / Vtotal;
+      const Kh   = Kw / Ka;
+      // [OH⁻] = sqrt(Kh * Csal) → approx
+      const OH   = Math.sqrt(Kh * Csal);
+      const pOH  = -Math.log10(OH);
+      pH_PE = 14 - pOH;
+      explanation = `Ácido fraco (pKa=${pKa.toFixed(2)}) + base forte. O ânion A⁻ hidrolisa (Kh = Kw/Ka = ${Kh.toExponential(2)}). [sal] = ${Csal.toFixed(4)} mol/L. pH = ${pH_PE.toFixed(2)} > 7 (básico). Usar fenolftaleína (faixa 8–10).`;
+      indicator = 'Fenolftaleína (pH 8–10)';
+    } else {
+      // HCl forte + base fraca (NH₃) → NH₄Cl (ácido)
+      const pKbBase = pKa; // slider pKa usado como pKb da base
+      const KaConj  = Kw / Math.pow(10, -pKbBase); // Ka de BH⁺
+      const Csal    = na / Vtotal;
+      const H       = Math.sqrt(KaConj * Csal);
+      pH_PE = -Math.log10(H);
+      explanation = `Ácido forte + base fraca (pKb=${pKbBase.toFixed(2)}). O cátion BH⁺ hidrolisa como ácido fraco. pH = ${pH_PE.toFixed(2)} < 7 (ácido). Usar vermelho de metila ou azul de bromotimol.`;
+      indicator = 'Vermelho de metila (pH 4–6) ou azul de bromotimol';
+    }
+
+    set('tit-pH-PE', pH_PE.toFixed(2));
+    set('tit-indicator', indicator);
+
+    const expEl = document.getElementById('tit-explanation');
+    if (expEl) expEl.textContent = explanation;
+  }
+
+  if (!document.getElementById('tit-Ca')) return;
+
+  // Mostrar/esconder pKa row
+  function togglePKaRow() {
+    const row = document.getElementById('tit-pka-row');
+    if (row) row.style.display = _titType === 'sfb' ? 'none' : 'flex';
+  }
+
+  document.querySelectorAll('#tit-type-btns [data-tittype]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _titType = btn.dataset.tittype;
+      document.querySelectorAll('#tit-type-btns [data-tittype]').forEach(b => {
+        b.className = 'btn btn-xs ' + (b.dataset.tittype === _titType ? 'btn-secondary' : 'btn-ghost');
+      });
+      togglePKaRow();
+      updateTit();
+    });
+  });
+
+  ['tit-Ca','tit-Va','tit-Cb','tit-pKa'].forEach(id =>
+    document.getElementById(id)?.addEventListener('input', updateTit));
+
+  togglePKaRow();
+  updateTit();
 }
 
 export function destroy() {

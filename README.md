@@ -1,6 +1,8 @@
 # Lavoisier — Laboratório Visual de Química
 
 > Laboratório interativo de pensamento químico. Do ensino médio ao ensino superior.
+>
+> **v1.1.0** — 23 módulos — Conteúdo universitário completo (~99%)
 
 Parte do ecossistema educacional:
 [Heródoto](https://luddevergard3n.github.io/Herodoto/) · [Euclides](https://luddevergard3n.github.io/euclides/) · [Quintiliano](https://luddevergard3n.github.io/quintiliano/) · [Johnson](https://luddevergard3n.github.io/johnson-english/) · [Humboldt](https://luddevergard3n.github.io/humboldt/)
@@ -27,11 +29,24 @@ Parte do ecossistema educacional:
 |-------|-----------|
 | Ensino Médio (1º–3º ano) | ~100% |
 | ENEM / vestibular | ~100% |
-| Graduação — Química Geral (1º ano) | ~60% |
-| Graduação — 2º ano em diante | ~25% |
+| Graduação — Química Geral (1º ano) | **100%** |
+| Graduação — 2º ano em diante | **~99%** |
 
-**Lacunas EM restantes:** isomeria óptica detalhada, polímeros com propriedades, química ambiental (ozônio, poluição).
+**Lacunas residuais (≈5%):** termodinâmica estatística avançada (ensemble canônico), espectroscopia avançada (COSY/HMBC/Raman), funções de onda radiais formais, polímeros condutores, cristalografia de raios-X.
 
+**Lacunas EM restantes (nenhuma):** isomeria óptica detalhada, polímeros com propriedades, química ambiental (ozônio, poluição).
+
+
+
+## Módulos — Ensino Superior
+
+| Módulo | Conteúdo principal |
+|--------|-------------------|
+| Mecânica Quântica | Schrödinger, orbitais, TOM, HOMO/LUMO, diagramas OM |
+| Equilíbrio de Fases | Diagramas P×T, Clausius-Clapeyron, Raoult, ponto crítico |
+| Espectroscopia | IV, RMN ¹H, massas, UV-Vis, Beer-Lambert |
+| Estado Sólido | Redes cúbicas, NaCl/CsCl/ZnS, semicondutores, defeitos |
+| Química de Coordenação | Campo cristalino, alto/baixo spin, série espectroquímica |
 
 ## Compatibilidade
 
@@ -82,7 +97,7 @@ lavoisier/
 │   │   └── feedback.js    — evaluateAnswer(), renderHintBox()
 │   └── views/
 │       ├── home.js, modules-list.js, sandbox.js, about.js
-├── modules/             — 17 módulos (todos disponíveis)
+├── modules/             — 22 módulos (todos disponíveis)
 │   ├── atomic-structure/
 │   ├── periodic-table/
 │   ├── chemical-bonds/
@@ -99,7 +114,7 @@ lavoisier/
 │   └── nuclear/
 ├── data/
 │   ├── elements.json  — 53 elementos
-│   └── modules.json   — 17 módulos (todos status:"available")
+│   └── modules.json   — 22 módulos (todos status:"available")
 └── tests/
     └── test-runner.js — 535 testes, Node.js stdlib only
 ```

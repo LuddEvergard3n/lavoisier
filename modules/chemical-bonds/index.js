@@ -346,6 +346,138 @@ function _buildHTML() {
     </div>
   </section>
 
+  <!-- HIBRIDIZAÇÃO FORMAL -->
+  <section class="module-section">
+    <h2 class="module-section-title">Hibridização de orbitais</h2>
+    <p class="module-text">
+      Antes de formar ligações, orbitais atômicos do átomo central se combinam
+      (hibridizam) originando um conjunto de orbitais equivalentes.
+      O tipo de hibridização determina a <strong>geometria eletrônica</strong> e os
+      <strong>ângulos de ligação</strong>. Regra: nº de grupos (ligantes + pares livres) =
+      nº de orbitais híbridos.
+    </p>
+    <div style="overflow-x:auto;margin-bottom:var(--space-4)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Hibridização</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Orbitais misturados</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Geometria eletrônica</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Ângulo</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Exemplos</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['sp',    '1s + 1p',         'linear',              '180°',     'CO₂, C₂H₂, BeCl₂'],
+            ['sp²',   '1s + 2p',         'trigonal plana',      '120°',     'C₂H₄, BF₃, CO₃²⁻, benzeno'],
+            ['sp³',   '1s + 3p',         'tetraédrica',         '109,5°',   'CH₄, NH₃, H₂O, CCl₄'],
+            ['sp³d',  '1s + 3p + 1d',    'bipiramidal trig.',   '90°/120°', 'PCl₅, SF₄, ClF₃'],
+            ['sp³d²', '1s + 3p + 2d',    'octaédrica',          '90°',      'SF₆, XeF₄, PF₆⁻'],
+          ].map(([h,orb,geo,ang,ex]) => `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-family:monospace;font-weight:700;font-size:var(--text-base);color:var(--accent-electron)">${h}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${orb}</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-organic)">${geo}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;color:var(--accent-bond)">${ang}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">${ex}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Ligações σ e π</h3>
+        <p style="font-size:var(--text-sm)">Ligações simples = 1σ. Duplas = 1σ + 1π. Triplas = 1σ + 2π. Orbitais híbridos formam σ (cabeça a cabeça). Orbitais p não-híbridos restantes formam π (sobreposição lateral). Por isso C₂H₄ é plana: 3 grupos → sp², 1 orbital p disponível para π.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">Pares livres e geometria</h3>
+        <p style="font-size:var(--text-sm)">Pares livres ocupam orbitais híbridos mas não aparecem na geometria molecular. NH₃: sp³ (4 grupos = 3 H + 1 par) → piramidal trigonal, ângulo 107° (par livre comprime). H₂O: sp³ (2 H + 2 pares) → angular, ângulo 104,5°.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">Ressonância e deslocalização</h3>
+        <p style="font-size:var(--text-sm)">Quando há mais de uma estrutura de Lewis válida, os elétrons π são delocalizados. Benzeno: 6 orbitais p formam 3 OM π deslocalizados → anéis π acima e abaixo do plano. Estabilização extra (energia de ressonância ≈ 150 kJ/mol).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORÇAS INTERMOLECULARES -->
+  <section class="module-section">
+    <h2 class="module-section-title">Forças intermoleculares</h2>
+    <p class="module-text">
+      As propriedades físicas de substâncias (PE, PF, viscosidade, solubilidade) dependem
+      das <strong>forças intermoleculares</strong> — interações entre moléculas distintas,
+      sempre mais fracas que ligações covalentes internas. Moléculas polares e com LH
+      têm maiores PE/PF.
+    </p>
+    <div style="overflow-x:auto;margin-bottom:var(--space-5)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Tipo</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Condição</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Energia típica</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Exemplos</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['London (dispersão)', 'Toda molécula (dipolo instantâneo/induzido)', '0,1–40 kJ/mol', 'N₂, noble gases, CH₄, I₂'],
+            ['Dipolo-dipolo (Keesom)', 'Moléculas polares (μ ≠ 0)', '3–25 kJ/mol', 'HCl, SO₂, acetona, ésteres'],
+            ['Dipolo-dipolo induzido (Debye)', 'Polar + apolar polarizável', '1–10 kJ/mol', 'O₂ em H₂O, I₂ em etanol'],
+            ['Ligação de hidrogênio (LH)', 'H ligado a N, O ou F; outro N/O/F aceita', '10–40 kJ/mol', 'H₂O, HF, NH₃, DNA, proteínas'],
+            ['Íon-dipolo', 'Íon + molécula polar', '40–600 kJ/mol', 'NaCl em H₂O (hidratação)'],
+            ['Íon-íon (não FIM)', 'Íons opostos', '100–1000 kJ/mol', 'NaCl, MgO (rede iônica)'],
+          ].map(([t,c,e,ex]) => `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-weight:600;color:var(--accent-electron)">${t}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">${c}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;color:var(--accent-bond)">${e}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${ex}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Comparador de PE via FIM -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Comparador de ponto de ebulição — efeito das FIM
+    </h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--space-3);margin-bottom:var(--space-4)">
+      ${[
+        {name:'He',      bp: -269, fim:'London (fraca)',   mm: 4,  color:'#555'},
+        {name:'Ne',      bp: -246, fim:'London',           mm:20,  color:'#555'},
+        {name:'CH₄',     bp: -161, fim:'London',           mm:16,  color:'#b0b8c1'},
+        {name:'HCl',     bp:  -85, fim:'Dipolo-dipolo',   mm:36.5,color:'#ffd166'},
+        {name:'NH₃',     bp:  -33, fim:'LH (N–H⋯N)',      mm:17,  color:'#6bcb77'},
+        {name:'HF',      bp:   19, fim:'LH forte (F–H⋯F)',mm:20,  color:'#a78bfa'},
+        {name:'H₂O',     bp:  100, fim:'LH rede 3D',      mm:18,  color:'#4fc3f7'},
+        {name:'Etanol',  bp:   78, fim:'LH + dipolo',     mm:46,  color:'#ef476f'},
+      ].map(m => `
+      <div class="info-card" style="padding:var(--space-3)">
+        <div style="font-family:monospace;font-size:var(--text-base);font-weight:700;color:${m.color}">${m.name}</div>
+        <div style="font-size:var(--text-xs);color:var(--text-muted);margin:.2rem 0">PE: <strong style="color:var(--accent-bond)">${m.bp}°C</strong></div>
+        <div style="font-size:var(--text-xs);color:var(--text-secondary)">${m.fim}</div>
+      </div>`).join('')}
+    </div>
+
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Anomalia da água</h3>
+        <p style="font-size:var(--text-sm)">H₂O tem PE de 100°C — muito acima do esperado para Mm=18 (compare: H₂S Mm=34, PE=−60°C). A rede tridimensional de LH, com cada molécula podendo fazer até 4 LH (2 como doadora, 2 como aceitadora), eleva dramaticamente a energia coesiva.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">London cresce com Mm</h3>
+        <p style="font-size:var(--text-sm)">Moléculas maiores têm mais elétrons → polarizabilidade maior → dipolo instantâneo maior → London mais forte. Ex: noble gases: He(−269°C) &lt; Ne(−246°C) &lt; Ar(−186°C) &lt; Kr(−153°C) &lt; Xe(−108°C). Halogênios: F₂(−188°C) → I₂(+184°C).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Solubilidade: "like dissolves like"</h3>
+        <p style="font-size:var(--text-sm)">Polar dissolve polar (água dissolve sal/açúcar: interações íon-dipolo e LH superam a rede). Apolar dissolve apolar (hexano dissolve gordura: London-London). Etanol é miscível em água (tem –OH) e em hexano (tem cadeia C₂).</p>
+      </div>
+    </div>
+  </section>
+
+
   <section class="module-section">
     <h2 class="module-section-title">Exercício Guiado</h2>
     <div class="exercise-card">

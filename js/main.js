@@ -144,6 +144,12 @@ async function _loadModule(id) {
     'biochemistry':     () => import('../modules/biochemistry/index.js'),
     'nuclear':          () => import('../modules/nuclear/index.js'),
     'environmental':    () => import('../modules/environmental/index.js'),
+    'quantum':          () => import('../modules/quantum/index.js'),
+    'phases':           () => import('../modules/phases/index.js'),
+    'spectroscopy':     () => import('../modules/spectroscopy/index.js'),
+    'solidstate':       () => import('../modules/solidstate/index.js'),
+    'coordination':     () => import('../modules/coordination/index.js'),
+  'supramolecular':   () => import('../modules/supramolecular/index.js'),
   };
 
   const loader = map[id];

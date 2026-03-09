@@ -243,6 +243,14 @@
         "context": "Eletricidade",
         "example": "Metais conduzem eletricidade por causa da ligação metálica: os elétrons livres se movem quando há diferença de potencial. Por isso o cobre é usado em fios elétricos."
       }
+    ],
+    "topics": [
+      "Hibridização sp/sp²/sp³/sp³d/sp³d²",
+      "Ângulos de ligação",
+      "Forças de London",
+      "Dipolo-dipolo",
+      "Ligação de hidrogênio",
+      "Anomalia da água"
     ]
   },
   {
@@ -358,7 +366,12 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "topics": [
+      "Análise elementar",
+      "Fórmula empírica→molecular",
+      "Pureza de reagente"
+    ]
   },
   {
     "id": "solutions",
@@ -371,7 +384,12 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "topics": [
+      "Indicadores ácido-base",
+      "Especiação de ácidos polipróticos",
+      "Titulação formal — pH no PE"
+    ]
   },
   {
     "id": "thermochemistry",
@@ -384,7 +402,11 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "topics": [
+      "1ª/2ª/3ª lei formal",
+      "Ciclo de Carnot — eficiência máxima"
+    ]
   },
   {
     "id": "kinetics",
@@ -397,7 +419,12 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "topics": [
+      "Equilíbrio Kp/Kc formal",
+      "Grau de dissociação α",
+      "Mecanismo de Lindemann"
+    ]
   },
   {
     "id": "electrochemistry",
@@ -436,7 +463,12 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "topics": [
+      "Fator de compressibilidade Z",
+      "Lei dos estados correspondentes",
+      "Equação do virial"
+    ]
   },
   {
     "id": "analytical",
@@ -449,7 +481,12 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "topics": [
+      "Q iônico vs Ksp",
+      "Precipitação/dissolução por pH",
+      "Osmometria — determinação de Mm"
+    ]
   },
   {
     "id": "biochemistry",
@@ -489,5 +526,217 @@
     "concepts": [],
     "exercises": [],
     "realLife": []
+  },
+  {
+    "id": "quantum",
+    "title": "Mecânica Quântica",
+    "subtitle": "Schrödinger, orbitais, números quânticos, OM",
+    "icon": "⚛",
+    "color": "electron",
+    "level": "Superior",
+    "topics": [
+      "Equação de Schrödinger",
+      "Números quânticos n,l,ml,ms",
+      "Orbitais s,p,d",
+      "TOM — HOMO/LUMO",
+      "Diagramas OM: O₂, N₂, CO"
+    ],
+    "status": "available",
+    "route": "/module/quantum",
+    "exercises": [
+      {
+        "q": "Quantos elétrons máximos no nível n=3?",
+        "a": "18 (2n²)"
+      },
+      {
+        "q": "O₂ é paramagnético porque tem elétrons desemparelhados em π*2p (Hund)",
+        "a": "Verdadeiro"
+      },
+      {
+        "q": "Para l=2, quais os valores de mₗ?",
+        "a": "−2,−1,0,+1,+2"
+      }
+    ],
+    "realLife": [
+      "LEDs e painéis solares exploram transições entre orbitais moleculares.",
+      "MRI hospitalar usa ressonância magnética nuclear de ¹H no corpo.",
+      "Lasers semicondutores (diodo) emitem quando elétrons caem para HOMO."
+    ]
+  },
+  {
+    "id": "phases",
+    "title": "Equilíbrio de Fases",
+    "subtitle": "Diagramas P×T, Clausius-Clapeyron, Raoult",
+    "icon": "◈",
+    "color": "bond",
+    "level": "Superior",
+    "topics": [
+      "Ponto triplo e crítico",
+      "Regra de Gibbs",
+      "Equação de Clausius-Clapeyron",
+      "Diagrama da água e CO₂",
+      "Lei de Raoult — soluções ideais"
+    ],
+    "status": "available",
+    "route": "/module/phases",
+    "exercises": [
+      {
+        "q": "Usar Clausius-Clapeyron para calcular P₂ dada P₁, T₁, T₂ e ΔHvap",
+        "a": "ln(P₂/P₁) = −(ΔHvap/R)(1/T₂−1/T₁)"
+      },
+      {
+        "q": "O que é o ponto triplo?",
+        "a": "Coexistência de três fases — F=0"
+      },
+      {
+        "q": "Lei de Raoult para mistura ideal benzeno+tolueno",
+        "a": "P_total = xA·P*A + xB·P*B"
+      }
+    ],
+    "realLife": [
+      "Café descafeinado usa CO₂ supercrítico como solvente não-tóxico.",
+      "Patinar no gelo funciona porque a pressão abaixa o ponto de fusão da água.",
+      "Liofilização (freeze-drying) sublima água diretamente do alimento congelado."
+    ]
+  },
+  {
+    "id": "spectroscopy",
+    "title": "Espectroscopia",
+    "subtitle": "IV, RMN ¹H, massas, UV-Vis",
+    "icon": "〰",
+    "color": "organic",
+    "level": "Superior",
+    "topics": [
+      "Beer-Lambert",
+      "Infravermelho — bandas diagnóstico",
+      "RMN ¹H — δ e multiplicidade",
+      "Espectrometria de massas — fragmentação",
+      "UV-Vis — transições eletrônicas"
+    ],
+    "status": "available",
+    "route": "/module/spectroscopy",
+    "exercises": [
+      {
+        "q": "Banda diagnóstica de C=O de cetona no IV",
+        "a": "~1715 cm⁻¹"
+      },
+      {
+        "q": "Por que CH₂ próximo a O tem δ maior que CH₃?",
+        "a": "Efeito indutivo do oxigênio desblinda"
+      },
+      {
+        "q": "Dois picos M:M+2 de igual intensidade indicam qual elemento?",
+        "a": "Bromo (⁷⁹Br/⁸¹Br 1:1)"
+      }
+    ],
+    "realLife": [
+      "IV é usado para identificar poluentes no ar e adulterações em alimentos.",
+      "RMN deu origem à ressonância magnética (MRI) usada em diagnóstico médico.",
+      "Espectrometria de massas identifica drogas e explosivos em aeroportos."
+    ]
+  },
+  {
+    "id": "solidstate",
+    "title": "Estado Sólido",
+    "subtitle": "Redes cristalinas, defeitos, semicondutores",
+    "icon": "◻",
+    "color": "reaction",
+    "level": "Superior",
+    "topics": [
+      "Tipos de sólidos",
+      "SC, BCC, FCC — átomos por célula",
+      "Estruturas iônicas: NaCl, CsCl, ZnS",
+      "Teoria de bandas",
+      "Defeitos de Schottky e Frenkel"
+    ],
+    "status": "available",
+    "route": "/module/solidstate",
+    "exercises": [
+      {
+        "q": "Quantos átomos/célula tem FCC?",
+        "a": "4"
+      },
+      {
+        "q": "Número de coordenação do NaCl?",
+        "a": "6:6 (octaédrico)"
+      },
+      {
+        "q": "Semicondutor tipo p usa qual dopante no Si?",
+        "a": "Boro (grupo 13)"
+      }
+    ],
+    "realLife": [
+      "Chips de silício (transistores MOSFETs) são a base de toda eletrônica digital.",
+      "GaAs e GaN: LEDs azuis (Nobel 2014) e diodos laser em Blu-ray.",
+      "Gemas: rubi = Al₂O₃:Cr³⁺, safira = Al₂O₃:Ti⁴⁺/Fe²⁺ — defeitos de impureza."
+    ]
+  },
+  {
+    "id": "coordination",
+    "title": "Química de Coordenação",
+    "subtitle": "Complexos, campo cristalino, cor e magnetismo",
+    "icon": "✦",
+    "color": "energy",
+    "level": "Superior",
+    "topics": [
+      "Nomenclatura IUPAC",
+      "Geometrias — CN 2, 4, 6",
+      "Teoria do Campo Cristalino",
+      "Alto/baixo spin — magnetismo",
+      "Série espectroquímica",
+      "Metaloproteínas"
+    ],
+    "status": "available",
+    "route": "/module/coordination",
+    "exercises": [
+      {
+        "q": "Configuração d⁶ baixo spin em campo octaédrico",
+        "a": "t₂g⁶ eₘ⁰"
+      },
+      {
+        "q": "Cor complementar de λ_abs = 450 nm?",
+        "a": "Amarela-laranja"
+      },
+      {
+        "q": "Ligante com maior Δₒ na série espectroquímica",
+        "a": "CO (π-aceitador)"
+      }
+    ],
+    "realLife": [
+      "Hemoglobina: complexo de Fe²⁺ que transporta O₂ no sangue.",
+      "Cisplatina: complexo de Pt²⁺ é quimioterápico contra câncer (testicular, ovário).",
+      "EDTA é quelante usado em análises de água dura e tratamento de intoxicação por Pb²⁺."
+    ]
+  },
+  {
+    "id": "supramolecular",
+    "title": "Química Supramolecular",
+    "icon": "supramolecular",
+    "route": "/modules/supramolecular",
+    "status": "stable",
+    "level": "university",
+    "description": "Reconhecimento molecular, macrociclos (éteres-coroa, criptandos, ciclodextrinas), self-assembly, máquinas moleculares e polímeros avançados (Mn/Mw/PDI, Tg/Tm).",
+    "topics": [
+      "Complementaridade lock-and-key e induced fit",
+      "Éteres-coroa: 12-coroa-4, 18-coroa-6",
+      "Criptandos [2.2.2] — efeito criptando",
+      "Ciclodextrinas α/β/γ — encapsulamento farmacêutico",
+      "Efeito hidrofóbico e self-assembly",
+      "Micelas, vesículas e lipossomos",
+      "DNA duplex e G-quadruplex",
+      "Catenanos e rotaxanos (Nobel 2016)",
+      "Motor molecular de Feringa",
+      "Click chemistry e bioortogonal (Nobel 2022)",
+      "Polímeros: Mn, Mw, PDI",
+      "Tg, Tm e cristalinidade",
+      "Tipos de polimerização: radical, RAFT/ATRP, condensação"
+    ],
+    "exercises": 1,
+    "realLife": [
+      "Detergentes: limpeza via micelas",
+      "Ciclodextrina em aromas em pó e fármacos",
+      "Lipossomos: Doxil® e vacinas mRNA COVID-19",
+      "Click chemistry em marcação celular in vivo"
+    ]
   }
 ]

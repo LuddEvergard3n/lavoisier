@@ -317,10 +317,10 @@ export function render(outlet) {
     <h2 class="module-section-title">Diagrama de entalpia</h2>
 
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem">
-      ${Object.entries(REACTIONS).map(([k, rx]) => `
+      ${Object.entries(REACTIONS).map(_r => { const [k, rx]=_r; return `
         <button class="btn btn-sm ${k === 'combustion' ? 'btn-secondary' : 'btn-ghost'}"
                 id="rx-btn-${k}" data-rxkey="${k}">${esc(rx.label)}</button>
-      `).join('')}
+      `; }).join('')}
     </div>
 
     <div class="canvas-frame">
@@ -479,8 +479,256 @@ export function render(outlet) {
     </div>
   </section>
 
+  <!-- As três leis -->
+  <section class="module-section">
+    <h2 class="module-section-title">As três leis da termodinâmica</h2>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">1ª Lei — Conservação de energia</h3>
+        <p style="font-size:var(--text-sm)"><strong>ΔU = q + w</strong> (convenção IUPAC: w = −PΔV para expansão). Energia interna é função de estado. q_p = ΔH a pressão constante; q_v = ΔU em bomba calorimétrica (volume constante).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">2ª Lei — Entropia e espontaneidade</h3>
+        <p style="font-size:var(--text-sm)"><strong>ΔS_universo ≥ 0</strong> para qualquer processo real. dS = δq_rev / T. A entropia do universo nunca diminui — define a seta do tempo e o porquê os processos têm direção preferida.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">3ª Lei — Entropia absoluta</h3>
+        <p style="font-size:var(--text-sm)"><strong>S = 0</strong> para cristal perfeito a T = 0 K (Nernst-Planck). Permite calcular S° absoluta por integração de Cₚ/T de 0 K a 298 K. Ao contrário de ΔfH°, S° de elementos puros não é zero.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Relação entre as leis</h3>
+        <p style="font-size:var(--text-sm)">ΔG = ΔH − TΔS combina 1ª e 2ª lei. ΔG &lt; 0 → espontâneo a T e P const. ΔG° = −RT ln K → liga espontaneidade ao equilíbrio. ΔG = ΔG° + RT ln Q → reação progride enquanto Q ≠ K.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ciclo de Carnot -->
+  <section class="module-section">
+    <h2 class="module-section-title">Ciclo de Carnot — eficiência máxima</h2>
+    <p class="module-text">
+      O ciclo de Carnot define o limite superior de eficiência de qualquer máquina térmica
+      que opera entre T_q (fonte quente) e T_f (fonte fria). Todos os processos são reversíveis —
+      ΔS_universo = 0 no ciclo completo, o que é impossível na prática.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-base);color:var(--accent-electron);margin-bottom:.5rem">
+        η = 1 − T_f / T_q &nbsp;&nbsp;(T em Kelvin)
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        Usina a vapor típica: T_q ≈ 800 K, T_f ≈ 300 K → η_max = 62,5%. Real &lt; teórico por irreversibilidades.<br>
+        Motor de combustão interna: η_max ≈ 55–65%. Eficiência real ≈ 25–40%.
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">T quente (K):</span>
+        <input type="range" id="carnot-tq" min="400" max="1500" step="10" value="800"
+               style="width:130px;accent-color:var(--accent-reaction)">
+        <span id="carnot-tq-val" style="font-size:var(--text-sm);color:var(--accent-reaction);min-width:60px">800 K</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">T fria (K):</span>
+        <input type="range" id="carnot-tf" min="200" max="600" step="10" value="300"
+               style="width:130px;accent-color:var(--accent-electron)">
+        <span id="carnot-tf-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:60px">300 K</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">η_max (Carnot)</p>
+        <div id="carnot-eta" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">W_max por 100 J absorvidos</p>
+        <div id="carnot-work" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ΔS_universo (ciclo ideal)</p>
+        <div style="font-size:var(--text-base);font-weight:600;color:var(--accent-bond)">= 0 (reversível)</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Cotidiano -->
-  <div class="real-life-card">
+  <!-- Termodinâmica estatística -->
+  <section class="module-section">
+    <h2 class="module-section-title">Termodinâmica estatística</h2>
+    <p class="module-text">
+      A termodinâmica estatística conecta propriedades macroscópicas (T, P, S, U) com o
+      comportamento de moléculas individuais. Boltzmann mostrou que a entropia é uma medida
+      do número de microestados acessíveis W: <strong>S = k_B · ln W</strong>.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        S = k_B · ln W &nbsp;&nbsp;&nbsp; k_B = 1,381 × 10⁻²³ J/K = R/N_A
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        W = número de microestados compatíveis com o macroestado (energia, volume, n fixos).<br>
+        Sistema puro na T=0 K: W=1 → S=0 (3ª lei, consistente). Ao expandir: W↑ → S↑.<br>
+        Mistura de 2 gases ideais: ΔS_mix = −R(x₁ ln x₁ + x₂ ln x₂) &gt; 0 sempre.
+      </p>
+    </div>
+
+    <!-- Função de partição -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Função de partição e propriedades termodinâmicas
+    </h3>
+    <p class="module-text">
+      A <strong>função de partição</strong> q = Σᵢ gᵢ · exp(−εᵢ/k_BT) codifica toda a
+      informação termodinâmica de uma molécula. Para N moléculas: Q = q^N/N! (indistinguíveis).
+    </p>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-bottom:var(--space-5)">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">q_trans (translação)</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">q_t = (2πmk_BT/h²)^(3/2) · V</p>
+        <p style="font-size:var(--text-sm)">Contribuição dominante a T ambiente. Separação entre níveis ≪ k_BT → contínuo. Provê a maior parte de U e toda PV = Nk_BT (gás ideal).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">q_rot (rotação)</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">q_r = T/σΘ_rot &nbsp; (T ≫ Θ_rot)</p>
+        <p style="font-size:var(--text-sm)">Θ_rot = h²/(8π²Ik_B). Para H₂: Θ_rot ≈ 85 K (rotação quantizada até baixa T). Para moléculas pesadas: Θ_rot ≈ 0,5–5 K → clássico. σ = número de simetria.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">q_vib (vibração)</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">q_v = 1/(1−e^(−Θ_vib/T))</p>
+        <p style="font-size:var(--text-sm)">Θ_vib = hν/k_B. Para H₂: Θ_vib ≈ 6330 K (vibração quase não excitada a 298 K). Para modos "flácidos" (Θ_vib ~ 500 K): significativo. Einstein: Cv ∝ (Θ_vib/T)² para cristais.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Equipartição clássica</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">⟨εᵢ⟩ = ½k_BT por grau de liberdade quadrático</p>
+        <p style="font-size:var(--text-sm)">Monoatômico: 3 trans → Cv = 3/2·R = 12,5 J/(mol·K). Diatômico a T mod.: 3t + 2r → Cv = 5/2·R = 20,8. Com vibração: +R por modo (k e p). H₂O (não-linear): 3+3+3 modos = Cv até 6R (alta T).</p>
+      </div>
+    </div>
+
+    <!-- Calculadora de capacidade calorífica por equipartição -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Capacidade calorífica Cv por equipartição — moléculas diatômicas
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap" id="equip-type-btns">
+        <button class="btn btn-xs btn-secondary" data-equip="monoat">Monoatômico (He, Ar)</button>
+        <button class="btn btn-xs btn-ghost" data-equip="diat-nv">Diatômico sem vibração (N₂ 25°C)</button>
+        <button class="btn btn-xs btn-ghost" data-equip="diat-v">Diatômico com vibração (alta T)</button>
+        <button class="btn btn-xs btn-ghost" data-equip="nonlin">Não-linear (H₂O, SO₂)</button>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Graus de liberdade ativos</p><div id="equip-dof" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Cv (J/mol·K)</p><div id="equip-cv" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-bond)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Cp (J/mol·K)</p><div id="equip-cp" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-organic)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">γ = Cp/Cv</p><div id="equip-gamma" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-reaction)">—</div></div>
+    </div>
+
+    <!-- ΔS de mistura -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Entropia de mistura ideal — ΔS_mix
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">Fração molar x₁:</span>
+        <input type="range" id="smix-x1" min="0.01" max="0.99" step="0.01" value="0.5"
+               style="width:130px;accent-color:var(--accent-electron)">
+        <span id="smix-x1-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:50px">0,50</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ΔS_mix (J/mol·K)</p><div id="smix-S" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ΔG_mix (kJ/mol) a 298K</p><div id="smix-G" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-electron)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">x₂ = 1 − x₁</p><div id="smix-x2" style="font-size:var(--text-base);font-weight:600;color:var(--text-secondary)">—</div></div>
+    </div>
+  </section>
+
+    <!-- Ensemble canônico -->
+  <section class="module-section">
+    <h2 class="module-section-title">Ensemble canônico e distribuição de Boltzmann</h2>
+    <p class="module-text">
+      O <strong>ensemble canônico</strong> (NVT) descreve um sistema com N, V e T fixos
+      em contato térmico com um reservatório. A probabilidade de o sistema estar no
+      microestado <em>i</em> com energia ε_i é dada pela
+      <strong>distribuição de Boltzmann</strong>: p_i = e^(−ε_i/k_BT) / q.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        p_i = g_i · e^(−ε_i/k_BT) / q &nbsp;&nbsp;|&nbsp;&nbsp; q = Σᵢ gᵢ · e^(−ε_i/k_BT)
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        g_i = degenerescência do nível i (número de microestados com a mesma energia).<br>
+        q = função de partição canônica: normaliza a distribuição; qua todas as propriedades termodinâmicas.<br>
+        Propriedades: U = −(∂ ln q/∂β)_N,V &nbsp;|&nbsp; S = k_B(ln q + βU) &nbsp;|&nbsp; F = −k_BT ln q &nbsp;(β = 1/k_BT)
+      </p>
+    </div>
+
+    <!-- Calculadora de população de Boltzmann -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Razão de populações de dois níveis
+    </h3>
+    <p class="module-text">
+      Para dois níveis com energias ε₁ &lt; ε₂ e degenerescências g₁, g₂:
+      <span style="font-family:monospace">N₂/N₁ = (g₂/g₁)·exp(−Δε/k_BT)</span>.
+      Demonstra como T controla as populações e como lasers exploram inversão de população.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">Δε (cm⁻¹):</span>
+        <input type="range" id="boltz-de" min="10" max="5000" step="10" value="500"
+               style="width:130px;accent-color:var(--accent-electron)">
+        <span id="boltz-de-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:80px">500 cm⁻¹</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">T (K):</span>
+        <input type="range" id="boltz-T" min="50" max="5000" step="10" value="298"
+               style="width:130px;accent-color:var(--accent-bond)">
+        <span id="boltz-T-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:60px">298 K</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">g₂/g₁ (razão deg.):</span>
+        <input type="range" id="boltz-g" min="1" max="5" step="1" value="1"
+               style="width:130px;accent-color:var(--accent-organic)">
+        <span id="boltz-g-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:30px">1</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">N₂/N₁</p><div id="boltz-ratio" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">% nível superior</p><div id="boltz-pct" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-bond)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Δε (kJ/mol)</p><div id="boltz-kJ" style="font-size:var(--text-base);font-weight:600;color:var(--accent-organic)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">k_BT (cm⁻¹)</p><div id="boltz-kbT" style="font-size:var(--text-base);font-weight:600;color:var(--text-muted)">—</div></div>
+    </div>
+
+    <!-- Tabela de ensembles -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Ensembles estatísticos
+    </h3>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Ensemble</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Variáveis fixas</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Pot. termodinâmico</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Função de partição</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Uso típico</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['Microcanônico','N, V, E','Entropia S = k_B ln Ω','Ω(N,V,E) = nº microestados','Sistemas isolados; fundamentos'],
+            ['Canônico (NVT)','N, V, T','Energia livre de Helmholtz F = −k_BT ln Q','Q = Σ e^(−βEᵢ)','Simulações MD/MC; gases ideais'],
+            ['Gran-canônico','μ, V, T','Potencial gran-canônico Ω = −k_BT ln Z_gc','Z_gc = Σ e^(−β(Eᵢ−μNᵢ))','Fluidos abertos; sorção'],
+            ['Isobárico-isotérmico (NPT)','N, P, T','Energia livre de Gibbs G = −k_BT ln Δ','Δ = Σ e^(−β(Eᵢ+PVᵢ))','Simulações a pressão constante'],
+          ].map(_r => { const [e,v,pot,q,uso]=_r; return `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-weight:600;color:var(--accent-electron)">${e}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs);color:var(--accent-bond)">${v}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">${pot}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs);color:var(--accent-organic)">${q}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${uso}</td>
+          </tr>`; }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+    <div class="real-life-card">
     <div class="real-life-label">No cotidiano</div>
     <p class="module-text">
       Catalisadores (como os conversores catalíticos dos carros e as enzimas do corpo humano)
@@ -587,6 +835,110 @@ export function render(outlet) {
   document.getElementById('gibbs-dh')?.addEventListener('input', updateGibbs);
   document.getElementById('gibbs-ds')?.addEventListener('input', updateGibbs);
   document.getElementById('gibbs-t')?.addEventListener('input', updateGibbs);
+
+  // Carnot calculator
+  function updateCarnot() {
+    const Tq = parseFloat(document.getElementById('carnot-tq')?.value ?? 800);
+    const Tf = parseFloat(document.getElementById('carnot-tf')?.value ?? 300);
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('carnot-tq-val', Tq + ' K');
+    set('carnot-tf-val', Tf + ' K');
+    const eta  = Tq > Tf ? (1 - Tf / Tq) : 0;
+    set('carnot-eta',  (eta * 100).toFixed(1) + ' %');
+    set('carnot-work', (eta * 100).toFixed(1) + ' J');
+  }
+  if (document.getElementById('carnot-tq')) {
+    updateCarnot();
+    ['carnot-tq', 'carnot-tf'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateCarnot));
+  }
+}
+
+function _initBoltzmann() {
+  // 1 cm⁻¹ = 11.96 J/mol; k_B = 1.38065e-23 J/K; hc = 1.986e-23 J·cm
+  const hc_cm  = 1.98645e-23; // h*c in J·cm
+  const kB     = 1.38065e-23; // J/K
+  const NA     = 6.02214e23;
+
+  function update() {
+    const de_cm = parseFloat(document.getElementById('boltz-de')?.value ?? 500);
+    const T     = parseFloat(document.getElementById('boltz-T')?.value ?? 298);
+    const g     = parseFloat(document.getElementById('boltz-g')?.value ?? 1);
+
+    const de_J     = de_cm * hc_cm;          // J por molécula
+    const kBT_cm   = kB * T / hc_cm;         // k_BT em cm⁻¹
+    const ratio    = g * Math.exp(-de_J / (kB * T));
+    const pct_up   = ratio / (1 + ratio) * 100;
+    const de_kJ    = de_J * NA / 1000;       // kJ/mol
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('boltz-de-val', de_cm.toFixed(0) + ' cm⁻¹');
+    set('boltz-T-val',  T.toFixed(0) + ' K');
+    set('boltz-g-val',  g.toFixed(0));
+    set('boltz-ratio',  ratio.toExponential(3));
+    set('boltz-pct',    pct_up.toFixed(4) + '%');
+    set('boltz-kJ',     de_kJ.toFixed(3) + ' kJ/mol');
+    set('boltz-kbT',    kBT_cm.toFixed(1) + ' cm⁻¹');
+  }
+
+  if (document.getElementById('boltz-de')) {
+    update();
+    ['boltz-de','boltz-T','boltz-g'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', update));
+  }
+}
+
+function _initEquipartition() {
+  const R = 8.314;
+  const MODES = {
+    'monoat':   { label: 'Monoatômico', dof: 3, desc: '3 translação (½R cada)' },
+    'diat-nv':  { label: 'Diatômico (sem vib.)', dof: 5, desc: '3t + 2r (≪ Θ_vib a 25°C)' },
+    'diat-v':   { label: 'Diatômico (com vib.)', dof: 7, desc: '3t + 2r + 2v (k+p)' },
+    'nonlin':   { label: 'Não-linear (ex: H₂O)', dof: 6, desc: '3t + 3r (sem vib a 25°C)' },
+  };
+
+  function update(key) {
+    const m = MODES[key] || MODES['monoat'];
+    const Cv = (m.dof / 2) * R;
+    const Cp = Cv + R;
+    const gamma = Cp / Cv;
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('equip-dof',   m.dof + ' (' + m.desc + ')');
+    set('equip-cv',    Cv.toFixed(2));
+    set('equip-cp',    Cp.toFixed(2));
+    set('equip-gamma', gamma.toFixed(4));
+  }
+
+  let _activeEquip = 'monoat';
+  document.querySelectorAll('#equip-type-btns [data-equip]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _activeEquip = btn.dataset.equip;
+      document.querySelectorAll('#equip-type-btns [data-equip]').forEach(b => {
+        b.className = 'btn btn-xs ' + (b.dataset.equip === _activeEquip ? 'btn-secondary' : 'btn-ghost');
+      });
+      update(_activeEquip);
+    });
+  });
+  if (document.getElementById('equip-cv')) update(_activeEquip);
+}
+
+function _initSmix() {
+  const R = 8.314;
+  function update() {
+    const x1 = parseFloat(document.getElementById('smix-x1')?.value ?? 0.5);
+    const x2  = 1 - x1;
+    const dS  = -R * (x1 * Math.log(x1) + x2 * Math.log(x2));
+    const dG  = -298 * dS / 1000; // kJ/mol (ΔH_mix=0 para ideal)
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('smix-x1-val', x1.toFixed(2));
+    set('smix-x2',     x2.toFixed(2));
+    set('smix-S',      dS.toFixed(3) + ' J/mol·K');
+    set('smix-G',      dG.toFixed(4) + ' kJ/mol');
+  }
+  document.getElementById('smix-x1')?.addEventListener('input', update);
+  if (document.getElementById('smix-x1')) update();
 }
 
 export function destroy() {

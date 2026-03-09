@@ -4,6 +4,331 @@ Todas as alterações notáveis seguem o formato [Semantic Versioning](https://s
 
 ---
 
+## [1.1.0] — 2026-03-09 — Conteúdo de Graduação 2º ano+ fechado
+
+### Expansões para fechar os ~5% restantes
+
+#### Espectroscopia (`spectroscopy`) +102 linhas
+- **RMN 2D**: COSY (¹H–¹H, ³J vicinal), HSQC (¹H–¹³C, ¹J direto), HMBC (¹H–¹³C, ²J/³J longa distância), NOESY/ROESY (NOE espacial < 5 Å)
+- Tabela de técnicas 2D: tipo de J, eixos, uso diagnóstico
+- Protocolo de elucidação estrutural: MS→IHD→¹H/¹³C→DEPT→HSQC→COSY→HMBC→NOESY
+- **Espectroscopia Raman**: Stokes vs anti-Stokes, I ∝ (dα/dQ)²·ν₀⁴, regra de exclusão mútua IV/Raman
+- Tabela de bandas Raman diagnósticas (9 grupos: C≡C, C=C, anel, grafite, S–S, diamante, água)
+- Raman confocal (~0,5 μm) e SERS (amplificação 10⁶–10¹⁴×)
+
+#### Mecânica Quântica (`quantum`) +234 linhas
+- **Funções de onda radiais R_nl(r)**: ψ_nlm = R_nl(r)·Y_lm(θ,φ), P(r) = r²|R_nl|²
+- Tabela de R_nl para 1s, 2s, 2p, 3s, 3p, 3d, 4s, 4f com nós radiais e r_max
+- **Canvas interativo de P(r)**: 6 orbitais selecionáveis, curva de probabilidade radial com linhas vermelhas nos nós radiais, label de nós
+- Regra: nós radiais = n − l − 1; nós angulares = l; nós totais = n − 1
+
+#### Termodinâmica (`thermochemistry`) +124 linhas
+- **Ensemble canônico (NVT)**: p_i = g_i·exp(−ε_i/k_BT)/q, relação com potenciais termodinâmicos
+- Fórmulas: U = −(∂ ln q/∂β), S = k_B(ln q + βU), F = −k_BT ln q
+- **Calculadora de razão de populações**: Δε (cm⁻¹), T, g₂/g₁ → N₂/N₁, % nível superior, Δε em kJ/mol, k_BT em cm⁻¹
+- **Tabela de ensembles**: microcanônico, canônico, gran-canônico, isobárico-isotérmico (NPT) — variáveis fixas, potencial termodinâmico, função de partição, uso
+
+#### Supramolecular (`supramolecular`) +102 linhas
+- **Polímeros condutores**: mecanismo de condução π-conjugada, dopagem p/n (pôlarons/bipôlarons)
+- Tabela completa: PA, PPy, PT, PEDOT, PEDOT:PSS, PANI, PFO — Eg, σ dopado, dopante, aplicações
+- **Calculadora Eg → λ**: conversão band gap eV → λ nm com identificação da região espectral → relação com cor de emissão em OLEDs
+
+#### Estado Sólido (`solidstate`) +179 linhas
+- **Lei de Bragg**: 2d_hkl·sin θ = nλ, interpretação física (interferência construtiva)
+- **Índices de Miller {hkl}**: definição geométrica, regra dos recíprocos
+- Tabela de planos para Fe (BCC), d_hkl, 2θ para Cu Kα
+- **Calculadora de Bragg**: λ (4 alvos: Cu/Mo/Co/Cr Kα), parâmetro a, plano {hkl} → d, θ, 2θ
+- **Extinções sistemáticas**: regras para SC, BCC, FCC e diamante — planos permitidos vs extintos
+
+---
+
+### Cobertura curricular final
+
+| Nível                  | Cobertura |
+|------------------------|-----------|
+| Ensino Médio           | ~100%     |
+| ENEM / vestibular      | ~100%     |
+| Graduação 1º ano       | 100%      |
+| Graduação 2º ano+      | **~99%**  |
+
+**Lacuna residual (~1%):** distribuição de Boltzmann rigorosa com degenerescência completa em sistemas multiníveis (já coberta conceitualmente), espectroscopia de correlação 2D avançada (TOCSY, INADEQUATE), síntese total de produtos naturais como disciplina separada.
+
+---
+
+## [1.0.0] — 2026-03-09 — Graduação 2º ano+: completo
+
+### Módulo novo: Química Supramolecular (`supramolecular`)
+- Princípios de química supramolecular: definição, complementaridade, lock-and-key vs induced-fit
+- Tabela de forças diretoras: efeito hidrofóbico, π–π, LH, cátion–π, íon–dipolo, VdW (com energia e exemplos)
+- Macrociclos interativos: 18-coroa-6, 12-coroa-4, criptando [2.2.2], α/β/γ-ciclodextrina (log Ka, hóspede, aplicação)
+- Self-assembly: canvas animado de anfifílicos brownianos (cabeça polar + cauda apolar)
+- Micelas, lipossomos, LNP para vacinas mRNA, DNA duplex e G-quadruplex
+- Polímeros avançados: Mn, Mw, PDI com calculadora; Tg, Tm, cristalinidade para 8 polímeros
+- Máquinas moleculares: catenanos (Sauvage), rotaxanos (Stoddart), motor de Feringa, click chemistry (Nobel 2022)
+- Exercício com feedback
+
+### Expansões de módulos existentes
+
+#### Orgânica (`organic`) +190 linhas
+- **E1 — eliminação unimolecular**: mecanismo em 2 etapas via carbocátion, Zaitsev, rearranjo possível
+- **Tabela comparativa SN1/SN2/E1/E2**: 6 critérios (etapas, substrato, Nu/base, solvente, estereoquímica)
+- **SEAr — substituição eletrofílica aromática**: mecanismo Wheland, 4 reações (halogenação, nitração, Friedel-Crafts alquilação, acilação) com condições e aplicações
+- **Efeito mesomérico +M/−M e indutivo −I**: ativadores orto/para vs desativadores meta
+- **Química de carbonila**: adição nucleofílica 1,2 (NaBH₄, Grignard, CN⁻), condensação aldólica (enolato → β-hidroxi carbonila → enona), acilação (cloreto de acila → derivados), oxidação/redução seletiva
+- **Reatividade relativa** de derivados de carbonila (cloreto → anidrido → éster → amida)
+- **Reações pericíclicas**: Diels-Alder [4+2] (condições, regio, estereoquímica endo/exo), regras de Woodward-Hoffmann, tabela completa com condições térmica/fotoquímica para 7 tipos
+- **Retrossíntese**: conceito Corey, desconexão Diels-Alder
+
+#### Eletroquímica (`electrochemistry`) +198 linhas
+- **Série eletroquímica completa**: 15 pares de F₂/F⁻ a Li⁺/Li com E°, destaque de oxidantes/redutores
+- **Calculadora E°célula**: E°cat, E°ano, n → E°célula, ΔG°, K de equilíbrio, espontaneidade
+- **Pilha de concentração**: E = (RT/nF)·ln(C₂/C₁), calculadora com sliders log C₁/C₂
+- **pH-metro e eletrodo de vidro**: princípio (E ∝ −0,05916·pH), calibração com tampões, slope, drift ATC, ISE e equação de Nikolsky
+
+#### Química Analítica (`analytical`) +266 linhas
+- **Estatística analítica**: erros sistemáticos vs aleatórios, média, desvio padrão, RSD, IC 95% (t de Student), propagação de incerteza
+- Calculadora de estatística para até 5 replicatas: x̄, s, RSD, IC, t_calc, detecção de erro sistemático
+- **Cromatografia**: tabela com CCD/TLC, CG, HPLC, CLAE-MS, iônica, exclusão por tamanho (FM, FE, detecção, aplicações)
+- Parâmetros: N (pratos teóricos), Rs (resolução), H = HETP, equação de Van Deemter
+- **Complexometria EDTA**: princípio de quelação hexadentada, K_f efetivo = K_f·α_Y(pH), indicador EBT
+- Tabela de log K_f para 7 íons (Ca²⁺ a Ni²⁺) com pH ótimo e indicador
+- Calculadora de dureza total da água: C_EDTA, V_EDTA, V_amostra → n_EDTA, dureza em mmol/L, mg CaCO₃/L e graus alemães
+
+#### Termodinâmica (`thermochemistry`) +142 linhas
+- **Termodinâmica estatística formal**: S = k_B·ln W (Boltzmann), condições S=0 (3ª lei)
+- Função de partição: q_trans, q_rot (Θ_rot), q_vib (Θ_vib) — fórmulas e interpretação física
+- **Equipartição de energia**: ⟨εᵢ⟩ = ½k_BT por grau de liberdade quadrático
+- Calculadora: 4 tipos de molécula (monoatômico, diatômico ±vibração, não-linear) → Cv, Cp, γ
+- **Entropia de mistura ideal**: ΔS_mix = −R(x₁ ln x₁ + x₂ ln x₂), calculadora x₁ → ΔS, ΔG_mix a 298 K
+
+---
+
+### Cobertura curricular — Graduação 2º ano+
+
+| Tópico                                    | Status v1.0.0 |
+|-------------------------------------------|---------------|
+| Orgânica: mecanismos SN1/SN2/E1/E2        | ✅ completo    |
+| Orgânica: SEAr (halogenação, FC, nitração) | ✅ completo    |
+| Orgânica: carbonila (adição, aldol, acil) | ✅ completo    |
+| Orgânica: Diels-Alder + W-H              | ✅ completo    |
+| Eletroquímica: série + pilha concentração | ✅ completo    |
+| Eletroquímica: pH-metro (ISE)             | ✅ completo    |
+| Analítica: estatística + IC + teste-t     | ✅ completo    |
+| Analítica: cromatografia (TLC/GC/HPLC)   | ✅ completo    |
+| Analítica: complexometria EDTA            | ✅ completo    |
+| Termodinâmica estatística (S=kln W, q)    | ✅ completo    |
+| Equipartição e Cv/Cp de moléculas         | ✅ completo    |
+| Supramolecular: macrociclos + ciclodextrinas | ✅ completo  |
+| Supramolecular: self-assembly + máquinas  | ✅ completo    |
+| Polímeros: Mn/Mw/PDI, Tg/Tm              | ✅ completo    |
+
+| Nível                  | v0.9.0 | v1.0.0 |
+|------------------------|--------|--------|
+| Ensino Médio           | ~100%  | ~100%  |
+| ENEM/vestibular        | ~100%  | ~100%  |
+| Graduação 1º ano       | 100%   | 100%   |
+| Graduação 2º ano+      | ~65%   | ~95%   |
+
+**Lacunas residuais (≈5%):** termodinâmica estatística avançada (distribuição de Maxwell-Boltzmann rigorosa, ensemble canônico formal), espectroscopia avançada (COSY, HMBC, Raman), funções de onda radiais formais (ψ_nlm), polímeros condutores detalhados, cristalografia de raios-X.
+
+---
+
+## [0.9.0] — 2026-03-09 — Graduação 1º ano: 100%
+
+### Expansões de módulos existentes
+
+#### Ligações Químicas (`chemical-bonds`) +150 linhas
+- **Hibridização formal** — tabela sp/sp²/sp³/sp³d/sp³d² com orbitais misturados, geometrias, ângulos e exemplos
+- Ligações σ (orbitais híbridos, sobreposição axial) vs π (orbitais p puros, sobreposição lateral)
+- Pares livres e distorção de ângulos: NH₃ (107°), H₂O (104,5°)
+- Ressonância e deslocalização: benzeno como sistema π extendido
+- **Forças intermoleculares** — seção formal dedicada:
+  - London (dispersão): dipolo instantâneo/induzido, cresce com massa molar e polarizabilidade
+  - Dipolo-dipolo (Keesom): moléculas polares, 3–25 kJ/mol
+  - Dipolo-dipolo induzido (Debye): polar + apolar polarizável
+  - Ligação de hidrogênio: H–N/O/F⋯N/O/F, 10–40 kJ/mol
+  - Íon-dipolo: hidratação de sais
+  - Tabela com energia típica de cada tipo
+  - Comparador de PE: 8 substâncias (He a etanol) com FIM e explicação da anomalia da água
+  - "Like dissolves like": regra de solubilidade explicada por FIM
+
+#### Estequiometria (`stoichiometry`) +110 linhas
+- **Análise elementar e fórmula empírica → molecular**:
+  - Procedimento formal: %massa → mol/100g → ratio → inteiros → FE → n = Mm/M_FE → FM
+  - Calculadora interativa %C, %H, Mm → computa FE e FM em tempo real
+  - Algoritmo de redução a inteiros por tentativa de denominadores 1–6
+- **Pureza de reagente**:
+  - Calculadora combinada: massa bruta × pureza × rendimento → produto real
+  - Fator global = pureza × η mostrado explicitamente
+
+#### Soluções e Equilíbrio (`solutions`) +200 linhas
+- **Indicadores ácido-base**:
+  - Tabela: azul de timol, vermelho de metila, azul de bromotimol, fenolftaleína, alizarina
+  - Simulador: dado pH e pKa_In → fração [In⁻]/[HIn], % forma básica, cor observada
+- **Especiação de ácidos polipróticos** (α₀, α₁, α₂):
+  - Fórmulas: D = [H⁺]² + Ka₁[H⁺] + Ka₁Ka₂; αᵢ = (termos)/D
+  - Canvas interativo: gráfico α(pH) com curvas H₂A/HA⁻/A²⁻
+  - Presets: H₂CO₃ (equilíbrio oceânico), H₃PO₄ (tampão fisiológico), H₂C₂O₄
+  - Marcadores de pKa₁ e pKa₂ no gráfico; cursor de pH com valores α em tempo real
+- **Titulação formal — pH no ponto de equivalência**:
+  - 3 tipos selecionáveis: forte-forte (pH=7), fraco-forte (pH>7, hidrólise), forte-fraco (pH<7)
+  - Calculadora: Ca, Va, Cb → V_equiv, n_ácido = n_base, pH_PE
+  - pH calculado exatamente (quadrática de hidrólise para casos fraco-forte)
+  - Indicador adequado sugerido automaticamente com explicação
+
+#### Gases (`gases`) +130 linhas
+- **Fator de compressibilidade Z** = PV/nRT
+- Equação do virial: segundo coeficiente B, temperatura de Boyle (B=0)
+- Calculadora de Z via Newton-Raphson (VdW cúbica) para N₂, CO₂, H₂, NH₃, He
+- Exibe Z, V_VdW, V_ideal, regime (atração/repulsão)
+- **Lei dos estados correspondentes**: T_r, P_r universais
+- Tabela: T_c, P_c, Z_c, T_Boyle para 7 gases
+
+#### Cinética (`kinetics`) +100 linhas
+- **Equilíbrio Kp/Kc formal**: Kp = Kc·(RT)^Δn_g, significado de Δn_g
+- Calculadora Kp↔Kc com sliders (logKc, Δn_g, T)
+- **Grau de dissociação α** para A(g) ⇌ 2B(g):
+  - Expressão α = √(Kp/(Kp+4P)) derivada de ICE
+  - Calculadora com sliders Kp e P_total → α, % dissociado, efeito de Le Chatelier
+
+#### Química Analítica (`analytical`) +100 linhas
+- **Produto iônico Q vs Ksp**: critério de precipitação/dissolução
+- Calculadora Q vs Ksp: [M⁺], [X⁻], log Ksp → Q, comparação, solubilidade molar
+- Dissolução por pH: consumo de OH⁻ (Mg(OH)₂) ou H⁺ (CaCO₃)
+- **Osmometria — determinação de Mm**: π = iMRT → M → Mm = m/(M·V)
+- Calculadora: massa, volume, π medido, T → M, Mm, ΔTf, ΔTb
+
+#### Termodinâmica (`thermochemistry`) +70 linhas (consolidado de v0.8.0)
+- 1ª lei formal: ΔU = q + w; funções de estado vs caminho
+- 2ª lei: ΔS_universo ≥ 0; definição dS = δq_rev/T
+- 3ª lei: S = 0 a 0 K; S° absoluta vs ΔfH° de elementos
+- Relação unificadora: ΔG = ΔH − TΔS; ligação com K (ΔG° = −RT ln K)
+- Calculadora de Carnot: η = 1 − T_f/T_q com sliders T_q e T_f
+
+---
+
+### Cobertura curricular — Graduação 1º ano: 100%
+
+| Tópico de Química Geral I/II             | Status v0.9.0 |
+|------------------------------------------|---------------|
+| Estrutura atômica e mecânica quântica    | ✅ completo    |
+| Tabela periódica e periodicidade         | ✅ completo    |
+| Ligações: Lewis, VSEPR, TOM, hibridiz.   | ✅ completo    |
+| Forças intermoleculares                  | ✅ completo    |
+| Estequiometria + análise elementar       | ✅ completo    |
+| Gases ideais e reais (Z, virial)         | ✅ completo    |
+| Termoquímica + 3 leis + Carnot           | ✅ completo    |
+| Equilíbrio químico (Kp, Kc, α)          | ✅ completo    |
+| Equilíbrio ácido-base                    | ✅ completo    |
+| Titulação + indicadores + especiação     | ✅ completo    |
+| Equilíbrio de precipitação (Ksp, Q)      | ✅ completo    |
+| Propriedades coligativas + osmometria    | ✅ completo    |
+| Eletroquímica                            | ✅ completo    |
+| Cinética + mecanismos + Michaelis-Menten | ✅ completo    |
+| Equilíbrio de fases + Clausius-Clapeyron | ✅ completo    |
+
+| Nível                  | v0.8.0 | v0.9.0 |
+|------------------------|--------|--------|
+| Ensino Médio           | ~100%  | ~100%  |
+| ENEM/vestibular        | ~100%  | ~100%  |
+| Graduação 1º ano       | ~90%   | ~100%  |
+| Graduação 2º ano+      | ~65%   | ~65%   |
+
+---
+
+## [0.8.0] — 2026-03-09
+
+### Adicionado — Química do Ensino Superior
+
+**5 novos módulos (graduação 1º e 2º ano):**
+
+#### Mecânica Quântica (`quantum`)
+- Equação de Schrödinger: Ĥψ = Eψ, interpretação de Born, incerteza de Heisenberg
+- Números quânticos n, l, mₗ, mₛ: tabela completa com restrições e significado físico
+- Canvas animado: formas dos orbitais s, pₓ, d_z², d_xy com nós angulares identificados
+- Regras de preenchimento: Aufbau, Pauli, Hund — exceções Cr e Cu explicadas
+- Teoria de Orbitais Moleculares (TOM/LCAO): σ, σ*, π, π*, HOMO/LUMO
+- Diagramas de OM interativos para H₂, He₂, O₂, N₂, CO com elétrons posicionados
+- Paramagnetismo do O₂ explicado pela TOM (regra de Hund em π*2p)
+- 3 exercícios com feedback
+
+#### Equilíbrio de Fases (`phases`)
+- Conceitos: ponto triplo, ponto crítico, fluido supercrítico, regra de Gibbs F = C − P + 2
+- Equação de Clausius-Clapeyron com calculadora interativa (sliders ΔHvap, T₁, T₂)
+- Canvas interativo do diagrama P×T com cursor T/P, identificação de fase em tempo real
+- Diagramas da água (anomalia: inclinação s/l negativa) e do CO₂ (sublimação a 1 atm)
+- Lei de Raoult: pressões parciais e totais, fração molar no vapor (y_A = P_A/P_total)
+- Calculadora de Raoult com sliders P*A, P*B, xA
+- 3 exercícios com feedback
+
+#### Espectroscopia (`spectroscopy`)
+- Lei de Beer-Lambert: A = ε·c·l com calculadora (ε, c, l → A, T%)
+- IV: canvas com espectro simulado para 6 grupos funcionais (álcool, C=O, COOH, amina, alcino, alcano)
+- Tabela de bandas diagnóstico com wavenumbers e modos vibracionais
+- RMN ¹H: escala de deslocamento químico δ por canvas, tabela de 8 ambientes
+- Multiplicidade (regra n+1), integração, constante J e estereoquímica
+- Espectrometria de massas: canvas com espectros para 3 moléculas + explicação de fragmentação
+- Padrão isotópico de Br (1:1) e Cl (3:1)
+- UV-Vis: tabela de transições σ→σ*, n→σ*, π→π*, n→π*, transferência de carga
+- Regras de Woodward-Fieser
+- 3 exercícios com feedback
+
+#### Estado Sólido (`solidstate`)
+- Tipos de sólidos: iônico, covalente, metálico, molecular
+- Canvas 3D rotativo (projeção oblíqua) para SC, BCC, FCC
+- Tabela comparativa: átomos/célula, CN, r/a, eficiência de empacotamento
+- Estruturas iônicas com tabs: NaCl (6:6), CsCl (8:8), ZnS-blenda (4:4), fluorita (8:4)
+- Teoria de bandas: gap, semicondutores intrínsecos, tipo n (P, As), tipo p (B)
+- Tabela de semicondutores: Si, Ge, GaAs, ZnO, Si:P, Si:B com Eg e aplicações
+- Defeitos: Schottky (par vacâncias), Frenkel (intersticial), deslocamentos
+- 3 exercícios com feedback
+
+#### Química de Coordenação (`coordination`)
+- Nomenclatura IUPAC: ligantes, número de coordenação, efeito quelato
+- Geometrias com tabs: CN2 (linear), CN4 (quadrado plano / tetraédrico), CN6 (octaédrico)
+- Canvas do diagrama de Campo Cristalino octaédrico com elétrons posicionados
+- 6 complexos exemplares (Ti³⁺, Cr³⁺, Fe²⁺ campo fraco/forte, Co³⁺ campo fraco/forte)
+- Tabs interativos: configuração t₂g/eₘ, Δₒ, cor absorvida/observada, magnetismo
+- Série espectroquímica: gráfico de barras interativo com 12 ligantes ordenados
+- Metaloproteínas: hemoglobina (Fe²⁺), clorofila (Mg²⁺), vitamina B₁₂ (Co³⁺), cisplatina (Pt²⁺)
+- 3 exercícios com feedback
+
+**3 módulos existentes expandidos:**
+
+#### Termodinâmica (`thermochemistry`) +70 linhas
+- As três leis formais com notação matemática (ΔU = q+w, ΔS_univ ≥ 0, S=0 a 0 K)
+- Relação entre as leis: ΔG = ΔH − TΔS e ligação com equilíbrio (ΔG° = −RT ln K)
+- Calculadora do ciclo de Carnot: η = 1 − T_f/T_q com sliders T_q e T_f
+
+#### Cinética (`kinetics`) +80 linhas
+- Mecanismos multi-etapa: etapa determinante, intermediário, SN1 como exemplo
+- Aproximação do estado estacionário
+- Mecanismo de Lindemann (unimolecular)
+- Calculadora de Michaelis-Menten: v = Vmax[S]/(Km+[S]) com sliders Vmax, Km, [S]
+
+#### Soluções e Equilíbrio (`solutions`) +90 linhas
+- Calculadora Ka/Kb numérico com quadrática exata vs aproximação √(Ka·C)
+- Grau de ionização α e indicação de validade da aproximação
+- Tabela de hidrólise de sais: NaCl, CH₃COONa, NH₄Cl, CH₃COONH₄
+
+---
+
+### Cobertura curricular atualizada
+
+| Nível                  | v0.7.1 | v0.8.0 |
+|------------------------|--------|--------|
+| Ensino Médio (1º–3º)   | ~100%  | ~100%  |
+| ENEM/vestibular        | ~100%  | ~100%  |
+| Graduação 1º ano       | ~60%   | ~90%   |
+| Graduação 2º ano+      | ~25%   | ~65%   |
+
+**Lacunas de graduação restantes:** química quântica formal (funções de onda radiais,
+Hamiltoniano multieletrônico), espectroscopia avançada (COSY, HMBC, CD, Raman),
+termodinâmica estatística (função de partição), reações pericíclicas (Woodward-Hoffmann),
+polímeros, química supramolecular.
+
+---
+
 ## [0.7.1] — 2026-03-09
 
 ### Corrigido

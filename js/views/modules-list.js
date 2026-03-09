@@ -22,7 +22,7 @@ const ALL_MODULES = [
   { id:'analytical',        icon:'&#9680;', title:'Química Analítica',        desc:'Titulação, Beer-Lambert, Ksp e propriedades coligativas.' },
   { id:'biochemistry',      icon:'&#9675;', title:'Bioquímica',               desc:'Aminoácidos, proteínas, DNA, glicídios, lipídios e enzimas.' },
   { id:'nuclear',           icon:'&#9733;', title:'Química Nuclear',          desc:'Radioatividade, meia-vida, fissão e fusão.' },
-  { id:'environmental', icon:'&#127758;', title:'Química Ambiental', desc:'Efeito estufa, chuva ácida, ozônio, poluição da água e energias.' },
+  { id:'environmental', 'quantum', 'phases', 'spectroscopy', 'solidstate', 'coordination','supramolecular', icon:'&#127758;', title:'Química Ambiental', desc:'Efeito estufa, chuva ácida, ozônio, poluição da água e energias.' },
 ];
 
 export function renderModules(outlet) {

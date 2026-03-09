@@ -387,6 +387,115 @@ export function render(outlet) {
     </div>
   </section>
 
+  <!-- Fórmula empírica e molecular -->
+  <section class="module-section">
+    <h2 class="module-section-title">Fórmula empírica e análise elementar</h2>
+    <p class="module-text">
+      A <strong>análise elementar</strong> fornece a composição percentual em massa
+      de cada elemento. A partir dela, calcula-se a <strong>fórmula empírica</strong>
+      (menores proporções inteiras) e, com a massa molar experimental, a
+      <strong>fórmula molecular</strong>.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        Etapas: %massa → mol/100g → dividir pelo menor → arredondar → FE → n = Mm/M_FE → FM
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        Exemplo: composto C 40,00%, H 6,67%, O 53,33%. Mm = 180 g/mol.<br>
+        mol: C 40/12=3,33; H 6,67/1=6,67; O 53,33/16=3,33. Dividir pelo menor (3,33):<br>
+        C:H:O = 1:2:1 → FE = CH₂O (Mm_FE = 30). n = 180/30 = 6. FM = C₆H₁₂O₆ (glicose).
+      </p>
+    </div>
+
+    <!-- Calculadora de fórmula empírica -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Calculadora: % C, H, O → Fórmula empírica
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:130px">%C:</span>
+        <input type="range" id="ef-C" min="0" max="95" step="0.5" value="40"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="ef-C-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:50px">40,0%</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:130px">%H:</span>
+        <input type="range" id="ef-H" min="0" max="20" step="0.1" value="6.7"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="ef-H-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:50px">6,7%</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:130px">Mm real (g/mol):</span>
+        <input type="range" id="ef-Mm" min="10" max="600" step="5" value="180"
+               style="width:120px;accent-color:var(--accent-organic)">
+        <span id="ef-Mm-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:70px">180 g/mol</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">%O (restante)</p>
+        <div id="ef-O-val" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-reaction)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Fórmula Empírica</p>
+        <div id="ef-FE" style="font-size:var(--text-xl);font-weight:700;font-family:monospace;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">n (multiplicador)</p>
+        <div id="ef-n" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Fórmula Molecular</p>
+        <div id="ef-FM" style="font-size:var(--text-xl);font-weight:700;font-family:monospace;color:var(--accent-organic)">—</div>
+      </div>
+    </div>
+
+    <!-- Pureza de reagente -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Pureza de reagente — correção da massa
+    </h3>
+    <p class="module-text">
+      Reagentes de laboratório nunca são 100% puros. A massa real útil = massa × (pureza/100).
+      O rendimento de reação calcula-se com: <strong>η = (m_real / m_teórica) × 100%</strong>.
+      Ambos os fatores reduzem o produto final.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:190px">Massa do reagente bruto (g):</span>
+        <input type="range" id="pur-mass" min="1" max="100" step="0.5" value="20"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="pur-mass-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:60px">20,0 g</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:190px">Pureza (%):</span>
+        <input type="range" id="pur-pur" min="50" max="100" step="0.5" value="95"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="pur-pur-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:50px">95,0%</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:190px">Rendimento da reação (%):</span>
+        <input type="range" id="pur-yield" min="10" max="100" step="1" value="80"
+               style="width:120px;accent-color:var(--accent-organic)">
+        <span id="pur-yield-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:50px">80%</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Massa pura (g)</p>
+        <div id="pur-pure" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Fator total (pureza × η)</p>
+        <div id="pur-total-factor" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Produto real / 100 g bruto</p>
+        <div id="pur-product" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- Exercício -->
   <section class="module-section">
     <h2 class="module-section-title">Exercício</h2>
@@ -503,6 +612,8 @@ export function render(outlet) {
         btn.style.color       = 'var(--accent-organic)';
         if (fb) fb.innerHTML = `<p class="feedback-correct">Correto! ${esc(EXERCISE.explanation)}</p>`;
         markSectionDone('stoichiometry', 'exercise');
+  _initEmpiricalFormula();
+  _initPurity();
       } else {
         btn.style.borderColor = 'var(--accent-reaction)';
         btn.style.color       = 'var(--accent-reaction)';
@@ -512,6 +623,93 @@ export function render(outlet) {
       }
     });
   });
+}
+
+function _initEmpiricalFormula() {
+  const MM = { C: 12.011, H: 1.008, O: 15.999 };
+
+  // Reduzir a inteiros aproximados: divide pelo mdc com tolerância
+  function toInt(ratios) {
+    // Tentar denominadores 1..6
+    let best = ratios.map(r => Math.round(r));
+    let bestErr = ratios.reduce((s,r,i) => s + Math.abs(r - best[i]), 0);
+    for (let d = 2; d <= 6; d++) {
+      const attempt = ratios.map(r => Math.round(r * d));
+      const err = ratios.reduce((s,r,i) => s + Math.abs(r - attempt[i]/d), 0);
+      if (err < bestErr - 0.001) { best = attempt; bestErr = err; }
+    }
+    return best;
+  }
+
+  function updateEF() {
+    const pC  = parseFloat(document.getElementById('ef-C')?.value ?? 40);
+    const pH  = parseFloat(document.getElementById('ef-H')?.value ?? 6.7);
+    const Mm  = parseFloat(document.getElementById('ef-Mm')?.value ?? 180);
+    const pO  = Math.max(0, 100 - pC - pH);
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('ef-C-val',  pC.toFixed(1) + '%');
+    set('ef-H-val',  pH.toFixed(1) + '%');
+    set('ef-O-val',  pO.toFixed(1) + '%');
+    set('ef-Mm-val', Mm.toFixed(0) + ' g/mol');
+
+    const molC = pC / MM.C;
+    const molH = pH / MM.H;
+    const molO = pO > 0.1 ? pO / MM.O : 0;
+
+    const mols = [molC, molH, molO].filter(m => m > 0.01);
+    const min  = Math.min(...mols);
+    const ratios = [molC, molH, molO].map(m => m > 0.01 ? m / min : 0);
+
+    const [nC, nH, nO] = toInt(ratios);
+    const Mfe = nC * MM.C + nH * MM.H + nO * MM.O;
+    const n   = Mfe > 0 ? Math.round(Mm / Mfe) : 1;
+
+    let fe = '';
+    if (nC > 0) fe += 'C' + (nC > 1 ? nC : '');
+    if (nH > 0) fe += 'H' + (nH > 1 ? nH : '');
+    if (nO > 0) fe += 'O' + (nO > 1 ? nO : '');
+
+    let fm = '';
+    if (nC > 0) fm += 'C' + (nC * n > 1 ? nC * n : '');
+    if (nH > 0) fm += 'H' + (nH * n > 1 ? nH * n : '');
+    if (nO > 0) fm += 'O' + (nO * n > 1 ? nO * n : '');
+
+    set('ef-FE', fe || '—');
+    set('ef-FM', fm || '—');
+    set('ef-n',  n > 0 ? '× ' + n : '—');
+  }
+  if (document.getElementById('ef-C')) {
+    updateEF();
+    ['ef-C','ef-H','ef-Mm'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateEF));
+  }
+}
+
+function _initPurity() {
+  function updatePur() {
+    const mass  = parseFloat(document.getElementById('pur-mass')?.value  ?? 20);
+    const pur   = parseFloat(document.getElementById('pur-pur')?.value   ?? 95) / 100;
+    const yield_ = parseFloat(document.getElementById('pur-yield')?.value ?? 80) / 100;
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('pur-mass-val',  mass.toFixed(1) + ' g');
+    set('pur-pur-val',   (pur * 100).toFixed(1) + '%');
+    set('pur-yield-val', (yield_ * 100).toFixed(0) + '%');
+
+    const pure    = mass * pur;
+    const factor  = pur * yield_;
+    const product = mass * factor;
+
+    set('pur-pure',         pure.toFixed(2) + ' g');
+    set('pur-total-factor', (factor * 100).toFixed(1) + '%');
+    set('pur-product',      product.toFixed(2) + ' g');
+  }
+  if (document.getElementById('pur-mass')) {
+    updatePur();
+    ['pur-mass','pur-pur','pur-yield'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updatePur));
+  }
 }
 
 export function destroy() {

@@ -364,10 +364,10 @@ export function render(outlet) {
     <h2 class="module-section-title">Célula galvânica</h2>
 
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem">
-      ${Object.entries(CELLS).map(([k, c]) => `
+      ${Object.entries(CELLS).map(_r => { const [k, c]=_r; return `
         <button class="btn btn-sm ${k === 'daniell' ? 'btn-secondary' : 'btn-ghost'}"
                 id="cell-btn-${k}" data-cellkey="${k}">${esc(c.label)}</button>
-      `).join('')}
+      `; }).join('')}
     </div>
 
     <div class="canvas-frame">
@@ -460,6 +460,148 @@ export function render(outlet) {
       </div>
     </div>
   </section>
+
+  <!-- Série eletroquímica e pilha de concentração -->
+  <section class="module-section">
+    <h2 class="module-section-title">Série eletroquímica e pilha de concentração</h2>
+    <p class="module-text">
+      A <strong>série eletroquímica</strong> ordena os pares redox por E° (potencial padrão
+      vs EHN). Quanto maior E°, maior tendência a reduzir. A diferença entre dois pares
+      define o potencial da pilha: E°célula = E°catodo − E°anodo.
+    </p>
+    <div style="overflow-x:auto;margin-bottom:var(--space-5)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Par redox (semi-reação de redução)</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">E° (V)</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Agente redox</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['F₂ + 2e⁻ → 2F⁻',              '+2,87','Oxidante mais forte'],
+            ['MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺',   '+1,51',''],
+            ['Cl₂ + 2e⁻ → 2Cl⁻',             '+1,36',''],
+            ['Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺','+1,33',''],
+            ['O₂ + 4H⁺ + 4e⁻ → 2H₂O',        '+1,23','Corrosão do Fe'],
+            ['Ag⁺ + e⁻ → Ag',                 '+0,80',''],
+            ['Fe³⁺ + e⁻ → Fe²⁺',              '+0,77',''],
+            ['Cu²⁺ + 2e⁻ → Cu',               '+0,34','Eletrodo positivo pilha Daniell'],
+            ['2H⁺ + 2e⁻ → H₂',               ' 0,00','Referência (EHN)'],
+            ['Fe²⁺ + 2e⁻ → Fe',               '−0,44','Corrói em contato com Cu'],
+            ['Zn²⁺ + 2e⁻ → Zn',               '−0,76','Proteção catódica do Fe'],
+            ['Al³⁺ + 3e⁻ → Al',               '−1,66',''],
+            ['Mg²⁺ + 2e⁻ → Mg',               '−2,37',''],
+            ['Na⁺ + e⁻ → Na',                  '−2,71',''],
+            ['Li⁺ + e⁻ → Li',                  '−3,04','Redutor mais forte'],
+          ].map(_r => { const [rxn, eo, note]=_r; return `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs);color:var(--accent-electron)">${rxn}</td>
+            <td style="padding:.4rem .6rem;font-weight:700;color:${parseFloat(eo)>0?'var(--accent-organic)':parseFloat(eo)<0?'var(--accent-reaction)':'var(--text-muted)'}">${eo}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${note}</td>
+          </tr>`; }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Calculadora E°célula -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Calculadora de E°célula
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">E°catodo (V):</span>
+        <input type="range" id="ecell-cat" min="-3.1" max="2.9" step="0.01" value="0.34"
+               style="width:130px;accent-color:var(--accent-organic)">
+        <span id="ecell-cat-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:70px">+0,340 V</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">E°anodo (V):</span>
+        <input type="range" id="ecell-ano" min="-3.1" max="2.9" step="0.01" value="-0.76"
+               style="width:130px;accent-color:var(--accent-reaction)">
+        <span id="ecell-ano-val" style="font-size:var(--text-sm);color:var(--accent-reaction);min-width:70px">−0,760 V</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">n (e⁻ transferidos):</span>
+        <input type="range" id="ecell-n" min="1" max="6" step="1" value="2"
+               style="width:130px;accent-color:var(--accent-electron)">
+        <span id="ecell-n-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:30px">2</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">E°célula</p>
+        <div id="ecell-E" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ΔG° (kJ/mol)</p>
+        <div id="ecell-dG" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">K de equilíbrio</p>
+        <div id="ecell-K" style="font-size:var(--text-base);font-weight:600;color:var(--accent-organic)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Espontânea?</p>
+        <div id="ecell-spont" style="font-size:var(--text-sm);font-weight:700;color:var(--text-secondary)">—</div>
+      </div>
+    </div>
+
+    <!-- Pilha de concentração -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Pilha de concentração
+    </h3>
+    <p class="module-text">
+      Dois eletrodos do mesmo metal em soluções de concentrações diferentes.
+      E°célula = 0, mas Nernst gera E ≠ 0: <strong>E = (RT/nF) · ln([alta]/[baixa])</strong>.
+      Usada em sensores de pH, eletrodos íon-seletivos e biossensores.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:180px">[C₁] — compartimento 1 (mol/L):</span>
+        <input type="range" id="cc-c1" min="-4" max="0" step="0.1" value="-2"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="cc-c1-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:80px">0,0100 M</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:180px">[C₂] — compartimento 2 (mol/L):</span>
+        <input type="range" id="cc-c2" min="-4" max="0" step="0.1" value="0"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="cc-c2-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:80px">1,0000 M</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">E (V) a 25°C, n=1</p>
+        <div id="cc-E" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ln(C₂/C₁)</p>
+        <div id="cc-lnQ" style="font-size:var(--text-base);font-weight:600;color:var(--accent-bond)">—</div>
+      </div>
+    </div>
+
+    <!-- pH-metro -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      pH-metro e eletrodo de vidro
+    </h3>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Princípio</h3>
+        <p style="font-size:var(--text-sm)">Eletrodo de vidro gera potencial proporcional à atividade de H⁺ na solução: E = const − 0,05916·pH (a 25°C). A membrana de vidro delgada (<0,1mm) é seletivamente permeável a H⁺ — troca catiônica. Impedância alta (10⁸–10¹² Ω) exige amplificador operacional.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">Calibração com tampões</h3>
+        <p style="font-size:var(--text-sm)">O pH-metro é calibrado com 2–3 soluções tampão padrão (pH 4,00; 7,00; 10,00). A curva de calibração mapeia E_medido → pH. Drift térmico: compensação automática de temperatura (ATC). Slope ideal: 59,16 mV/pH a 25°C.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">Eletrodos íon-seletivos (ISE)</h3>
+        <p style="font-size:var(--text-sm)">Generalização: membranas com seletividade para F⁻ (fluoreto de lantânio), NO₃⁻, Ca²⁺, K⁺. Usados em análise de água, solos e clínica. Equação de Nikolsky: E = const + (RT/zF)·ln(aᵢ + Kᵢⱼ·aⱼ^(z/zⱼ)).</p>
+      </div>
+    </div>
+  </section>
+
 
   <!-- Exercício -->
   <section class="module-section">
@@ -580,6 +722,61 @@ export function render(outlet) {
     document.getElementById(id)?.addEventListener('input', updateNernst);
   });
 }
+function _initEcell() {
+  const F = 96485, R = 8.314, T = 298.15;
+
+  function updateEcell() {
+    const Ecat = parseFloat(document.getElementById('ecell-cat')?.value ?? 0.34);
+    const Eano = parseFloat(document.getElementById('ecell-ano')?.value ?? -0.76);
+    const n    = parseInt(document.getElementById('ecell-n')?.value ?? 2, 10);
+
+    const Ecell = Ecat - Eano;
+    const dG    = -n * F * Ecell / 1000; // kJ/mol
+    const logK  = n * Ecell / 0.05916;
+    const K     = Math.pow(10, logK);
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('ecell-cat-val', (Ecat >= 0 ? '+' : '') + Ecat.toFixed(3) + ' V');
+    set('ecell-ano-val', (Eano >= 0 ? '+' : '') + Eano.toFixed(3) + ' V');
+    set('ecell-n-val',   n);
+    set('ecell-E',   (Ecell >= 0 ? '+' : '') + Ecell.toFixed(3) + ' V');
+    set('ecell-dG',  dG.toFixed(1) + ' kJ/mol');
+    set('ecell-K',   K > 1e6 ? K.toExponential(2) : K.toPrecision(3));
+
+    const spEl = document.getElementById('ecell-spont');
+    if (spEl) {
+      spEl.textContent  = Ecell > 0 ? 'Sim (E > 0)' : Ecell < 0 ? 'Não (E < 0)' : 'Equilíbrio';
+      spEl.style.color  = Ecell > 0 ? 'var(--accent-organic)' : 'var(--accent-reaction)';
+    }
+  }
+
+  function updateCC() {
+    const logC1 = parseFloat(document.getElementById('cc-c1')?.value ?? -2);
+    const logC2 = parseFloat(document.getElementById('cc-c2')?.value ?? 0);
+    const C1 = Math.pow(10, logC1);
+    const C2 = Math.pow(10, logC2);
+    const lnQ = Math.log(C2 / C1);
+    const E   = (R * T / F) * lnQ;  // n=1
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('cc-c1-val', C1.toFixed(4) + ' M');
+    set('cc-c2-val', C2.toFixed(4) + ' M');
+    set('cc-lnQ', lnQ.toFixed(3));
+    set('cc-E',   (E >= 0 ? '+' : '') + E.toFixed(4) + ' V');
+  }
+
+  if (document.getElementById('ecell-cat')) {
+    updateEcell();
+    ['ecell-cat','ecell-ano','ecell-n'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateEcell));
+  }
+  if (document.getElementById('cc-c1')) {
+    updateCC();
+    ['cc-c1','cc-c2'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateCC));
+  }
+}
+
 export function destroy() {
   if (_loop) { _loop.stop(); _loop = null; }
 }

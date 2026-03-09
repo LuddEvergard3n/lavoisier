@@ -23,7 +23,13 @@ const ALL_MODULES = [
   { id: 'analytical', title: 'Química Analítica', desc: 'Titulação, Beer-Lambert, produto de solubilidade e propriedades coligativas.' },
   { id: 'biochemistry', title: 'Bioquímica', desc: 'Aminoácidos, proteínas, DNA, glicídios, lipídios e cinética enzimática.' },
   { id: 'nuclear', title: 'Química Nuclear', desc: 'Radioatividade, meia-vida, fissão, fusão e aplicações médicas.' },
-  { id: 'environmental',     title: 'Química Ambiental',        desc: 'Efeito estufa, chuva ácida, ozônio, poluição da água e energias renováveis.' },
+  { id: 'environmental', title: 'Química Ambiental', desc: 'Efeito estufa, chuva ácida, ozônio, poluição da água e energias renováveis.' },
+  { id: 'quantum', title: 'Química Quântica', desc: 'Orbitais, números quânticos, funções de onda e interpretação básica da estrutura eletrônica.' },
+  { id: 'phases', title: 'Mudanças de Fase', desc: 'Estados físicos, diagramas de fase, pressão, temperatura e transições de estado.' },
+  { id: 'spectroscopy', title: 'Espectroscopia', desc: 'Absorção, emissão, espectros e identificação de substâncias por interação com radiação.' },
+  { id: 'solidstate', title: 'Estado Sólido', desc: 'Redes cristalinas, metais, semicondutores e propriedades macroscópicas dos sólidos.' },
+  { id: 'coordination', title: 'Química de Coordenação', desc: 'Complexos metálicos, ligantes, geometria e aplicações em catálise e materiais.' },
+  { id: 'supramolecular', title: 'Química Supramolecular', desc: 'Interações intermoleculares, auto-organização e reconhecimento molecular.' },
 ];
 
 export function renderHome(outlet) {

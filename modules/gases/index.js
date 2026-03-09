@@ -122,6 +122,51 @@ const EXERCISE = {
   explanation: 'Lei combinada: V₂ = P₁V₁T₂/(T₁P₂) = 2×5×600/(300×1) = 20 L. Dobrar T dobra V; reduzir P à metade dobra V novamente.',
 };
 
+// Dados VdW para calculadora de Z (a em L²·atm/mol², b em L/mol)
+const VDW_Z = [
+  { label: 'N₂',  a: 1.408,  b: 0.03913 },
+  { label: 'CO₂', a: 3.640,  b: 0.04267 },
+  { label: 'H₂',  a: 0.2453, b: 0.02651 },
+  { label: 'NH₃', a: 4.225,  b: 0.03707 },
+  { label: 'He',  a: 0.03457,b: 0.02370 },
+];
+let _zGasIdx = 0, _zP = 50, _zT = 300;
+
+function calcZ() {
+  const R = 0.08206; // L·atm/(mol·K)
+  const gas = VDW_Z[_zGasIdx];
+  const a = gas.a, b = gas.b;
+
+  // Resolver VdW cubica em V por Newton-Raphson
+  // P = RT/(V-b) - a/V² → f(V) = PV³ - (Pb+RT)V² + aV - ab = 0
+  const P = _zP, T = _zT;
+  const RT = R * T;
+  let V = RT / P; // chute inicial: ideal
+  for (let i = 0; i < 50; i++) {
+    const fv  =  P*V*V*V - (P*b + RT)*V*V + a*V - a*b;
+    const dfv =  3*P*V*V - 2*(P*b + RT)*V + a;
+    const dV  = fv / dfv;
+    V -= dV;
+    if (Math.abs(dV) < 1e-9) break;
+    if (V <= b) { V = b * 1.01; }
+  }
+  const Vid = RT / P;
+  const Z   = P * V / (R * T);
+
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('z-P-val', _zP + ' atm');
+  set('z-T-val', _zT + ' K');
+  set('z-val',   Z.toFixed(4));
+  set('z-V',     V.toFixed(4));
+  set('z-Vid',   Vid.toFixed(4));
+  set('z-regime',
+    Math.abs(Z - 1) < 0.01 ? 'Ideal (Z ≈ 1)' :
+    Z < 1 ? 'Atração domina (Z < 1)' : 'Repulsão domina (Z > 1)'
+  );
+  const zEl = document.getElementById('z-val');
+  if (zEl) zEl.style.color = Z < 0.99 ? 'var(--accent-electron)' : Z > 1.01 ? 'var(--accent-reaction)' : 'var(--accent-organic)';
+}
+
 export function render(outlet) {
   if (_loop) { _loop.stop(); _loop = null; }
   _igSolve='P'; _igP=1.0; _igV=22.414; _igN=1.0; _igT=273.15;
@@ -283,7 +328,120 @@ export function render(outlet) {
     <div id="exercise-feedback" style="margin-top:1rem"></div>
   </section>
 
-  <div class="real-life-card">
+  <!-- Fator de compressibilidade e gases reais avançado -->
+  <section class="module-section">
+    <h2 class="module-section-title">Fator de compressibilidade Z</h2>
+    <p class="module-text">
+      O <strong>fator de compressibilidade</strong> Z = PV/(nRT) mede o desvio do comportamento ideal.
+      Z = 1 → gás ideal. Z &lt; 1 → forças atrativas dominam (comprime mais que o ideal).
+      Z &gt; 1 → repulsão de volume dominante (expande mais). A temperaturas altas e baixas pressões,
+      Z → 1 para todos os gases.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.4rem">
+        Z = PV / nRT &nbsp;|&nbsp; Z = 1 + B/V + C/V² + … (equação do virial)
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        B = segundo coeficiente do virial (depende de T; B &lt; 0 → atração; B &gt; 0 → repulsão)<br>
+        Temperatura de Boyle: T onde B = 0 → gás comporta-se como ideal (Z ≈ 1 em baixas P)<br>
+        Para N₂: T_Boyle ≈ 327 K; para CO₂: T_Boyle ≈ 710 K
+      </p>
+    </div>
+
+    <!-- Calculadora Z via Van der Waals -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Calculadora de Z (Van der Waals)
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">Pressão P (atm):</span>
+        <input type="range" id="z-P" min="1" max="500" step="1" value="50"
+               style="width:130px;accent-color:var(--accent-electron)">
+        <span id="z-P-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:60px">50 atm</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">Temperatura T (K):</span>
+        <input type="range" id="z-T" min="100" max="1000" step="10" value="300"
+               style="width:130px;accent-color:var(--accent-bond)">
+        <span id="z-T-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:60px">300 K</span>
+      </div>
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem" id="z-gas-btns">
+        ${['N₂','CO₂','H₂','NH₃','He'].map((g,i)=>`<button class="btn btn-xs ${i===0?'btn-secondary':'btn-ghost'}" data-zgas="${i}">${g}</button>`).join('')}
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Z</p>
+        <div id="z-val" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">V (VdW, L/mol)</p>
+        <div id="z-V" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">V_ideal (L/mol)</p>
+        <div id="z-Vid" style="font-size:var(--text-base);font-weight:600;color:var(--text-secondary)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Regime</p>
+        <div id="z-regime" style="font-size:var(--text-sm);font-weight:600;color:var(--accent-organic)">—</div>
+      </div>
+    </div>
+
+    <!-- Estados correspondentes -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Lei dos estados correspondentes
+    </h3>
+    <p class="module-text">
+      Gases reais se comportam de forma similar quando comparados em <strong>propriedades
+      reduzidas</strong>: T_r = T/T_c, P_r = P/P_c, V_r = V/V_c. Nessas variáveis, o
+      diagrama Z(P_r) é <strong>universal</strong> — independe do gás. Isso permite estimar Z
+      para qualquer gás a partir de suas propriedades críticas.
+    </p>
+    <div style="overflow-x:auto;margin-bottom:var(--space-4)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Gás</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">T_c (K)</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">P_c (atm)</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Z_c</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">T_Boyle (K)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['He',  5.2,  2.24, 0.302, '~25'],
+            ['H₂',  33.2, 12.8, 0.305, '~327'],
+            ['N₂',  126,  33.5, 0.290, '~327'],
+            ['O₂',  154,  50.1, 0.288, '~405'],
+            ['CO₂', 304,  72.8, 0.274, '~710'],
+            ['NH₃', 406,  111,  0.242, '~995'],
+            ['H₂O', 647,  218,  0.230, '~1550'],
+          ].map(([g,tc,pc,zc,tb])=>`
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-family:monospace;font-weight:600;color:var(--accent-electron)">${g}</td>
+            <td style="padding:.4rem .6rem">${tc}</td>
+            <td style="padding:.4rem .6rem">${pc}</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-organic)">${zc}</td>
+            <td style="padding:.4rem .6rem;color:var(--text-muted)">${tb}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Z &lt; 1: atração domina</h3>
+        <p style="font-size:var(--text-sm)">T moderada, P alta. As forças atrativas entre moléculas puxam umas para as outras → volume menor que o ideal. Ex: CO₂ a 200 atm e 300 K (Z ≈ 0,8).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Z &gt; 1: repulsão domina</h3>
+        <p style="font-size:var(--text-sm)">T muito alta ou P extrema. O volume excluído pelas moléculas (parâmetro b) impede compressão — volume maior que o ideal. Ex: H₂ quase sempre (T_Boyle baixa).</p>
+      </div>
+    </div>
+  </section>
+
+    <div class="real-life-card">
     <div class="real-life-label">No cotidiano</div>
     <p class="module-text">Submarinos comprimem ar a 200 atm em cilindros. Airbags usam decomposição de NaN₃ para gerar N₂ em milissegundos. Refinarias separam O₂ por PSA (pressão oscilante) explorando adsorção diferencial. A separação isotópica do urânio enriquecido usa efusão de UF₆ em cascata de milhares de estágios.</p>
   </div>
@@ -293,6 +451,23 @@ export function render(outlet) {
   const canvas = document.getElementById('kmt-canvas');
   if (canvas) startKMTCanvas(canvas);
   calcIdealGas(); calcVdW(); calcDalton(); calcGraham();
+  calcZ();
+  document.getElementById('z-P')?.addEventListener('input', e => {
+    _zP = parseInt(e.target.value, 10); calcZ();
+  });
+  document.getElementById('z-T')?.addEventListener('input', e => {
+    _zT = parseInt(e.target.value, 10); calcZ();
+  });
+  document.getElementById('z-gas-btns')?.querySelectorAll('[data-zgas]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _zGasIdx = parseInt(btn.dataset.zgas, 10);
+      document.getElementById('z-gas-btns').querySelectorAll('[data-zgas]').forEach(b => {
+        b.className = 'btn btn-xs ' + (parseInt(b.dataset.zgas,10) === _zGasIdx ? 'btn-secondary' : 'btn-ghost');
+      });
+      calcZ();
+    });
+  });
+
 
   document.getElementById('kmt-temp')?.addEventListener('input', e => {
     _canvasTemp = parseInt(e.target.value, 10);

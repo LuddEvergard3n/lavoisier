@@ -558,6 +558,195 @@ export function render(outlet) {
     </div>
   </section>
 
+  <!-- E1 e comparação SN1/SN2/E1/E2 -->
+  <section class="module-section">
+    <h2 class="module-section-title">E1 — Eliminação unimolecular e diagrama de competição</h2>
+    <p class="module-text">
+      E1 é o análogo de SN1 para eliminação: carbocátion intermediário, depois proton
+      transferido para a base. Competição com SN1 depende da nucleofilicidade vs basicidade
+      do reagente e da temperatura (calor favorece eliminação por ΔS).
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        E1: R-X → R⁺ + X⁻ (lento) → Base remove H-β → alceno (rápido)
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        Taxa = k[R-X] — depende apenas do substrato (unimolecular).<br>
+        Zaitsev: alceno mais substituído (termodinamicamente estável).<br>
+        Carbocátion pode sofrer rearranjo antes de eliminar (Wagner-Meerwein).
+      </p>
+    </div>
+    <div style="overflow-x:auto;margin-bottom:var(--space-4)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Mecanismo</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Etapas</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Substrato</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Nucleófilo/Base</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Solvente</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Estereoquímica</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['SN2','1 (concertado)','C primário','Nu forte, base fraca','Aprótico polar (DMSO)','Inversão de Walden'],
+            ['SN1','2 (carbocátion)','C terciário','Nu fraco, base fraca','Prótico polar (H₂O)','Racemização'],
+            ['E2','1 (concertado)','C 2°/3°','Base forte volumosa','Aprótico polar','Anti-periplanar, Zaitsev/Hofmann'],
+            ['E1','2 (carbocátion)','C terciário','Base fraca, T alta','Prótico polar','Zaitsev, possível rearranjo'],
+          ].map(_r => { const [m,e,s,n,sol,st]=_r; return `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-family:monospace;font-weight:700;color:var(--accent-electron)">${m}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">${e}</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-bond)">${s}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">${n}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${sol}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--accent-organic)">${st}</td>
+          </tr>`; }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SEAr -->
+  <section class="module-section">
+    <h2 class="module-section-title">Substituição eletrofílica aromática (SEAr)</h2>
+    <p class="module-text">
+      O anel aromático ataca eletrófilos ativados para manter a aromaticidade.
+      Mecanismo geral: formação de aducto σ (Wheland) → perda de H⁺ → restaura aromaticidade.
+      Grupos na posição <em>orto/para-ativadores</em> (doadores: –OH, –NH₂, –CH₃) vs
+      <em>meta-desativadores</em> (retiradores: –NO₂, –CF₃, –SO₃H).
+    </p>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-bottom:var(--space-5)">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Halogenação</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">C₆H₆ + Br₂ → C₆H₅Br + HBr &nbsp;(cat: FeBr₃)</p>
+        <p style="font-size:var(--text-sm)">FeBr₃ ativa Br₂: gera Br⁺ (eletrofílico). Monobromação controlada; dibromação possível em excesso.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Nitração</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">C₆H₆ + HNO₃ → C₆H₅NO₂ + H₂O &nbsp;(cat: H₂SO₄)</p>
+        <p style="font-size:var(--text-sm)">H₂SO₄ gera o íon nitrônio NO₂⁺ (forte eletrofílico). Base industrial do TNT, anilina, corantes azo.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">Friedel-Crafts — Alquilação</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">C₆H₆ + RCl → C₆H₅R + HCl &nbsp;(cat: AlCl₃)</p>
+        <p style="font-size:var(--text-sm)">AlCl₃ gera carbocátion R⁺. Problema: polialquilação e rearranjos de carbocátion. Limitada a C primário sem rearranjo por Scholl.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">Friedel-Crafts — Acilação</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">C₆H₆ + RCOCl → C₆H₅COR + HCl &nbsp;(cat: AlCl₃)</p>
+        <p style="font-size:var(--text-sm)">Gera cátion acílio RCO⁺ (estável). Sem rearranjo, sem poliacilação (C=O desativador). Usado em síntese de fármacos (ibuprofeno, naproxeno).</p>
+      </div>
+    </div>
+    <div class="info-card" style="background:var(--bg-raised)">
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        <strong style="color:var(--accent-bond)">Efeito mesomérico (+M)</strong> — grupo doa elétrons por ressonância ao anel (–OH, –OR, –NH₂, –NR₂): ativação orto/para.
+        <br><strong style="color:var(--accent-reaction)">Efeito mesomérico (–M)</strong> — grupo retira elétrons por ressonância (–NO₂, –C=O, –C≡N): desativação meta.
+        <br><strong style="color:var(--accent-electron)">Efeito indutivo (−I)</strong> — retirada por eletronegatividade ao longo da cadeia σ: halogênios são desativadores meta-leves apesar de orto/para-orientadores por +M.
+      </p>
+    </div>
+  </section>
+
+  <!-- Química de Carbonila -->
+  <section class="module-section">
+    <h2 class="module-section-title">Química de carbonila — adição nucleofílica e condensação aldólica</h2>
+    <p class="module-text">
+      O grupo carbonila C=O é o centro reativo mais importante da síntese orgânica.
+      O carbono carbonílico é eletrofílico (δ+) — alvo de nucleófilos. O oxigênio é
+      nucleofílico e básico.
+    </p>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-bottom:var(--space-5)">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Adição nucleofílica 1,2</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">R₂C=O + Nu⁻ → R₂C(Nu)(O⁻) → produto</p>
+        <p style="font-size:var(--text-sm)">Aldeídos &gt; cetonas (menos impedimento + mais δ+). Nu típicos: H⁻ (NaBH₄ → álcool), R⁻Li/RMgX (Grignard → álcool), CN⁻ (cianoidrina), RNH₂ (imina/enamine).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">Condensação aldólica</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">2 CH₃CHO → CH₃CH(OH)CH₂CHO (aldol)</p>
+        <p style="font-size:var(--text-sm)">Base abstrai H-α (C adjacente à C=O) → enolato (nucleofílico no Cα) ataca outra carbonila. Produto: β-hidroxi carbonila. Desidratação: enona conjugada (α,β-insaturada). Essencial em síntese de C–C.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">Reações de acilação</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">RCOCl + Nu → RCONU + Cl⁻</p>
+        <p style="font-size:var(--text-sm)">Derivados: cloreto de acila, anidrido, éster, amida — por ordem decrescente de reatividade. Hidrólise de éster (Fischer) e amida. Transesterificação (biodiesel). Acilação de Schotten-Baumann.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Reações de oxidação/redução</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">RCHO → RCOOH (KMnO₄) | R₂C=O → R₂CHOH (NaBH₄)</p>
+        <p style="font-size:var(--text-sm)">Aldeídos oxidam facilmente (Tollens, Fehling, KMnO₄). Cetonas resistem à oxidação sem ruptura de cadeia. NaBH₄ reduz C=O sem reduzir C=C. LiAlH₄ mais forte: reduz ésteres, amidas.</p>
+      </div>
+    </div>
+    <!-- Reatividade relativa -->
+    <div class="info-card" style="background:var(--bg-raised)">
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        <strong style="color:var(--accent-electron)">Reatividade de derivados de carbonila (nucleofílica):</strong><br>
+        Cloreto de acila &gt; Anidrido &gt; Éster ≈ Ácido carboxílico &gt; Amida<br>
+        <em>Cada reação converte um derivado mais reativo em outro menos reativo — regra geral de substituição nucleofílica acílica.</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- Reações pericíclicas -->
+  <section class="module-section">
+    <h2 class="module-section-title">Reações pericíclicas — Diels-Alder e Woodward-Hoffmann</h2>
+    <p class="module-text">
+      Reações pericíclicas ocorrem via estado de transição cíclico concertado — sem
+      intermediários iônicos ou radicais. Controladas pela simetria dos orbitais de fronteira
+      (HOMO/LUMO). Três classes: cicloadição, eletrocíclica, sigmatrópica.
+    </p>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-bottom:var(--space-5)">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Diels-Alder [4+2]</h3>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">Dieno (4π) + dienófilo (2π) → cicloexeno</p>
+        <p style="font-size:var(--text-sm)">O dieno deve estar em conformação s-cis. Dienófilo ativado com grupos –C=O, –CN, –NO₂ (abaixam LUMO). Regioquímica: regra orto/para. Estereoquímica: sin (supra-supra). Produto: anel de 6 membros com dois novos centros estereogênicos — controlados (endo/exo).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">Regras de Woodward-Hoffmann</h3>
+        <p style="font-size:var(--text-sm)">Baseadas na simetria do HOMO do nucleófilo + LUMO do eletrófilo. Para cicloadição [4+2]: HOMO₄π + LUMO₂π → fase compatível (suprafacial em ambos) → permitida termicamente. [2+2] térmico = proibido (fases opostas) → requer fotoquímica. Regra: (4n+2)π térmico = permitido; (4n)π = proibido térmico.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">Reações eletrocíclicas</h3>
+        <p style="font-size:var(--text-sm)">Abertura/fechamento de anel por rotação de orbitais terminais. Polienio fecha ciclicamente. Sistema 4n (butadieno→ciclobuteno): térmico = disrotatório; fotoquímico = conrotatório. Sistema 4n+2 (hexatrieno→cicloexadieno): térmico = conrotatório; fotoquímico = disrotatório. Estereoquímica prevista rigorosamente.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Retrossíntese</h3>
+        <p style="font-size:var(--text-sm)">Estratégia de síntese trabalhando para trás: partir do produto e identificar desconexões (→ precursores) até chegar a materiais disponíveis. Diels-Alder é uma desconexão chave: retro-DA divide o anel em dieno + dienófilo. Notação Corey: ⟹ = passo sintético inverso.</p>
+      </div>
+    </div>
+    <div style="overflow-x:auto;margin-bottom:var(--space-3)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Classe</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Tipo</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Condição térmica</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Condição fotoquímica</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['Cicloadição','[4+2] Diels-Alder','Permitida (supra-supra)','Proibida'],
+            ['Cicloadição','[2+2]','Proibida','Permitida'],
+            ['Eletrocíclica','4n (butadieno)','Disrotatória','Conrotatória'],
+            ['Eletrocíclica','4n+2 (hexatrieno)','Conrotatória','Disrotatória'],
+            ['Sigmatrópica','[1,3]-H shift','Proibida','Permitida'],
+            ['Sigmatrópica','[1,5]-H shift','Permitida','Proibida'],
+            ['Sigmatrópica','[3,3] Cope/Claisen','Permitida','—'],
+          ].map(_r => { const [cl,tp,th,ph]=_r; return `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-electron)">${cl}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace">${tp}</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-organic)">${th}</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-bond)">${ph}</td>
+          </tr>`; }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
   <!-- Exercício -->
   <section class="module-section">
     <h2 class="module-section-title">Exercício</h2>

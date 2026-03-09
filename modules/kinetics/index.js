@@ -425,7 +425,195 @@ export function render(outlet) {
   </section>
 
   <!-- Cotidiano -->
-  <div class="real-life-card">
+  <!-- Mecanismos de reação -->
+  <section class="module-section">
+    <h2 class="module-section-title">Mecanismos de reação multi-etapa</h2>
+    <p class="module-text">
+      A equação global de uma reação é a soma de etapas elementares.
+      A <strong>etapa determinante</strong> (mais lenta) controla a lei de velocidade
+      observável — o mecanismo completo não está visível na equação global.
+    </p>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Etapa elementar vs global</h3>
+        <p style="font-size:var(--text-sm)">Etapa elementar: molecularidade = ordem. Bimolecular → v = k[A][B]. Termolecular: raro. A ordem global NÃO necessariamente reflete a estequiometria (ex: H₂ + Br₂ → 2 HBr tem v = k[H₂][Br₂]^½).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">Aproximação do estado estacionário</h3>
+        <p style="font-size:var(--text-sm)">Para intermediário I: d[I]/dt ≈ 0. Taxa de formação = taxa de consumo. Reduz sistemas de EDOs a expressão algébrica para v em função de [reagentes] e constantes de velocidade das etapas.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">Mecanismo SN1 (exemplo)</h3>
+        <p style="font-size:var(--text-sm)">Etapa 1 (lenta): R–X → R⁺ + X⁻ (ionização)<br>Etapa 2 (rápida): R⁺ + Nu⁻ → R–Nu<br>Lei de velocidade: v = k[R–X] (1ª ordem). Etapa 1 é determinante: R⁺ é o intermediário.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">Mecanismo de Lindemann</h3>
+        <p style="font-size:var(--text-sm)">Reações unimoleculares (isomerização, decomposição) requerem ativação por colisão antes da reação. A⁺ M → A* + M (ativação); A* → P (reação). A baixa P, v ∝ P² (2ª ordem); a alta P, v ∝ P (1ª ordem).</p>
+      </div>
+    </div>
+
+    <!-- Catálise enzimática — Michaelis-Menten -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Catálise enzimática — Michaelis-Menten
+    </h3>
+    <p class="module-text">
+      E + S ⇌ ES → E + P &nbsp;&nbsp;|&nbsp;&nbsp; v = V_max [S] / (K_m + [S])
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.4rem">
+        v = V_max · [S] / (K_m + [S])
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        K_m = constante de Michaelis ≈ [S] que fornece v = V_max/2. Menor K_m → maior afinidade pelo substrato.<br>
+        V_max = k_cat · [E]_total &nbsp;|&nbsp; k_cat = número de rotação (mol_produto / mol_enzima / s).<br>
+        Plot de Lineweaver-Burk: 1/v vs 1/[S] → reta com inclinação K_m/V_max.
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">V_max (μmol/L·s):</span>
+        <input type="range" id="mm-vmax" min="1" max="100" step="1" value="50"
+               style="width:120px;accent-color:var(--accent-organic)">
+        <span id="mm-vmax-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:60px">50</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">K_m (mmol/L):</span>
+        <input type="range" id="mm-km" min="0.1" max="20" step="0.1" value="2.0"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="mm-km-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:60px">2.0</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">[S] (mmol/L):</span>
+        <input type="range" id="mm-s" min="0.1" max="50" step="0.1" value="5.0"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="mm-s-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:60px">5.0</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">v atual</p>
+        <div id="mm-v" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">v / V_max</p>
+        <div id="mm-sat" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Saturação</p>
+        <div id="mm-regime" style="font-size:var(--text-sm);font-weight:600;color:var(--text-secondary)">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Equilíbrio Kp/Kc formal -->
+  <section class="module-section">
+    <h2 class="module-section-title">Equilíbrio químico — Kp, Kc e grau de dissociação</h2>
+    <p class="module-text">
+      O equilíbrio químico é dinâmico: as taxas de reação direta e inversa se igualam.
+      A constante de equilíbrio pode ser expressa em concentrações (Kc) ou pressões parciais (Kp).
+      A relação entre elas depende da variação do número de moles de gás (Δn_g):
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-base);color:var(--accent-electron);margin-bottom:.4rem">
+        Kp = Kc · (RT)^Δn_g
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        Δn_g = (moles gasosos de produtos) − (moles gasosos de reagentes)<br>
+        R = 0,08206 L·atm/(mol·K) &nbsp;|&nbsp; T em Kelvin<br>
+        Se Δn_g = 0 → Kp = Kc (ex: H₂ + I₂ ⇌ 2 HI)<br>
+        Kc e Kp são adimensionais quando expressos em razão às concentrações/pressões padrão.
+      </p>
+    </div>
+
+    <!-- Calculadora Kp ↔ Kc -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Conversão Kp ↔ Kc
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">Kc:</span>
+        <input type="range" id="kpkc-kc" min="-8" max="8" step="0.1" value="0"
+               style="width:130px;accent-color:var(--accent-electron)">
+        <span id="kpkc-kc-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:80px">1,00</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">Δn_g:</span>
+        <input type="range" id="kpkc-dn" min="-3" max="3" step="1" value="1"
+               style="width:130px;accent-color:var(--accent-bond)">
+        <span id="kpkc-dn-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:40px">+1</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">T (K):</span>
+        <input type="range" id="kpkc-T" min="200" max="1500" step="10" value="700"
+               style="width:130px;accent-color:var(--accent-organic)">
+        <span id="kpkc-T-val" style="font-size:var(--text-sm);color:var(--accent-organic);min-width:60px">700 K</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Kc</p>
+        <div id="kpkc-kc-disp" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Kp</p>
+        <div id="kpkc-kp-disp" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">(RT)^Δn</p>
+        <div id="kpkc-rt-disp" style="font-size:var(--text-base);font-weight:600;color:var(--text-secondary)">—</div>
+      </div>
+    </div>
+
+    <!-- Grau de dissociação -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:var(--space-6);margin-bottom:var(--space-3)">
+      Grau de dissociação α — A(g) ⇌ 2 B(g)
+    </h3>
+    <p class="module-text">
+      Para a reação A ⇌ 2B a pressão constante P_total com n₀ moles iniciais de A:
+      α = fração de A dissociada. Tabela de ICE → expressão de Kp em termos de α e P.
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        Kp = [4α² / (1 − α²)] · P_total
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        Dado Kp e P_total → resolver para α: α = √(Kp / (Kp + 4P_total))<br>
+        Maior P_total → menor α (Le Chatelier: reduz lado com mais moles).<br>
+        Exemplos: N₂O₄ ⇌ 2 NO₂ (Kp ≈ 0,14 atm a 25°C); PCl₅ ⇌ PCl₃ + Cl₂
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">Kp (atm):</span>
+        <input type="range" id="diss-kp" min="-4" max="2" step="0.05" value="-0.85"
+               style="width:130px;accent-color:var(--accent-electron)">
+        <span id="diss-kp-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:80px">0,14 atm</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">P_total (atm):</span>
+        <input type="range" id="diss-P" min="0.01" max="10" step="0.01" value="1.0"
+               style="width:130px;accent-color:var(--accent-bond)">
+        <span id="diss-P-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:60px">1,00 atm</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">α (grau de dissociação)</p>
+        <div id="diss-alpha" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">% dissociado</p>
+        <div id="diss-pct" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-reaction)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Efeito de P_total</p>
+        <div id="diss-effect" style="font-size:var(--text-sm);font-weight:600;color:var(--text-secondary)">—</div>
+      </div>
+    </div>
+  </section>
+
+
+    <div class="real-life-card">
     <div class="real-life-label">No cotidiano</div>
     <p class="module-text">
       O processo Haber-Bosch (síntese industrial da amônia) opera a 400–500°C e 150–300 atm com
@@ -460,6 +648,8 @@ export function render(outlet) {
   });
 
   _initCanvasAndIRL();
+  _initMM();
+  _initKpKc();
   document.querySelectorAll('[data-exopt]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (_exDone) return;
@@ -609,6 +799,76 @@ function _initCanvasAndIRL() {
     document.getElementById('irl-a0')?.addEventListener('input', e => { _irlA0=parseFloat(e.target.value); const v=document.getElementById('irl-a0-val'); if(v) v.textContent=_irlA0.toFixed(1).replace('.',',')+' M'; updateIRL(); });
     document.getElementById('irl-k')?.addEventListener('input', e => { _irlK=parseFloat(e.target.value); const v=document.getElementById('irl-k-val'); if(v) v.textContent=_irlK.toFixed(2); updateIRL(); });
     document.getElementById('irl-t')?.addEventListener('input', e => { _irlT=parseFloat(e.target.value); const v=document.getElementById('irl-t-val'); if(v) v.textContent=_irlT.toFixed(1).replace('.',',')+' s'; updateIRL(); });
+}
+
+function _initMM() {
+  function updateMM() {
+    const Vmax = parseFloat(document.getElementById('mm-vmax')?.value ?? 50);
+    const Km   = parseFloat(document.getElementById('mm-km')?.value  ?? 2.0);
+    const S    = parseFloat(document.getElementById('mm-s')?.value   ?? 5.0);
+    const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('mm-vmax-val', Vmax.toFixed(0));
+    set('mm-km-val',   Km.toFixed(1));
+    set('mm-s-val',    S.toFixed(1));
+    const v   = Vmax * S / (Km + S);
+    const sat = v / Vmax;
+    set('mm-v',      v.toFixed(2) + ' μmol/L·s');
+    set('mm-sat',    (sat * 100).toFixed(1) + ' %');
+    set('mm-regime', S < Km * 0.1 ? '1ª ordem em [S]' : S > Km * 10 ? 'Ordem zero (saturado)' : 'Mista');
+  }
+  if (document.getElementById('mm-vmax')) {
+    updateMM();
+    ['mm-vmax','mm-km','mm-s'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateMM));
+  }
+}
+
+function _initKpKc() {
+  const R = 0.08206;
+
+  function updateKpKc() {
+    const logKc = parseFloat(document.getElementById('kpkc-kc')?.value ?? 0);
+    const dn    = parseInt(document.getElementById('kpkc-dn')?.value ?? 1, 10);
+    const T     = parseInt(document.getElementById('kpkc-T')?.value ?? 700, 10);
+    const Kc    = Math.pow(10, logKc);
+    const RT_dn = Math.pow(R * T, dn);
+    const Kp    = Kc * RT_dn;
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('kpkc-kc-val',   Kc < 0.001 ? Kc.toExponential(3) : Kc.toPrecision(3));
+    set('kpkc-dn-val',   (dn >= 0 ? '+' : '') + dn);
+    set('kpkc-T-val',    T + ' K');
+    set('kpkc-kc-disp',  Kc < 0.001 ? Kc.toExponential(3) : Kc.toPrecision(4));
+    set('kpkc-kp-disp',  Kp < 0.001 ? Kp.toExponential(3) : Kp.toPrecision(4));
+    set('kpkc-rt-disp',  RT_dn.toFixed(3));
+  }
+
+  function updateDiss() {
+    const logKp = parseFloat(document.getElementById('diss-kp')?.value ?? -0.85);
+    const Ptot  = parseFloat(document.getElementById('diss-P')?.value ?? 1.0);
+    const Kp    = Math.pow(10, logKp);
+    // Kp = 4α²P/(1−α²) → α² = Kp/(Kp+4P) 
+    const alpha2 = Kp / (Kp + 4 * Ptot);
+    const alpha  = Math.sqrt(Math.max(0, alpha2));
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('diss-kp-val',  Kp.toPrecision(3) + ' atm');
+    set('diss-P-val',   Ptot.toFixed(2) + ' atm');
+    set('diss-alpha',   alpha.toFixed(4));
+    set('diss-pct',     (alpha * 100).toFixed(2) + ' %');
+    set('diss-effect',  Ptot > 1 ? 'Alta P → α menor' : Ptot < 1 ? 'Baixa P → α maior' : 'P = 1 atm (ref)');
+  }
+
+  if (document.getElementById('kpkc-kc')) {
+    updateKpKc();
+    ['kpkc-kc', 'kpkc-dn', 'kpkc-T'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateKpKc));
+  }
+  if (document.getElementById('diss-kp')) {
+    updateDiss();
+    ['diss-kp', 'diss-P'].forEach(id =>
+      document.getElementById(id)?.addEventListener('input', updateDiss));
+  }
 }
 
 export function destroy() {
