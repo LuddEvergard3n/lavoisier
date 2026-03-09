@@ -103,7 +103,7 @@
 /* -----------------------------------------------------------------------
    Alto contraste
 ----------------------------------------------------------------------- */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
   :root {
     --border-default: #6e7681;
     --text-secondary: #b1bac4;
@@ -123,6 +123,7 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -206,22 +207,14 @@ code, pre, .mono {
 /* -----------------------------------------------------------------------
    Barra de rolagem personalizada
 ----------------------------------------------------------------------- */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-base);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 }
 
 /* -----------------------------------------------------------------------

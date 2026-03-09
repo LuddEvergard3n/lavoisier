@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';" />
+  <!-- CSP via HTTP headers no servidor de produção; meta removido para evitar
+       conflitos com Firefox DevTools sandbox e HMR em desenvolvimento. -->
   <title>Lavoisier — Laboratório Visual de Química</title>
   <meta name="description" content="Laboratório interativo de pensamento químico. Visualize átomos, moléculas, ligações e reações." />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />

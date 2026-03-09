@@ -319,6 +319,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--space-4);
+  align-items: stretch;
 }
 
 .module-card {
@@ -331,6 +332,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  height: 100%;
 }
 
 .module-card:hover {
@@ -418,7 +420,19 @@
    Section dentro de módulo
 ----------------------------------------------------------------------- */
 .module-section {
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-12);  /* mais espaço entre seções */
+}
+
+/* Espaçamento explícito entre texto e elementos interativos */
+.module-text {
+  margin-bottom: var(--space-5);
+  line-height: 1.7;
+}
+
+.module-text + .module-grid,
+.module-text + .canvas-frame,
+.module-text + table {
+  margin-top: var(--space-5);
 }
 
 .module-section-title {
@@ -545,7 +559,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  align-self: start;
+  align-self: stretch;   /* ocupa toda a altura da célula do grid */
+  height: 100%;          /* garante igualdade de altura entre cards */
+  box-sizing: border-box;
 }
 
 .info-card-icon {
@@ -996,6 +1012,28 @@
   text-decoration: none;
 }
 
+.ecosystem-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ecosystem-repo {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.ecosystem-repo:hover {
+  border-color: var(--accent-bond);
+  color: var(--accent-bond);
+  text-decoration: none;
+}
+
 /* -----------------------------------------------------------------------
    Progress tracker (module)
 ----------------------------------------------------------------------- */
@@ -1015,3 +1053,88 @@
 
 .progress-step.done  { background: var(--accent-electron); }
 .progress-step.current { background: var(--state-hint); }
+
+/* -----------------------------------------------------------------------
+   Feedback de exercícios
+----------------------------------------------------------------------- */
+.feedback-correct {
+  color: var(--accent-organic);
+  background: rgba(107, 203, 119, 0.08);
+  border: 1px solid rgba(107, 203, 119, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  margin-top: var(--space-4);
+}
+
+.feedback-hint {
+  color: var(--accent-bond);
+  background: rgba(255, 209, 102, 0.08);
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  margin-top: var(--space-4);
+}
+
+/* canvas-frame: espaçamento interno */
+.canvas-frame {
+  margin: var(--space-4) 0 var(--space-2);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* -----------------------------------------------------------------------
+   Espaçamento interno de seções — garante respiração entre elementos
+----------------------------------------------------------------------- */
+
+/* Tabelas dentro de módulos */
+.module-section table {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+/* Range sliders e controles interativos */
+.module-section input[type="range"] {
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+/* Botões de tab agrupados */
+[id$="-tabs"] {
+  margin-bottom: var(--space-4);
+}
+
+/* Bloco de resultado / info após calculadoras */
+[id$="-content"].info-card,
+[id$="-content"] {
+  margin-top: 0;
+}
+
+/* Exercícios — espaço entre o enunciado e as opções */
+#exercise-section .module-text,
+[id*="ex-question"],
+#ex-question {
+  margin-bottom: var(--space-5);
+}
+
+/* Separador visual antes da seção de exercícios */
+#exercise-section,
+[id="exercise-section"] {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-8);
+  margin-top: var(--space-4);
+}
+
+/* Garante que grids de info-cards não colem em texto anterior */
+.module-section > .module-grid {
+  margin-top: var(--space-4);
+}
+
+/* Faz o conteúdo dos info-cards crescer para alinhar o fundo dos cards */
+.module-grid .info-card > p:last-child,
+.module-grid .info-card > div:last-child {
+  flex-grow: 1;
+}

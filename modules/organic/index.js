@@ -192,6 +192,23 @@ const EXERCISE = {
       ]
     },
     {
+      title: 'Isomeria de metameria — C₅H₁₂O (éteres)',
+      desc: 'Mesma função orgânica, diferente distribuição da cadeia carbônica em torno do heteroátomo.',
+      items: [
+        { name:'metil butil éter',  struct:'CH₃–O–C₄H₉',       bp:'+71°C', note:'cadeia de 1C + 4C em torno do O' },
+        { name:'etil propil éter',  struct:'C₂H₅–O–C₃H₇',      bp:'+63°C', note:'cadeia de 2C + 3C em torno do O' },
+        { name:'dipropil éter',     struct:'C₃H₇–O–C₃H₇',      bp:'+91°C', note:'cadeias iguais de 3C; isômero de função com 1-pentanol C₅H₁₁OH' },
+      ]
+    },
+    {
+      title: 'Tautomeria cetona-enol — C₃H₆O',
+      desc: 'Equilíbrio dinâmico entre dois isômeros interconvertíveis. Não é isomeria estática — a estrutura muda em solução.',
+      items: [
+        { name:'propanona (cetona)', struct:'CH₃–CO–CH₃',         bp:'+56°C', note:'Forma predominante (>99%). Grupo carbonila C=O.' },
+        { name:'prop-1-en-2-ol (enol)', struct:'CH₂=C(OH)–CH₃',  bp:'?',     note:'Forma minoritária (<1%). Grupo enol C=C–OH. Mais reativo.' },
+      ]
+    },
+    {
       title: 'Isomeria geométrica — cis/trans C₄H₈',
       desc: 'Grupos no mesmo lado (cis) ou lados opostos (trans) da dupla.',
       items: [
@@ -404,11 +421,17 @@ export function render(outlet) {
       Isômeros têm a mesma fórmula molecular, mas estrutura ou arranjo diferente,
       resultando em propriedades físicas e químicas distintas.
     </p>
+    <p class="module-text" style="margin-bottom:.75rem">
+      Isomeria <strong>plana (constitucional)</strong>: mesma fórmula molecular, conectividade diferente.
+      Isomeria <strong>espacial (estereoisomeria)</strong>: mesma conectividade, arranjo 3D diferente.
+    </p>
     <div id="isomer-tabs" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem">
       <button class="btn btn-sm btn-secondary" id="iso-btn-0" data-iso="0">Cadeia (C₄H₁₀)</button>
       <button class="btn btn-sm btn-ghost"     id="iso-btn-1" data-iso="1">Posição (C₄H₈)</button>
       <button class="btn btn-sm btn-ghost"     id="iso-btn-2" data-iso="2">Função (C₂H₆O)</button>
-      <button class="btn btn-sm btn-ghost"     id="iso-btn-3" data-iso="3">Geométrica (C₄H₈)</button>
+      <button class="btn btn-sm btn-ghost"     id="iso-btn-3" data-iso="3">Metameria (C₅H₁₂O)</button>
+      <button class="btn btn-sm btn-ghost"     id="iso-btn-4" data-iso="4">Tautomeria (cetona-enol)</button>
+      <button class="btn btn-sm btn-ghost"     id="iso-btn-5" data-iso="5">Geométrica (C₄H₈)</button>
     </div>
     <div id="isomer-content" class="module-grid" style="grid-template-columns:1fr 1fr"></div>
   </section>
@@ -435,6 +458,102 @@ export function render(outlet) {
       <div class="info-card">
         <h3 style="margin-top:0">Exemplo completo</h3>
         <p style="font-family:monospace;font-size:var(--text-sm)">CH₃CH₂CH₂OH<br>prop + an + ol<br>= <strong>propan-1-ol</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Propriedades físicas -->
+  <section class="module-section">
+    <h2 class="module-section-title">Propriedades físicas — forças intermoleculares</h2>
+    <p class="module-text">
+      O ponto de ebulição (PE) e a solubilidade dependem das forças intermoleculares (FIM):
+      <strong>ligação de hidrogênio</strong> (LH: X–H···Y, onde X,Y = N, O, F) &gt;
+      <strong>dipolo-dipolo</strong> &gt; <strong>dispersão de London</strong> (Van der Waals).
+      Maior FIM → maior PE; "semelhante dissolve semelhante".
+    </p>
+    <div style="overflow-x:auto;margin:.75rem 0">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Função</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Exemplo</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">PE (°C)</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">FIM dominante</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Solubilidade em H₂O</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Ácido carboxílico</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">CH₃COOH (C₂)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-reaction)">+118</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">LH forte (dímeros)</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Miscível (C₁–C₄)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Álcool</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">C₂H₅OH (C₂)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-reaction)">+78</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">LH (O–H···O)</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Miscível (C₁–C₃); ↓ com C</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Amina (1ária)</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">C₂H₅NH₂ (C₂)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-bond)">+17</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">LH (N–H···N); mais fraco que O</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Solúvel (C₁–C₆)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Aldeído</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">CH₃CHO (C₂)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-bond)">+20</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Dipolo C=O; sem LH entre si</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Miscível (C₁–C₂)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Cetona</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">(CH₃)₂CO (C₃)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-bond)">+56</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Dipolo C=O; sem LH entre si</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Miscível (C₁–C₅); solvente</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Éster</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">CH₃COOC₂H₅ (C₄)</td>
+            <td style="padding:.4rem .6rem;color:var(--accent-bond)">+77</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Dipolo fraco; sem LH entre si</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Pouco solúvel; aromas frutados</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Éter</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">C₂H₅OC₂H₅ (C₄)</td>
+            <td style="padding:.4rem .6rem;color:var(--text-secondary)">+35</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Dipolo fraco (O polarizado)</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Levemente solúvel; inflamável</td>
+          </tr>
+          <tr>
+            <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Alcano</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">C₄H₁₀ (C₄)</td>
+            <td style="padding:.4rem .6rem;color:var(--text-muted)">−1</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">London (apolar); cresce com M</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Insolúvel em água</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-top:.5rem">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">Regra geral de PE</h3>
+        <p style="font-size:var(--text-sm)">Mesma massa molar, maior PE quem tem LH. Mesma função, PE sobe com o número de carbono (~20–30 °C por CH₂). Ramificação reduz PE (menos contato entre moléculas).</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">Álcool vs éter (C₂H₆O)</h3>
+        <p style="font-size:var(--text-sm)">Etanol: PE = +78 °C (LH). Éter metílico (dimetil éter): PE = −24 °C (sem LH entre moléculas do éter). Diferença de 102 °C — mesma fórmula molecular!</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">Solubilidade</h3>
+        <p style="font-size:var(--text-sm)">"Semelhante dissolve semelhante": polares dissolvem em polares (água, etanol); apolares dissolvem em apolares (hexano, éter). Grupo OH torna a molécula mais hidrófila, cadeia carbônica a torna mais hidrófoba.</p>
       </div>
     </div>
   </section>

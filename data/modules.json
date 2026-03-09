@@ -322,6 +322,32 @@
     ]
   },
   {
+    "id": "inorganic",
+    "title": "Funções Inorgânicas",
+    "subtitle": "Ácidos, bases, sais e óxidos — nomenclatura e reatividade",
+    "icon": "&#9783;",
+    "accentClass": "badge-reaction",
+    "route": "/module/inorganic",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "mixtures",
+    "title": "Separação de Misturas",
+    "subtitle": "Filtração, destilação, cromatografia e centrifugação",
+    "icon": "&#9711;",
+    "accentClass": "badge-organic",
+    "route": "/module/mixtures",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
     "id": "stoichiometry",
     "title": "Estequiometria",
     "subtitle": "Proporções, mol e massa molar",
@@ -445,6 +471,19 @@
     "icon": "&#9733;",
     "accentClass": "badge-reaction",
     "route": "/module/nuclear",
+    "status": "available",
+    "sections": [],
+    "concepts": [],
+    "exercises": [],
+    "realLife": []
+  },
+  {
+    "id": "environmental",
+    "title": "Química Ambiental",
+    "subtitle": "Efeito estufa, chuva ácida, ozônio, poluição e energias",
+    "icon": "&#127758;",
+    "accentClass": "badge-organic",
+    "route": "/module/environmental",
     "status": "available",
     "sections": [],
     "concepts": [],

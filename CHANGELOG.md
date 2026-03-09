@@ -4,6 +4,126 @@ Todas as alterações notáveis seguem o formato [Semantic Versioning](https://s
 
 ---
 
+## [0.7.1] — 2026-03-09
+
+### Corrigido
+
+**CSP (Content-Security-Policy):**
+- Removido `<meta http-equiv="Content-Security-Policy">` do `index.html`.
+  O meta CSP estava bloqueando o sandbox de avaliação do Firefox DevTools,
+  gerando erros falsos-positivos de `script-src 'self'`.
+  Em produção (GitHub Pages), a CSP deve ser configurada via headers HTTP no servidor.
+
+**CSS — erros de compatibilidade (Firefox):**
+- `base.css:106` — `@media (prefers-contrast: high)` → `more` (valor correto conforme spec)
+- `base.css:126` — adicionado `text-size-adjust: 100%` antes do prefixo webkit
+- `base.css:209–225` — seletores `::-webkit-scrollbar*` envolvidos em `@supports selector()`
+  para suprimir aviso no Firefox (que não suporta webkit scrollbar API)
+
+**Cards de altura igual (todos os módulos):**
+- `.info-card`: `align-self` alterado de `start` para `stretch` + `height: 100%` + `box-sizing: border-box`
+- Cards em grids agora têm altura uniforme na mesma linha
+- Adicionado `flex-grow: 1` no último filho de `.module-grid .info-card`
+  para alinhar o fundo do conteúdo
+
+**Espaçamento e respiração visual:**
+- `.module-section`: `margin-bottom` aumentado para `space-12`
+- `.module-text`: `margin-bottom: space-5` + `line-height: 1.7`
+- Adicionadas regras de separação entre `.module-text` e grids/canvas/tabelas
+- Seções de exercício recebem `border-top` + `padding-top` para separação clara
+- Grids de info-cards agora têm `margin-top` explícito quando precedidos de texto
+- Adicionadas classes `.feedback-correct` e `.feedback-hint` com padding e bordas
+  coloridas (verde orgânico / amarelo bond)
+
+**Bioquímica (`biochemistry`):**
+- Card "Estrutura Primária" — sequência de proteína completa substituída por
+  versão truncada com `<code>` formatado; card não alarga mais a linha inteira
+
+---
+
+## [0.7.0] — 2026-03-09
+
+### Adicionado — Cobertura EM: ~70% → ~100%
+
+#### Novo módulo: Química Ambiental (`environmental`)
+- **Efeito estufa**: mecanismo IR/UV, GWP₁₀₀ de 6 GEEs (CO₂, CH₄, N₂O, O₃, H₂O, HFCs)
+- **Canvas interativo**: fótons solares (amarelo) e IR (vermelho) em simulação com slider de CO₂ (280–1200 ppm); moléculas de CO₂ reemitem IR aleatoriamente; estimativa de temperatura dinâmica
+- **Chuva ácida**: 5 etapas de reação (SOx e NOx → H₂SO₄ e HNO₃), impactos, soluções
+- **Camada de ozônio**: ciclo de Chapman, fotólise de CFC, destruição catalítica por Cl•, Protocolo de Montreal
+- **Poluição da água**: 7 poluentes com fontes e efeitos (DBO, eutrofização, Pb²⁺, Hg²⁺, Cd²⁺, NO₃⁻, microplásticos)
+- **Agrotóxicos e solo**: organoclorados (DDT), organofosforados (glifosato), resíduos sólidos/chorume
+- **Energias**: tabela comparativa de 8 fontes com gCO₂eq/kWh, vantagens e desvantagens
+- 3 exercícios com feedback e progressão
+
+#### Expansão: Química Orgânica (`organic`)
+- **Isomeria de metameria**: novo tab com 3 éteres C₅H₁₂O exemplificando distribuição de cadeia em torno do heteroátomo
+- **Tautomeria cetona-enol**: novo tab (C₃H₆O) — equilíbrio dinâmico, formas cetônica e enólica, reatividade
+- **Propriedades físicas**: nova seção com tabela comparativa PE/solubilidade por função (8 funções), regras gerais de FIM, comparativo álcool vs éter
+- Total de tabs de isomeria: 6 (era 4); cobre todos os 5 tipos do EM + estereoquímica já existente
+
+### Alterado
+
+- `modules.json`: 17 módulos (era 16)
+- `main.js`, `home.js`, `modules-list.js`: `environmental` registrado
+- Testes: 553 passando (era 547)
+
+### Cobertura curricular atualizada
+
+| Nível | v0.5.1 | v0.6.0 | v0.7.0 |
+|-------|--------|--------|--------|
+| EM 1º–3º ano | ~70% | ~88% | ~100% |
+| ENEM/vestibular | ~75% | ~88% | ~100% |
+| Graduação 1º ano | ~60% | ~60% | ~60% |
+| Graduação 2º ano+ | ~25% | ~25% | ~25% |
+
+**Cobertura EM concluída.** Lacunas de graduação (quantum, fase, espectroscopia analítica, estado sólido) ficam para versões futuras se necessário.
+
+---
+
+## [0.6.0] — 2026-03-09
+
+### Adicionado — Cobertura completa do Ensino Médio
+
+**2 novos módulos:**
+
+#### Funções Inorgânicas (`inorganic`)
+- **Ácidos**: classificação Arrhenius, hidracídeos vs oxiácidos, força (Ka/pKa), 
+  nomenclatura sistemática (hipo…oso / …oso / …ico / per…ico), 12 ácidos com dados
+- **Bases**: nomenclatura, força, regra de solubilidade dos hidróxidos, 10 bases com dados
+- **Sais**: normal / ácido / básico / duplo — reação de formação, solubilidade, 10 sais
+- **Óxidos**: ácidos, básicos, anfóteros e neutros — reação característica e NOx, 12 óxidos
+- **Calculadora de pH** para ácidos e bases fortes (slider de concentração, exibe H⁺, OH⁻, pH, pOH, meio)
+- 3 exercícios com feedback e progressão
+
+#### Separação de Misturas (`mixtures`)
+- 6 técnicas interativas: filtração, decantação, destilação, cristalização, cromatografia, centrifugação
+- Canvas animado de destilação: partículas bicategorizadas por ponto de ebulição,
+  slider de temperatura controla taxa de evaporação em tempo real
+- **Calculadora de Rf** cromatográfico com interpretação qualitativa
+- 3 exercícios com feedback e progressão (inclui cálculo numérico de Rf)
+
+### Alterado
+
+- `modules.json`: 16 módulos (era 14); novos módulos inseridos na posição lógica do EM (após Reações)
+- `main.js`: rota dinâmica registrada para `inorganic` e `mixtures`
+- `home.js` e `modules-list.js`: ambos os módulos incluídos na listagem completa
+- Testes: 547 passando (era 535)
+
+### Cobertura EM estimada atualizada
+
+| Nível | Antes | Depois |
+|-------|-------|--------|
+| EM 1º–3º ano | ~70% | ~88% |
+| ENEM/vestibular | ~75% | ~88% |
+
+**Lacunas EM que permanecem** (fora do escopo desta versão):
+- Isomeria óptica e geométrica detalhada (coberta parcialmente em organic)
+- Polímeros naturais e sintéticos com propriedades
+- Química ambiental (camada de ozônio, poluição, agrotóxicos)
+- Resolução de problemas quantitativos multi-etapa (regra de três em série)
+
+---
+
 ## [0.5.1] — 2026-03-08
 
 ### Corrigido — bug crítico: código JS fora de render()

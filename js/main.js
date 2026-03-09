@@ -131,6 +131,8 @@ async function _loadModule(id) {
     'periodic-table':   () => import('../modules/periodic-table/index.js'),
     'chemical-bonds':   () => import('../modules/chemical-bonds/index.js'),
     'reactions':        () => import('../modules/reactions/index.js'),
+    'inorganic':        () => import('../modules/inorganic/index.js'),
+    'mixtures':         () => import('../modules/mixtures/index.js'),
     'stoichiometry':    () => import('../modules/stoichiometry/index.js'),
     'solutions':        () => import('../modules/solutions/index.js'),
     'thermochemistry':  () => import('../modules/thermochemistry/index.js'),
@@ -141,6 +143,7 @@ async function _loadModule(id) {
     'analytical':       () => import('../modules/analytical/index.js'),
     'biochemistry':     () => import('../modules/biochemistry/index.js'),
     'nuclear':          () => import('../modules/nuclear/index.js'),
+    'environmental':    () => import('../modules/environmental/index.js'),
   };
 
   const loader = map[id];

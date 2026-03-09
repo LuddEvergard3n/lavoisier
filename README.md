@@ -3,12 +3,47 @@
 > Laboratório interativo de pensamento químico. Do ensino médio ao ensino superior.
 
 Parte do ecossistema educacional:
-[Heródoto](https://luddevergard3n.github.io/Herodoto/) ·
-[Euclides](https://luddevergard3n.github.io/euclides/) ·
-[Quintiliano](https://luddevergard3n.github.io/quintiliano/) ·
-[Johnson](https://luddevergard3n.github.io/johnson-english/)
+[Heródoto](https://luddevergard3n.github.io/Herodoto/) · [Euclides](https://luddevergard3n.github.io/euclides/) · [Quintiliano](https://luddevergard3n.github.io/quintiliano/) · [Johnson](https://luddevergard3n.github.io/johnson-english/) · [Humboldt](https://luddevergard3n.github.io/humboldt/)
 
 ---
+
+## Ecossistema educacional
+
+| Projeto | Disciplina | Site | Repositório |
+|---------|-----------|------|-------------|
+| Heródoto | História | [site](https://luddevergard3n.github.io/Herodoto/) | [repo](https://github.com/LuddEvergard3n/Herodoto) |
+| Euclides | Matemática | [site](https://luddevergard3n.github.io/euclides/) | [repo](https://github.com/LuddEvergard3n/euclides) |
+| Quintiliano | Língua Portuguesa | [site](https://luddevergard3n.github.io/quintiliano/) | [repo](https://github.com/LuddEvergard3n/quintiliano) |
+| Johnson | Inglês | [site](https://luddevergard3n.github.io/johnson-english/) | [repo](https://github.com/LuddEvergard3n/johnson-english) |
+| **Lavoisier** | **Química** | **este projeto** | — |
+| Humboldt | Geografia | [site](https://luddevergard3n.github.io/humboldt/) | [repo](https://github.com/LuddEvergard3n/humboldt) |
+
+---
+
+
+## Cobertura curricular
+
+| Nível | Cobertura |
+|-------|-----------|
+| Ensino Médio (1º–3º ano) | ~100% |
+| ENEM / vestibular | ~100% |
+| Graduação — Química Geral (1º ano) | ~60% |
+| Graduação — 2º ano em diante | ~25% |
+
+**Lacunas EM restantes:** isomeria óptica detalhada, polímeros com propriedades, química ambiental (ozônio, poluição).
+
+
+## Compatibilidade
+
+| Browser | Suporte |
+|---------|---------|
+| Chrome/Edge 90+ | Completo |
+| Firefox 90+ | Completo |
+| Safari 15+ | Completo |
+| Mobile (iOS/Android) | Funcional (touch em revisão) |
+
+> A CSP deve ser configurada via headers HTTP no servidor. O `<meta>` CSP foi removido
+> para evitar conflitos com as ferramentas de desenvolvimento do Firefox.
 
 ## Stack
 
@@ -47,7 +82,7 @@ lavoisier/
 │   │   └── feedback.js    — evaluateAnswer(), renderHintBox()
 │   └── views/
 │       ├── home.js, modules-list.js, sandbox.js, about.js
-├── modules/             — 14 módulos (todos disponíveis)
+├── modules/             — 17 módulos (todos disponíveis)
 │   ├── atomic-structure/
 │   ├── periodic-table/
 │   ├── chemical-bonds/
@@ -64,7 +99,7 @@ lavoisier/
 │   └── nuclear/
 ├── data/
 │   ├── elements.json  — 53 elementos
-│   └── modules.json   — 14 módulos (todos status:"available")
+│   └── modules.json   — 17 módulos (todos status:"available")
 └── tests/
     └── test-runner.js — 535 testes, Node.js stdlib only
 ```

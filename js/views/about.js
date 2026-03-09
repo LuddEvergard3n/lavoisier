@@ -42,17 +42,26 @@ export function renderAbout(outlet) {
   <h2>Parte do ecossistema educacional</h2>
 
   <div class="ecosystem-links">
-    <a href="https://luddevergard3n.github.io/Herodoto/"       target="_blank" rel="noopener" class="ecosystem-link">
-      <strong>Heródoto</strong> — História
-    </a>
-    <a href="https://luddevergard3n.github.io/euclides/"        target="_blank" rel="noopener" class="ecosystem-link">
-      <strong>Euclides</strong> — Matemática
-    </a>
-    <a href="https://luddevergard3n.github.io/quintiliano/"     target="_blank" rel="noopener" class="ecosystem-link">
-      <strong>Quintiliano</strong> — Língua Portuguesa
-    </a>
-    <a href="https://luddevergard3n.github.io/johnson-english/" target="_blank" rel="noopener" class="ecosystem-link">
-      <strong>Johnson</strong> — Inglês
+    <div class="ecosystem-item">
+      <a href="https://luddevergard3n.github.io/Herodoto/" target="_blank" rel="noopener" class="ecosystem-link"><strong>Heródoto</strong> — História</a>
+      <a href="https://github.com/LuddEvergard3n/Herodoto" target="_blank" rel="noopener" class="ecosystem-repo">repo</a>
+    </div>
+    <div class="ecosystem-item">
+      <a href="https://luddevergard3n.github.io/euclides/" target="_blank" rel="noopener" class="ecosystem-link"><strong>Euclides</strong> — Matemática</a>
+      <a href="https://github.com/LuddEvergard3n/euclides" target="_blank" rel="noopener" class="ecosystem-repo">repo</a>
+    </div>
+    <div class="ecosystem-item">
+      <a href="https://luddevergard3n.github.io/quintiliano/" target="_blank" rel="noopener" class="ecosystem-link"><strong>Quintiliano</strong> — Língua Portuguesa</a>
+      <a href="https://github.com/LuddEvergard3n/quintiliano" target="_blank" rel="noopener" class="ecosystem-repo">repo</a>
+    </div>
+    <div class="ecosystem-item">
+      <a href="https://luddevergard3n.github.io/johnson-english/" target="_blank" rel="noopener" class="ecosystem-link"><strong>Johnson</strong> — Inglês</a>
+      <a href="https://github.com/LuddEvergard3n/johnson-english" target="_blank" rel="noopener" class="ecosystem-repo">repo</a>
+    </div>
+    <div class="ecosystem-item">
+      <a href="https://luddevergard3n.github.io/humboldt/" target="_blank" rel="noopener" class="ecosystem-link"><strong>Humboldt</strong> — Geografia</a>
+      <a href="https://github.com/LuddEvergard3n/humboldt" target="_blank" rel="noopener" class="ecosystem-repo">repo</a>
+    </div
     </a>
   </div>
 
