@@ -123,6 +123,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -203,15 +205,17 @@ code, pre, .mono {
 }
 
 /* -----------------------------------------------------------------------
-   Barra de rolagem personalizada (WebKit/Blink)
+   Barra de rolagem personalizada
 ----------------------------------------------------------------------- */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: var(--radius-full);
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 /* -----------------------------------------------------------------------
    Animação de carregamento

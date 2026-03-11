@@ -91,7 +91,19 @@
         "context": "Cozinha",
         "example": "O sal de cozinha (NaCl) se dissolve em água porque o Na perde 1 elétron e vira Na⁺, e o Cl ganha 1 elétron e vira Cl⁻. Esses íons são atraídos pelas moléculas polares da água."
       }
-    ]
+    ],
+    "level": "high-school",
+    "topics": [
+      "modelos atômicos",
+      "prótons nêutrons elétrons",
+      "números quânticos",
+      "configuração eletrônica",
+      "orbitais",
+      "Aufbau Pauli Hund",
+      "dualidade onda-partícula"
+    ],
+    "prerequisites": null,
+    "estimatedTime": 25
   },
   {
     "id": "periodic-table",
@@ -167,7 +179,21 @@
         "context": "Ambiente",
         "example": "Os gases nobres (Família 0) não reagem — por isso o argônio é usado como gás inerte em soldagem para proteger o metal fundido de oxidação."
       }
-    ]
+    ],
+    "level": "high-school",
+    "topics": [
+      "tabela periódica",
+      "tendências periódicas",
+      "raio atômico",
+      "energia de ionização",
+      "eletronegatividade",
+      "Z efetivo",
+      "grupos e períodos"
+    ],
+    "prerequisites": [
+      "atomic-structure"
+    ],
+    "estimatedTime": 20
   },
   {
     "id": "chemical-bonds",
@@ -245,13 +271,22 @@
       }
     ],
     "topics": [
-      "Hibridização sp/sp²/sp³/sp³d/sp³d²",
-      "Ângulos de ligação",
-      "Forças de London",
-      "Dipolo-dipolo",
-      "Ligação de hidrogênio",
-      "Anomalia da água"
-    ]
+      "ligação iônica",
+      "ligação covalente",
+      "ligação metálica",
+      "polaridade",
+      "VSEPR",
+      "geometria molecular",
+      "hibridização",
+      "TOM",
+      "forças intermoleculares"
+    ],
+    "level": "high-school",
+    "prerequisites": [
+      "atomic-structure",
+      "periodic-table"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "reactions",
@@ -327,7 +362,22 @@
         "context": "Segurança",
         "example": "O extintor de CO₂ age de duas formas: abafa o fogo (retira O₂) e resfria a superfície. A reação de combustão precisa de oxigênio para continuar."
       }
-    ]
+    ],
+    "level": "high-school",
+    "topics": [
+      "tipos de reação",
+      "balanceamento",
+      "redox",
+      "NOx",
+      "célula eletroquímica",
+      "E°",
+      "ΔG",
+      "espontaneidade"
+    ],
+    "prerequisites": [
+      "chemical-bonds"
+    ],
+    "estimatedTime": 25
   },
   {
     "id": "inorganic",
@@ -340,7 +390,23 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "level": "high-school",
+    "topics": [
+      "ácidos e bases",
+      "sais",
+      "óxidos",
+      "hidrólise",
+      "Brønsted-Lowry",
+      "Lewis",
+      "pH",
+      "neutralização"
+    ],
+    "prerequisites": [
+      "chemical-bonds",
+      "reactions"
+    ],
+    "estimatedTime": 25
   },
   {
     "id": "mixtures",
@@ -353,7 +419,20 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "level": "high-school",
+    "topics": [
+      "misturas homogêneas e heterogêneas",
+      "coloides",
+      "efeito Tyndall",
+      "técnicas de separação",
+      "cromatografia",
+      "Rf",
+      "destilação",
+      "filtração"
+    ],
+    "prerequisites": null,
+    "estimatedTime": 20
   },
   {
     "id": "stoichiometry",
@@ -368,10 +447,19 @@
     "exercises": [],
     "realLife": [],
     "topics": [
-      "Análise elementar",
-      "Fórmula empírica→molecular",
-      "Pureza de reagente"
-    ]
+      "mol",
+      "massa molar",
+      "balanceamento",
+      "relações estequiométricas",
+      "reagente limitante",
+      "rendimento",
+      "síntese de Haber"
+    ],
+    "level": "high-school",
+    "prerequisites": [
+      "reactions"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "solutions",
@@ -386,10 +474,22 @@
     "exercises": [],
     "realLife": [],
     "topics": [
-      "Indicadores ácido-base",
-      "Especiação de ácidos polipróticos",
-      "Titulação formal — pH no PE"
-    ]
+      "concentração",
+      "pH e pOH",
+      "propriedades coligativas",
+      "osmose",
+      "Lei de Henry",
+      "Lei de Raoult",
+      "tampões",
+      "titulação",
+      "equilíbrio ácido-base"
+    ],
+    "level": "university",
+    "prerequisites": [
+      "inorganic",
+      "stoichiometry"
+    ],
+    "estimatedTime": 35
   },
   {
     "id": "thermochemistry",
@@ -404,9 +504,21 @@
     "exercises": [],
     "realLife": [],
     "topics": [
-      "1ª/2ª/3ª lei formal",
-      "Ciclo de Carnot — eficiência máxima"
-    ]
+      "entalpia",
+      "Lei de Hess",
+      "energia de ligação",
+      "calorimetria",
+      "entalpia de formação",
+      "entropia",
+      "energia de Gibbs",
+      "espontaneidade"
+    ],
+    "level": "university",
+    "prerequisites": [
+      "stoichiometry",
+      "chemical-bonds"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "kinetics",
@@ -421,10 +533,20 @@
     "exercises": [],
     "realLife": [],
     "topics": [
-      "Equilíbrio Kp/Kc formal",
-      "Grau de dissociação α",
-      "Mecanismo de Lindemann"
-    ]
+      "velocidade de reação",
+      "lei de velocidade",
+      "ordem de reação",
+      "Arrhenius",
+      "energia de ativação",
+      "catálise",
+      "meia-vida",
+      "mecanismos de reação"
+    ],
+    "level": "university",
+    "prerequisites": [
+      "thermochemistry"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "electrochemistry",
@@ -437,7 +559,23 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "level": "university",
+    "topics": [
+      "oxidação e redução",
+      "pilhas galvânicas",
+      "E° padrão",
+      "equação de Nernst",
+      "eletrólise",
+      "Lei de Faraday",
+      "corrosão",
+      "baterias"
+    ],
+    "prerequisites": [
+      "reactions",
+      "thermochemistry"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "organic",
@@ -450,7 +588,23 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "level": "university",
+    "topics": [
+      "funções orgânicas",
+      "nomenclatura IUPAC",
+      "isomeria",
+      "estereoquímica",
+      "mecanismos SN1 SN2 E1 E2",
+      "SEAr",
+      "carbonila",
+      "polímeros",
+      "Diels-Alder"
+    ],
+    "prerequisites": [
+      "chemical-bonds"
+    ],
+    "estimatedTime": 45
   },
   {
     "id": "gases",
@@ -465,10 +619,21 @@
     "exercises": [],
     "realLife": [],
     "topics": [
-      "Fator de compressibilidade Z",
-      "Lei dos estados correspondentes",
-      "Equação do virial"
-    ]
+      "lei dos gases ideais",
+      "gás de van der Waals",
+      "fator de compressibilidade Z",
+      "pressão parcial",
+      "Lei de Dalton",
+      "efusão",
+      "Lei de Graham",
+      "distribuição de Maxwell-Boltzmann"
+    ],
+    "level": "university",
+    "prerequisites": [
+      "stoichiometry",
+      "thermochemistry"
+    ],
+    "estimatedTime": 25
   },
   {
     "id": "analytical",
@@ -483,10 +648,51 @@
     "exercises": [],
     "realLife": [],
     "topics": [
-      "Q iônico vs Ksp",
-      "Precipitação/dissolução por pH",
-      "Osmometria — determinação de Mm"
-    ]
+      "espectrofotometria",
+      "Beer-Lambert",
+      "LOD LOQ",
+      "cromatografia",
+      "CLAE",
+      "titulação complexométrica",
+      "ICP-MS",
+      "validação analítica"
+    ],
+    "level": "university",
+    "prerequisites": [
+      "solutions",
+      "spectroscopy"
+    ],
+    "estimatedTime": 35
+  },
+  {
+    "id": "symmetry",
+    "title": "Simetria Molecular",
+    "icon": "⬡",
+    "level": "graduate",
+    "topics": [
+      "grupos pontuais",
+      "elementos de simetria",
+      "tabelas de caracteres",
+      "representações irredutíveis",
+      "regras de seleção IV/Raman",
+      "teoria de grupos"
+    ],
+    "status": "stable",
+    "route": "/modules/symmetry",
+    "description": "Elementos de simetria (E, Cₙ, σ, i, Sₙ), grupos pontuais (C₁, Cₛ, C₂ᵥ, D₂h, Td, Oh e outros), tabelas de caracteres, representações irredutíveis e regras de seleção espectroscópica (IV e Raman) por simetria.",
+    "exercises": 1,
+    "realLife": [
+      "CO₂ absorve IV (aquecimento global): Σu⁺ é IV-ativo",
+      "O₂ e N₂ não absorvem IV: Σg⁺ é IV-inativo",
+      "Banda Raman A₁g do benzeno (1580 cm⁻¹): diagnóstico de aromaticidade",
+      "Diamante: apenas 1 banda Raman (1332 cm⁻¹) — ausência de simetria de inversão",
+      "Quiralidade: apenas grupos Cₙ e Dₙ são quirais"
+    ],
+    "prerequisites": [
+      "quantum",
+      "spectroscopy"
+    ],
+    "estimatedTime": 40
   },
   {
     "id": "biochemistry",
@@ -499,7 +705,25 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "level": "university",
+    "topics": [
+      "enzimas",
+      "Michaelis-Menten",
+      "glicólise",
+      "ciclo de Krebs",
+      "cadeia transportadora de elétrons",
+      "ATP",
+      "fotossíntese",
+      "proteínas",
+      "DNA"
+    ],
+    "prerequisites": [
+      "organic",
+      "thermochemistry",
+      "kinetics"
+    ],
+    "estimatedTime": 40
   },
   {
     "id": "nuclear",
@@ -512,7 +736,24 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "level": "university",
+    "topics": [
+      "decaimento radioativo",
+      "meia-vida",
+      "tipos de radiação",
+      "energia de ligação nuclear",
+      "fissão",
+      "fusão",
+      "datação",
+      "dosimetria",
+      "aplicações médicas"
+    ],
+    "prerequisites": [
+      "atomic-structure",
+      "thermochemistry"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "environmental",
@@ -525,7 +766,24 @@
     "sections": [],
     "concepts": [],
     "exercises": [],
-    "realLife": []
+    "realLife": [],
+    "level": "university",
+    "topics": [
+      "efeito estufa",
+      "camada de ozônio",
+      "CFCs",
+      "chuva ácida",
+      "poluição da água",
+      "bioacumulação",
+      "GWP",
+      "eutrofização",
+      "energias renováveis"
+    ],
+    "prerequisites": [
+      "reactions",
+      "inorganic"
+    ],
+    "estimatedTime": 25
   },
   {
     "id": "quantum",
@@ -533,13 +791,16 @@
     "subtitle": "Schrödinger, orbitais, números quânticos, OM",
     "icon": "⚛",
     "color": "electron",
-    "level": "Superior",
+    "level": "university",
     "topics": [
-      "Equação de Schrödinger",
-      "Números quânticos n,l,ml,ms",
-      "Orbitais s,p,d",
-      "TOM — HOMO/LUMO",
-      "Diagramas OM: O₂, N₂, CO"
+      "mecânica quântica",
+      "equação de Schrödinger",
+      "números quânticos",
+      "orbitais atômicos",
+      "TOM",
+      "spin",
+      "princípio de exclusão de Pauli",
+      "O₂ paramagnetismo"
     ],
     "status": "available",
     "route": "/module/quantum",
@@ -561,7 +822,12 @@
       "LEDs e painéis solares exploram transições entre orbitais moleculares.",
       "MRI hospitalar usa ressonância magnética nuclear de ¹H no corpo.",
       "Lasers semicondutores (diodo) emitem quando elétrons caem para HOMO."
-    ]
+    ],
+    "prerequisites": [
+      "atomic-structure",
+      "chemical-bonds"
+    ],
+    "estimatedTime": 35
   },
   {
     "id": "phases",
@@ -569,13 +835,16 @@
     "subtitle": "Diagramas P×T, Clausius-Clapeyron, Raoult",
     "icon": "◈",
     "color": "bond",
-    "level": "Superior",
+    "level": "university",
     "topics": [
-      "Ponto triplo e crítico",
-      "Regra de Gibbs",
-      "Equação de Clausius-Clapeyron",
-      "Diagrama da água e CO₂",
-      "Lei de Raoult — soluções ideais"
+      "diagrama de fases",
+      "ponto triplo",
+      "ponto crítico",
+      "regra das fases de Gibbs",
+      "Clausius-Clapeyron",
+      "Raoult",
+      "azeótropos",
+      "transições de fase"
     ],
     "status": "available",
     "route": "/module/phases",
@@ -597,7 +866,12 @@
       "Café descafeinado usa CO₂ supercrítico como solvente não-tóxico.",
       "Patinar no gelo funciona porque a pressão abaixa o ponto de fusão da água.",
       "Liofilização (freeze-drying) sublima água diretamente do alimento congelado."
-    ]
+    ],
+    "prerequisites": [
+      "thermochemistry",
+      "solutions"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "spectroscopy",
@@ -605,13 +879,16 @@
     "subtitle": "IV, RMN ¹H, massas, UV-Vis",
     "icon": "〰",
     "color": "organic",
-    "level": "Superior",
+    "level": "university",
     "topics": [
-      "Beer-Lambert",
-      "Infravermelho — bandas diagnóstico",
-      "RMN ¹H — δ e multiplicidade",
-      "Espectrometria de massas — fragmentação",
-      "UV-Vis — transições eletrônicas"
+      "espectroscopia IV",
+      "RMN ¹H",
+      "espectrometria de massa",
+      "UV-vis",
+      "deslocamento químico",
+      "grupos funcionais IV",
+      "fragmentação MS",
+      "Beer-Lambert"
     ],
     "status": "available",
     "route": "/module/spectroscopy",
@@ -633,7 +910,12 @@
       "IV é usado para identificar poluentes no ar e adulterações em alimentos.",
       "RMN deu origem à ressonância magnética (MRI) usada em diagnóstico médico.",
       "Espectrometria de massas identifica drogas e explosivos em aeroportos."
-    ]
+    ],
+    "prerequisites": [
+      "organic",
+      "quantum"
+    ],
+    "estimatedTime": 35
   },
   {
     "id": "solidstate",
@@ -641,13 +923,16 @@
     "subtitle": "Redes cristalinas, defeitos, semicondutores",
     "icon": "◻",
     "color": "reaction",
-    "level": "Superior",
+    "level": "university",
     "topics": [
-      "Tipos de sólidos",
-      "SC, BCC, FCC — átomos por célula",
-      "Estruturas iônicas: NaCl, CsCl, ZnS",
-      "Teoria de bandas",
-      "Defeitos de Schottky e Frenkel"
+      "células unitárias",
+      "FCC BCC HCP",
+      "semicondutores",
+      "dopagem",
+      "banda de valência",
+      "condutores isolantes",
+      "defeitos de rede",
+      "NaCl ZnS"
     ],
     "status": "available",
     "route": "/module/solidstate",
@@ -669,7 +954,12 @@
       "Chips de silício (transistores MOSFETs) são a base de toda eletrônica digital.",
       "GaAs e GaN: LEDs azuis (Nobel 2014) e diodos laser em Blu-ray.",
       "Gemas: rubi = Al₂O₃:Cr³⁺, safira = Al₂O₃:Ti⁴⁺/Fe²⁺ — defeitos de impureza."
-    ]
+    ],
+    "prerequisites": [
+      "chemical-bonds",
+      "quantum"
+    ],
+    "estimatedTime": 30
   },
   {
     "id": "coordination",
@@ -677,14 +967,16 @@
     "subtitle": "Complexos, campo cristalino, cor e magnetismo",
     "icon": "✦",
     "color": "energy",
-    "level": "Superior",
+    "level": "university",
     "topics": [
-      "Nomenclatura IUPAC",
-      "Geometrias — CN 2, 4, 6",
-      "Teoria do Campo Cristalino",
-      "Alto/baixo spin — magnetismo",
-      "Série espectroquímica",
-      "Metaloproteínas"
+      "complexos de coordenação",
+      "TCC",
+      "t₂g eg",
+      "campo fraco forte",
+      "série espectroquímica",
+      "cor dos complexos",
+      "magnetismo",
+      "bioinorgânica"
     ],
     "status": "available",
     "route": "/module/coordination",
@@ -706,7 +998,13 @@
       "Hemoglobina: complexo de Fe²⁺ que transporta O₂ no sangue.",
       "Cisplatina: complexo de Pt²⁺ é quimioterápico contra câncer (testicular, ovário).",
       "EDTA é quelante usado em análises de água dura e tratamento de intoxicação por Pb²⁺."
-    ]
+    ],
+    "prerequisites": [
+      "quantum",
+      "chemical-bonds",
+      "periodic-table"
+    ],
+    "estimatedTime": 35
   },
   {
     "id": "supramolecular",
@@ -714,22 +1012,17 @@
     "icon": "supramolecular",
     "route": "/modules/supramolecular",
     "status": "stable",
-    "level": "university",
+    "level": "graduate",
     "description": "Reconhecimento molecular, macrociclos (éteres-coroa, criptandos, ciclodextrinas), self-assembly, máquinas moleculares e polímeros avançados (Mn/Mw/PDI, Tg/Tm).",
     "topics": [
-      "Complementaridade lock-and-key e induced fit",
-      "Éteres-coroa: 12-coroa-4, 18-coroa-6",
-      "Criptandos [2.2.2] — efeito criptando",
-      "Ciclodextrinas α/β/γ — encapsulamento farmacêutico",
-      "Efeito hidrofóbico e self-assembly",
-      "Micelas, vesículas e lipossomos",
-      "DNA duplex e G-quadruplex",
-      "Catenanos e rotaxanos (Nobel 2016)",
-      "Motor molecular de Feringa",
-      "Click chemistry e bioortogonal (Nobel 2022)",
-      "Polímeros: Mn, Mw, PDI",
-      "Tg, Tm e cristalinidade",
-      "Tipos de polimerização: radical, RAFT/ATRP, condensação"
+      "interações não-covalentes",
+      "éteres de coroa",
+      "carcerandes",
+      "calixarenos",
+      "autorreparação",
+      "reconhecimento molecular",
+      "máquinas moleculares",
+      "espiropyrana"
     ],
     "exercises": 1,
     "realLife": [
@@ -737,6 +1030,152 @@
       "Ciclodextrina em aromas em pó e fármacos",
       "Lipossomos: Doxil® e vacinas mRNA COVID-19",
       "Click chemistry em marcação celular in vivo"
+    ],
+    "prerequisites": [
+      "coordination",
+      "organic"
+    ],
+    "estimatedTime": 40
+  },
+  {
+    "id": "photochemistry",
+    "title": "Fotoquímica",
+    "description": "Diagrama de Jablonski animado, fluorescência vs fosforescência, rendimento quântico Φ, fotossensibilização e fotocatálise com TiO₂.",
+    "level": "university",
+    "estimatedTime": 35,
+    "topics": [
+      "lei de Stark-Einstein",
+      "diagrama de Jablonski",
+      "fluorescência",
+      "fosforescência",
+      "conversão interna IC",
+      "cruzamento intersistemas ISC",
+      "rendimento quântico",
+      "deslocamento de Stokes",
+      "regra de Kasha",
+      "fotossensibilização",
+      "oxigênio singlete",
+      "fotocatálise",
+      "TiO2",
+      "tempo de vida de fluorescência"
+    ],
+    "prerequisites": [
+      "spectroscopy",
+      "quantum"
+    ],
+    "status": "available",
+    "route": "/module/photochemistry",
+    "exercises": [
+      {
+        "q": "Qual processo no diagrama de Jablonski dissipa energia como calor sem emissão de fóton?",
+        "ans": "Conversão interna (IC)"
+      },
+      {
+        "q": "Por que a fosforescência é muito mais lenta que a fluorescência?",
+        "ans": "Transição T1→S0 é proibida por spin (ISC)"
+      },
+      {
+        "q": "Se λ_abs=400 nm e λ_em=520 nm, o deslocamento de Stokes é de?",
+        "ans": "120 nm"
+      },
+      {
+        "q": "Na fotocatálise com TiO₂, qual espécie oxida poluentes orgânicos?",
+        "ans": "h⁺ (banda de valência) ou radical •OH"
+      },
+      {
+        "q": "Com k_rad=2×10⁸ e k_nr=8×10⁸ s⁻¹, o rendimento quântico Φ é?",
+        "ans": "0,20"
+      }
+    ],
+    "realLife": [
+      {
+        "title": "Filtro solar",
+        "desc": "Avobenzona absorve UV e dissipa como calor via IC."
+      },
+      {
+        "title": "Terapia fotodinâmica",
+        "desc": "Fotossensibilizadores geram ¹O₂ para tratamento de tumores."
+      },
+      {
+        "title": "OLEDs",
+        "desc": "Materiais eletroluminescentes com alto Φ convertem corrente em luz."
+      },
+      {
+        "title": "Fotocatálise ambiental",
+        "desc": "TiO₂ em revestimentos decompõe poluentes e bactérias sob luz solar."
+      }
+    ]
+  },
+  {
+    "id": "catalysis",
+    "title": "Catálise Avançada",
+    "description": "Cross-coupling de Pd (Suzuki, Heck, Negishi), ciclo catalítico animado, organocatálise (Nobel 2021), TON/TOF e E-fator.",
+    "level": "graduate",
+    "estimatedTime": 40,
+    "topics": [
+      "cross-coupling",
+      "paládio",
+      "Suzuki",
+      "Heck",
+      "Negishi",
+      "Buchwald-Hartwig",
+      "adição oxidativa",
+      "transmetalação",
+      "eliminação redutiva",
+      "organocatálise",
+      "enamina",
+      "iminium",
+      "TON",
+      "TOF",
+      "E-fator",
+      "eficiência atômica",
+      "química verde"
+    ],
+    "prerequisites": [
+      "organic",
+      "coordination"
+    ],
+    "status": "available",
+    "route": "/module/catalysis",
+    "exercises": [
+      {
+        "q": "Qual é a ordem correta das etapas no ciclo de Suzuki?",
+        "ans": "Adição oxidativa → Transmetalação → Eliminação redutiva"
+      },
+      {
+        "q": "O que distingue o acoplamento de Heck do Suzuki?",
+        "ans": "Heck usa alceno (inserção/beta-H eliminação), sem organometálico"
+      },
+      {
+        "q": "Por que Pd(0) é superior a outros metais em cross-coupling?",
+        "ans": "Equilibra adição oxidativa rápida com eliminação redutiva eficiente"
+      },
+      {
+        "q": "A organocatálise por enamina ativa cetonas via qual intermediário?",
+        "ans": "Condensação amina-carbonila → enamina nucleofílica"
+      },
+      {
+        "q": "O E-fator é calculado como:",
+        "ans": "kg de resíduo / kg de produto desejado"
+      }
+    ],
+    "realLife": [
+      {
+        "title": "Síntese de fármacos",
+        "desc": "Losartana e Gleevec usam acoplamentos de Suzuki em escala industrial."
+      },
+      {
+        "title": "Polímeros pi-conjugados",
+        "desc": "OLEDs e células solares feitos por Suzuki e Sonogashira iterativos."
+      },
+      {
+        "title": "Aromas e sabores",
+        "desc": "80% dos compostos de perfumaria por catálise (Rh-BINAP para mentol)."
+      },
+      {
+        "title": "Catalisador automotivo",
+        "desc": "Pt e Pd oxidam CO/HC e reduzem NOₓ no catalisador três-vias."
+      }
     ]
   }
 ]

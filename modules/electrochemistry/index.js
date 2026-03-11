@@ -24,7 +24,7 @@ const CELLS = {
     catodo:   { metal:'Cu', ion:'Cu²⁺', E0:+0.34, color:'#ffa726' },
     reaction: 'Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s)',
     voltage:  1.10,
-    info:     'Primeira pilha prática (1836). E°célula = E°catodo − E°anodo = 0,34 − (−0,76) = 1,10 V.',
+    info:     'Primeira pilha prática (1836). E°célula = E°catodo - E°anodo = 0,34 - (-0,76) = 1,10 V.',
   },
   znfe: {
     label:    'Zn / Fe',
@@ -32,7 +32,7 @@ const CELLS = {
     catodo:   { metal:'Fe', ion:'Fe²⁺', E0:-0.44, color:'#8b949e' },
     reaction: 'Zn(s) + Fe²⁺(aq) → Zn²⁺(aq) + Fe(s)',
     voltage:  0.32,
-    info:     'E°célula = −0,44 − (−0,76) = 0,32 V. Zn ainda é o anodo (mais negativo).',
+    info:     'E°célula = -0,44 - (-0,76) = 0,32 V. Zn ainda é o anodo (mais negativo).',
   },
   znag: {
     label:    'Zn / Ag',
@@ -40,7 +40,7 @@ const CELLS = {
     catodo:   { metal:'Ag', ion:'Ag⁺',  E0:+0.80, color:'#e0e0e0' },
     reaction: 'Zn(s) + 2Ag⁺(aq) → Zn²⁺(aq) + 2Ag(s)',
     voltage:  1.56,
-    info:     'E°célula = 0,80 − (−0,76) = 1,56 V. Alta diferença de potencial.',
+    info:     'E°célula = 0,80 - (-0,76) = 1,56 V. Alta diferença de potencial.',
   },
 };
 
@@ -51,6 +51,7 @@ let _cellKey    = 'daniell';
 let _electrons  = [];
 let _ions       = [];
 let _loop       = null;
+let _exIdx     = 0;
 let _exAttempts = 0;
 let _exDone     = false;
 
@@ -181,7 +182,7 @@ function startCanvas(canvasEl) {
     ctx.fillText(cell.catodo.metal, cX, solY - elecH - 6);
     ctx.fillStyle = COLOR.textMuted;
     ctx.font = '10px sans-serif';
-    ctx.fillText('anodo (−)', aX, solY - elecH - 18);
+    ctx.fillText('anodo (-)', aX, solY - elecH - 18);
     ctx.fillText('catodo (+)', cX, solY - elecH - 18);
 
     // fio externo
@@ -262,17 +263,23 @@ function startCanvas(canvasEl) {
 /* -----------------------------------------------------------------------
    Exercício
 ----------------------------------------------------------------------- */
-const EXERCISE = {
-  question: 'Na pilha de Daniell (Zn/Cu), o zinco é o anodo porque:',
-  options: [
-    'O zinco é mais pesado que o cobre',
-    'O zinco tem menor potencial de redução padrão (E° mais negativo)',
-    'O cobre se dissolve mais facilmente que o zinco',
-    'O zinco conduz eletricidade melhor que o cobre',
-  ],
-  correct: 1,
-  explanation: 'O anodo é sempre o eletrodo onde ocorre oxidação — aquele com menor potencial de redução padrão. Zn tem E° = −0,76 V e Cu tem E° = +0,34 V. Como E°(Zn) < E°(Cu), o Zn perde elétrons (se oxida) e é o anodo.',
-};
+const EXERCISES = [
+  { q: 'Na pilha Daniell (Zn/Cu), o Zn é o ânodo porque:', opts: ['É mais barato','E°(Zn²⁺/Zn) = -0,76 V < E°(Cu²⁺/Cu) = +0,34 V — oxida-se','É sólido','Tem maior massa'], ans: 1, exp: 'E°célula = 0,34 - (-0,76) = 1,10 V. Zn tem menor E° de redução — oxida-se no ânodo.', hint: 'O ânodo é onde ocorre oxidação. Qual metal tem menor E° de redução?' },
+  { q: 'Na eletrólise da água, qual gás se forma no cátodo?', opts: ['O₂','H₂','H₂O','OH⁻'], ans: 1, exp: 'Cátodo (redução): 2H₂O + 2e⁻ → H₂ + 2OH⁻. Ânodo: 2H₂O → O₂ + 4H⁺ + 4e⁻.', hint: 'No cátodo ocorre redução. O que é reduzido na eletrólise da água?' },
+  { q: 'A relação entre ΔG° e E°célula é:', opts: ['ΔG° = +nFE°','ΔG° = -nFE°','ΔG° = nRT ln E°','ΔG° = E°/n'], ans: 1, exp: 'ΔG° = -nFE°. Se E° > 0, ΔG° < 0 → espontânea.', hint: 'O sinal garante que E° positivo corresponde a ΔG° negativo.' },
+  { q: 'Quantos coulombs para depositar 1 mol de Cu²⁺ + 2e⁻ → Cu?', opts: ['96485 C','192970 C','48243 C','1 C'], ans: 1, exp: '1 mol Cu requer 2 mol e⁻ = 2 × 96485 = 192970 C.', hint: 'q = n_elétrons × F. Cu²⁺ + 2e⁻: quantos elétrons por átomo de Cu?' },
+  { q: 'Pela equação de Nernst, E diminui quando:', opts: ['T aumenta','Q aumenta (produtos se acumulam)','n aumenta e Q < 1','E° aumenta'], ans: 1, exp: 'E = E° - (RT/nF)lnQ. Quando Q cresce, lnQ > 0, E diminui.', hint: 'E = E° - (RT/nF)lnQ. Analise o efeito de Q crescente.' },,
+  { q:'Na pilha Daniell (Zn|ZnSO₄||CuSO₄|Cu): E°(Zn²⁺/Zn)=-0,76V; E°(Cu²⁺/Cu)=+0,34V. E°célula = ?', opts:['-1,10 V','+1,10 V','+0,42 V','-0,42 V'], ans:1, exp:'E°célula = E°cátodo - E°ânodo = +0,34 - (-0,76) = +1,10 V. Positivo → espontânea. Cátodo: Cu²⁺ + 2e⁻ → Cu. Ânodo: Zn → Zn²⁺ + 2e⁻.', hint:'E°célula = E°cátodo - E°ânodo. Cátodo tem E° maior (redução espontânea).' },
+  { q:'ΔG° da pilha Daniell com n=2 elétrons e E°=1,10 V é:', opts:['+212,5 kJ/mol','-212,3 kJ/mol','+106 kJ/mol','-53 kJ/mol'], ans:1, exp:'ΔG° = -nFE° = -2 × 96485 × 1,10 = -212268 J/mol ≈ -212,3 kJ/mol. Negativo → espontânea.', hint:'ΔG° = -nFE°. F = 96485 C/mol. Converter J para kJ (/1000).' },
+  { q:'Na eletrólise do CuSO₄ com eletrodos inertes, o que ocorre no cátodo?', opts:['O₂ é produzido','Cu²⁺ + 2e⁻ → Cu (cobre metálico deposita)','H₂ é produzido','SO₄²⁻ é oxidado'], ans:1, exp:'Cátodo: redução. O Cu²⁺ é o cátion com maior potencial de redução disponível (+0,34 V >> potencial de redução do H₂O). Cu deposita no cátodo. No ânodo: 2H₂O → O₂ + 4H⁺ + 4e⁻.', hint:'Cátodo = redução. O íon metálico mais nobre é reduzido preferencialmente.' },
+  { q:'Pela 1ª Lei de Faraday, qual a massa de Cu depositada ao passar 2 A por 965 s? (M(Cu)=64 g/mol, F=96500 C/mol, n=2)', opts:['0,32 g','0,64 g','1,28 g','0,16 g'], ans:1, exp:'Q = I × t = 2 × 965 = 1930 C. n_mol = Q/(n×F) = 1930/(2×96500) = 0,01 mol. m = 0,01 × 64 = 0,64 g.', hint:'m = (I × t × M) / (n × F). Ou: Q = It; n_mol = Q/(n×F); m = n_mol × M.' },
+  { q:'A equação de Nernst E = E° - (RT/nF)lnQ mostra que a f.e.m. da pilha diminui quando:', opts:['A temperatura aumenta','Q aumenta (reagentes consumidos, produtos acumulam)','Q diminui (mais reagentes)','F aumenta'], ans:1, exp:'E = E° - (0,0592/n)logQ a 25°C. Q grande significa menos reagente / mais produto → pilha perto do equilíbrio → menor E. No equilíbrio, Q = K e E = 0 (pilha "morta").', hint:'Q grande → E diminui. Q = K → E = 0 (pilha morta).' },
+  { q:'No processo de anodização do alumínio, o Al é o:', opts:['Cátodo — é reduzido formando Al₂O₃','Ânodo — é oxidado formando camada de Al₂O₃','Eletrólito','Catalisador'], ans:1, exp:'Anodização: Al é o ânodo. Al - 3e⁻ → Al³⁺, que reage com O²⁻ do eletrólito formando Al₂O₃. A camada de óxido é densa, protetora e pode ser colorida. Nome "anodização" vem de "ânodo".', hint:'Anodização = processo anódico (oxidação). Al é oxidado → ânodo.' },
+  { q:'Uma bateria de lítio tem E° = 3,7 V e capacidade de 3000 mAh. A energia armazenada em Wh é:', opts:['3 Wh','11,1 Wh','3000 Wh','0,3 Wh'], ans:1, exp:'Energia (Wh) = V × Ah = 3,7 V × 3 Ah = 11,1 Wh. (3000 mAh = 3 Ah). Em Joules: 11,1 × 3600 ≈ 40.000 J = 40 kJ.', hint:'Energia (Wh) = Tensão × Capacidade(Ah). 1000 mAh = 1 Ah.' },
+  { q:'A corrosão do ferro em ambiente úmido ocorre como pilha galvânica. A área mais aerada (mais O₂) age como:', opts:['Ânodo — ferro se oxida','Cátodo — O₂ é reduzido (O₂ + 2H₂O + 4e⁻ → 4OH⁻)','Eletrólito','Inibidor da corrosão'], ans:1, exp:'Mecanismo de corrosão em área aerada: O₂ é reduzido no cátodo (área aerada). No ânodo (área menos aerada ou com defeito): Fe → Fe²⁺ + 2e⁻. Os elétrons fluem pelo metal do ânodo para o cátodo. Isso explica por que arranhões e frestas corroem primeiro.', hint:'O₂ é agente oxidante. Onde há O₂: cátodo. Onde Fe se dissolve: ânodo.' },
+  { q:'Na eletrólise da água: qual é a razão molar de H₂:O₂ produzida?', opts:['1:1','2:1','1:2','4:1'], ans:1, exp:'Cátodo: 4H₂O + 4e⁻ → 2H₂ + 4OH⁻ (2 mol H₂). Ânodo: 2H₂O → O₂ + 4H⁺ + 4e⁻ (1 mol O₂). Razão H₂:O₂ = 2:1. Volumetricamente, o cátodo produz o dobro do ânodo.', hint:'Estequiometria: 2H₂O → 2H₂ + O₂. H₂:O₂ = 2:1.' },
+  { q:'O potencial padrão de redução E° é medido em relação ao:', opts:['Eletrodo de cobre padrão','Eletrodo Padrão de Hidrogênio (EPH), com E°=0 V por convenção','Eletrodo de prata-cloreto de prata','Potencial médio de todos os metais'], ans:1, exp:'E° é medido vs. EPH (eletrodo de hidrogênio padrão): Pt | H₂(1 atm) | H⁺(1 mol/L), com E° = 0,000 V por definição. Todos os potenciais são relativos a esse padrão. Metais com E° > 0 são "mais nobres" que H₂.', hint:'EPH é a referência universal: E° = 0 V. Todos os outros são medidos em relação a ele.' }
+];
 
 /* -----------------------------------------------------------------------
    render()
@@ -307,8 +314,8 @@ export function render(outlet) {
   <!-- Fenômeno -->
     <!-- Equação de Nernst -->
   <section class="module-section">
-    <h2 class="module-section-title">Equação de Nernst e ΔG = −nFE</h2>
-    <p class="module-text"><strong>E = E° − (0,0592/n)·logQ</strong> a 25°C. Quando Q = 1 (condições padrão), E = E°. Quando Q aumenta (produtos acumulam), E decresce. No equilíbrio: E = 0, Q = K. Termodinâmica: <strong>ΔG = −nFE</strong> e ΔG° = −RT·lnK.</p>
+    <h2 class="module-section-title">Equação de Nernst e ΔG = -nFE</h2>
+    <p class="module-text"><strong>E = E° - (0,0592/n)·logQ</strong> a 25°C. Quando Q = 1 (condições padrão), E = E°. Quando Q aumenta (produtos acumulam), E decresce. No equilíbrio: E = 0, Q = K. Termodinâmica: <strong>ΔG = -nFE</strong> e ΔG° = -RT·lnK.</p>
     <div style="display:flex;flex-direction:column;gap:.6rem;margin:.75rem 0 1rem">
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
         <label style="min-width:180px;font-size:var(--text-sm);color:var(--text-secondary)">E° célula (V):</label>
@@ -336,12 +343,12 @@ export function render(outlet) {
   <!-- Corrosão -->
   <section class="module-section">
     <h2 class="module-section-title">Corrosão e proteção catódica</h2>
-    <p class="module-text">Corrosão é uma célula eletroquímica involuntária: o ferro (E°= −0,44V) oxida em presença de O₂ e umidade. Reação global: <strong>4Fe + 3O₂ + 6H₂O → 2Fe₂O₃·3H₂O</strong>.</p>
+    <p class="module-text">Corrosão é uma célula eletroquímica involuntária: o ferro (E°= -0,44V) oxida em presença de O₂ e umidade. Reação global: <strong>4Fe + 3O₂ + 6H₂O → 2Fe₂O₃·3H₂O</strong>.</p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(190px,1fr))">
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-reaction)">Proteção catódica</h3><p style="font-size:var(--text-sm)">Metal ligado ao polo negativo (catodo) — impossibilita oxidação. Dutos subterrâneos, plataformas offshore, cascos de navios.</p></div>
-      <div class="info-card"><h3 style="margin-top:0;color:var(--accent-bond)">Anodo de sacrifício</h3><p style="font-size:var(--text-sm)">Zn (E°= −0,76V) mais ativo que Fe corrói no lugar do aço. Zinco em cascos de navios e calhas galvanizadas.</p></div>
+      <div class="info-card"><h3 style="margin-top:0;color:var(--accent-bond)">Anodo de sacrifício</h3><p style="font-size:var(--text-sm)">Zn (E°= -0,76V) mais ativo que Fe corrói no lugar do aço. Zinco em cascos de navios e calhas galvanizadas.</p></div>
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-organic)">Galvanização</h3><p style="font-size:var(--text-sm)">Revestimento de aço com Zn por eletrodeposição ou imersão a quente. Barreira física + proteção catódica.</p></div>
-      <div class="info-card"><h3 style="margin-top:0">Par galvânico</h3><p style="font-size:var(--text-sm)">Cu + Al em eletrólito: Al (E°= −1,66V) corrói rapidamente. Evitar metais muito diferentes em contato úmido.</p></div>
+      <div class="info-card"><h3 style="margin-top:0">Par galvânico</h3><p style="font-size:var(--text-sm)">Cu + Al em eletrólito: Al (E°= -1,66V) corrói rapidamente. Evitar metais muito diferentes em contato úmido.</p></div>
     </div>
   </section>
 
@@ -394,7 +401,7 @@ export function render(outlet) {
     </p>
     <p class="module-text">
       Exemplo clássico: eletrólise da água → 2H₂O → 2H₂ + O₂. 
-      No catodo (−): 4H⁺ + 4e⁻ → 2H₂. No anodo (+): 2H₂O → O₂ + 4H⁺ + 4e⁻.
+      No catodo (-): 4H⁺ + 4e⁻ → 2H₂. No anodo (+): 2H₂O → O₂ + 4H⁺ + 4e⁻.
     </p>
     <div class="module-grid" style="grid-template-columns:1fr 1fr">
       <div class="info-card">
@@ -467,7 +474,7 @@ export function render(outlet) {
     <p class="module-text">
       A <strong>série eletroquímica</strong> ordena os pares redox por E° (potencial padrão
       vs EHN). Quanto maior E°, maior tendência a reduzir. A diferença entre dois pares
-      define o potencial da pilha: E°célula = E°catodo − E°anodo.
+      define o potencial da pilha: E°célula = E°catodo - E°anodo.
     </p>
     <div style="overflow-x:auto;margin-bottom:var(--space-5)">
       <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
@@ -489,12 +496,12 @@ export function render(outlet) {
             ['Fe³⁺ + e⁻ → Fe²⁺',              '+0,77',''],
             ['Cu²⁺ + 2e⁻ → Cu',               '+0,34','Eletrodo positivo pilha Daniell'],
             ['2H⁺ + 2e⁻ → H₂',               ' 0,00','Referência (EHN)'],
-            ['Fe²⁺ + 2e⁻ → Fe',               '−0,44','Corrói em contato com Cu'],
-            ['Zn²⁺ + 2e⁻ → Zn',               '−0,76','Proteção catódica do Fe'],
-            ['Al³⁺ + 3e⁻ → Al',               '−1,66',''],
-            ['Mg²⁺ + 2e⁻ → Mg',               '−2,37',''],
-            ['Na⁺ + e⁻ → Na',                  '−2,71',''],
-            ['Li⁺ + e⁻ → Li',                  '−3,04','Redutor mais forte'],
+            ['Fe²⁺ + 2e⁻ → Fe',               '-0,44','Corrói em contato com Cu'],
+            ['Zn²⁺ + 2e⁻ → Zn',               '-0,76','Proteção catódica do Fe'],
+            ['Al³⁺ + 3e⁻ → Al',               '-1,66',''],
+            ['Mg²⁺ + 2e⁻ → Mg',               '-2,37',''],
+            ['Na⁺ + e⁻ → Na',                  '-2,71',''],
+            ['Li⁺ + e⁻ → Li',                  '-3,04','Redutor mais forte'],
           ].map(_r => { const [rxn, eo, note]=_r; return `
           <tr style="border-bottom:1px solid var(--border-subtle)">
             <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs);color:var(--accent-electron)">${rxn}</td>
@@ -520,7 +527,7 @@ export function render(outlet) {
         <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">E°anodo (V):</span>
         <input type="range" id="ecell-ano" min="-3.1" max="2.9" step="0.01" value="-0.76"
                style="width:130px;accent-color:var(--accent-reaction)">
-        <span id="ecell-ano-val" style="font-size:var(--text-sm);color:var(--accent-reaction);min-width:70px">−0,760 V</span>
+        <span id="ecell-ano-val" style="font-size:var(--text-sm);color:var(--accent-reaction);min-width:70px">-0,760 V</span>
       </div>
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
         <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">n (e⁻ transferidos):</span>
@@ -589,7 +596,7 @@ export function render(outlet) {
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">Princípio</h3>
-        <p style="font-size:var(--text-sm)">Eletrodo de vidro gera potencial proporcional à atividade de H⁺ na solução: E = const − 0,05916·pH (a 25°C). A membrana de vidro delgada (<0,1mm) é seletivamente permeável a H⁺ — troca catiônica. Impedância alta (10⁸–10¹² Ω) exige amplificador operacional.</p>
+        <p style="font-size:var(--text-sm)">Eletrodo de vidro gera potencial proporcional à atividade de H⁺ na solução: E = const - 0,05916·pH (a 25°C). A membrana de vidro delgada (<0,1mm) é seletivamente permeável a H⁺ — troca catiônica. Impedância alta (10⁸–10¹² Ω) exige amplificador operacional.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-bond)">Calibração com tampões</h3>
@@ -605,15 +612,16 @@ export function render(outlet) {
 
   <!-- Exercício -->
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${esc(EXERCISE.question)}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
-      ${EXERCISE.options.map((opt, i) => `
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+      ${EXERCISES[0].opts.map((opt, i) => `
         <button class="btn btn-ghost" style="text-align:left;justify-content:flex-start"
                 id="ex-opt-${i}" data-exopt="${i}">${esc(opt)}</button>
       `).join('')}
     </div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <!-- Cotidiano -->
@@ -777,6 +785,53 @@ function _initEcell() {
   }
 }
 
+
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('electrochemistry', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
 export function destroy() {
   if (_loop) { _loop.stop(); _loop = null; }
 }

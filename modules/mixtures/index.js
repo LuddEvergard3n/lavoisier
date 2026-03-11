@@ -51,7 +51,7 @@ const TECHNIQUES = [
     principle: 'Aquecimento vaporiza o componente mais volátil (menor PE). O vapor é resfriado no condensador e recolhido como destilado puro.',
     when:    'Obter água pura de solução salina (destilação simples); separar etanol da água (fracionada); refinar petróleo.',
     types:   ['Simples: diferença de PE > 25 °C', 'Fracionada: coluna de fracionamento, PE próximos', 'A vácuo: substâncias termolábeis', 'Por arraste de vapor: óleos essenciais'],
-    examples:['Refinaria de petróleo: GLP (−40°C), gasolina (40–200°C), diesel (250–350°C)', 'Produção de cachaça e whisky', 'Dessalinização de água do mar', 'Purificação de solventes em laboratório'],
+    examples:['Refinaria de petróleo: GLP (-40°C), gasolina (40–200°C), diesel (250–350°C)', 'Produção de cachaça e whisky', 'Dessalinização de água do mar', 'Purificação de solventes em laboratório'],
   },
   {
     id:      'crystallization',
@@ -110,6 +110,19 @@ const EXERCISES = [
     exp:  'Rf = distância da substância ÷ distância do solvente = 4 ÷ 8 = 0,5. Rf é adimensional e varia de 0 (não migra) a 1 (migra com o solvente). Serve para identificar substâncias.',
     hint: 'Rf = d_substância / d_solvente. Divida os dois valores fornecidos.',
   },
+
+  { q: 'A destilação fracionada separa componentes de uma mistura com base em:', opts: ['Diferença de solubilidade','Diferença de ponto de ebulição','Diferença de cor','Diferença de densidade'], ans: 1, exp: 'Componentes com pontos de ebulição diferentes se separam em colunas de fracionamento (pratos ou recheio). Base da destilação do petróleo.', hint: 'Qual propriedade física a destilação explora?' },
+  { q: 'Em cromatografia de papel, o Rf = 0,8 indica que a substância:', opts: ['Ficou na origem (imóvel)','Percorreu 80% da distância do solvente','Percorreu 20% da distância do solvente','Está no topo da placa'], ans: 1, exp: 'Rf = distância substância / distância solvente = 0,8 → substância percorreu 80% do caminho do solvente.', hint: 'Rf = distância percorrida pela substância / distância percorrida pelo solvente.' },,
+  { q:'Qual técnica separa dois líquidos miscíveis com pontos de ebulição diferentes?', opts:['Filtração','Destilação fracionada','Centrifugação','Decantação'], ans:1, exp:'Destilação fracionada separa líquidos miscíveis por diferença de ponto de ebulição. A mistura é aquecida; o componente mais volátil evapora primeiro e é coletado separadamente. Ex: separação do petróleo em frações.', hint:'Miscíveis = não se separam por gravidade. Diferença de Pb → destilação.' },
+  { q:'Na cromatografia em papel de uma tinta com corantes A (Rf=0,8) e B (Rf=0,3), qual corante tem maior afinidade pela fase estacionária?', opts:['A — Rf maior','B — Rf menor (menos arrastado = mais retido)','Iguais — Rf mede apenas velocidade','A — percorreu mais caminho'], ans:1, exp:'Rf = distância do componente / distância do solvente. Rf menor = menos arrastado pelo solvente = maior afinidade pela fase estacionária (papel). B (Rf=0,3) é mais retido que A (Rf=0,8).', hint:'Rf alto = mais solúvel no eluente / menos retido. Rf baixo = mais retido na fase estacionária.' },
+  { q:'O efeito Tyndall distingue coloides de soluções verdadeiras porque:', opts:['Coloides são sempre opalescentes','Partículas coloidais (1-1000 nm) dispersam a luz; partículas iônicas (< 1 nm) não','Soluções verdadeiras são mais densas','O efeito Tyndall depende da cor do soluto'], ans:1, exp:'Partículas coloidais têm tamanho comparável ao comprimento de onda da luz visível (400-700 nm) → espalhamento de Mie → "feixe" visível. Íons e moléculas pequenas (<1 nm) são muito menores → sem espalhamento perceptível.', hint:'Leite (coloide) mostra efeito Tyndall. Água com sal (solução real) não.' },
+  { q:'A centrifugação acelera a sedimentação porque substitui g pela força centrífuga ω²r. A 10.000 rpm com r=0,1 m, a aceleração em relação à gravidade (g=9,8 m/s²) é aproximadamente:', opts:['100 g','1.000 g','11.000 g','110.000 g'], ans:2, exp:'ω = 10000 rpm × 2π/60 = 1047 rad/s. a = ω²r = 1047² × 0,1 ≈ 1,1×10⁵ m/s². FCR = a/g ≈ 1,1×10⁵/9,8 ≈ 11.200 g. Portanto ≈ 11.000 g. Ultracentrífugas chegam a 500.000 g.', hint:'a = ω²r; ω em rad/s = rpm × 2π/60. FCR = a/g.' },
+  { q:'Na destilação simples, qual é a condição para que dois componentes sejam separados eficientemente?', opts:['Pontos de fusão diferentes','Diferença de ponto de ebulição ≥ 25°C (idealmente > 100°C para simples)','Mesma polaridade','Qualquer diferença de densidade'], ans:1, exp:'Na destilação simples, diferença de Pb deve ser grande (> 25°C mínimo; destilação fracionada para diferenças menores). Com Pb muito próximos, ambos evaporam simultaneamente e a separação é incompleta. Etanol (78°C) + água (100°C): diferença = 22°C → fracionada necessária.', hint:'Pequena diferença de Pb → destilação fracionada (coluna). Grande diferença → simples.' },
+  { q:'A cristalização funciona porque a solubilidade:', opts:['Não depende da temperatura','Diminui com temperatura para a maioria dos sólidos — resfriar precipita o excesso','Aumenta sempre com pressão','É igual para todos os sais em água'], ans:1, exp:'Para a maioria dos sólidos, solubilidade aumenta com temperatura. Dissolve-se o máximo a quente; ao resfriar, o excesso precipita na forma de cristais. Exceção: alguns sais (CaSO₄, Ce₂(SO₄)₃) têm solubilidade inversa com temperatura.', hint:'Dissolve a quente, cristaliza no frio — excesso precipita como sólido puro.' },
+  { q:'Por que a filtração simples não separa uma solução de NaCl em água?', opts:['O filtro tem poros grandes demais para Na⁺ e Cl⁻','Íons Na⁺ e Cl⁻ são menores que qualquer poro de papel de filtro — passam com a água','NaCl é insolúvel','A solução é muito densa'], ans:1, exp:'Filtração retém partículas sólidas (> ~1 μm com papel comum). Íons Na⁺ e Cl⁻ têm raio ~0,1-0,2 nm — bilhares de vezes menores que os poros. Passam livremente. Para remover íons, usa-se evaporação, osmose inversa ou precipitação.', hint:'Filtro retém sólidos. Íons dissolvidos não são sólidos.' },
+  { q:'A osmose reversa remove sais dissolvidos na dessalinização porque:', opts:['Aquece a água até evaporar os sais','Aplica pressão maior que a osmótica, forçando água pura através de membrana semipermeável','Usa eletricidade para precipitar sais','Congela a água salgada e descarta o gelo com sal'], ans:1, exp:'Osmose reversa: pressão aplicada (> pressão osmótica ≈ 27 atm para água do mar) força a água a passar da solução concentrada para a diluída através da membrana (poros 0,1-1 nm). Sais e microorganismos ficam retidos.', hint:'Osmose natural: água vai do diluído para concentrado. Reversa: vai do concentrado para diluído com pressão.' },
+  { q:'A sublimação é usada para purificar iodo (I₂) sólido. O princípio é:', opts:['I₂ tem Pb muito alto e não pode ser destilado','I₂ sólido pode ir direto ao estado gasoso sem passar pelo líquido (P < Ptriplo), deixando impurezas não-voláteis','I₂ reage com impurezas ao fundir','I₂ é solúvel em água e as impurezas não são'], ans:1, exp:'I₂ tem ponto triplo em 113,7°C / 0,12 atm. À pressão atmosférica, aquecendo o sólido, ele sublima (sólido → vapor) antes de fundir. O vapor condensa em superfície fria como I₂ puro — impurezas não voláteis ficam no fundo.', hint:'Sublimação: sólido → gás → sólido puro em superfície fria. Impurezas não sublimam.' },
+  { q:'Na separação magnética, qual propriedade dos minerais é explorada?', opts:['Diferença de densidade','Susceptibilidade magnética — minerais ferromagnéticos ou paramagnéticos respondem ao campo','Diferença de cor','Solubilidade diferente em solventes orgânicos'], ans:1, exp:'Minerais ferromagnéticos (magnetita, Fe₃O₄) ou paramagnéticos (ilmenita) são atraídos por ímãs. Gangue (sílica, calcário) é diamagnético — não responde. Aplicação: concentração de minério de ferro, separação de Fe de alumínio reciclado.', hint:'Ferromagnético (Fe, Ni, Co) e muitos minerais de Fe respondem a campos magnéticos.' }
 ];
 
 let _loop        = null;
@@ -159,6 +172,14 @@ function _buildHTML() {
   <!-- Tipos de mistura -->
   <section class="module-section">
     <h2 class="module-section-title">Misturas: homogêneas vs heterogêneas</h2>
+    <p class="module-text">
+      Uma mistura é formada por dois ou mais componentes que conservam suas propriedades
+      individuais e podem ser separados por métodos físicos. A distinção entre homogênea
+      e heterogênea depende da escala de observação: o leite parece homogêneo a olho nu,
+      mas ao microscópio revela-se uma emulsão de gotículas de gordura em água — um coloide.
+      O critério formal é a presença de <strong>fases</strong>: regiões de composição e
+      propriedades uniformes, separadas por interfaces definidas.
+    </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:1rem">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">Homogênea (1 fase)</h3>
@@ -190,6 +211,16 @@ function _buildHTML() {
   <!-- Técnicas -->
   <section class="module-section">
     <h2 class="module-section-title">Técnicas de separação</h2>
+    <p class="module-text">
+      Cada técnica explora uma <em>propriedade física diferente</em> para separar os
+      componentes da mistura. A escolha depende do tipo de mistura e das propriedades
+      dos componentes: diferença de ponto de ebulição → destilação; diferença de
+      solubilidade → extração ou recristalização; diferença de tamanho de partícula
+      → filtração; diferença de densidade → centrifugação; diferença de afinidade
+      por uma fase estacionária → cromatografia.
+      Nenhuma técnica é 100% pura em uma única etapa — processos industriais
+      combinam várias operações unitárias em série para atingir a pureza necessária.
+    </p>
     <div id="tech-tabs" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem">
       ${TECHNIQUES.map((t, i) => `
         <button class="btn btn-xs ${i===0?'btn-secondary':'btn-ghost'}" id="tech-tab-${i}" data-tech="${i}">
@@ -228,6 +259,15 @@ function _buildHTML() {
   <!-- Calculadora de Rf -->
   <section class="module-section">
     <h2 class="module-section-title">Calculadora de Rf (cromatografia)</h2>
+    <p class="module-text">
+      O fator de retenção Rf (retention factor) é a razão entre a distância percorrida pela
+      substância e a distância percorrida pelo solvente (frente do eluente). É adimensional
+      e varia de 0 (substância não se move — afinidade total pela fase estacionária) a 1
+      (move junto com o solvente — afinidade total pela fase móvel). Substâncias polares têm
+      Rf baixo em sílica (polar) com eluente apolar; Rf alto com eluente polar.
+      O Rf é característico de uma substância em um sistema solvente-estacionária fixo —
+      serve como identificação qualitativa, análogo ao tempo de retenção em HPLC/GC.
+    </p>
     <p class="module-text">
       O fator de retenção <strong>Rf = distância percorrida pela substância ÷ distância percorrida pelo solvente</strong>.
       Rf é característico de cada substância num dado solvente e temperatura — usado para identificação.

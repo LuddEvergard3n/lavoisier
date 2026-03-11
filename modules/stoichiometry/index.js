@@ -56,6 +56,7 @@ const AVOGADRO = 6.022e23;
 let _rxKey       = 'water';
 let _moles       = 1.0;
 let _loop        = null;
+let _exIdx     = 0;
 let _lrMolesA    = 2.0;   // mol do reagente A no calc de limitante
 let _lrMolesB    = 2.0;   // mol do reagente B
 let _actualYield = 80;    // % rendimento real (slider)
@@ -215,12 +216,23 @@ function updateLimiting() {
 /* -----------------------------------------------------------------------
    Exercício
 ----------------------------------------------------------------------- */
-const EXERCISE = {
-  question: 'Quantos mols de H₂ são necessários para produzir 4 mol de NH₃ pela síntese de Haber (N₂ + 3 H₂ → 2 NH₃)?',
-  options:  ['3 mol', '6 mol', '4 mol', '2 mol'],
-  correct:  1,
-  explanation: '2 mol NH₃ requerem 3 mol H₂. Para 4 mol NH₃ (dobro da equação): 4 ÷ 2 × 3 = 6 mol H₂.',
-};
+const EXERCISES = [
+  { q: 'Quantos mols de H₂ são necessários para produzir 4 mol de NH₃ pela síntese de Haber (N₂ + 3H₂ → 2NH₃)?', opts: ['3 mol','6 mol','4 mol','2 mol'], ans: 1, exp: '2 mol NH₃ requerem 3 mol H₂. Para 4 mol NH₃: 4/2 × 3 = 6 mol H₂.', hint: 'Use a relação estequiométrica: 2 mol NH₃ para 3 mol H₂.' },
+  { q: 'Na reação C₃H₈ + 5O₂ → 3CO₂ + 4H₂O, quantos gramas de CO₂ se formam ao queimar 44 g de propano (M = 44 g/mol)?', opts: ['44 g','88 g','132 g','176 g'], ans: 2, exp: '44 g propano = 1 mol. 1 mol C₃H₈ → 3 mol CO₂. 3 × 44 g/mol = 132 g CO₂.', hint: '44 g ÷ 44 g/mol = ? mol propano. Depois use a relação 1:3.' },
+  { q: 'Qual é o reagente limitante na reação Zn + 2HCl → ZnCl₂ + H₂ com 0,5 mol Zn e 0,8 mol HCl?', opts: ['Zn, pois é menor em massa','HCl, pois 0,8 < 1,0 mol necessário','Ambos são equivalentes','Depende da temperatura'], ans: 1, exp: '0,5 mol Zn precisaria de 1,0 mol HCl. Temos só 0,8 mol HCl — é o limitante.', hint: 'Calcule quantos mols de HCl seriam necessários para consumir todo o Zn.' },
+  { q: 'Um processo tem rendimento de 80%. Quantos gramas de produto (M = 100 g/mol) são obtidos se o rendimento teórico é 5 mol?', opts: ['500 g','400 g','250 g','80 g'], ans: 1, exp: 'Rendimento teórico: 5 mol × 100 g/mol = 500 g. Rendimento real: 500 × 0,80 = 400 g.', hint: 'Rendimento real = rendimento teórico × (% / 100).' },
+  { q: 'Na equação 2H₂O₂ → 2H₂O + O₂, a razão molar H₂O₂ : O₂ é:', opts: ['1:1','2:1','1:2','2:3'], ans: 1, exp: '2 mol H₂O₂ produzem 1 mol O₂. Razão = 2:1.', hint: 'Leia diretamente os coeficientes estequiométricos.' },,
+  { q:'Qual é a massa molar do CaCO₃? (Ca=40, C=12, O=16)', opts:['68 g/mol','84 g/mol','100 g/mol','116 g/mol'], ans:2, exp:'CaCO₃: 40 (Ca) + 12 (C) + 3×16 (O) = 40 + 12 + 48 = 100 g/mol.', hint:'Some as massas atômicas de todos os átomos na fórmula.' },
+  { q:'Quantos mol há em 11 g de CO₂? (M = 44 g/mol)', opts:['0,10 mol','0,25 mol','0,50 mol','1,0 mol'], ans:1, exp:'n = m/M = 11/44 = 0,25 mol.', hint:'n = m / M. Divide a massa pela massa molar.' },
+  { q:'Na síntese de amônia N₂ + 3H₂ → 2NH₃, partindo de 28 g de N₂ e excesso de H₂, qual a massa de NH₃ produzida? (N=14, H=1)', opts:['17 g','34 g','51 g','28 g'], ans:1, exp:'28 g N₂ / 28 g/mol = 1 mol N₂. 1 mol N₂ → 2 mol NH₃. Massa = 2 × 17 = 34 g.', hint:'M(N₂)=28 g/mol. 1 mol N₂ → 2 mol NH₃. M(NH₃)=17 g/mol.' },
+  { q:'Na reação A + 2B → C, com 3 mol de A e 4 mol de B, qual é o reagente limitante e quantos mol de C são produzidos?', opts:['A limita; 3 mol C','B limita; 2 mol C','A limita; 1,5 mol C','Sem limitante; 3 mol C'], ans:1, exp:'Para consumir 3 mol A são necessários 6 mol B (mas só há 4). Com 4 mol B consome-se 2 mol A → produz 2 mol C. B é o limitante (necessita proporção 1A:2B; 4 mol B só permite 2 mol A).', hint:'Calcule a proporção necessária: para usar todo A, quanto B é preciso? E vice-versa.' },
+  { q:'Uma reação tem rendimento de 75%. Para produzir 30 g do produto, qual é a massa teórica mínima necessária calcular?', opts:['22,5 g','30 g','40 g','37,5 g'], ans:2, exp:'Rendimento = massa_real / massa_teórica × 100. 75% = 30 / massa_teórica × 100. massa_teórica = 30 / 0,75 = 40 g.', hint:'Rendimento% = (obtido/teórico)×100. Isola o teórico.' },
+  { q:'0,5 mol de gás a CNTP (0°C, 1 atm) ocupa aproximadamente:', opts:['22,4 L','11,2 L','5,6 L','44,8 L'], ans:1, exp:'1 mol de gás ideal a CNTP ocupa 22,4 L. 0,5 mol ocupa 0,5 × 22,4 = 11,2 L.', hint:'Volume molar a CNTP = 22,4 L/mol. Multiplique pelo número de mols.' },
+  { q:'Na combustão completa do etanol C₂H₅OH + 3O₂ → 2CO₂ + 3H₂O, qual o percentual atômico de oxigênio no etanol?', opts:['6,25%','26,1%','13,0%','50%'], ans:1, exp:'C₂H₅OH: 2C + 6H + 1O. Total = 9 átomos. % de O = 1/9 × 100 ≈ 11,1%. Em % mássico: M=46 g/mol; O=16 g/mol; 16/46×100 ≈ 34,8%. A questão pergunta atômico: 1 átomo O de 9 total = 11,1%.', hint:'Conte todos os átomos na fórmula. Percentual atômico = n_átomo_X / total_átomos × 100.' },
+  { q:'A fórmula empírica de um composto com 40%C, 6,7%H e 53,3%O (em massa) é:', opts:['CH₂O','C₂H₄O₂','C₃H₆O₃','CHO'], ans:0, exp:'Divide cada % pela massa atômica: C=40/12=3,33; H=6,7/1=6,7; O=53,3/16=3,33. Razão: C:H:O = 3,33:6,7:3,33 = 1:2:1. Fórmula empírica = CH₂O (formol, açúcares, ácido acético, etc.)', hint:'Divida o % pela massa atômica. Depois divida todos pelo menor resultado.' },
+  { q:'Para preparar 200 mL de solução 0,5 mol/L de NaCl (M=58,5 g/mol), qual massa de NaCl é necessária?', opts:['5,85 g','11,7 g','29,25 g','58,5 g'], ans:0, exp:'n = C × V = 0,5 mol/L × 0,200 L = 0,1 mol. m = n × M = 0,1 × 58,5 = 5,85 g.', hint:'n = C × V (em litros). m = n × M.' },
+  { q:'Na reação de Haber N₂ + 3H₂ ⇌ 2NH₃, o rendimento industrial é ~15% por passagem. Com 100 mol N₂ por ciclo, produz-se:', opts:['200 mol NH₃','30 mol NH₃','15 mol NH₃','150 mol NH₃'], ans:1, exp:'Teórico: 100 mol N₂ → 200 mol NH₃. Com 15% de rendimento: 200 × 0,15 = 30 mol NH₃ por passagem. Os gases não convertidos são reciclados — a conversão total chega a ~98%.', hint:'Rendimento% × produção teórica = produção real.' }
+];
 
 /* -----------------------------------------------------------------------
    render()
@@ -232,8 +244,9 @@ export function render(outlet) {
   _lrMolesB    = 2.0;
   _actualYield = 80;
   if (_loop) { _loop.stop(); _loop = null; }
+  _exIdx      = 0;
   _exAttempts  = 0;
-  _exDone      = false;
+  _exDone     = false;
 
   outlet.innerHTML = `
 <div class="page module-page">
@@ -498,15 +511,16 @@ export function render(outlet) {
 
   <!-- Exercício -->
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${esc(EXERCISE.question)}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
-      ${EXERCISE.options.map((opt, i) => `
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+      ${EXERCISES[0].opts.map((opt, i) => `
         <button class="btn btn-ghost" style="text-align:left;justify-content:flex-start"
                 id="ex-opt-${i}" data-exopt="${i}">${esc(opt)}</button>
       `).join('')}
     </div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <div class="real-life-card">
@@ -712,6 +726,53 @@ function _initPurity() {
   }
 }
 
+
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('stoichiometry', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
 export function destroy() {
   if (_loop) { _loop.stop(); _loop = null; }
 }

@@ -8,6 +8,13 @@
   <title>Lavoisier — Laboratório Visual de Química</title>
   <meta name="description" content="Laboratório interativo de pensamento químico. Visualize átomos, moléculas, ligações e reações." />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d1117" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Lavoisier" />
+  <link rel="apple-touch-icon" href="icon-192.svg" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -105,6 +112,24 @@
        SCRIPTS — ES Modules
   ====================================================================== -->
   <script type="module" src="js/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
+          .then(reg => {
+            reg.addEventListener('updatefound', () => {
+              const nw = reg.installing;
+              nw.addEventListener('statechange', () => {
+                if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                  window.dispatchEvent(new CustomEvent('sw-update-available'));
+                }
+              });
+            });
+          })
+          .catch(err => console.warn('SW:', err));
+      });
+    }
+  </script>
 
 </body>
 </html>

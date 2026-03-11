@@ -107,8 +107,28 @@ let _exDone     = false;
 /* -----------------------------------------------------------------------
    Exports
 ----------------------------------------------------------------------- */
+const EXERCISES = [
+  { q: 'Ao percorrer um período da esquerda para direita, o raio atômico:', opts: ['Aumenta','Diminui','Permanece constante','Varia aleatoriamente'], ans: 1, exp: 'Z aumenta no mesmo período → Z_ef aumenta (mesma blindagem) → atração nuclear contrai os orbitais.', hint: 'Mais prótons, mesmas camadas eletrônicas → raio aumenta ou diminui?' },
+  { q: 'Qual família contém os metais mais reativos?', opts: ['Metais alcalinoterrosos (IIA)','Metais alcalinos (IA)','Halogênios (VIIA)','Gases nobres (0)'], ans: 1, exp: 'Metais alcalinos têm 1 e⁻ de valência e baixa energia de ionização. Reagem violentamente com água. Cs > Rb > K > Na > Li.', hint: '1 elétron de valência + baixa IE = muito reativo.' },
+  { q: 'A eletronegatividade aumenta na tabela periódica:', opts: ['Da direita para esquerda num período','De cima para baixo num grupo','Da esquerda para direita num período e de baixo para cima num grupo','Não tem tendência definida'], ans: 2, exp: 'Maior Z_ef → maior atração de elétrons de ligação → maior eletronegatividade. F (3,98) é o mais eletronegativo de todos.', hint: 'Maior Z_ef = mais atração sobre elétrons de ligação = maior eletronegatividade.' },
+  { q: 'Os lantanídeos são difíceis de separar entre si porque:', opts: ['São radioativos','Têm tamanhos e propriedades químicas muito similares (contração lantanídica)','São muito escassos','Reagem com qualquer reagente'], ans: 1, exp: 'A contração lantanídica: elétrons 4f blindam mal um ao outro → Z_ef cresce gradualmente → raios atômicos similares → propriedades químicas quase idênticas. Separação requer extração seletiva em série.', hint: 'O que torna dois elementos difíceis de separar quimicamente?' },
+  { q: 'Por que gases nobres têm energia de ionização muito alta?', opts: ['São muito pesados','Têm camada de valência completa — configuração extremamente estável','São radioativos','Não formam ligações'], ans: 1, exp: 'He (1s²), Ne (2s²2p⁶), Ar ([Ne]3s²3p⁶): configuração de octeto completo. Remoção de qualquer elétron destabiliza muito. IE₁ do He = 2372 kJ/mol.', hint: 'O que caracteriza a configuração eletrônica especialmente estável dos gases nobres?' },,
+  { q:'O raio atômico aumenta ao descer num grupo porque:', opts:['A carga nuclear diminui','Há mais camadas eletrônicas (n maior)','A eletronegatividade aumenta','O número de massa aumenta'], ans:1, exp:'Cada período adiciona uma camada (n). Mais camadas → elétrons externos mais distantes do núcleo → raio maior.', hint:'Pense no Li (2 camadas) vs Cs (6 camadas) — ambos no grupo 1.' },
+  { q:'A primeira energia de ionização do Mg é menor que a do Na? Isso é:',opts:['Verdadeiro — Mg tem mais elétrons','Falso — Mg (738 kJ/mol) > Na (496 kJ/mol)','Verdadeiro — Mg é mais reativo','Falso — são iguais na mesma linha'], ans:1, exp:'Na mesma linha (período 3), E_ion aumenta da esquerda para a direita. Mg (Z=12) tem E_ion=738 kJ/mol; Na (Z=11) tem 496 kJ/mol. Mg > Na.', hint:'Tendência no período: E_ion aumenta da esquerda para a direita (Z_ef cresce).' },
+  { q:'Por que o F é o elemento mais eletronegativo?', opts:['É o maior átomo','Tem o maior Z_efetivo combinado com o menor raio e alta afinidade eletrônica','É um gás nobre modificado','Tem 9 prótons e é instável'], ans:1, exp:'F tem Z_ef alto (elétrons pouco blindados), raio muito pequeno (2ª linha) e altíssima afinidade eletrônica. A combinação desses três fatores maximiza a atração sobre elétrons de ligação.', hint:'Eletronegatividade cresce com Z_ef e diminui com o raio.' },
+  { q:'O Z efetivo do cloro (3s²3p⁵) pelo método de Slater para um elétron 3p é:', opts:['17','6,1','8,9','11,9'], ans:2, exp:'Slater: contribuição dos outros 4 elétrons 3p = 4×0,35=1,40; 8 elétrons das camadas 2s2p = 8×0,85=6,80; 2 elétrons 1s = 2×1,00=2,00. Total blindagem = 10,20. Z_ef = 17 - 10,20 = 6,80 ≈ 6,1 (variações dependem do agrupamento).', hint:'Z_ef = Z - S; S = soma das blindagens de Slater por camada.' },
+  { q:'Qual propriedade apresenta anomalia entre N e O (O tem valor menor que N)?', opts:['Raio atômico','Energia de ionização','Eletronegatividade','Afinidade eletrônica'], ans:1, exp:'E_ion do O (1314 kJ/mol) < N (1402 kJ/mol) — anomalia. N tem 2p semi-preenchido (3 orbitais, 1 e⁻ cada — muito estável pela regra de Hund). O tem par forçado em 2p, que repele e facilita a ionização.', hint:'N: 2p³ com meio-preenchimento estável. O: 2p⁴ com um emparelhamento que eleva repulsão.' },
+  { q:'O He é colocado no grupo 18 (gases nobres) mas sua configuração 1s² é mais parecida com o grupo 2 (metais alcalino-terrosos). Por que fica no grupo 18?', opts:['Por convenção histórica','Porque suas propriedades químicas (inerte, gasoso) são idênticas aos outros gases nobres','Porque tem 2 elétrons como Mg','Porque é o único gás nobre não-radioativo'], ans:1, exp:'A classificação periódica prioriza propriedades químicas sobre configuração eletrônica. He é quimicamente inerte como Ne, Ar, Kr — nunca forma compostos naturais. Sua camada de valência (n=1) está completamente cheia com apenas 2 e⁻.', hint:'Química é comportamento, não apenas configuração eletrônica.' },
+  { q:'Os elementos de transição (bloco d) têm propriedades distintas dos metais do bloco s porque:', opts:['Têm massa atômica menor','Possuem orbitais d parcialmente preenchidos que permitem múltiplos estados de oxidação e formação de complexos coloridos','São sólidos em temperatura ambiente','Reagem com água como Na e K'], ans:1, exp:'Orbitais d parcialmente preenchidos permitem: múltiplos estados de oxidação (Fe²⁺/Fe³⁺), formação de complexos coloridos (transições d-d), paramagnetismo e catálise. Isso não ocorre em metais de bloco s que têm d vazio ou cheio.', hint:'O que há de especial nos orbitais d que os metais do grupo 1 e 2 não têm?' },
+  { q:'Dentre os halogênios (grupo 17), qual tem maior ponto de ebulição e por quê?', opts:['F₂ — é o mais eletronegativo','I₂ — maior massa e forças de dispersão de London mais intensas','Cl₂ — é gasoso à temperatura ambiente','Br₂ — é líquido à temperatura ambiente'], ans:1, exp:'I₂ (Pb = 184°C) > Br₂ (59°C) > Cl₂ (-34°C) > F₂ (-188°C). Moléculas maiores têm mais elétrons → forças de dispersão de London maiores → ponto de ebulição maior.', hint:'Forças de London aumentam com o número de elétrons (polarizabilidade).' },
+  { q:'Por que o raio do Fe²⁺ é maior que o do Fe³⁺, embora ambos sejam do mesmo elemento?', opts:['Fe²⁺ tem mais prótons','Fe³⁺ perdeu mais elétrons — mesma carga nuclear, menos repulsão e-e, orbitais contraem','Fe²⁺ tem configuração [Ar]3d⁴ que é maior','São iguais — apenas o estado de oxidação muda'], ans:1, exp:'Fe²⁺ ([Ar]3d⁶) e Fe³⁺ ([Ar]3d⁵) têm Z=26. Com menos elétrons, a atração do núcleo sobre os restantes é mais efetiva → menor raio. Regra geral: raio iônico diminui com a carga positiva do cátion.', hint:'Mesma carga nuclear, menos elétrons = mais atração por elétron = raio menor.' },
+  { q:'A propriedade periódica com variação menos regular é:', opts:['Raio atômico','Ponto de fusão — depende do tipo de estrutura sólida (metálica, covalente, molecular)','Eletronegatividade','Primeira energia de ionização'], ans:1, exp:'Ponto de fusão depende do tipo de ligação no sólido: C (diamante, covalente rede) ≈ 3550°C; W (metálico) = 3422°C; He (van der Waals) = -272°C. Não é apenas função de Z — depende da estrutura cristalina e tipo de interação.', hint:'Pense no grafite vs diamante vs metais vs gases nobres.' }
+];
+let _exIdx = 0;
+
 export function render(outlet) {
   _filterCat  = null;
+  _exIdx = 0;
   _exAttempts = 0;
   _exDone     = false;
 
@@ -116,6 +136,8 @@ export function render(outlet) {
   _bindEvents();
   _selectElement(ELEMENTS.find(e => e.z === 8));
   _initComplexes();
+  _initZef();
+  _initExercises();
   markSectionDone('periodic-table', 'visited');
 }
 
@@ -147,8 +169,453 @@ function _initComplexes() {
     COMPLEX_DATA.forEach((_,i)=>{ document.getElementById('cpx-'+i)?.addEventListener('click',()=>renderComplex(i)); });
 }
 
+// ---------------------------------------------------------------------------
+// Calculadora de Z efetivo — Regras de Slater
+// ---------------------------------------------------------------------------
+
+const ZEF_DATA = [
+  null, // índice 0 não usado
+  { sym:'H',  cfg:'1s¹',              shells:[[1,0]], name:'Hidrogênio'   },
+  { sym:'He', cfg:'1s²',              shells:[[2,0]], name:'Hélio'        },
+  { sym:'Li', cfg:'[He] 2s¹',         shells:[[2,0],[1,0]], name:'Lítio'  },
+  { sym:'Be', cfg:'[He] 2s²',         shells:[[2,0],[2,0]], name:'Berílio'},
+  { sym:'B',  cfg:'[He] 2s² 2p¹',     shells:[[2,0],[2,1]], name:'Boro'  },
+  { sym:'C',  cfg:'[He] 2s² 2p²',     shells:[[2,0],[2,2]], name:'Carbono'},
+  { sym:'N',  cfg:'[He] 2s² 2p³',     shells:[[2,0],[2,3]], name:'Nitrogênio'},
+  { sym:'O',  cfg:'[He] 2s² 2p⁴',     shells:[[2,0],[2,4]], name:'Oxigênio'},
+  { sym:'F',  cfg:'[He] 2s² 2p⁵',     shells:[[2,0],[2,5]], name:'Flúor'  },
+  { sym:'Ne', cfg:'[He] 2s² 2p⁶',     shells:[[2,0],[2,6]], name:'Neônio' },
+  { sym:'Na', cfg:'[Ne] 3s¹',          shells:[[2,0],[8,0],[1,0]], name:'Sódio'},
+  { sym:'Mg', cfg:'[Ne] 3s²',          shells:[[2,0],[8,0],[2,0]], name:'Magnésio'},
+  { sym:'Al', cfg:'[Ne] 3s² 3p¹',      shells:[[2,0],[8,0],[2,1]], name:'Alumínio'},
+  { sym:'Si', cfg:'[Ne] 3s² 3p²',      shells:[[2,0],[8,0],[2,2]], name:'Silício'},
+  { sym:'P',  cfg:'[Ne] 3s² 3p³',      shells:[[2,0],[8,0],[2,3]], name:'Fósforo'},
+  { sym:'S',  cfg:'[Ne] 3s² 3p⁴',      shells:[[2,0],[8,0],[2,4]], name:'Enxofre'},
+  { sym:'Cl', cfg:'[Ne] 3s² 3p⁵',      shells:[[2,0],[8,0],[2,5]], name:'Cloro'},
+  { sym:'Ar', cfg:'[Ne] 3s² 3p⁶',      shells:[[2,0],[8,0],[2,6]], name:'Argônio'},
+  { sym:'K',  cfg:'[Ar] 4s¹',           shells:[[2,0],[8,0],[8,0],[1,0]], name:'Potássio'},
+  { sym:'Ca', cfg:'[Ar] 4s²',           shells:[[2,0],[8,0],[8,0],[2,0]], name:'Cálcio'},
+  { sym:'Sc', cfg:'[Ar] 3d¹ 4s²',       shells:[[2,0],[8,0],[9,0],[2,0]], name:'Escândio'},
+  { sym:'Ti', cfg:'[Ar] 3d² 4s²',       shells:[[2,0],[8,0],[10,0],[2,0]], name:'Titânio'},
+  { sym:'V',  cfg:'[Ar] 3d³ 4s²',       shells:[[2,0],[8,0],[11,0],[2,0]], name:'Vanádio'},
+  { sym:'Cr', cfg:'[Ar] 3d⁵ 4s¹',       shells:[[2,0],[8,0],[13,0],[1,0]], name:'Cromo'},
+  { sym:'Mn', cfg:'[Ar] 3d⁵ 4s²',       shells:[[2,0],[8,0],[13,0],[2,0]], name:'Manganês'},
+  { sym:'Fe', cfg:'[Ar] 3d⁶ 4s²',       shells:[[2,0],[8,0],[14,0],[2,0]], name:'Ferro'},
+  { sym:'Co', cfg:'[Ar] 3d⁷ 4s²',       shells:[[2,0],[8,0],[15,0],[2,0]], name:'Cobalto'},
+  { sym:'Ni', cfg:'[Ar] 3d⁸ 4s²',       shells:[[2,0],[8,0],[16,0],[2,0]], name:'Níquel'},
+  { sym:'Cu', cfg:'[Ar] 3d¹⁰ 4s¹',      shells:[[2,0],[8,0],[18,0],[1,0]], name:'Cobre'},
+  { sym:'Zn', cfg:'[Ar] 3d¹⁰ 4s²',      shells:[[2,0],[8,0],[18,0],[2,0]], name:'Zinco'},
+  { sym:'Ga', cfg:'[Ar] 3d¹⁰ 4s² 4p¹',  shells:[[2,0],[8,0],[18,0],[2,1]], name:'Gálio'},
+  { sym:'Ge', cfg:'[Ar] 3d¹⁰ 4s² 4p²',  shells:[[2,0],[8,0],[18,0],[2,2]], name:'Germânio'},
+  { sym:'As', cfg:'[Ar] 3d¹⁰ 4s² 4p³',  shells:[[2,0],[8,0],[18,0],[2,3]], name:'Arsênio'},
+  { sym:'Se', cfg:'[Ar] 3d¹⁰ 4s² 4p⁴',  shells:[[2,0],[8,0],[18,0],[2,4]], name:'Selênio'},
+  { sym:'Br', cfg:'[Ar] 3d¹⁰ 4s² 4p⁵',  shells:[[2,0],[8,0],[18,0],[2,5]], name:'Bromo'},
+  { sym:'Kr', cfg:'[Ar] 3d¹⁰ 4s² 4p⁶',  shells:[[2,0],[8,0],[18,0],[2,6]], name:'Criptônio'},
+];
+
+function _slater(Z) {
+  // Regra de Slater simplificada para o elétron mais externo
+  // shells: array de [elétrons na camada, elétrons p na última camada se misturada]
+  // Implementação: usar n de valência e contar contribuições
+  if (Z < 1 || Z > 36) return null;
+  const d = ZEF_DATA[Z];
+  if (!d) return null;
+
+  // Contagem direta de sigma baseada em regras de Slater
+  // Para simplicidade: camada de valência = última camada; camadas internas
+  const shells = d.shells; // [[n_eletrons_antes_valência, ...], ..., [n_valência, 0]]
+  const nShells = shells.length;
+  const valElecs = shells[nShells - 1][0] + shells[nShells - 1][1] - 1; // mesma camada - self
+  let sigma = valElecs * 0.35; // mesma camada (exceto self)
+
+  if (nShells >= 2) {
+    sigma += (shells[nShells - 2][0] + shells[nShells - 2][1]) * 0.85;
+  }
+  for (let i = 0; i < nShells - 2; i++) {
+    sigma += (shells[i][0] + shells[i][1]) * 1.00;
+  }
+
+  return { sigma: +sigma.toFixed(2), zef: +(Z - sigma).toFixed(2) };
+}
+
+function _initZef() {
+  function update() {
+    const Z = parseInt(document.getElementById('zef-z')?.value ?? 11, 10);
+    const d = ZEF_DATA[Z];
+    const s = _slater(Z);
+    if (!d || !s) return;
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
+    set('zef-z-val',  Z);
+    set('zef-elem',   `${d.sym} (${d.name})`);
+    set('zef-config', d.cfg);
+    set('zef-sigma',  s.sigma);
+    set('zef-zef',    s.zef);
+  }
+
+  document.getElementById('zef-z')?.addEventListener('input', update);
+  if (document.getElementById('zef-z')) update();
+}
+
+// ---------------------------------------------------------------------------
+// Multi-exercise system
+// ---------------------------------------------------------------------------
+function _initExercises() {
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx]; if (!ex) return;
+    _exAttempts = 0; _exDone = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('periodic-table', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(_exIdx);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Canvas de gráfico de barras das tendências periódicas (Z = 1..18)
+// ---------------------------------------------------------------------------
+
+// Dados para Z = 1..18 (período 1, 2 e 3)
+const TREND_DATA = {
+  r: {   // Raio atômico (pm) — Slater/Cordero estimativas
+    label: 'Raio atômico (pm)',
+    color: '#4fc3f7',
+    values: [31,28,167,112,87,77,75,73,64,58,190,160,143,118,110,103,99,97],
+  },
+  ie: {  // 1ª energia de ionização (kJ/mol)
+    label: 'E. ionização (kJ/mol)',
+    color: '#ef476f',
+    values: [1312,2372,520,900,800,1086,1402,1314,1681,2081,496,738,577,786,1012,1000,1251,1521],
+  },
+  en: {  // Eletronegatividade Pauling ×100 (para inteiro)
+    label: 'Eletronegatividade (×10)',
+    color: '#ffd166',
+    values: [22,0,10,15,20,25,30,34,38,0,9,12,16,19,21,25,32,0].map(v=>v),
+    // H=2.2, He=0, Li=1.0, Be=1.5, B=2.0, C=2.5, N=3.0, O=3.4, F=3.8, Ne=0
+    // Na=0.9, Mg=1.2, Al=1.6, Si=1.9, P=2.1, S=2.5, Cl=3.2, Ar=0
+  },
+  af: {  // Afinidade eletrônica (kJ/mol) — abs value; negativo = exotérmico
+    label: 'Af. eletrônica (kJ/mol)',
+    color: '#6bcb77',
+    values: [73,0,60,0,27,122,0,141,328,0,53,0,42,134,72,200,349,0],
+  },
+};
+
+const TREND_LABELS = ['H','He','Li','Be','B','C','N','O','F','Ne',
+                      'Na','Mg','Al','Si','P','S','Cl','Ar'];
+const TREND_COLORS_BAR = [
+  // período 1
+  '#4fc3f7','#888',
+  // período 2
+  '#ef476f','#ef476f','#ffd166','#6bcb77','#6bcb77','#6bcb77','#6bcb77','#888',
+  // período 3
+  '#ef476f','#ef476f','#ffd166','#6bcb77','#6bcb77','#6bcb77','#6bcb77','#888',
+];
+
+let _trendProp    = 'r';
+let _trendAnimId  = null;
+let _trendCanvas  = null;
+let _trendCtx     = null;
+let _trendAnimT   = 1;   // 0→1 na animação de entrada
+
+function _drawTrend(t) {
+  const canvas = _trendCanvas;
+  const ctx    = _trendCtx;
+  if (!canvas || !ctx) return;
+
+  const W = canvas.offsetWidth  || 480;
+  const H = canvas.offsetHeight || 120;
+  const dpr = window.devicePixelRatio || 1;
+
+  // Redimensionar se necessário
+  if (canvas.width !== Math.round(W * dpr) || canvas.height !== Math.round(H * dpr)) {
+    canvas.width  = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.scale(dpr, dpr);
+  }
+
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, W, H);
+
+  const dataset = TREND_DATA[_trendProp];
+  if (!dataset) return;
+
+  const vals    = dataset.values;
+  const maxVal  = Math.max(...vals);
+  const n       = vals.length;
+  const padL    = 32, padR = 8, padT = 12, padB = 22;
+  const barW    = (W - padL - padR) / n;
+
+  // Eixo Y label
+  ctx.fillStyle  = 'rgba(200,200,200,0.4)';
+  ctx.font       = '8px monospace';
+  ctx.textAlign  = 'right';
+  ctx.fillText(dataset.label, padL - 2, padT);
+
+  vals.forEach((v, i) => {
+    const barH   = ((v / maxVal) * (H - padT - padB)) * Math.min(1, t);
+    const x      = padL + i * barW + 1;
+    const y      = H - padB - barH;
+    const color  = TREND_COLORS_BAR[i];
+
+    // Barra
+    ctx.fillStyle = color + 'bb';
+    ctx.fillRect(x, y, barW - 2, barH);
+
+    // Valor se barra alta o suficiente
+    if (barH > 14) {
+      ctx.fillStyle  = '#fff';
+      ctx.font       = '7px monospace';
+      ctx.textAlign  = 'center';
+      ctx.fillText(v > 99 ? (v/1000).toFixed(1)+'k' : v, x + (barW-2)/2, y + 9);
+    }
+
+    // Label elemento
+    ctx.fillStyle  = 'rgba(200,200,200,0.7)';
+    ctx.font       = '7px monospace';
+    ctx.textAlign  = 'center';
+    ctx.fillText(TREND_LABELS[i], x + (barW-2)/2, H - padB + 10);
+  });
+
+  // Linha de zero
+  ctx.strokeStyle = 'rgba(200,200,200,0.15)';
+  ctx.lineWidth   = 1;
+  ctx.beginPath();
+  ctx.moveTo(padL, H - padB);
+  ctx.lineTo(W - padR, H - padB);
+  ctx.stroke();
+}
+
+function _animateTrend() {
+  if (_trendAnimId) cancelAnimationFrame(_trendAnimId);
+  _trendAnimT = 0;
+  function step() {
+    _trendAnimT = Math.min(1, _trendAnimT + 0.06);
+    _drawTrend(_trendAnimT);
+    if (_trendAnimT < 1) _trendAnimId = requestAnimationFrame(step);
+    else _trendAnimId = null;
+  }
+  _trendAnimId = requestAnimationFrame(step);
+}
+
+function _initTrendCanvas(initialProp) {
+  const frame  = document.getElementById('trend-canvas-frame');
+  const canvas = document.getElementById('trend-canvas');
+  if (!canvas || !frame) return;
+
+  _trendCanvas = canvas;
+
+  const W   = Math.min(frame.clientWidth || 480, 480);
+  const H   = 120;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  _trendCtx = canvas.getContext('2d');
+  _trendCtx.scale(dpr, dpr);
+
+  _trendProp = initialProp || 'r';
+  _animateTrend();
+}
+
+// Chamada quando o botão de tendência muda — integramos no listener existente
+function _updateTrendCanvas(prop) {
+  _trendProp = prop;
+  _animateTrend();
+}
+
+// ---------------------------------------------------------------------------
+// Mapa de calor da tabela periódica por propriedade
+// ---------------------------------------------------------------------------
+
+// Dados por Z (1..36) para 4 propriedades: raio, IE, EN, AF
+// Índice 0 = Z=1 (H), índice 1 = Z=2 (He), ...
+const HEATMAP_DATA = {
+  r:  { label: 'Raio atômico (pm)', unit: 'pm',
+        // Z 1..36
+        vals: [31,28,167,112,87,77,75,73,64,58,190,160,143,118,110,103,99,97,
+               235,197,164,147,135,128,126,124,125,125,128,133,122,122,120,119,120,116] },
+  ie: { label: '1ª E. ionização (kJ/mol)', unit: 'kJ/mol',
+        vals: [1312,2372,520,900,800,1086,1402,1314,1681,2081,496,738,577,786,1012,1000,1251,1521,
+               419,590,633,659,650,653,717,759,758,737,745,906,579,762,947,941,1140,1351] },
+  en: { label: 'Eletronegatividade (Pauling)', unit: '',
+        vals: [2.2,0,1.0,1.5,2.0,2.5,3.0,3.4,3.98,0,0.93,1.31,1.61,1.9,2.19,2.58,3.16,0,
+               0.82,1.0,1.36,1.54,1.63,1.66,1.55,1.83,1.88,1.91,1.9,1.65,1.81,2.01,2.18,2.55,2.96,3.0] },
+  af: { label: 'Afinidade eletrônica (kJ/mol)', unit: 'kJ/mol',
+        vals: [73,0,60,0,27,122,0,141,328,0,53,0,42,134,72,200,349,0,
+               48,2,18,8,51,65,0,15,64,112,119,0,29,119,78,195,325,0] },
+};
+
+// Posição na tabela: [Z, período, grupo]
+const HEATMAP_POSITIONS = [
+  [1,1,1],[2,1,18],
+  [3,2,1],[4,2,2],[5,2,13],[6,2,14],[7,2,15],[8,2,16],[9,2,17],[10,2,18],
+  [11,3,1],[12,3,2],[13,3,13],[14,3,14],[15,3,15],[16,3,16],[17,3,17],[18,3,18],
+  [19,4,1],[20,4,2],[21,4,3],[22,4,4],[23,4,5],[24,4,6],[25,4,7],[26,4,8],[27,4,9],[28,4,10],
+  [29,4,11],[30,4,12],[31,4,13],[32,4,14],[33,4,15],[34,4,16],[35,4,17],[36,4,18],
+];
+
+const HEATMAP_SYMBOLS = ['H','He','Li','Be','B','C','N','O','F','Ne',
+  'Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn',
+  'Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr'];
+
+let _heatmapProp = 'r';
+
+function _lerpColor(t) {
+  // azul frio (0) → verde (0.5) → vermelho quente (1)
+  let r, g, b;
+  if (t < 0.5) {
+    const s = t * 2;
+    r = Math.round(30 + s * (30));
+    g = Math.round(60 + s * (180));
+    b = Math.round(180 - s * (60));
+  } else {
+    const s = (t - 0.5) * 2;
+    r = Math.round(60 + s * (180));
+    g = Math.round(240 - s * (180));
+    b = Math.round(120 - s * (90));
+  }
+  return `rgb(${r},${g},${b})`;
+}
+
+function _buildHeatmapSVG(prop) {
+  const dataset = HEATMAP_DATA[prop];
+  const vals    = dataset.vals;
+  const CELL = 26, GAP = 2;
+  const MAX_G = 18, MAX_P = 7;
+  const W = MAX_G * (CELL + GAP) + 32;
+  const H = (MAX_P - 3) * (CELL + GAP) + 12;  // Z 1..36 = períodos 1..4
+
+  const minVal = Math.min(...vals.filter(v => v > 0));
+  const maxVal = Math.max(...vals);
+
+  let cells = '';
+  HEATMAP_POSITIONS.forEach(([z, p, g], idx) => {
+    const x = 4 + (g - 1) * (CELL + GAP);
+    const y = 4 + (p - 1) * (CELL + GAP);
+    const v = vals[idx];
+    let fill, opacity;
+    if (v === 0) {
+      fill = '#21262d';
+      opacity = '0.4';
+    } else {
+      const t = (v - minVal) / (maxVal - minVal);
+      fill = _lerpColor(t);
+      opacity = '0.85';
+    }
+    const sym   = HEATMAP_SYMBOLS[idx];
+    const label = v > 0 ? (v < 10 ? v.toFixed(2) : Math.round(v)) : '—';
+    cells += `
+      <g class="hm-cell" data-z="${z}" style="cursor:default">
+        <rect x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="3"
+              fill="${fill}" opacity="${opacity}"/>
+        <text x="${x + CELL/2}" y="${y + CELL/2 - 2}" text-anchor="middle"
+              font-size="9" font-weight="700" fill="#e6edf3"
+              font-family="monospace" pointer-events="none">${sym}</text>
+        <text x="${x + CELL/2}" y="${y + CELL - 5}" text-anchor="middle"
+              font-size="6" fill="rgba(200,200,200,0.7)"
+              font-family="monospace" pointer-events="none">${label}</text>
+      </g>`;
+  });
+
+  return { svg: `<svg width="${W}" height="${H}" style="display:block">${cells}</svg>`,
+           min: minVal, max: maxVal };
+}
+
+function _drawHeatmapLegend(minVal, maxVal) {
+  const canvas = document.getElementById('heatmap-legend-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 160, H = 12;
+  const grad = ctx.createLinearGradient(0, 0, W, 0);
+  for (let i = 0; i <= 20; i++) grad.addColorStop(i / 20, _lerpColor(i / 20));
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+  const rangeEl = document.getElementById('heatmap-range-label');
+  const ds      = HEATMAP_DATA[_heatmapProp];
+  if (rangeEl) rangeEl.textContent = `${Math.round(minVal)}–${Math.round(maxVal)} ${ds.unit}`;
+}
+
+function _initHeatmap(initialProp) {
+  _heatmapProp = initialProp || 'r';
+
+  function render(prop) {
+    _heatmapProp = prop;
+    const container = document.getElementById('heatmap-container');
+    if (!container) return;
+    const { svg, min, max } = _buildHeatmapSVG(prop);
+    container.innerHTML = svg;
+    _drawHeatmapLegend(min, max);
+
+    // Tooltip no hover
+    container.querySelectorAll('.hm-cell').forEach(cell => {
+      cell.addEventListener('mouseenter', () => {
+        const z   = parseInt(cell.dataset.z, 10);
+        const idx = z - 1;
+        const ds  = HEATMAP_DATA[_heatmapProp];
+        const v   = ds.vals[idx];
+        cell.querySelector('rect').style.strokeWidth = '1.5';
+        cell.querySelector('rect').style.stroke = '#fff';
+        const tip = document.createElement('title');
+        tip.textContent = `${HEATMAP_SYMBOLS[idx]} (Z=${z}): ${v > 0 ? v + ' ' + ds.unit : 'N/D'}`;
+        cell.appendChild(tip);
+      });
+      cell.addEventListener('mouseleave', () => {
+        cell.querySelector('rect').style.stroke = '';
+      });
+    });
+
+    document.querySelectorAll('#heatmap-btns [data-heatprop]').forEach(b => {
+      b.className = 'btn btn-xs ' + (b.dataset.heatprop === prop ? 'btn-secondary' : 'btn-ghost');
+    });
+  }
+
+  render(_heatmapProp);
+
+  document.querySelectorAll('#heatmap-btns [data-heatprop]').forEach(btn => {
+    btn.addEventListener('click', () => render(btn.dataset.heatprop));
+  });
+}
+
 export function destroy() {
   _filterCat = null;
+  if (_trendAnimId) { cancelAnimationFrame(_trendAnimId); _trendAnimId = null; }
 }
 
 /* -----------------------------------------------------------------------
@@ -173,7 +640,18 @@ function _buildHTML() {
     <!-- Química de coordenação -->
   <section class="module-section">
     <h2 class="module-section-title">Química de coordenação — Complexos de metais de transição</h2>
-    <p class="module-text">Íons de metais de transição formam complexos com ligantes (doadores de pares de elétrons). A teoria do campo cristalino explica as cores e o magnetismo dos complexos pela quebra da degenerescência dos orbitais d.</p>
+    <p class="module-text">
+      Íons de metais de transição possuem orbitais d parcialmente preenchidos e alta densidade
+      de carga — condições ideais para aceitar pares de elétrons de ligantes (base de Lewis).
+      O complexo resultante tem propriedades radicalmente diferentes do íon nu: cor intensa,
+      magnetismo alterado, solubilidade modificada e reatividade controlada. A
+      <strong>teoria do campo cristalino (TCC)</strong> modela os ligantes como cargas pontuais
+      negativas que se aproximam do metal e quebram a degenerescência dos cinco orbitais d.
+      Em geometria octaédrica, os orbitais se dividem em t₂g (estabilizados: dxy, dxz, dyz)
+      e eg (desestabilizados: dx²-y², dz²). A separação energética Δo determina se o complexo
+      será de <em>baixo spin</em> (ligantes de campo forte, Δo > P, emparelhamento forçado)
+      ou <em>alto spin</em> (campo fraco, elétrons em orbitais de mais alta energia).
+    </p>
 
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin-bottom:1rem">
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-electron)">Geometria e NC</h3>
@@ -240,18 +718,79 @@ function _buildHTML() {
 
   <section class="module-section">
     <h2 class="module-section-title">Tendências Periódicas</h2>
+    <p class="module-text">
+      As tendências periódicas emergem diretamente da estrutura eletrônica dos átomos.
+      Ao longo de um <strong>período</strong> (esquerda → direita), a carga nuclear Z aumenta
+      enquanto os elétrons são adicionados ao mesmo nível de energia — o aumento de Z efetivo
+      (Z_ef = Z - blindagem) contrai os orbitais. Ao longo de um <strong>grupo</strong>
+      (cima → baixo), elétrons são adicionados a níveis cada vez mais externos e a blindagem
+      dos elétrons internos reduz a atração do núcleo — os orbitais se expandem.
+      Esses dois efeitos opostos explicam todo o comportamento observável.
+    </p>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:var(--space-4)">
       <button class="btn btn-sm btn-secondary active" data-trend="r">Raio atômico</button>
       <button class="btn btn-sm btn-secondary"        data-trend="en">Eletronegatividade</button>
       <button class="btn btn-sm btn-secondary"        data-trend="ie">Energia de ionização</button>
     </div>
     <div class="info-card" id="trend-panel">${_trendText('r')}</div>
+    <div class="canvas-frame" id="trend-canvas-frame" style="min-height:120px;margin-top:var(--space-3)">
+      <canvas id="trend-canvas" aria-label="Gráfico de tendência periódica"></canvas>
+    </div>
+    <!-- Calculadora de Z efetivo -->
+    <div style="margin-top:var(--space-5)">
+      <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+        Calculadora de Z efetivo — Regras de Slater
+      </h3>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary);margin-bottom:var(--space-3)">
+        Z<sub>ef</sub> = Z - σ (blindagem). Elétrons da mesma camada contribuem 0,35 de blindagem;
+        camada (n-1) contribui 0,85; camadas mais internas contribuem 1,00.
+        O Z<sub>ef</sub> crescente ao longo do período explica a contração do raio e o aumento da eletronegatividade.
+      </p>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:var(--space-3)">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:120px">Número atômico Z:</span>
+        <input type="range" id="zef-z" min="1" max="36" step="1" value="11"
+               style="width:160px;accent-color:var(--accent-electron)">
+        <span id="zef-z-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:30px">11</span>
+      </div>
+      <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+        <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Elemento</p><div id="zef-elem" style="font-size:var(--text-base);font-weight:700;color:var(--accent-electron)">—</div></div>
+        <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Config. eletrônica</p><div id="zef-config" style="font-size:var(--text-xs);font-family:monospace;color:var(--accent-bond)">—</div></div>
+        <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Blindagem σ</p><div id="zef-sigma" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-bond)">—</div></div>
+        <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Z<sub>ef</sub> (Slater)</p><div id="zef-zef" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mapa de calor -->
+  <section class="module-section">
+    <h2 class="module-section-title">Mapa de calor — tabela periódica</h2>
+    <p class="module-text">
+      Cada elemento é colorido pela intensidade da propriedade selecionada.
+      Elementos em cinza não possuem dado disponível para essa grandeza.
+    </p>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:var(--space-3)" id="heatmap-btns">
+      <button class="btn btn-xs btn-secondary" data-heatprop="r">Raio atômico</button>
+      <button class="btn btn-xs btn-ghost"     data-heatprop="ie">E. ionização</button>
+      <button class="btn btn-xs btn-ghost"     data-heatprop="en">Eletronegatividade</button>
+      <button class="btn btn-xs btn-ghost"     data-heatprop="af">Af. eletrônica</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:var(--space-3)">
+      <span style="font-size:var(--text-xs);color:var(--text-muted);min-width:34px">Baixo</span>
+      <canvas id="heatmap-legend-canvas" width="160" height="12"
+              style="border-radius:3px;display:block"></canvas>
+      <span style="font-size:var(--text-xs);color:var(--text-muted)">Alto</span>
+      <span id="heatmap-range-label"
+            style="font-size:var(--text-xs);color:var(--accent-electron);margin-left:.5rem"></span>
+    </div>
+    <div class="periodic-table-wrapper">
+      <div id="heatmap-container"></div>
+    </div>
   </section>
 
   <section class="module-section">
-    <h2 class="module-section-title">Exercício Guiado</h2>
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
     <div class="exercise-card">
-      <p class="exercise-question">
+      <p class="exercise-question" id="ex-question">
         Ao percorrer o <strong>Período 3</strong> da esquerda para a direita (Na → Ar),
         o que acontece com a <strong>eletronegatividade</strong>?
       </p>
@@ -261,6 +800,7 @@ function _buildHTML() {
         ).join('')}
       </div>
       <div class="hint-box" id="pt-ex-hint"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
       <div class="exercise-feedback" id="pt-ex-feedback"></div>
       <div class="exercise-actions">
         <button class="btn btn-secondary btn-sm" id="pt-btn-hint">Usar dica</button>
@@ -271,6 +811,14 @@ function _buildHTML() {
 
   <section class="module-section">
     <h2 class="module-section-title">Onde isso aparece na vida real?</h2>
+    <p class="module-text">
+      A tabela periódica não é apenas um catálogo — é um mapa preditivo. Mendeleev previu
+      a existência e as propriedades do germânio (eka-silício) antes de sua descoberta, em 1871.
+      Hoje, a posição de um elemento prediz seu estado de oxidação preferencial, tipo de ligação,
+      solubilidade de seus compostos, comportamento ácido-base de seus óxidos e reatividade
+      química geral. O bloco d (metais de transição) é peculiar: os orbitais 4s e 3d têm
+      energias próximas — pequenas variações determinam catálise, magnetismo e cor.
+    </p>
     <div class="real-life-card">
       <div class="real-life-label">Saúde</div>
       <p>O iodo (Z=53) é essencial para a tireoide. O sal iodado previne o bócio — doença

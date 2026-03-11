@@ -155,12 +155,23 @@ function alkaneSVG(n) {
 /* -----------------------------------------------------------------------
    Exercício
 ----------------------------------------------------------------------- */
-const EXERCISE = {
-  question: 'O etanol (C₂H₅OH) pertence à função orgânica:',
-  options:  ['Éster', 'Ácido carboxílico', 'Álcool', 'Aldeído'],
-  correct:  2,
-  explanation: 'O grupo funcional —OH (hidroxila) ligado a um carbono saturado caracteriza os álcoois. O etanol tem a estrutura CH₃—CH₂—OH, com a hidroxila no carbono terminal.',
-};
+const EXERCISES = [
+  { q: 'O etanol (C₂H₅OH) pertence à função orgânica:', opts: ['Éster','Ácido carboxílico','Álcool','Aldeído'], ans: 2, exp: 'Álcoois têm -OH ligado a C sp³. Etanol: CH₃CH₂OH. Diferente de fenol (C sp²) e ácidos (-COOH).', hint: 'O grupo -OH ligado a carbono saturado (sp³) caracteriza qual função?' },
+  { q: 'Na SN2 de (R)-2-bromobutano com OH⁻, o produto principal é:', opts: ['(R)-2-butanol (retenção)','(S)-2-butanol (inversão de Walden)','Racemato 50:50','Alceno por eliminação'], ans: 1, exp: 'SN2 é concertada com ataque traseiro (180°) → inversão de configuração: R → S.', hint: 'SN2 sempre inverte a configuração no centro quiral.' },
+  { q: 'Qual reagente dá adição Markovnikov a alcenos?', opts: ['HBr','Br₂/CCl₄','H₂/Ni','NaOH'], ans: 0, exp: 'HBr adiciona H ao C mais hidrogenado (Markovnikov). Br₂/CCl₄ dá adição anti sem Markovnikov.', hint: 'Markovnikov descreve adição de HX. Qual tem H e halogênio?' },
+  { q: 'Ordem crescente de acidez: CH₄, C₂H₄, C₂H₂, CH₃COOH?', opts: ['CH₄<C₂H₂<C₂H₄<CH₃COOH','CH₃COOH<C₂H₂<C₂H₄<CH₄','C₂H₂<C₂H₄<CH₄<CH₃COOH','CH₄<C₂H₄<C₂H₂<CH₃COOH'], ans: 3, exp: 'Acidez ∝ caráter s do C-H. sp³(CH₄,pKa≈50) < sp²(C₂H₄,pKa≈44) < sp(C₂H₂,pKa≈25) < ácido carboxílico(pKa≈5).', hint: 'Maior caráter s do orbital → melhor estabilização do ânion → maior acidez.' },
+  { q: 'O benzeno não descolore KMnO₄ aquoso porque:', opts: ['É saturado','Aromaticidade estabiliza o anel — prefere substituição a adição','É alcano cíclico','Tem apenas ligações simples'], ans: 1, exp: '6 elétrons π deslocalizados (Hückel, 4n+2, n=1) estabilizam ~150 kJ/mol. Reage por SEAr, não adição.', hint: 'O que seria perdido na adição ao benzeno?' },,
+  { q:'O nome IUPAC do CH₃-CH₂-CH₂-OH é:', opts:['Propanol-1','1-propanol','n-propil álcool','Propan-1-ol (IUPAC 2013)'], ans:3, exp:'IUPAC 2013: sufixo da função + locante: propan-1-ol. A numeração deve dar o menor locante ao grupo funcional. Propan-1-ol = 3 carbonos (propano) + OH na posição 1.', hint:'IUPAC: nome da cadeia + sufixo da função + locante mínimo.' },
+  { q:'Qual par é de isômeros constitucionais (mesma fórmula molecular, conectividade diferente)?', opts:['Enantiômeros do ácido lático','Etanol (C₂H₅OH) e éter dimetílico (CH₃OCH₃)','Isômeros cis-trans do 2-buteno','Conformações do ciclohexano'], ans:1, exp:'Etanol e éter dimetílico têm mesma fórmula C₂H₆O, mas conectividades diferentes: CH₃CH₂OH vs CH₃OCH₃. São isômeros constitucionais (estruturais). Enantiômeros têm mesma conectividade mas imagem especular.', hint:'Isômeros constitucionais: mesma fórmula molecular, diferente conectividade.' },
+  { q:'No mecanismo SN2, o nucleófilo ataca pelo lado posterior (back-attack) causando:', opts:['Retenção de configuração','Inversão de Walden (configuração invertida no carbono central)','Racemização completa','Formação de carbocátion'], ans:1, exp:'SN2: nucleófilo ataca pelo lado oposto ao grupo abandonador em estado de transição trigonal bipiramidal. Resultado: inversão total de configuração (R→S ou S→R). Favorecida por substratos primários e nucleófilos fortes.', hint:'SN2 = inversão de Walden. SN1 = racemização.' },
+  { q:'A saponificação do triglicerídeo com NaOH produz:', opts:['Éster + água','Glicerol + 3 sais de ácidos graxos (sabão)','Ácido graxo + glicerol','Glicerol + 3 ácidos graxos livres'], ans:1, exp:'Saponificação = hidrólise alcalina de éster. Triglicerídeo + 3NaOH → glicerol + 3 RCOONa (sabão). O sabão é o sal do ácido graxo. A hidrólise ácida daria os ácidos graxos livres, não o sal.', hint:'NaOH + éster = saponificação → sal (sabão) + álcool. Hidrólise ácida → ácido livre.' },
+  { q:'Qual reação transforma alqueno em álcool em uma etapa via hidratação com Markovnikov?', opts:['Halogenação','Hidratação (H₂SO₄/H₂O) — H se adiciona ao carbono com mais H','Hidrogenação','Ozonólise'], ans:1, exp:'Hidratação de alqueno: H₂C=CH₂ + H₂O/H⁺ → CH₃CH₂OH. Markovnikov: H vai ao C mais hidrogenado (forma carbocátion mais estável). Ex: CH₃CH=CH₂ → CH₃CH(OH)CH₃ (isopropanol, não propanol).', hint:'Markovnikov: H no carbono com mais H já ligados (carbocátion mais estável).' },
+  { q:'Qual grupo funcional reage com NaHCO₃ (base fraca) liberando CO₂?', opts:['Álcool','Ácido carboxílico (pKa ≈ 4-5, forte o suficiente para reagir com HCO₃⁻)','Cetona','Amina'], ans:1, exp:'RCOOH + NaHCO₃ → RCOONa + H₂O + CO₂. Ácidos carboxílicos (pKa ≈ 4-5) são suficientemente ácidos para protonar HCO₃⁻ (pKa do H₂CO₃ ≈ 6,4). Álcoois (pKa ≈ 16) e fenóis simples não reagem com NaHCO₃.', hint:'NaHCO₃ reage com ácidos de pKa < ~6. RCOOH sim. ArOH não. ROH não.' },
+  { q:'O ácido acético (CH₃COOH) tem pKa = 4,76 e o fenol (C₆H₅OH) tem pKa = 9,9. Por que ácidos carboxílicos são mais ácidos que fenóis?', opts:['Carbono é mais eletronegativo que oxigênio','A carga negativa em CH₃COO⁻ é deslocalizada em dois oxigênios equivalentes (ressonância maior estabilização)','Fenol tem anel aromático que diminui acidez','CH₃COOH tem ligação mais curta'], ans:1, exp:'CH₃COO⁻: dois ressonâncias equivalentes com carga em cada O. PhO⁻: carga deslocalizada no anel, mas não equivalentemente. A estabilização do carboxilato por ressonância simétrica é muito maior que a do fenolato → ácido carboxílico mais estável → mais ácido.', hint:'Maior estabilidade do ânion conjugado = ácido mais forte.' },
+  { q:'Na adição de HBr a CH₂=CH₂, qual é o mecanismo?', opts:['Radical livre','Eletrofílico (AdE): H⁺ ataca π → carbocátion → Br⁻ ataca cátion','Nucleofílico','Sigmatrópico'], ans:1, exp:'Alquenos são ricos em elétrons π → reagem com eletrófilo H⁺. Etapa 1: H⁺ ataca π, forma carbocátion (CH₃CH₂⁺ ou similar). Etapa 2: Br⁻ ataca o carbocátion. Mecanismo de adição eletrofílica (AdE).', hint:'Alquenos = ricos em e⁻. Reagem com eletrófilo. AdE = adição eletrofílica.' },
+  { q:'A separação de enantiômeros (resolução) é necessária na farmácia porque:', opts:['Enantiômeros têm pontos de fusão diferentes','Um enantiômero pode ser eficaz e o outro inativo ou tóxico (ex: talidomida)','São facilmente separáveis por destilação','Têm solubilidades muito diferentes em água'], ans:1, exp:'Enantiômeros têm propriedades físicas idênticas em meio aquiral, mas diferentes atividades biológicas (interagem de forma distinta com sítios ativos quirais). Talidomida: (+) antiemético; (-) teratogênico. Ibuprofeno: (S)-(+) ativo; (R)-(-) quase inativo.', hint:'Sítios ativos enzimáticos são quirais → distinguem enantiômeros.' },
+  { q:'O produto majoritário da nitração do benzeno com HNO₃/H₂SO₄ é:', opts:['1,2-dinitrobenzeno','Nitrobenzeno (monosubstituição preferencial)','Cicloexano (perda de aromaticidade)','Ácido benzóico'], ans:1, exp:'SEAr (substituição eletrofílica aromática): NO₂⁺ (gerado por HNO₃ + H₂SO₄) ataca o anel. Em condições normais (T amb, proporção 1:1), a monosubstituição é preferencial. Nitrobenzeno desativa o anel para segunda nitração.', hint:'SEAr: anel ataca eletrófilo (NO₂⁺), restaura aromaticidade. Monosubstituição é cinética.' }
+];
 
 /* -----------------------------------------------------------------------
    render()
@@ -171,15 +182,15 @@ const EXERCISE = {
       title: 'Isomeria de cadeia — C₄H₁₀',
       desc: 'Mesma fórmula, diferente arranjo da cadeia carbônica.',
       items: [
-        { name:'n-butano', struct:'CH₃–CH₂–CH₂–CH₃', bp:'−1°C', note:'cadeia normal (linear)' },
-        { name:'isobutano', struct:'(CH₃)₃CH', bp:'−12°C', note:'cadeia ramificada; ponto de ebulição menor' },
+        { name:'n-butano', struct:'CH₃–CH₂–CH₂–CH₃', bp:'-1°C', note:'cadeia normal (linear)' },
+        { name:'isobutano', struct:'(CH₃)₃CH', bp:'-12°C', note:'cadeia ramificada; ponto de ebulição menor' },
       ]
     },
     {
       title: 'Isomeria de posição — C₄H₈ (alcenos)',
       desc: 'Mesma fórmula, posição diferente da dupla ligação.',
       items: [
-        { name:'but-1-eno', struct:'CH₂=CH–CH₂–CH₃', bp:'−6°C', note:'dupla no C1' },
+        { name:'but-1-eno', struct:'CH₂=CH–CH₂–CH₃', bp:'-6°C', note:'dupla no C1' },
         { name:'but-2-eno', struct:'CH₃–CH=CH–CH₃',  bp:'+1°C', note:'dupla no C2' },
       ]
     },
@@ -188,7 +199,7 @@ const EXERCISE = {
       desc: 'Mesma fórmula, grupos funcionais diferentes.',
       items: [
         { name:'etanol',         struct:'CH₃–CH₂–OH',   bp:'+78°C', note:'álcool; faz ligação de H' },
-        { name:'éter metílico',  struct:'CH₃–O–CH₃',    bp:'−24°C', note:'éter; ponto de ebulição muito menor' },
+        { name:'éter metílico',  struct:'CH₃–O–CH₃',    bp:'-24°C', note:'éter; ponto de ebulição muito menor' },
       ]
     },
     {
@@ -218,6 +229,7 @@ const EXERCISE = {
     },
   ];
 
+let _exIdx     = 0;
 export function render(outlet) {
   _alkaneN    = 1;
   _funcIndex  = 0;
@@ -257,7 +269,7 @@ export function render(outlet) {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-bond)">Enantiômeros</h3>
-        <p style="font-size:var(--text-sm)">Imagens especulares não-sobreponíveis. Propriedades físicas idênticas, mas rotação do plano de luz polarizada oposta: (+) dextrogiro, (−) levogiro. Farmacologia: talidomida R é sedativo, S é teratogênico.</p>
+        <p style="font-size:var(--text-sm)">Imagens especulares não-sobreponíveis. Propriedades físicas idênticas, mas rotação do plano de luz polarizada oposta: (+) dextrogiro, (-) levogiro. Farmacologia: talidomida R é sedativo, S é teratogênico.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">Diastereômeros</h3>
@@ -297,6 +309,44 @@ export function render(outlet) {
       </div>
     </div>
   </section>
+
+  <!-- Simulação SN2 + Newman -->
+  <section class="module-section">
+    <h2 class="module-section-title">Simulação interativa — SN2 e projeção de Newman</h2>
+    <p class="module-text">
+      Na SN2 o nucleófilo ataca <em>exatamente 180°</em> em relação ao grupo de saída
+      (ataque traseiro). O estado de transição tem geometria trigonal bipiramidal com
+      carbono central pentacoordinado. O resultado é a <strong>inversão de Walden</strong>:
+      se o carbono é quiral, a configuração inverte de R para S ou vice-versa.
+    </p>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:var(--space-3)" id="sn2-ctrl">
+      <button class="btn btn-xs btn-secondary" id="sn2-play">Iniciar SN2</button>
+      <button class="btn btn-xs btn-ghost"     id="sn2-reset">Reiniciar</button>
+      <span id="sn2-phase" style="font-size:var(--text-xs);color:var(--text-muted);align-self:center;margin-left:.5rem"></span>
+    </div>
+    <div class="canvas-frame" id="sn2-frame" style="min-height:200px">
+      <canvas id="sn2-canvas" aria-label="Animação SN2"></canvas>
+    </div>
+    <p class="module-text" style="margin-top:var(--space-4)">
+      A <strong>projeção de Newman</strong> mostra a molécula ao longo de uma ligação C–C,
+      com o carbono frontal no centro e o traseiro no círculo. Rotacione para ver como
+      as conformações (antiperiplanar, gauche, eclipsada) afetam a estabilidade.
+    </p>
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:var(--space-3)">
+      <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">Ângulo de torção φ:</span>
+      <input type="range" id="newman-phi" min="0" max="360" step="1" value="60"
+             style="width:160px;accent-color:var(--accent-electron)">
+      <span id="newman-phi-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:60px">60°</span>
+      <span id="newman-conf" style="font-size:var(--text-xs);font-weight:600;padding:.2rem .5rem;border-radius:var(--radius-sm);background:var(--bg-raised);color:var(--accent-bond)"></span>
+    </div>
+    <div style="display:flex;gap:var(--space-4);flex-wrap:wrap;align-items:flex-start">
+      <div class="canvas-frame" id="newman-frame" style="min-height:180px;flex:0 0 200px">
+        <canvas id="newman-canvas" aria-label="Projeção de Newman"></canvas>
+      </div>
+      <div id="newman-energy" style="flex:1;min-width:180px"></div>
+    </div>
+  </section>
+
 
   <!-- Polímeros -->
   <section class="module-section">
@@ -535,7 +585,7 @@ export function render(outlet) {
           <tr>
             <td style="padding:.4rem .6rem;color:var(--accent-organic);font-weight:600">Alcano</td>
             <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs)">C₄H₁₀ (C₄)</td>
-            <td style="padding:.4rem .6rem;color:var(--text-muted)">−1</td>
+            <td style="padding:.4rem .6rem;color:var(--text-muted)">-1</td>
             <td style="padding:.4rem .6rem;font-size:var(--text-xs)">London (apolar); cresce com M</td>
             <td style="padding:.4rem .6rem;font-size:var(--text-xs)">Insolúvel em água</td>
           </tr>
@@ -549,7 +599,7 @@ export function render(outlet) {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-bond)">Álcool vs éter (C₂H₆O)</h3>
-        <p style="font-size:var(--text-sm)">Etanol: PE = +78 °C (LH). Éter metílico (dimetil éter): PE = −24 °C (sem LH entre moléculas do éter). Diferença de 102 °C — mesma fórmula molecular!</p>
+        <p style="font-size:var(--text-sm)">Etanol: PE = +78 °C (LH). Éter metílico (dimetil éter): PE = -24 °C (sem LH entre moléculas do éter). Diferença de 102 °C — mesma fórmula molecular!</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">Solubilidade</h3>
@@ -643,7 +693,7 @@ export function render(outlet) {
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         <strong style="color:var(--accent-bond)">Efeito mesomérico (+M)</strong> — grupo doa elétrons por ressonância ao anel (–OH, –OR, –NH₂, –NR₂): ativação orto/para.
         <br><strong style="color:var(--accent-reaction)">Efeito mesomérico (–M)</strong> — grupo retira elétrons por ressonância (–NO₂, –C=O, –C≡N): desativação meta.
-        <br><strong style="color:var(--accent-electron)">Efeito indutivo (−I)</strong> — retirada por eletronegatividade ao longo da cadeia σ: halogênios são desativadores meta-leves apesar de orto/para-orientadores por +M.
+        <br><strong style="color:var(--accent-electron)">Efeito indutivo (-I)</strong> — retirada por eletronegatividade ao longo da cadeia σ: halogênios são desativadores meta-leves apesar de orto/para-orientadores por +M.
       </p>
     </div>
   </section>
@@ -749,15 +799,16 @@ export function render(outlet) {
 
   <!-- Exercício -->
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${esc(EXERCISE.question)}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
-      ${EXERCISE.options.map((opt, i) => `
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+      ${EXERCISES[0].opts.map((opt, i) => `
         <button class="btn btn-ghost" style="text-align:left;justify-content:flex-start"
                 id="ex-opt-${i}" data-exopt="${i}">${esc(opt)}</button>
       `).join('')}
     </div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <!-- Cotidiano -->
@@ -860,4 +911,350 @@ export function render(outlet) {
 }
 
 /* Sem SimLoop neste módulo — nada para parar */
-export function destroy() {}
+// ---------------------------------------------------------------------------
+// SN2 animation
+// ---------------------------------------------------------------------------
+const SN2_PHASES = [
+  { label: 'Reagente: Nu⁻ se aproxima do C',       t: 0.00, desc: 'Nucleófilo (Nu⁻) inicia ataque traseiro a 180° do grupo de saída X.' },
+  { label: 'Estado de transição [Nu…C…X]⁻',        t: 0.50, desc: 'C pentacoordinado. Geometria trigonal bipiramidal. Maior energia.' },
+  { label: 'Produto: inversão de Walden completa',  t: 1.00, desc: 'X⁻ sai. Configuração invertida (R→S ou S→R). Nu ligado.' },
+];
+
+let _sn2Anim = null;
+let _sn2T    = 0;   // 0..1
+let _sn2Running = false;
+
+function _initSN2Canvas() {
+  const frame  = document.getElementById('sn2-frame');
+  const canvas = document.getElementById('sn2-canvas');
+  if (!canvas || !frame) return;
+
+  const W   = Math.min(frame.clientWidth || 500, 500);
+  const H   = 200;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const cx = W / 2, cy = H / 2;
+
+  // Substitutents on C (3 equatorial groups that invert)
+  const GROUPS = ['H', 'CH₃', 'Br'];
+
+  function drawFrame(t) {
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, W, H);
+
+    // t: 0 = reagente, 0.5 = TS, 1 = produto
+    // Nu distance: starts far left, ends bonded
+    const nuX   = cx - (1 - t) * 140 - 30;  // Nu x
+    const xX    = cx + t * 140 + 30;          // X x (leaving)
+    const C_X   = cx;
+    const opacity_bond_nu = Math.min(1, t * 2);
+    const opacity_bond_x  = Math.max(0, 1 - (t - 0.5) * 2);
+
+    // Equatorial groups invert: above → below at t=0.5→1
+    const invert = t > 0.5 ? (t - 0.5) * 2 : 0;
+    const groupOffsets = [
+      { dx: -30, dy: -50 + invert * 100 },
+      { dx:  55, dy: -40 + invert * 80  },
+      { dx: -10, dy:  55 - invert * 110 },
+    ];
+
+    // Draw bond to X (fading)
+    ctx.globalAlpha = opacity_bond_x;
+    ctx.strokeStyle = '#ef476f';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(C_X, cy); ctx.lineTo(xX, cy); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Draw bond to Nu (appearing)
+    ctx.globalAlpha = opacity_bond_nu;
+    ctx.strokeStyle = '#4fc3f7';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(C_X, cy); ctx.lineTo(nuX, cy); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+
+    // Equatorial bonds
+    groupOffsets.forEach(({ dx, dy }, i) => {
+      ctx.strokeStyle = 'rgba(255,209,102,0.8)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(C_X, cy);
+      ctx.lineTo(C_X + dx, cy + dy);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(107,203,119,0.9)';
+      ctx.font = '10px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(GROUPS[i], C_X + dx, cy + dy + (dy < 0 ? -4 : 12));
+    });
+
+    // Carbon
+    ctx.beginPath();
+    ctx.arc(C_X, cy, 14, 0, Math.PI * 2);
+    ctx.fillStyle = t > 0.3 && t < 0.7 ? 'rgba(239,71,111,0.9)' : 'rgba(79,195,247,0.9)';
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('C', C_X, cy);
+    ctx.textBaseline = 'alphabetic';
+
+    // Nu atom
+    ctx.beginPath();
+    ctx.arc(nuX, cy, 11, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(79,195,247,0.85)';
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Nu', nuX, cy);
+    ctx.textBaseline = 'alphabetic';
+
+    // X atom (leaving)
+    ctx.globalAlpha = opacity_bond_x + 0.1;
+    ctx.beginPath();
+    ctx.arc(xX, cy, 11, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(239,71,111,0.85)';
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('X', xX, cy);
+    ctx.textBaseline = 'alphabetic';
+    ctx.globalAlpha = 1;
+
+    // Phase label
+    const phaseIdx = t < 0.3 ? 0 : t < 0.7 ? 1 : 2;
+    const ph = SN2_PHASES[phaseIdx];
+    const el = document.getElementById('sn2-phase');
+    if (el) el.textContent = ph.label;
+
+    ctx.fillStyle = 'rgba(200,200,200,0.5)';
+    ctx.font = '9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(ph.desc, W / 2, H - 8);
+  }
+
+  drawFrame(0);
+
+  document.getElementById('sn2-play')?.addEventListener('click', () => {
+    if (_sn2Running) return;
+    _sn2Running = true;
+    _sn2T = 0;
+    const btn = document.getElementById('sn2-play');
+    if (btn) btn.disabled = true;
+
+    function step() {
+      _sn2T = Math.min(1, _sn2T + 0.008);
+      drawFrame(_sn2T);
+      if (_sn2T < 1) {
+        _sn2Anim = requestAnimationFrame(step);
+      } else {
+        _sn2Running = false;
+        if (btn) btn.disabled = false;
+      }
+    }
+    _sn2Anim = requestAnimationFrame(step);
+  });
+
+  document.getElementById('sn2-reset')?.addEventListener('click', () => {
+    _sn2Running = false;
+    if (_sn2Anim) cancelAnimationFrame(_sn2Anim);
+    _sn2T = 0;
+    drawFrame(0);
+    const btn = document.getElementById('sn2-play');
+    if (btn) btn.disabled = false;
+    const ph = document.getElementById('sn2-phase');
+    if (ph) ph.textContent = '';
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Newman projection
+// ---------------------------------------------------------------------------
+// Ethane-like Newman: front C with 3 substituents, back C inside circle
+// Conformations: anti (180°) gauche (60°) eclipsed (0°,120°,240°)
+const NEWMAN_CONF = [
+  { min: 0,   max: 15,  name: 'Eclipsada',    color: 'var(--accent-reaction)', E: 12.6 },
+  { min: 15,  max: 75,  name: 'Gauche',        color: 'var(--accent-bond)',     E: 3.8  },
+  { min: 75,  max: 105, name: 'Anti',          color: 'var(--accent-organic)',  E: 0    },
+  { min: 105, max: 165, name: 'Gauche',        color: 'var(--accent-bond)',     E: 3.8  },
+  { min: 165, max: 195, name: 'Eclipsada',     color: 'var(--accent-reaction)', E: 12.6 },
+  { min: 195, max: 255, name: 'Gauche',        color: 'var(--accent-bond)',     E: 3.8  },
+  { min: 255, max: 285, name: 'Anti',          color: 'var(--accent-organic)',  E: 0    },
+  { min: 285, max: 345, name: 'Gauche',        color: 'var(--accent-bond)',     E: 3.8  },
+  { min: 345, max: 360, name: 'Eclipsada',     color: 'var(--accent-reaction)', E: 12.6 },
+];
+
+function _getConf(phi) {
+  const p = ((phi % 360) + 360) % 360;
+  return NEWMAN_CONF.find(c => p >= c.min && p < c.max) || NEWMAN_CONF[0];
+}
+
+function _initNewman() {
+  const frame  = document.getElementById('newman-frame');
+  const canvas = document.getElementById('newman-canvas');
+  if (!canvas || !frame) return;
+
+  const SIZE = 200;
+  const dpr  = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(SIZE * dpr);
+  canvas.height = Math.round(SIZE * dpr);
+  canvas.style.width  = SIZE + 'px';
+  canvas.style.height = SIZE + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const cx = SIZE / 2, cy = SIZE / 2, R = 60;
+
+  const FRONT_LABELS = ['H', 'CH₃', 'H'];
+  const BACK_LABELS  = ['H', 'H', 'CH₃'];
+  const FRONT_BASE   = [90, 210, 330]; // degrees
+
+  function drawNewman(phi) {
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, SIZE, SIZE);
+
+    // Back circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(200,200,200,0.25)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Back bonds (rotated by phi)
+    const BACK_BASE = [90, 210, 330];
+    BACK_BASE.forEach((deg, i) => {
+      const a = (deg + phi) * Math.PI / 180;
+      const ox = cx + R * Math.cos(a);
+      const oy = cy + R * Math.sin(a);
+      const ex = cx + (R + 28) * Math.cos(a);
+      const ey = cy + (R + 28) * Math.sin(a);
+      ctx.strokeStyle = 'rgba(79,195,247,0.55)';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ex, ey); ctx.stroke();
+      ctx.fillStyle = 'rgba(79,195,247,0.8)';
+      ctx.font = '9px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(BACK_LABELS[i], ex + 8 * Math.cos(a), ey + 8 * Math.sin(a));
+    });
+
+    // Front bonds (fixed)
+    FRONT_BASE.forEach((deg, i) => {
+      const a = deg * Math.PI / 180;
+      const ex = cx + (R - 10) * Math.cos(a);
+      const ey = cy + (R - 10) * Math.sin(a);
+      ctx.strokeStyle = 'rgba(255,209,102,0.9)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ex, ey); ctx.stroke();
+      ctx.fillStyle = '#ffd166';
+      ctx.font = '9px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(FRONT_LABELS[i], cx + (R + 10) * Math.cos(a), cy + (R + 10) * Math.sin(a));
+    });
+
+    // Front C dot
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffd166';
+    ctx.fill();
+    ctx.fillStyle = '#0d1117';
+    ctx.font = 'bold 8px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('C', cx, cy);
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  function updateEnergy(phi, conf) {
+    const el = document.getElementById('newman-energy');
+    if (!el) return;
+    // Mini energy diagram text
+    el.innerHTML = `
+      <div style="padding:.5rem">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Energia de torção (kJ/mol)</p>
+        <p style="font-size:var(--text-xl);font-weight:700;color:${conf.color}">${conf.E.toFixed(1)}</p>
+        <p style="font-size:var(--text-sm);font-weight:600;color:${conf.color};margin-top:.2rem">${conf.name}</p>
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-top:.4rem">
+          Anti (180°): mínimo absoluto. Gauche (60°): mínimo relativo (+3,8 kJ/mol).
+          Eclipsada (0°/120°/240°): máximo (+12,6 kJ/mol).
+        </p>
+      </div>`;
+  }
+
+  function update() {
+    const phi  = parseFloat(document.getElementById('newman-phi')?.value ?? 60);
+    const conf = _getConf(phi);
+    drawNewman(phi);
+    const valEl = document.getElementById('newman-phi-val');
+    if (valEl) valEl.textContent = phi + '°';
+    const confEl = document.getElementById('newman-conf');
+    if (confEl) { confEl.textContent = conf.name; confEl.style.color = conf.color; }
+    updateEnergy(phi, conf);
+  }
+
+  document.getElementById('newman-phi')?.addEventListener('input', update);
+  update();
+}
+
+
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('organic', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
+export function destroy() {
+  if (_sn2Anim) { cancelAnimationFrame(_sn2Anim); _sn2Anim = null; }
+}

@@ -185,7 +185,7 @@ function _buildHTML() {
     <h2 class="module-section-title">Espectroscopia e o modelo de Bohr</h2>
     <p class="module-text">Quando um elétron salta de nível superior (n₂) para inferior (n₁), emite um fóton com energia <strong>ΔE = hf = hc/λ</strong>. A equação de Rydberg prevê os comprimentos de onda exatos do hidrogênio:</p>
     <div class="info-card" style="background:var(--bg-raised);margin:.5rem 0 1rem;max-width:420px">
-      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin:0">1/λ = R_H × (1/n₁² − 1/n₂²)<br><span style="color:var(--text-muted)">R_H = 1,097×10⁷ m⁻¹ (constante de Rydberg)</span></p>
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin:0">1/λ = R_H × (1/n₁² - 1/n₂²)<br><span style="color:var(--text-muted)">R_H = 1,097×10⁷ m⁻¹ (constante de Rydberg)</span></p>
     </div>
 
     <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem">
@@ -218,7 +218,23 @@ function _buildHTML() {
   <!-- Efeito fotoelétrico -->
   <section class="module-section">
     <h2 class="module-section-title">Efeito fotoelétrico e dualidade onda-partícula</h2>
-    <p class="module-text">Einstein (1905, Nobel 1921) explicou que luz vem em pacotes (fótons) de energia E = hf. Elétrons só são ejetados de um metal quando E_fóton &gt; φ (função de trabalho). Energia cinética do elétron ejetado: <strong>Ec = hf − φ</strong>.</p>
+    <p class="module-text">
+      Em 1887, Hertz observou que metais emitem elétrons ao ser iluminados — mas somente
+      acima de uma frequência limiar, independentemente da intensidade. Isso contradiz a
+      óptica ondulatória clássica, que prevê emissão para qualquer frequência com intensidade
+      suficiente. Einstein (1905, Nobel 1921) explicou que luz vem em pacotes discretos
+      (fótons) de energia E = hf. Elétrons só são ejetados quando E_fóton &gt; φ (função de
+      trabalho do metal). Energia cinética do elétron ejetado: <strong>Ec = hf - φ</strong>.
+    </p>
+    <p class="module-text">
+      De Broglie (1924) propôs a dualidade onda-partícula para a matéria:
+      <strong>λ = h/p = h/(mv)</strong>. Para elétrons de laboratório (v ~ 10⁶ m/s),
+      λ ~ 0,7 nm — comparável a espaçamentos interatômicos → difração de elétrons
+      (confirmação experimental: Davisson-Germer, 1927). Para uma bola de 100 g a
+      30 m/s, λ ~ 2×10⁻³⁴ m — indetectável. Heisenberg (1927):
+      <strong>Δx·Δp ≥ ℏ/2</strong>. O princípio da incerteza não é limitação técnica,
+      é uma propriedade fundamental da natureza ondulatória da matéria.
+    </p> Elétrons só são ejetados de um metal quando E_fóton &gt; φ (função de trabalho). Energia cinética do elétron ejetado: <strong>Ec = hf - φ</strong>.</p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
       <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Função de trabalho φ de metais comuns</p>
         <p style="font-family:monospace;font-size:var(--text-xs)">Cs: 2,0 eV | Na: 2,3 eV<br>Al: 4,3 eV | Cu: 4,7 eV<br>Au: 5,1 eV | Pt: 5,7 eV</p></div>
@@ -264,7 +280,7 @@ function _buildHTML() {
         <div class="sim-control-group">
           <span class="sim-control-label">Carga iônica</span>
           <div style="display:flex;gap:0.5rem;align-items:center">
-            <button class="btn btn-sm btn-secondary" id="btn-ion-minus" aria-label="Remover elétron">−</button>
+            <button class="btn btn-sm btn-secondary" id="btn-ion-minus" aria-label="Remover elétron">-</button>
             <span class="sim-value" id="ion-charge-display">0</span>
             <button class="btn btn-sm btn-secondary" id="btn-ion-plus"  aria-label="Adicionar elétron">+</button>
           </div>
@@ -322,6 +338,16 @@ function _buildHTML() {
   <section class="module-section">
     <h2 class="module-section-title">Modelo quântico — Orbitais</h2>
     <p class="module-text">
+      O modelo de Bohr, apesar de prever os níveis de energia do hidrogênio com precisão,
+      falha para qualquer átomo com mais de um elétron e não explica a estrutura fina
+      dos espectros. Schrödinger (1926) formulou a mecânica ondulatória: o estado do elétron
+      é descrito por uma <em>função de onda</em> ψ(r,θ,φ) cujo módulo quadrado |ψ|² é a
+      <em>densidade de probabilidade</em> de encontrar o elétron. Os orbitais são as soluções
+      estacionárias da equação de Schrödinger para o átomo de hidrogênio — regiões de espaço
+      onde a probabilidade de encontrar o elétron é significativa (convencionalmente, a
+      superfície que contém 90% da densidade eletrônica).
+    </p>
+    <p class="module-text">
       O modelo de Bohr (órbitas circulares) foi superado pelo modelo quântico de Schrödinger.
       Elétrons não têm trajetórias definidas — existem em <strong>orbitais</strong>, regiões
       de maior probabilidade de encontrar o elétron. Cada orbital é descrito por 4 números
@@ -343,7 +369,7 @@ function _buildHTML() {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0">mₛ — Spin</h3>
-        <p style="font-size:var(--text-sm)">Direção do giro intrínseco.<br>+½ (seta para cima ↑)<br>−½ (seta para baixo ↓)</p>
+        <p style="font-size:var(--text-sm)">Direção do giro intrínseco.<br>+½ (seta para cima ↑)<br>-½ (seta para baixo ↓)</p>
       </div>
     </div>
 
@@ -357,6 +383,18 @@ function _buildHTML() {
   <!-- Configuração eletrônica -->
   <section class="module-section">
     <h2 class="module-section-title">Configuração eletrônica</h2>
+    <p class="module-text">
+      A configuração eletrônica de um átomo multieletrônico obedece três princípios:
+      (1) <strong>Aufbau</strong> (construção): elétrons ocupam os orbitais de menor energia
+      disponível, seguindo a ordem 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p, 5s, 4d...
+      A inversão 4s/3d (4s preenche antes de 3d) ocorre porque o efeito de penetração
+      do elétron 4s estabiliza-o abaixo do 3d para elementos mais leves.
+      (2) <strong>Pauli</strong>: nenhum orbital pode ter dois elétrons com os mesmos
+      quatro números quânticos — máximo de dois elétrons por orbital, obrigatoriamente
+      com spins opostos.
+      (3) <strong>Hund</strong>: em orbitais degenerados (mesmo nível), elétrons ocupam
+      orbitais diferentes com spin paralelo antes de emparelhar — minimiza repulsão intereletrônica.
+    </p>
     <p class="module-text">
       A configuração eletrônica descreve como os elétrons estão distribuídos pelos orbitais,
       seguindo a ordem de preenchimento de Aufbau (de menor para maior energia).
@@ -681,7 +719,7 @@ const EXERCISES = [
       'Z = 17 significa 17 prótons (+). Para carga total zero, quantos elétrons (-) são necessários?',
       'Número de elétrons = Z = 17 no átomo neutro.'
     ],
-    explanation: 'No átomo neutro: carga total = 0. Com 17 prótons (+17), são necessários 17 elétrons (−17). A soma é zero.'
+    explanation: 'No átomo neutro: carga total = 0. Com 17 prótons (+17), são necessários 17 elétrons (-17). A soma é zero.'
   },
   {
     id: 'as-ex-02',
@@ -693,7 +731,7 @@ const EXERCISES = [
       'O átomo neutro de O tem 8 elétrons. Ele ganhou 2 elétrons para virar O²⁻.',
       '8 elétrons + 2 = 10 elétrons.'
     ],
-    explanation: 'O²⁻ ganhou 2 elétrons. O átomo neutro tem 8 (= Z). Com 2 a mais: 8 + 2 = 10 elétrons. A carga resultante: +8 (prótons) −10 (elétrons) = −2.'
+    explanation: 'O²⁻ ganhou 2 elétrons. O átomo neutro tem 8 (= Z). Com 2 a mais: 8 + 2 = 10 elétrons. A carga resultante: +8 (prótons) -10 (elétrons) = -2.'
   },
   {
     id: 'as-ex-03',
@@ -706,6 +744,617 @@ const EXERCISES = [
       'Quem calculou raios precisos para as órbitas eletrônicas do hidrogênio?'
     ],
     explanation: 'Niels Bohr (1913) propôs que os elétrons orbitam o núcleo em camadas de energia definida. Elétrons só emitem ou absorvem energia ao mudar de camada, explicando os espectros atômicos.'
+  }
+  {
+    id: 'as-ex-04',
+    question: 'A configuração eletrônica do Fe (Z=26) no estado fundamental é:',
+    options: ['[Ar] 3d⁸','[Ar] 4s² 3d⁶','[Ar] 4s² 3d⁸','[Ar] 4s¹ 3d⁷'],
+    answer: '[Ar] 4s² 3d⁶',
+    hints: ['O Ar tem Z=18, então Fe tem 26-18 = 8 elétrons adicionais.','Ordem de preenchimento: após [Ar], vem 4s (2 e⁻) depois 3d.','4s recebe 2 e⁻, depois 3d recebe os restantes: 8 - 2 = 6 e⁻ em 3d.'],
+    explanation: '[Ar] (18e⁻) + 4s² (2e⁻) + 3d⁶ (6e⁻) = 26e⁻ = Z(Fe). A regra de Aufbau preenche 4s antes de 3d.'
+  },
+  {
+    id: 'as-ex-05',
+    question: 'O princípio de Heisenberg afirma que é impossível conhecer simultaneamente com precisão arbitrária:',
+    options: ['Carga e massa de um elétron','Posição e momento linear (Δx·Δp ≥ ℏ/2)','Spin e energia','Número quântico n e l'],
+    answer: 'Posição e momento linear (Δx·Δp ≥ ℏ/2)',
+    hints: ['Heisenberg descobriu uma limitação fundamental — não instrumental — na medição.','As duas grandezas conjugadas envolvidas são posição e quantidade de movimento.','Δx·Δp ≥ ℏ/2. Quanto menor Δx (mais precisão em posição), maior Δp.'],
+    explanation: 'Princípio da incerteza de Heisenberg: Δx·Δp ≥ ℏ/2. É uma consequência da natureza ondulatória da matéria — não uma limitação dos instrumentos. Localizar o elétron perturba seu momento.'
+  },,
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
+  },
+  {
+    id:'as-ex-06', question:'Quantos prótons, nêutrons e elétrons tem o isótopo ²³Na⁺ (Z=11)?',
+    options:['11p, 12n, 11e','11p, 12n, 10e','12p, 11n, 10e','11p, 11n, 11e'],
+    answer:'11p, 12n, 10e',
+    hints:['Z=11 → 11 prótons sempre.','Nêutrons = A - Z = 23 - 11 = 12.','Carga +1 significa que perdeu 1 elétron: 11 - 1 = 10.'],
+    explanation:'Z=11 → 11 prótons. A=23 → nêutrons = 23-11 = 12. Íon Na⁺ perdeu 1 elétron: 11-1 = 10 elétrons.'
+  },
+  {
+    id:'as-ex-07', question:'Qual par são isótopos?',
+    options:['¹H e ²H','¹²C e ¹⁴N','¹⁶O e ¹⁸O⁻','¹²C e ¹²C⁴⁺'],
+    answer:'¹⁶O e ¹⁸O⁻',
+    hints:['Isótopos = mesmo Z (mesmo elemento), diferente A (diferente número de nêutrons).','¹H e ²H: mesmo Z=1, A diferente — são isótopos!','Qual opção tem o mesmo Z (mesmo símbolo) e A diferente?'],
+    explanation:'Isótopos têm o mesmo Z. ¹H e ²H têm Z=1 — são isótopos (prótio e deutério). ¹⁶O e ¹⁸O têm Z=8 — também são isótopos do oxigênio. A carga do íon não muda a definição de isótopo.'
+  },
+  {
+    id:'as-ex-08', question:'O número quântico que define a forma do orbital é:',
+    options:['n (principal)','l (azimutal/momento angular)','ml (magnético)','ms (spin)'],
+    answer:'l (azimutal/momento angular)',
+    hints:['n define o tamanho/energia do orbital.','ml define a orientação no espaço.','Qual número quântico distingue s (esférico) de p (halter) de d (mais complexo)?'],
+    explanation:'l é o número quântico azimutal: l=0 (s, esférico), l=1 (p, halter), l=2 (d, mais complexo). n define energia; ml, orientação; ms, spin do elétron.'
+  },
+  {
+    id:'as-ex-09', question:'Pela regra de Hund, como se distribuem 3 elétrons nos 3 orbitais 2p?',
+    options:['Todos no mesmo orbital','Um em cada orbital, spins paralelos','Um em cada orbital, spins opostos','Dois em um e um em outro'],
+    answer:'Um em cada orbital, spins paralelos',
+    hints:['A regra de Hund diz que orbitais degenerados são ocupados um a um antes de emparelhar.','Spins paralelos (mesma direção ↑↑↑) minimizam a repulsão elétron-elétron.','Pense no boro (Z=5): 1s² 2s² 2p¹ — e no carbono (Z=6): 1s² 2s² 2p².'],
+    explanation:'Regra de Hund: orbitais de mesma energia são preenchidos com um elétron cada antes do emparelhamento, todos com spin paralelo. Minimiza a repulsão entre elétrons.'
+  },
+  {
+    id:'as-ex-10', question:'O espectro de emissão do hidrogênio resulta de:',
+    options:['Vibração do núcleo','Transições eletrônicas entre níveis de energia','Absorção de nêutrons','Decaimento radioativo'],
+    answer:'Transições eletrônicas entre níveis de energia',
+    hints:['O espectro é formado por linhas discretas — não contínuo.','Cada linha corresponde a um comprimento de onda específico.','Bohr: E = -13,6 eV / n². Transição n=3→n=2 emite a linha Hα (656 nm).'],
+    explanation:'Quando um elétron desce de n_alto para n_baixo, emite fóton com energia ΔE = E_alto - E_baixo. Cada transição gera uma linha espectral. É por isso que o espectro do H é discreto, não contínuo.'
   }
 ];
 

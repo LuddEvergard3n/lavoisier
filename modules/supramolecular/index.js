@@ -77,23 +77,30 @@ const POLYMERS = [
   { name: 'PLA (poli-ácido lático)',   type: 'Condensação (éster)',      Tg:   60, Tm: 175, cristal: 40, uso: 'Biodegradável: suturas, impressão 3D, embalagens' },
 ];
 
-const EXERCISE = {
-  question: 'O complexo [K⊂18-coroa-6]⁺ é mais estável que [Na⊂18-coroa-6]⁺ principalmente porque:',
-  options: [
-    'A) Na⁺ tem carga maior e se liga mais fortemente ao oxigênio',
-    'B) O raio iônico de K⁺ (1,38 Å) é complementar à cavidade da coroa-6',
-    'C) Na⁺ não pode coordenar éteres por ser ácido de Lewis muito fraco',
-    'D) K⁺ tem mais elétrons de valência para interação doador-aceitador',
-  ],
-  correct: 1,
-  explanation: 'Complementaridade geométrica é o princípio central: a cavidade da 18-coroa-6 (r ≈ 1,3–1,6 Å) encaixa perfeitamente K⁺ (r = 1,38 Å). Na⁺ (r = 1,02 Å) é menor → a coroa não envolve todos os O ao redor → complexo menos estável (log Ka ≈ 4,4 vs 6,1 para K⁺).',
-};
+const EXERCISES = [
+  { q: '[K⊂18-coroa-6]⁺ é mais estável que [Na⊂18-coroa-6]⁺ porque:', opts: ['K⁺ tem maior carga','Tamanho do K⁺ (138 pm) complementa melhor a cavidade (140 pm)','Na⁺ é mais reativo','K⁺ tem mais elétrons'], ans: 1, exp: 'Princípio do complemento: melhor encaixe K⁺/cavidade → maior estabilidade. Na⁺ (102 pm) é pequeno demais.', hint: 'Qual íon tem tamanho mais próximo da cavidade do 18-coroa-6?' },
+  { q: 'Hidrogel supramolecular por pontes H mostra qual comportamento térmico?', opts: ['Estável a qualquer T','Transição gel-sol reversível ao aquecer','Polimeriza irreversivelmente ao aquecer','Não muda com T'], ans: 1, exp: 'Pontes H (~20 kJ/mol) são reversíveis. Aquecimento as quebra → gel flui. Resfriamento as restaura.', hint: 'Ligações de hidrogênio são fracas e reversíveis. O que o calor faz com elas?' },
+  { q: 'Calixareno seletivo para Pb²⁺ vs Ca²⁺ tem:', opts: ['Cavidade muito pequena','Cavidade e grupos doadores que complementam Pb²⁺ (ácido mole)','pH neutro','Solubilidade em água'], ans: 1, exp: 'HSAB: Pb²⁺ é ácido mole — prefere S/N. Calixarenos com tiol ou amina > afinidade por Pb²⁺ vs Ca²⁺ (duro, prefere O).', hint: 'HSAB: ácidos duros preferem O; macios preferem S/N. Onde se encaixa Pb²⁺?' },
+  { q: 'Interação NÃO usada em química supramolecular:', opts: ['Ligação de hidrogênio','Interações π-π','Ligação covalente C-C irreversível','Interações íon-dipolo'], ans: 2, exp: 'Química supramolecular usa interações não-covalentes reversíveis. Ligação C-C covalente é irreversível.', hint: 'O que distingue a química supramolecular da clássica?' },
+  { q: 'A espiropyrana é interruptor fotorresponsivo porque:', opts: ['Absorve infravermelho','Converte reversivelmente entre forma fechada (incolor) e merocianina (colorida) com UV/vis','É condutora','Floresce em todos λ'], ans: 1, exp: 'UV → abertura do anel C-O → merocianina planar colorida (λ_max ~580 nm). Visível/calor → restaura espiropyrana. Reversível.', hint: 'O que muda entre a forma fechada e a aberta da espiropyrana?' },,
+  { q:'O reconhecimento molecular na supramolecular química é baseado em:', opts:['Ligações covalentes cineticamenterte inertes','Interações não-covalentes complementares (LH, hidrofóbicas, π-π, eletrostáticas) entre hospedeiro e hóspede','Ligações metálicas','Somente ligações de hidrogênio'], ans:1, exp:'A supramolecular é a "química além da molécula" (Lehn). Usa interações não-covalentes fracas individualmente mas cooperativas: LH (2-40 kJ/mol), π-π (2-10), hidrofóbica (5-40), van der Waals (<5). A especificidade vem da complementaridade geométrica e eletrônica, como chave-fechadura.', hint:'Supramolecular: não-covalente, cooperativa, seletiva. Chave-fechadura em escala molecular.' },
+  { q:'O efeito hidrofóbico que direciona a formação de micelas e membranas biológicas é:', opts:['Atração eletrostática entre lipídios','Minimização da energia livre ao agregar regiões apolares — expulsão de água ordenada aumenta ΔS do sistema','Ligações de hidrogênio entre cadeias alquílicas','Ligações covalentes entre lipídios'], ans:1, exp:'Moléculas apolares em água forçam ordenação das moléculas de água ao redor (entropia desfavorável). Ao se agregarem, liberam essa água ordenada → ΔS do sistema aumenta → ΔG diminui. O efeito hidrofóbico é entrópico, não energético (ΔH ≈ 0 para agregação apolar).', hint:'Hidrofóbico: entrópico. Agregar apolares libera água de "gaiola" → ΔS > 0 → ΔG < 0.' },
+  { q:'A constante de associação Ka (ou Kb) na supramolecular é medida por:', opts:['Apenas por espectroscopia de massa','Múltiplos métodos: titulação ITC, RMN de deslocamento, fluorescência, UV-Vis — dados encaixados ao modelo 1:1','Somente por cristalografia de raios-X','Por cromatografia de exclusão de tamanho'], ans:1, exp:'Ka = [H·G]/([H][G]). Medida típica: titulação ITC (calor por injeção → ΔH e Ka simultaneamente), RMN (variação de δ com [hóspede] → curva de saturação → Ka), ou fluorescência (variação de intensidade). Cada método tem limites: ITC: Ka 10²-10⁷; RMN: 1-10⁴.', hint:'Ka mede a força de associação hospedeiro-hóspede. Vários métodos dependem da faixa de Ka.' },
+  { q:'A diferença entre gel supramolecular e gel polimérico covalente está em:', opts:['Géis supramoleculares são sempre mais rígidos','Géis supramoleculares são reversíveis (respondem a estímulos: T, pH, luz); géis covalentes são permanentes','Géis covalentes são transparentes e supramoleculares não','Géis supramoleculares não existem em água'], ans:1, exp:'Géis supramoleculares: fibras montadas por interações não-covalentes. Reversíveis: aquecimento, pH, luz ou competidores desfazem a rede. Úteis para liberação controlada de fármacos, biomateriais injetáveis, gelificantes autocurantes. Géis covalentes (poliacrilamida, silicone): ligações cruzadas permanentes.', hint:'Supramolecular = reversível. Covalente = permanente. Reversibilidade é a chave.' },
+  { q:'Os cristais metalo-orgânicos (MOFs) têm superfície específica de até 10.000 m²/g porque:', opts:['São muito densos','Têm estruturas porosas de tamanho definido formadas por ligantes orgânicos e nós metálicos — a área interna dos poros é enorme','São amorfos com muita superfície externa','Têm nanopartículas de metal dispersas'], ans:1, exp:'MOFs: rede 3D porosa de íons/clusters metálicos (nós) conectados por ligantes orgânicos (arestas). Os poros têm tamanho ajustável (2-30 Å). Superfície específica > 7.000 m²/g (recorde ~10.000). Aplicações: armazenamento de H₂, captura de CO₂, catálise, liberação de fármacos.', hint:'MOFs: poros de tamanho definido → superfície interna enorme → capacidade de armazenamento e catálise.' },
+  { q:'A auto-montagem (self-assembly) de uma cápsula octaédrica de 24 componentes ocorre porque:', opts:['É necessária uma template para organizar os componentes','Cada subunidade tem informação geométrica e eletrônica que direciona uma única estrutura termodinâmica — o todo emerge das partes','É um processo irreversível','Requer catálise metálica para cada ligação'], ans:1, exp:'Auto-montagem: componentes com informação codificada convergem para o produto termodinâmico mais estável. A geometria dos ligantes e a preferência de coordenação do metal definem a estrutura final sem template. Fujita e outros montaram cápsulas M₁₂L₂₄ com 36 componentes em uma única mistura.', hint:'Auto-montagem: informação nas peças → única estrutura termodinâmica. Sem template.' },
+  { q:'A máquina molecular de rotaxano é composta por:', opts:['Um polímero linear e uma proteína motora','Um eixo linear (haltere) com grupos de bloqueio nas extremidades + um anel macrocíclico que desliza pelo eixo','Dois ciclodextrinos encaixados','Apenas ligações de hidrogênio em anel'], ans:1, exp:'Rotaxano: anel (rodinha) + eixo (trilho) + grupos de bloqueio (stopper) que impedem o anel de sair. O anel pode deslizar entre estações ao longo do eixo em resposta a estímulos (pH, luz, redox). Stoddart (Nobel 2016) criou máquinas moleculares baseadas em rotaxanos.', hint:'Rotaxano = anel + eixo + stoppers. Catenano = dois anéis entrelaçados mecanicamente.' },
+  { q:'O calixareno tem preferência por metais ou moléculas:', opts:['Que sejam maiores que sua cavidade','Complementares em tamanho e carga à sua cavidade — seletividade "cone" dependente do número de unidades fenol','Que sejam radioativos','Apenas por gases nobres'], ans:1, exp:'Calixarenos (4, 6, 8 unidades fenólicas) têm cavidade de tamanho ajustável. O "cone" do calix[4] areno (~0,3 nm de diâmetro) extrai Cs⁺ seletivamente de K⁺ (usado no reprocessamento de lixo nuclear). Funcionalização do anel inferior controla a seletividade.', hint:'Calixareno: cavidade de tamanho ajustável. Seletividade por complementaridade tamanho+carga.' },
+  { q:'Na formação de monocamadas automontadas (SAMs) de alcantiol (RS-H) em ouro, a ligação S-Au é:', opts:['Iônica — RS⁻ e Au⁺','Covalente de coordenação (S coordena ao Au, Eb ≈ 130-180 kJ/mol) — mais forte que van der Waals mas mais fraca que ligação Au-Au','Metalúrgica — S se dissolve no ouro','Hidrofóbica'], ans:1, exp:'SAMs de alcantiois em Au: RS-H + Au → RS-Au + ½H₂. A ligação S-Au é semelhante a ligação de coordenação (Eb ≈ 130-180 kJ/mol). As cadeias alquílicas se organizam por interações de van der Waals entre si. SAMs são usadas em sensores, eletrodos modificados e nanofabricação.', hint:'SAMs: tiol-Au, ligação covalente. Cadeia alquílica: van der Waals. Ordenamento espontâneo.' },
+  { q:'O transporte seletivo por ionóforos (ex: valinomicina para K⁺) é importante em biologia porque:', opts:['Ionóforos são enzimas','Permitem que íons metálicos cruzem membranas lipídicas (que normalmente os barram), criando gradientes usados em sinalização e produção de ATP','Ionóforos fazem fotossíntese','São o mesmo que canais de proteínas'], ans:1, exp:'Membranas lipídicas são impermeáveis a íons (barreira dielétrica). Ionóforos moldam uma cavidade ao redor do íon, mascarando sua carga com grupos carbonílicos (valinomicina: 12 grupos C=O que mimetizam a hidratação do K⁺). O complexo lipofílico atravessa a membrana. Diferente de canais proteicos (poro permanente).', hint:'Ionóforo: encapsula o íon, torna-o lipofílico → atravessa membrana. Valinomicina: K⁺ seletivo.' }
+];
 
 // ---------------------------------------------------------------------------
 // Estado
 // ---------------------------------------------------------------------------
 
 let _loop = null;
+let _exIdx     = 0;
 let _exAttempts = 0, _exDone = false;
 
 // ---------------------------------------------------------------------------
@@ -165,7 +172,7 @@ export function render(outlet) {
     `<button class="btn btn-xs ${i===0?'btn-secondary':'btn-ghost'}" data-polyidx="${i}">${p.name.split(' ')[0]}</button>`
   ).join('');
 
-  const exOpts = EXERCISE.options.map((opt, i) =>
+  const exOpts = EXERCISES[0].opts.map((opt, i) =>
     `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
   ).join('');
 
@@ -216,7 +223,7 @@ export function render(outlet) {
     <p class="module-text">
       O reconhecimento emerge da cooperação de interações não-covalentes. A ΔG de complexação
       soma contribuições entálpicas (LH, eletrostática, π-π) e entrópicas (efeito hidrofóbico
-      +ΔS; penalidade conformacional −TΔS).
+      +ΔS; penalidade conformacional -TΔS).
     </p>
     <div style="overflow-x:auto;margin-bottom:var(--space-5)">
       <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
@@ -284,7 +291,7 @@ export function render(outlet) {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">DNA e G-quadruplex</h3>
-        <p style="font-size:var(--text-sm)">Complementaridade A-T (2 LH, −3 kJ/mol) e G-C (3 LH, −5 kJ/mol) + empilhamento π–π. G-quadruplex: 4 G por plano, cátion K⁺ entre planos. Alvo terapêutico: inibição de telomerase em células cancerígenas (ligante PDS, RHPS4).</p>
+        <p style="font-size:var(--text-sm)">Complementaridade A-T (2 LH, -3 kJ/mol) e G-C (3 LH, -5 kJ/mol) + empilhamento π–π. G-quadruplex: 4 G por plano, cátion K⁺ entre planos. Alvo terapêutico: inibição de telomerase em células cancerígenas (ligante PDS, RHPS4).</p>
       </div>
     </div>
   </section>
@@ -372,7 +379,7 @@ export function render(outlet) {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
-        Eg (band gap) = LUMO − HOMO &nbsp;&nbsp;|&nbsp;&nbsp; σ (S/cm): isolante &lt; 10⁻¹⁰ &lt; semicond. &lt; 1 &lt; condutor
+        Eg (band gap) = LUMO - HOMO &nbsp;&nbsp;|&nbsp;&nbsp; σ (S/cm): isolante &lt; 10⁻¹⁰ &lt; semicond. &lt; 1 &lt; condutor
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         Conjugação π: alternância de ligações simples/duplas → bandas π e π* se alargam → Eg diminui.<br>
@@ -455,10 +462,11 @@ export function render(outlet) {
 
   <!-- Exercício -->
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${esc(EXERCISE.question)}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">${exOpts}</div>
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">${exOpts}</div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <div class="real-life-card">
@@ -566,24 +574,53 @@ export function render(outlet) {
     document.getElementById(id)?.addEventListener('input', updatePDI));
 
   // Exercício
-  document.querySelectorAll('[data-exopt]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (_exDone) return; _exAttempts++;
-      const choice = parseInt(btn.dataset.exopt, 10);
-      const fb     = document.getElementById('exercise-feedback');
-      if (choice === EXERCISE.correct) {
-        _exDone = true;
-        btn.style.borderColor = 'var(--accent-organic)';
-        btn.style.color       = 'var(--accent-organic)';
-        if (fb) fb.innerHTML  = '<p class="feedback-correct">Correto! ' + EXERCISE.explanation + '</p>';
-        markSectionDone('supramolecular', 'exercise');
-      } else {
-        btn.style.borderColor = 'var(--accent-reaction)';
-        btn.style.color       = 'var(--accent-reaction)';
-        if (fb && _exAttempts === 1)
-          fb.innerHTML = '<p class="feedback-hint">Dica: compare o raio iônico de K⁺ e Na⁺ com a cavidade da 18-coroa-6.</p>';
-      }
+  
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('supramolecular', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
     });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
   });
 
   _initBandGap();

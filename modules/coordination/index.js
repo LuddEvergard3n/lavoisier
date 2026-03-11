@@ -155,6 +155,19 @@ const EXERCISES = [
     exp: 'CO é o ligante de campo mais forte da série espectroquímica. Faz retrodoacão π (back-bonding): aceita elétrons d do metal em seu orbital π*, aumentando muito Δₒ. Ordem crescente: I⁻ < Br⁻ < Cl⁻ < F⁻ < OH⁻ < H₂O < NH₃ < CN⁻ < CO.',
     hint: 'A série espectroquímica vai de ligantes π-doadores (campo fraco) a π-aceitadores (campo forte).',
   },
+
+  { q: 'Qual ligante tem maior campo cristalino na série espectroquímica?', opts: ['I⁻','H₂O','CN⁻','Cl⁻'], ans: 2, exp: 'Série: I⁻ < Br⁻ < Cl⁻ < F⁻ < OH⁻ < H₂O < NH₃ < en < NO₂⁻ < CN⁻ < CO. CN⁻ é π-aceitador forte.', hint: 'Campo forte ou fraco: ligantes π-aceitadores ficam em qual extremo da série?' },
+  { q: 'Um complexo octaédrico d⁶ de campo forte é:', opts: ['Alto spin, 4 e⁻ desemparelhados','Baixo spin, diamagnético','Sempre paramagnético','Tetraédrico'], ans: 1, exp: 'd⁶ campo forte: t₂g⁶ eg⁰ — todos os elétrons emparelhados → diamagnético, baixo spin.', hint: 'Campo forte força emparelhamento nos t₂g. 6 e⁻ em 3 orbitais = ?' },,
+  { q:'O número de coordenação do Fe em [Fe(en)₃]²⁺ é: (en = etilenodiamina, ligante bidentado)', opts:['3','4','6','2'], ans:2, exp:'en é bidentado (doa 2 pares de elétrons). 3 ligantes en × 2 doações = 6 pares doados ao Fe. Número de coordenação = 6. Geometria: octaédrica. Formula: [Fe(en)₃]²⁺.', hint:'NC = total de pares de elétrons doados ao metal. Bidentado contribui com 2.' },
+  { q:'O EDTA (ligante hexadentado) forma complexos estáveis com metais de transição porque:', opts:['É um ácido forte','6 grupos doadores (2N + 4O) formam anéis quelatos de 5 membros — estabilização entrópica e por quelato','É insolúvel em água','Forma ligações covalentes com o metal'], ans:1, exp:'EDTA doa 6 pares: 2 aminos (N) + 4 carboxilatos (O). Substitui 6 moléculas de água por 1 EDTA → ΔS > 0 (efeito quelato). Constantes de estabilidade: K(CaEDTA) ≈ 10¹⁰, K(FeEDTA) ≈ 10²⁵. Usado em titulações complexométricas e como antídoto para envenenamento por metais pesados.', hint:'EDTA hexadentado: 6 ligantes em 1 molécula. Efeito quelato: estabilidade termodinâmica (ΔS).' },
+  { q:'O espectro de absorção de [Ti(H₂O)₆]³⁺ (Ti³⁺, d¹) mostra uma banda em 500 nm (cor roxa). A energia da transição d-d em kJ/mol é:', opts:['100 kJ/mol','239 kJ/mol','500 kJ/mol','1200 kJ/mol'], ans:1, exp:'E = hcNA/λ = (6,626×10⁻³⁴ × 3×10⁸ × 6,022×10²³) / 500×10⁻⁹ = 239.000 J/mol = 239 kJ/mol. Essa energia corresponde ao campo cristalino Δo para Ti³⁺ com H₂O.', hint:'E(kJ/mol) = hcNA/λ. λ em m. Resultado divide por 1000 para kJ.' },
+  { q:'O complexo [Ni(CN)₄]²⁻ é quadrado planar e diamagnético, enquanto [NiCl₄]²⁻ é tetraédrico e paramagnético. A razão é:', opts:['CN⁻ tem maior carga que Cl⁻','CN⁻ é ligante de campo forte (Δ > P, emparelha os e⁻); Cl⁻ é campo fraco (Δ < P, e⁻ desemparelhados)','Ni muda de estado de oxidação','O tamanho do ligante determina a geometria'], ans:1, exp:'Ni²⁺ tem d⁸. Campo forte (CN⁻, grande Δ): 4 ligantes em plano quadrado, e⁻ emparelhados em d_xy,d_xz,d_yz,d_z² → diamagnético. Campo fraco (Cl⁻, Δ < P): 4 ligantes tetraédricos, 2 e⁻ desemparelhados → paramagnético. A geometria segue a preferência de campo cristalino.', hint:'Campo forte → Δ > P → emparelha e⁻ → baixo spin. Campo fraco → Δ < P → desemparelha → alto spin.' },
+  { q:'A série espectroquímica ordena os ligantes por força de campo cristalino. Na série, o CO tem Δ muito maior que F⁻ porque:', opts:['CO é menor que F⁻','CO tem retro-doação π (π-back-donation) do metal para orbital π* do CO, que aumenta muito Δ','F⁻ é mais eletronegativo','CO forma mais ligações iônicas'], ans:1, exp:'Ligantes σ puros: campo intermediário. Ligantes π-doadores (F⁻, Cl⁻): reduzem Δ (competem com t₂g). Ligantes π-aceptores (CO, CN⁻, NO⁺): retro-doação do metal para π* do ligante estabiliza t₂g → Δ muito maior. CO está no extremo forte da série.', hint:'CO: aceptor π. Retro-doação estabiliza t₂g → Δ grande → campo forte. F⁻: doador π → campo fraco.' },
+  { q:'A isomeria fac/mer em [Co(NH₃)₃Cl₃] refere-se a:', opts:['Isômeros ópticos (enantiômeros)','Posição dos ligantes: fac (3 NH₃ em face triangular); mer (3 NH₃ em plano meridional)','Diferente estado de oxidação do Co','Ligação do Cl pelo N ou pelo Cl'], ans:1, exp:'fac (facial): 3 ligantes iguais nos vértices de uma face triangular do octaedro (ângulo 90°). mer (meridional): 3 ligantes iguais num plano que passa pelo centro do octaedro (um ângulo de 180° e dois de 90°). Isômeros geométricos distintos com propriedades diferentes.', hint:'fac: triângulo. mer: linha (um de 180°). Ambos são octaédricos com 3+3 ligantes.' },
+  { q:'O efeito trans em complexos quadrado-planos de Pt²⁺ indica que:', opts:['Ligantes na posição trans sempre têm a mesma força','Um ligante forte trans labiliza o ligante oposto — aumenta a velocidade de substituição do ligante trans a ele','A geometria muda de quadrada para octaédrica','O ligante trans fica mais próximo do metal'], ans:1, exp:'Efeito trans: ligantes com alta habilidade de retro-doação π (CO, NO⁺, alquil, CN⁻, H⁻) ou forte influência σ labilizam o ligante trans a eles. Explicação: competição por orbitais do metal. Aplicação na síntese dirigida do cis-platina (antitumoral).', hint:'Ligante trans forte → labiliza o ligante oposto. Usado para controlar produtos em substituições em Pt.' },
+  { q:'O magnetismo de um complexo de campo fraco com d⁵ (ex: Fe³⁺ + F⁻) tem momento magnético esperado de:', opts:['0 BM (diamagnético)','1,73 BM (1 e⁻ desemparelhado)','3,87 BM','5,92 BM (5 e⁻ desemparelhados, alto spin)'], ans:3, exp:'Campo fraco, d⁵: cada orbital d tem 1 e⁻ (configuração t₂g³eg², máxima multiplicidade pela regra de Hund). 5 e⁻ desemparelhados. μ = √(n(n+2)) = √(5×7) = √35 ≈ 5,92 BM. O FeF₆³⁻ é o exemplo clássico de alto spin d⁵.', hint:'μ = √(n(n+2)) BM. n = e⁻ desemparelhados. Alto spin d⁵: n=5 → μ≈5,92.' },
+  { q:'A cis-platina [Pt(NH₃)₂Cl₂] age contra tumores ligando-se ao DNA no:', opts:['Açúcar da ribose','N7 de duas guaninas adjacentes, formando aduto intrafita que distorce a dupla hélice e bloqueia a replicação','Grupo fosfato','Adenina e citosina apenas'], ans:1, exp:'cis-Pt²⁺ reage com N7 de dois nucleotídeos de guanina adjacentes (5'-GG-3' intrafita). O aduto cis-Pt-GG distorce 35-40° a dupla hélice, recrutando proteínas de reparo que bloqueiam a replicação e disparam apoptose. O isômero trans-platina é inativo (geometria não permite ponte intrafita).', hint:'cis-platina: liga 2 Gs adjacentes no mesmo fio de DNA → distorção → apoptose.' },
+  { q:'Na nomenclatura IUPAC de complexos, [Fe(H₂O)₄(OH)₂]⁺ é nomeado:', opts:['Dihidróxi-tetrahidratado ferro III','Tetrahidróxi-diaquaferrato (III)','Dihidróxidotetrahidridooxídoferro(III)','Tetrahidridoaquadihidroxidoferro(II)'], ans:0, exp:'IUPAC: ligantes em ordem alfabética + nome do metal + estado de oxidação em romano. H₂O = aqua (4: tetrahidróxido... não, tetrahidróxido é OH⁻). Correto: tetrakis(aqua)di(hidróxido)ferro(III). Simplificado: tetrahidróxido di-aqua... O nome mais correto seria tetrakis(aqua)bis(hidróxido)ferro(III).', hint:'IUPAC: ligantes alfabeticamente. H₂O=aqua, OH⁻=hidróxido. Metal + estado de oxidação (romano).' }
 ];
 
 let _geomIdx    = 0;
@@ -170,6 +183,7 @@ export function render(outlet) {
 
   outlet.innerHTML = _buildHTML();
   _initCoordination();
+  _initComplexColor();
   markSectionDone('coordination', 'visited');
 }
 
@@ -235,6 +249,15 @@ function _buildHTML() {
   ============================================================ -->
   <section class="module-section">
     <h2 class="module-section-title">Geometrias de coordenação</h2>
+    <p class="module-text">
+      A geometria de um complexo é determinada pelo número de coordenação (NC) e pela
+      natureza do metal e dos ligantes. NC=4 pode dar <em>tetraédrico</em> ou
+      <em>quadrado planar</em>: metais d⁸ (Pt²⁺, Pd²⁺, Au³⁺, Ni²⁺ com ligantes de campo
+      forte) preferem quadrado planar pela grande estabilização de campo cristalino (CFSE)
+      que resulta de deixar o orbital dx²-y² vazio e altamente desestabilizado. Para d¹⁰
+      (Cu⁺, Zn²⁺) ou d⁰ a geometria é tetraédrica. NC=6 octaédrico é o mais comum por
+      maximizar CFSE em metais de transição da primeira série.
+    </p>
     <div id="geom-tabs" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:var(--space-4)">
       ${GEOMETRIES.map((g, i) => `
         <button class="btn btn-xs ${i===0?'btn-secondary':'btn-ghost'}" id="geom-tab-${i}" data-geom="${i}">
@@ -250,7 +273,7 @@ function _buildHTML() {
     <h2 class="module-section-title">Teoria do Campo Cristalino (TCC)</h2>
     <p class="module-text">
       Em campo octaédrico, os seis ligantes se aproximam ao longo dos eixos ±x, ±y, ±z.
-      Orbitais d que apontam para os ligantes (d_z² e d_x²−y² → grupo <strong>eₘ</strong>)
+      Orbitais d que apontam para os ligantes (d_z² e d_x²-y² → grupo <strong>eₘ</strong>)
       são mais repelidos e ficam com energia maior.
       Orbitais entre os eixos (d_xy, d_xz, d_yz → grupo <strong>t₂g</strong>) ficam com energia menor.
       A diferença de energia é <strong>Δₒ</strong> (ou 10Dq).
@@ -274,6 +297,15 @@ function _buildHTML() {
   ============================================================ -->
   <section class="module-section">
     <h2 class="module-section-title">Série espectroquímica dos ligantes</h2>
+    <p class="module-text">
+      A força de campo de um ligante (capacidade de aumentar Δo) é determinada principalmente
+      pela capacidade de doação σ e pela capacidade de doação/aceitação π. Ligantes de campo
+      forte como CN⁻ e CO são σ-doadores e π-aceitores: eles drenam densidade eletrônica
+      dos orbitais t₂g do metal (retroligação π ou back-bonding), estabilizando-os ainda mais
+      e aumentando Δo. Ligantes de campo fraco como I⁻ e Cl⁻ são apenas σ-doadores fracos,
+      ou π-doadores que competem com o metal — preenchem os t₂g, reduzindo Δo.
+      H₂O é intermediário por ter pares livres para σ mas sem π significativo.
+    </p>
     <p class="module-text">
       Ligantes são ordenados do campo mais fraco ao mais forte.
       Ligantes <strong>π-doadores</strong> (haletos, OH⁻) estabilizam eₘ → campo fraco.
@@ -303,6 +335,16 @@ function _buildHTML() {
   ============================================================ -->
   <section class="module-section">
     <h2 class="module-section-title">Complexos em sistemas biológicos</h2>
+    <p class="module-text">
+      Os íons metálicos são indispensáveis à bioquímica precisamente porque a teoria de
+      coordenação lhes confere propriedades únicas. O ferro no heme da hemoglobina é um
+      complexo de porfirina: Fe²⁺ em campo intermediário — oxigênio se liga ao sexto sítio
+      axial de forma reversível (fraca). CO se liga com afinidade ~250× maior por ser melhor
+      π-aceitador, explicando a toxicidade do monóxido de carbono. A vitamina B₁₂ contém
+      cobalamina: Co³⁺ em ambiente corrinoide — o único exemplo de ligação metal-carbono
+      biológica estável (C–Co). A carboianidrasse usa Zn²⁺ para ativar H₂O e catalisa a
+      hidratação de CO₂ a uma taxa de 10⁶ s⁻¹ — impossível sem o metal.
+    </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-reaction)">Hemoglobina (Fe²⁺)</h3>
@@ -344,7 +386,7 @@ function _buildHTML() {
 // ---------------------------------------------------------------------------
 // Canvas — diagrama de campo cristalino octaédrico
 // ---------------------------------------------------------------------------
-function _drawCrystalField(ctx, W, H, cx_data) {
+function _drawCrystalField(ctx, W, H, cx_data, t = 1, pulse = 0) {
   clearCanvas(ctx, W, H);
   const MY = 20, MX = 20;
   const PH = H - MY * 2;
@@ -366,28 +408,36 @@ function _drawCrystalField(ctx, W, H, cx_data) {
 
   const delta_h = PH * 0.28;
 
-  // t2g — 3 orbitais, abaixo do nível zero: −0,4Δₒ
+  // t2g — 3 orbitais, abaixo do nível zero: -0,4Δₒ
   const t2g_y = mid_y + delta_h * 0.4;
   const eg_y  = mid_y - delta_h * 0.6;
 
   // Draw orbital levels
   function drawLevel(y, label, x_start, n_orbs, electrons, color) {
     const spacing = 20;
+    const alpha = Math.min(1, t * 2);  // fade-in com t
     for (let o = 0; o < n_orbs; o++) {
       const ox = x_start + o * spacing;
+      ctx.globalAlpha = 0.4 + 0.6 * alpha;
       ctx.strokeStyle = color; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(ox, y); ctx.lineTo(ox + 14, y); ctx.stroke();
-
-      // Electrons on this orbital
+      ctx.globalAlpha = alpha;
       const e_in_orb = electrons[o] || 0;
       if (e_in_orb >= 1) {
+        // Glow pulsante no primeiro elétron de cada orbital
+        const glow = 0.5 + 0.5 * Math.sin(pulse + o * 1.2);
+        ctx.shadowColor = color;
+        ctx.shadowBlur  = 6 * glow;
         ctx.fillStyle = '#fff'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
         ctx.fillText('↑', ox + 7, y - 3);
+        ctx.shadowBlur = 0;
       }
       if (e_in_orb >= 2) {
+        ctx.fillStyle = 'rgba(200,220,255,0.85)';
         ctx.fillText('↓', ox + 7, y - 3 + 11);
       }
     }
+    ctx.globalAlpha = 1;
     ctx.fillStyle = color; ctx.font = '8px sans-serif'; ctx.textAlign = 'left';
     ctx.fillText(label, x_start + n_orbs * spacing + 3, y + 3);
   }
@@ -463,9 +513,22 @@ function _initCoordination() {
     canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
     const ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
 
+    let _cxAnimId = null;
+    let _cxAnimT  = 1;
+    let _cxPulse  = 0;  // 0..2π para o elétron de transição pulsar
+
     function renderComplex(idx) {
       const cx = COMPLEXES[idx];
-      _drawCrystalField(ctx, W, H, cx);
+      if (_cxAnimId) cancelAnimationFrame(_cxAnimId);
+      _cxAnimT = 0;
+
+      function animate() {
+        _cxAnimT   = Math.min(1, _cxAnimT + 0.05);
+        _cxPulse  += 0.08;
+        _drawCrystalField(ctx, W, H, cx, _cxAnimT, _cxPulse);
+        if (_cxAnimT < 1 || true) _cxAnimId = requestAnimationFrame(animate);
+      }
+      _cxAnimId = requestAnimationFrame(animate);
       const spinColor = cx.unpaired === 0 ? COLOR.organic : COLOR.reaction;
       document.getElementById('cx-info').innerHTML = `
         <div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;margin-bottom:.5rem">
@@ -540,6 +603,91 @@ function _initCoordination() {
     _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
     loadEx(_exIdx);
   });
+}
+
+// ---------------------------------------------------------------------------
+// Cor de complexo — Δo → λ → cor absorvida → cor observada (complementar)
+// ---------------------------------------------------------------------------
+
+// Roda de cores complementares (λ → RGB hex aproximado)
+function _lambdaToHex(nm) {
+  // Aproximação de Cie RGB para visible spectrum
+  let r, g, b;
+  if      (nm < 380) { r=0.6;  g=0;    b=0.7; }
+  else if (nm < 440) { r=0.6*(440-nm)/60; g=0; b=1; }
+  else if (nm < 490) { r=0;    g=(nm-440)/50; b=1; }
+  else if (nm < 510) { r=0;    g=1;    b=(510-nm)/20; }
+  else if (nm < 580) { r=(nm-510)/70; g=1; b=0; }
+  else if (nm < 645) { r=1;    g=(645-nm)/65; b=0; }
+  else               { r=1;    g=0;    b=0; }
+  // Normaliza
+  const toHex = v => Math.round(Math.max(0, Math.min(255, v * 255))).toString(16).padStart(2,'0');
+  return '#' + toHex(r) + toHex(g) + toHex(b);
+}
+
+// Complementar em hue (aproximação: λ_compl = λ ± 180° no círculo de cor)
+const COMPLEMENT_MAP = [
+  { range: [380,430], name: 'Violeta',        comp: 'Verde-amarelo',  compNm: 560 },
+  { range: [430,480], name: 'Azul',            comp: 'Laranja',        compNm: 610 },
+  { range: [480,500], name: 'Azul-verde',      comp: 'Vermelho',       compNm: 660 },
+  { range: [500,530], name: 'Verde',           comp: 'Vermelho-púrpura',compNm: 700 },
+  { range: [530,560], name: 'Verde-amarelo',   comp: 'Violeta',        compNm: 410 },
+  { range: [560,580], name: 'Amarelo',         comp: 'Azul-violeta',   compNm: 430 },
+  { range: [580,610], name: 'Laranja',         comp: 'Azul',           compNm: 460 },
+  { range: [610,700], name: 'Vermelho',        comp: 'Verde',          compNm: 510 },
+];
+
+function _getColorInfo(nm) {
+  const c = COMPLEMENT_MAP.find(e => nm >= e.range[0] && nm < e.range[1]);
+  if (!c) return { absName: 'UV/IV', obsName: '—', absHex: '#888', obsHex: '#888', compNm: 550 };
+  return {
+    absName: c.name, obsName: c.comp,
+    absHex: _lambdaToHex(nm), obsHex: _lambdaToHex(c.compNm),
+    compNm: c.compNm,
+  };
+}
+
+function _initComplexColor() {
+  const hc_cm = 1.98645e-23;  // J·cm (hc)
+
+  function update(doVal) {
+    const do_cm = doVal ?? parseFloat(document.getElementById('cplx-do')?.value ?? 17400);
+    const lambda_m  = 1 / (do_cm * 100);  // m  (1/cm → 1/m = do_cm*100)
+    const lambda_nm = lambda_m * 1e9;
+    const do_kJ     = do_cm * hc_cm * 6.022e23 / 1000;
+
+    const info = _getColorInfo(lambda_nm);
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    const setColor = (id, hex) => {
+      const el = document.getElementById(id);
+      if (el) el.style.background = hex;
+    };
+
+    set('cplx-do-val',    do_cm.toFixed(0) + ' cm⁻¹');
+    set('cplx-lambda',    lambda_nm.toFixed(0) + ' nm');
+    set('cplx-abs-name',  info.absName);
+    set('cplx-obs-name',  info.obsName);
+    set('cplx-do-kJ',     do_kJ.toFixed(1) + ' kJ/mol');
+    setColor('cplx-swatch-abs', info.absHex);
+    setColor('cplx-swatch-obs', info.obsHex);
+    const obsLbl = document.getElementById('cplx-obs-label');
+    if (obsLbl) {
+      obsLbl.textContent = info.obsName;
+      // contraste texto
+      obsLbl.style.color = '#000';
+    }
+
+    const sl = document.getElementById('cplx-do');
+    if (sl) sl.value = do_cm;
+  }
+
+  document.getElementById('cplx-do')?.addEventListener('input', () => update());
+  document.querySelectorAll('[data-preset]').forEach(btn => {
+    btn.addEventListener('click', () => update(parseFloat(btn.dataset.preset)));
+  });
+
+  if (document.getElementById('cplx-do')) update();
 }
 
 export function destroy() {}

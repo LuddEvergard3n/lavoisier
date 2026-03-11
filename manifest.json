@@ -1,0 +1,51 @@
+{
+  "name": "Lavoisier — Laboratório Visual de Química",
+  "short_name": "Lavoisier",
+  "description": "Laboratório interativo de pensamento químico. Do ensino médio ao ensino superior.",
+  "lang": "pt-BR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "categories": ["education", "science"],
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Estrutura Atômica",
+      "url": "./index.html#/module/atomic-structure",
+      "description": "Modelo de Bohr, orbitais e configuração eletrônica"
+    },
+    {
+      "name": "Tabela Periódica",
+      "url": "./index.html#/module/periodic-table",
+      "description": "51 elementos interativos e tendências periódicas"
+    },
+    {
+      "name": "Lista de módulos",
+      "url": "./index.html#/modules",
+      "description": "Todos os 24 módulos disponíveis"
+    }
+  ]
+}

@@ -126,13 +126,25 @@ function updateBuffer() {
   set('buf-ratio-label', `[${buf.base}]/[${buf.acid}] = ${_bufRatio.toFixed(2)}`);
 }
 
-const EXERCISE = {
-  question: 'O suco gástrico tem pH ≈ 1,5. Qual é a [H⁺] aproximada?',
-  options:  ['≈ 0,032 mol/L (10⁻¹·⁵)', '≈ 1,5 mol/L', '≈ 10⁻¹² mol/L', '≈ 0,150 mol/L'],
-  correct:  0,
-  explanation: '[H⁺] = 10⁻ᵖᴴ = 10⁻¹·⁵ ≈ 0,032 mol/L. Esse pH ativa a pepsina e desnatura proteínas ingeridas.',
-};
+const EXERCISES = [
+  { q: 'Suco gástrico pH ≈ 1,5. [H⁺] ≈?', opts: ['3,2×10⁻² mol/L','0,15 mol/L','1,5 mol/L','3,2×10⁻⁵ mol/L'], ans: 0, exp: '[H⁺] = 10^(-1,5) ≈ 3,2×10⁻² mol/L.', hint: '[H⁺] = 10^(-pH).' },
+  { q: 'Qual tem maior ponto de ebulição?', opts: ['Água pura','1 mol/kg NaCl','1 mol/kg glicose','2 mol/kg NaCl'], ans: 3, exp: 'ΔTb = Kb×m×i. 2 mol/kg NaCl: i≈2, partículas = 4 mol/kg. Maior.', hint: 'Propriedades coligativas dependem de i×m.' },
+  { q: 'Pressão osmótica de 0,1 mol/L glicose a 25°C:', opts: ['2,45 atm','0,25 atm','24,5 atm','0,025 atm'], ans: 0, exp: 'π = iMRT = 1×0,1×0,08206×298 ≈ 2,45 atm.', hint: 'π = iMRT. Glicose: i=1.' },
+  { q: 'Solubilidade do O₂ em água aumenta quando:', opts: ['T sobe','P(O₂) aumenta (Lei de Henry)','pH cai','NaCl é dissolvido'], ans: 1, exp: 'Lei de Henry: c = k_H×P. Maior P_parcial → maior solubilidade. Temperatura mais alta diminui solubilidade de gases.', hint: 'Para gases, temperatura e pressão têm efeitos opostos na solubilidade.' },
+  { q: 'Difusão de água por membrana semipermeável da diluída para a concentrada é:', opts: ['Difusão ativa','Osmose','Diálise','Eletroforese'], ans: 1, exp: 'Osmose: movimento espontâneo do solvente pelo gradiente de potencial químico.', hint: 'Qual é o nome específico para difusão de solvente (não soluto) por membrana?' },,
+  { q:'250 mL de HCl 0,4 mol/L são diluídos para 1 L. Qual a nova concentração?', opts:['0,1 mol/L','0,4 mol/L','1,6 mol/L','0,25 mol/L'], ans:0, exp:'C₁V₁ = C₂V₂. 0,4 × 0,25 = C₂ × 1,0. C₂ = 0,1 mol/L. Diluição conserva moles, não concentração.', hint:'C₁V₁ = C₂V₂. Moles de soluto se conservam.' },
+  { q:'O pH de uma solução de HCl 0,001 mol/L é:', opts:['1','2','3','11'], ans:2, exp:'HCl é ácido forte: ionização completa. [H⁺] = 0,001 = 10⁻³ mol/L. pH = -log(10⁻³) = 3.', hint:'HCl forte: [H⁺] = [HCl]. pH = -log[H⁺].' },
+  { q:'A pressão osmótica de 1 mol/L de glicose a 25°C (π = nRT/V, R=0,082) é:', opts:['2,05 atm','24,5 atm','0,082 atm','1,0 atm'], ans:1, exp:'π = cRT = 1 mol/L × 0,082 L·atm/(mol·K) × 298 K ≈ 24,4 atm. Isso explica por que células animais estouram em água pura (gradiente osmótico enorme).', hint:'π = cRT. c em mol/L, T em K, R = 0,082.' },
+  { q:'A crioscopia: dissolver 1 mol de NaCl em 1 kg de água abaixa o ponto de congelamento em:', opts:['-1,86°C','-3,72°C','-0,93°C','-5,58°C'], ans:1, exp:'ΔTf = Kf × m × i. Kf(água)=1,86°C·kg/mol. NaCl se dissocia em 2 partículas (i=2). ΔTf = 1,86 × 1 × 2 = 3,72°C. O ponto de congelamento cai 3,72°C (antigelo).', hint:'NaCl → Na⁺ + Cl⁻: i=2. ΔTf = Kf × m × i.' },
+  { q:'Qual equilíbrio descreve a autoionização da água?', opts:['H₂O → H⁺ + OH⁻ (irreversível)','2H₂O ⇌ H₃O⁺ + OH⁻ (Kw = 10⁻¹⁴ a 25°C)','H₂O + H₂O → H₂ + O₂','H₂O ⇌ H₂ + ½O₂'], ans:1, exp:'2H₂O ⇌ H₃O⁺ + OH⁻. Kw = [H₃O⁺][OH⁻] = 10⁻¹⁴ a 25°C. Em água pura: [H⁺] = [OH⁻] = 10⁻⁷ → pH = 7. Kw aumenta com temperatura.', hint:'Kw = [H⁺][OH⁻] = 10⁻¹⁴ a 25°C. Isso define pH neutro = 7.' },
+  { q:'Um tampão tem HA (pKa=5,0) e A⁻ na razão [A⁻]/[HA]=10. Qual é o pH?', opts:['4,0','5,0','6,0','10,0'], ans:2, exp:'pH = pKa + log([A⁻]/[HA]) = 5,0 + log(10) = 5,0 + 1 = 6,0.', hint:'Henderson-Hasselbalch: pH = pKa + log([base]/[ácido]).' },
+  { q:'A solubilidade do O₂ em água diminui ao aquecer porque:', opts:['O₂ reage com H₂O no calor','A dissolução de gases é exotérmica; aquecimento desloca equilíbrio para fora da solução','O₂ fica mais pesado','A viscosidade aumenta'], ans:1, exp:'Dissolução de gases: gás + H₂O ⇌ gás(aq) + calor (exotérmica). Pelo princípio de Le Chatelier, aumentar T desloca para a esquerda → gás sai da solução. Por isso peixes morrem em rios quentes (hipóxia).', hint:'Le Chatelier: calor é "produto" na dissolução exotérmica. Mais calor → desfaz dissolução.' },
+  { q:'A Lei de Henry diz que a solubilidade de um gás é proporcional à sua pressão parcial. Se duplicar a pressão de CO₂ sobre refrigerante:', opts:['A solubilidade cai à metade','A solubilidade dobra','Não muda — a temperatura é o fator dominante','A solubilidade aumenta 4 vezes'], ans:1, exp:'Lei de Henry: S = kH × P. Se P dobra → S dobra. Por isso bebidas carbonatadas são seladas sob pressão de CO₂. Ao abrir (pressão cai), CO₂ escapa.', hint:'S = kH × P. Relação linear com a pressão parcial.' },
+  { q:'A ebullioscopia (elevação do ponto de ebulição) é usada para determinar:', opts:['Concentração iônica','Massa molar de solutos não-voláteis (via ΔTb e m)','Pressão de vapor do solvente puro','Solubilidade do soluto'], ans:1, exp:'ΔTb = Kb × m. Se ΔTb e Kb são conhecidos, calcula-se m. Com a massa do soluto e o volume de solvente, determina-se a massa molar. Aplicação histórica em química orgânica para caracterizar novos compostos.', hint:'ΔTb = Kb × m. Com m em mol/kg e a massa do soluto, isola a massa molar.' },
+  { q:'Qual afirmação sobre soluções tampão está ERRADA?', opts:['Resistem a variações de pH ao adicionar pequenas quantidades de ácido ou base','Funcionam melhor quando pH ≈ pKa ± 1','Têm capacidade tampão infinita — absorvem qualquer quantidade de ácido','O tampão H₂CO₃/HCO₃⁻ é essencial no controle do pH sanguíneo'], ans:2, exp:'Tampões têm capacidade tamponante finita — ao adicionar ácido ou base além de um limite, o pH varia bruscamente (todo o ácido fraco ou base conjugada é consumido). A capacidade é máxima quando [A⁻] = [HA] (pH = pKa).', hint:'O que acontece se adicionar excesso de ácido forte a um tampão? Eventualmente esgota a base conjugada.' }
+];
 
+let _exIdx     = 0;
 export function render(outlet) {
   _ph = 7.0; if (_loop) { _loop.stop(); _loop = null; }
   _bufIdx = 1; _bufRatio = 1.0; _dilC1 = 1.0; _dilV1 = 100; _dilV2 = 500;
@@ -156,7 +168,7 @@ export function render(outlet) {
   <section class="module-section">
     <h2 class="module-section-title">Fenômeno</h2>
     <p class="module-text">Bicarbonato e vinagre efervescem violentamente ao misturar. Antiácido neutraliza acidez gástrica em segundos. Tudo envolve ácidos, bases e pH — a escala que mede [H⁺] em solução.</p>
-    <p class="module-text"><strong>pH = −log[H⁺]</strong>. Em água pura: [H⁺] = 10⁻⁷ → pH = 7. Cada unidade representa fator 10: pH 5 é 100× mais ácido que pH 7.</p>
+    <p class="module-text"><strong>pH = -log[H⁺]</strong>. Em água pura: [H⁺] = 10⁻⁷ → pH = 7. Cada unidade representa fator 10: pH 5 é 100× mais ácido que pH 7.</p>
   </section>
 
   <section class="module-section">
@@ -247,12 +259,13 @@ export function render(outlet) {
   </section>
 
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${EXERCISE.question}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
-      ${EXERCISE.options.map((opt, i) => `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" id="ex-opt-${i}" data-exopt="${i}">${opt}</button>`).join('')}
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${EXERCISES[0].q}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+      ${EXERCISES[0].opts.map((opt, i) => `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" id="ex-opt-${i}" data-exopt="${i}">${opt}</button>`).join('')}
     </div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <!-- Titulação ácido-base: pH no ponto de equivalência -->
@@ -330,6 +343,10 @@ export function render(outlet) {
       </div>
     </div>
     <p id="tit-explanation" style="font-size:var(--text-sm);color:var(--text-secondary);margin-top:var(--space-4)"></p>
+    <!-- Curva de titulação canvas -->
+    <div class="canvas-frame" id="titcurve-frame" style="min-height:200px;margin-top:var(--space-4)">
+      <canvas id="titcurve-canvas" aria-label="Curva de titulação pH × volume"></canvas>
+    </div>
   </section>
 
     <!-- Equilíbrio iônico formal -->
@@ -341,10 +358,10 @@ export function render(outlet) {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.4rem">
-        HA ⇌ H⁺ + A⁻ &nbsp;|&nbsp; Ka = x² / (C − x)
+        HA ⇌ H⁺ + A⁻ &nbsp;|&nbsp; Ka = x² / (C - x)
       </p>
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-bond);margin-bottom:.4rem">
-        x = [H⁺] = (−Ka + √(Ka² + 4·Ka·C)) / 2
+        x = [H⁺] = (-Ka + √(Ka² + 4·Ka·C)) / 2
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         A aproximação x &lt;&lt; C é válida apenas se grau de ionização &lt; 5%.
@@ -426,7 +443,7 @@ export function render(outlet) {
             <td style="padding:.4rem .6rem;font-family:monospace;font-weight:600;color:var(--text-muted)">CH₃COONH₄</td>
             <td style="padding:.4rem .6rem;font-size:var(--text-xs)">AcOH + NH₃ (ambos fracos, pKa≈pKb)</td>
             <td style="padding:.4rem .6rem;color:var(--accent-organic)">≈ 7 (neutro)</td>
-            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">pH ≈ 7 + ½(pKa − pKb). Ambos hidrolisam.</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">pH ≈ 7 + ½(pKa - pKb). Ambos hidrolisam.</td>
           </tr>
         </tbody>
       </table>
@@ -444,10 +461,10 @@ export function render(outlet) {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
-        [In⁻] / [HIn] = 10^(pH − pKa_In)
+        [In⁻] / [HIn] = 10^(pH - pKa_In)
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
-        pH &lt; pKa−1 → cor ácida (HIn domina). pH &gt; pKa+1 → cor básica (In⁻ domina).<br>
+        pH &lt; pKa-1 → cor ácida (HIn domina). pH &gt; pKa+1 → cor básica (In⁻ domina).<br>
         Zona de transição: ambas as formas coexistem → cor mista.
       </p>
     </div>
@@ -916,6 +933,7 @@ function _initTitration() {
 
     const expEl = document.getElementById('tit-explanation');
     if (expEl) expEl.textContent = explanation;
+    _updateTitrationCurve(_titType, Ca, Va * 1000, Cb, pKa);
   }
 
   if (!document.getElementById('tit-Ca')) return;
@@ -944,6 +962,268 @@ function _initTitration() {
   updateTit();
 }
 
+
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('solutions', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
+// ---------------------------------------------------------------------------
+// Curva de titulação — canvas pH × V (mL de base adicionados)
+// ---------------------------------------------------------------------------
+function _drawTitrationCurve(canvas, titType, Ca, Va, Cb, pKa) {
+  const frame = canvas.parentElement;
+  if (!frame) return;
+  const W   = Math.min(frame.clientWidth || 520, 520);
+  const H   = 200;
+  const dpr = window.devicePixelRatio || 1;
+  if (canvas.width !== Math.round(W * dpr) || canvas.height !== Math.round(H * dpr)) {
+    canvas.width  = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+  }
+  const ctx = canvas.getContext('2d');
+  const Kw  = 1e-14;
+  const Ka  = Math.pow(10, -pKa);
+  const na  = Ca * Va / 1000;          // mol (Va em mL)
+  const Veq = na / Cb * 1000;          // mL
+
+  const MX = 42, MY = 12, PW = W - MX - 12, PH = H - MY - 28;
+  const V_MAX = Veq * 1.6;
+
+  // calcular pH para cada ponto de volume de base adicionado (Vb em mL)
+  function calcPH(Vb_mL) {
+    const Vb = Vb_mL / 1000;
+    const Vtotal = Va / 1000 + Vb;
+    const nb = Cb * Vb;
+
+    if (titType === 'sfb') {
+      // Ácido forte + base forte
+      if (Vb_mL < Veq - 0.001) {
+        const Cexcess = (na - nb) / Vtotal;
+        return -Math.log10(Cexcess);
+      } else if (Math.abs(Vb_mL - Veq) < 0.001) {
+        return 7.0;
+      } else {
+        const Cexcess = (nb - na) / Vtotal;
+        return 14 + Math.log10(Cexcess);
+      }
+    } else if (titType === 'wfb') {
+      // Ácido fraco + base forte
+      if (Vb_mL < 0.001) {
+        // Apenas ácido fraco
+        const H = (-Ka + Math.sqrt(Ka * Ka + 4 * Ka * (na / Vtotal))) / 2;
+        return H > 0 ? -Math.log10(H) : 7;
+      } else if (Vb_mL < Veq - 0.05) {
+        // Região tampão: Henderson-Hasselbalch
+        const nHA = na - nb;
+        const nA  = nb;
+        if (nHA > 0 && nA > 0) return pKa + Math.log10(nA / nHA);
+        return pKa;
+      } else if (Math.abs(Vb_mL - Veq) < 0.1) {
+        // Ponto de equivalência: sal básico
+        const Csal = na / Vtotal;
+        const Kh   = Kw / Ka;
+        const OH   = Math.sqrt(Kh * Csal);
+        return 14 + Math.log10(OH);
+      } else {
+        // Excesso de base forte
+        const Cexcess = (nb - na) / Vtotal;
+        return 14 + Math.log10(Cexcess);
+      }
+    } else {
+      // Ácido forte + base fraca (invertido: Cb de ácido forte na bureta)
+      const Kb  = Math.pow(10, -pKa);
+      const KaC = Kw / Kb;
+      if (Vb_mL < 0.001) {
+        return -Math.log10(Math.sqrt(KaC * (Ca * Va / 1000) / (Va / 1000)));
+      } else if (Vb_mL < Veq - 0.05) {
+        const nB   = na - nb;
+        const nBH  = nb;
+        if (nB > 0 && nBH > 0) {
+          const pH_B = 14 - pKa + Math.log10(nBH / nB);
+          return pH_B;
+        }
+        return 14 - pKa;
+      } else if (Math.abs(Vb_mL - Veq) < 0.1) {
+        const Csal = na / Vtotal;
+        const H    = Math.sqrt(KaC * Csal);
+        return H > 0 ? -Math.log10(H) : 7;
+      } else {
+        const Cexcess = (nb - na) / Vtotal;
+        return -Math.log10(Cexcess);
+      }
+    }
+  }
+
+  // Gerar pontos
+  const N_PTS = 200;
+  const pts = [];
+  for (let i = 0; i <= N_PTS; i++) {
+    const Vb = (i / N_PTS) * V_MAX;
+    const pH = Math.max(0, Math.min(14, calcPH(Vb)));
+    const x = MX + (Vb / V_MAX) * PW;
+    const y = MY + PH - (pH / 14) * PH;
+    pts.push({ x, y, pH, Vb });
+  }
+
+  // Fundo
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grade
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  for (let ph = 0; ph <= 14; ph += 2) {
+    const y = MY + PH - (ph / 14) * PH;
+    ctx.beginPath(); ctx.moveTo(MX, y); ctx.lineTo(MX + PW, y); ctx.stroke();
+  }
+
+  // Eixos
+  ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(MX, MY); ctx.lineTo(MX, MY + PH);
+  ctx.lineTo(MX + PW, MY + PH); ctx.stroke();
+
+  // Tick Y — pH
+  ctx.fillStyle = 'rgba(200,200,200,0.6)';
+  ctx.font = '8px monospace';
+  ctx.textAlign = 'right';
+  [0, 2, 4, 6, 7, 8, 10, 12, 14].forEach(ph => {
+    const y = MY + PH - (ph / 14) * PH;
+    ctx.fillText(ph, MX - 3, y + 3);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.beginPath(); ctx.moveTo(MX, y); ctx.lineTo(MX + PW, y); ctx.stroke();
+  });
+
+  // Tick X — volume
+  ctx.fillStyle = 'rgba(200,200,200,0.6)';
+  ctx.textAlign = 'center';
+  const nTicks = 5;
+  for (let i = 0; i <= nTicks; i++) {
+    const Vb = (i / nTicks) * V_MAX;
+    const x = MX + (Vb / V_MAX) * PW;
+    ctx.fillText(Vb.toFixed(1), x, MY + PH + 12);
+  }
+
+  // Labels dos eixos
+  ctx.fillStyle = 'rgba(200,200,200,0.4)';
+  ctx.font = '8px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('V base (mL)', MX + PW / 2, H - 4);
+  ctx.save();
+  ctx.translate(9, MY + PH / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('pH', 0, 0);
+  ctx.restore();
+
+  // Linha pH=7
+  ctx.strokeStyle = 'rgba(100,200,100,0.2)';
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  const y7 = MY + PH - (7 / 14) * PH;
+  ctx.moveTo(MX, y7); ctx.lineTo(MX + PW, y7);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Linha de equivalência (vertical)
+  const xEq = MX + (Veq / V_MAX) * PW;
+  ctx.strokeStyle = 'rgba(255,209,102,0.4)';
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(xEq, MY); ctx.lineTo(xEq, MY + PH); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#ffd166';
+  ctx.font = '8px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('PE', xEq, MY - 2);
+
+  // Curva com gradiente de cor (ácido → neutro → básico)
+  for (let i = 1; i < pts.length; i++) {
+    const pH = pts[i].pH;
+    const r = pH < 7 ? 239 : Math.round(239 - (pH - 7) / 7 * 239);
+    const g = Math.round(71 + (pH / 14) * 120);
+    const b = pH > 7 ? Math.round((pH - 7) / 7 * 255) : 70;
+    ctx.strokeStyle = `rgb(${r},${g},${b})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+    ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.stroke();
+  }
+
+  // Marcador do ponto de equivalência
+  const peIdx = Math.round((Veq / V_MAX) * N_PTS);
+  if (peIdx < pts.length) {
+    const pe = pts[Math.max(0, Math.min(pts.length - 1, peIdx))];
+    ctx.fillStyle = '#ffd166';
+    ctx.beginPath();
+    ctx.arc(pe.x, pe.y, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 8px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('pH=' + pe.pH.toFixed(1), pe.x + 6, pe.y - 3);
+  }
+}
+
+let _titCurveAnimId = null;
+
+function _updateTitrationCurve(titType, Ca, Va, Cb, pKa) {
+  const canvas = document.getElementById('titcurve-canvas');
+  if (!canvas) return;
+  if (_titCurveAnimId) { cancelAnimationFrame(_titCurveAnimId); _titCurveAnimId = null; }
+  _titCurveAnimId = requestAnimationFrame(() => {
+    _drawTitrationCurve(canvas, titType, Ca, Va, Cb, pKa);
+    _titCurveAnimId = null;
+  });
+}
+
 export function destroy() {
+  if (_titCurveAnimId) { cancelAnimationFrame(_titCurveAnimId); _titCurveAnimId = null; }
   if (_loop) { _loop.stop(); _loop = null; }
 }

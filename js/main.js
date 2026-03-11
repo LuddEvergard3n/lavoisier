@@ -79,7 +79,7 @@ function _registerRoutes() {
   route('/modules', async () => {
     _destroyActive();
     const { renderModules } = await import('./views/modules-list.js');
-    renderModules(getOutlet());
+    await renderModules(getOutlet());
   });
 
   // ---- Módulo específico ----
@@ -141,6 +141,9 @@ async function _loadModule(id) {
     'organic':          () => import('../modules/organic/index.js'),
     'gases':            () => import('../modules/gases/index.js'),
     'analytical':       () => import('../modules/analytical/index.js'),
+    'symmetry':         () => import('../modules/symmetry/index.js'),
+    'photochemistry':   () => import('../modules/photochemistry/index.js'),
+    'catalysis':        () => import('../modules/catalysis/index.js'),
     'biochemistry':     () => import('../modules/biochemistry/index.js'),
     'nuclear':          () => import('../modules/nuclear/index.js'),
     'environmental':    () => import('../modules/environmental/index.js'),

@@ -60,15 +60,15 @@ const ORBITAL_SHAPES = [
     name: 'Orbital s (l = 0)',
     color: '#4fc3f7',
     desc: 'Simetria esférica. |ψ|² máximo no núcleo para n=1; nó radial para n≥2. Único valor de mₗ = 0.',
-    nodes: 'Nós radiais: n − l − 1 = n − 1 (para l=0). Nenhum nó angular.',
+    nodes: 'Nós radiais: n - l - 1 = n - 1 (para l=0). Nenhum nó angular.',
     draw: 'sphere',
   },
   {
     id: 'px',
     name: 'Orbital pₓ (l = 1)',
     color: '#ffd166',
-    desc: 'Dois lobos ao longo do eixo x. Nó angular no plano yz. Combinação linear de mₗ = +1 e −1.',
-    nodes: 'n − 2 nós radiais + 1 nó angular (plano nodal).',
+    desc: 'Dois lobos ao longo do eixo x. Nó angular no plano yz. Combinação linear de mₗ = +1 e -1.',
+    nodes: 'n - 2 nós radiais + 1 nó angular (plano nodal).',
     draw: 'px',
   },
   {
@@ -101,7 +101,7 @@ const MO_MOLECULES = [
       { label: 'σ1s',  type: 'bonding',     e: 2, fill: 2 },
     ],
     energy_gain: -458,  // kJ/mol
-    desc: 'Ligação σ simples. Ambos elétrons no OM ligante → estabilização. BO = (2−0)/2 = 1.',
+    desc: 'Ligação σ simples. Ambos elétrons no OM ligante → estabilização. BO = (2-0)/2 = 1.',
   },
   {
     id: 'He2', label: 'He₂',
@@ -113,7 +113,7 @@ const MO_MOLECULES = [
       { label: 'σ1s',  type: 'bonding',     e: 2, fill: 2 },
     ],
     energy_gain: 0,
-    desc: 'BO = (2−2)/2 = 0. Não existe como molécula estável — destabilizado pelo σ*1s preenchido.',
+    desc: 'BO = (2-2)/2 = 0. Não existe como molécula estável — destabilizado pelo σ*1s preenchido.',
   },
   {
     id: 'O2', label: 'O₂',
@@ -128,7 +128,7 @@ const MO_MOLECULES = [
       { label: 'σ2s',  type: 'bonding',     e: 2, fill: 2 },
     ],
     energy_gain: -498,
-    desc: 'DOIS elétrons no π*2p desemparelhados (Hund) → PARAMAGNÉTICO. BO = (8−4)/2 = 2. Explica por que O₂ adere a ímãs.',
+    desc: 'DOIS elétrons no π*2p desemparelhados (Hund) → PARAMAGNÉTICO. BO = (8-4)/2 = 2. Explica por que O₂ adere a ímãs.',
   },
   {
     id: 'N2', label: 'N₂',
@@ -187,14 +187,27 @@ const EXERCISES = [
     q: 'Para um elétron com n=3, l=2, quais os valores permitidos de mₗ?',
     opts: [
       '0, 1, 2',
-      '−2, −1, 0, +1, +2',
-      '−3, −2, −1, 0, +1, +2, +3',
-      '−1, 0, +1',
+      '-2, -1, 0, +1, +2',
+      '-3, -2, -1, 0, +1, +2, +3',
+      '-1, 0, +1',
     ],
     ans: 1,
-    exp: 'Para l=2 (subcamada d): mₗ varia de −l a +l, portanto −2, −1, 0, +1, +2. São 5 orbitais d com a mesma energia num átomo isolado (degenerescência removida por campos externos ou ligantes).',
-    hint: 'mₗ vai de −l até +l em passos de 1. Com l=2, quantos valores isso gera?',
+    exp: 'Para l=2 (subcamada d): mₗ varia de -l a +l, portanto -2, -1, 0, +1, +2. São 5 orbitais d com a mesma energia num átomo isolado (degenerescência removida por campos externos ou ligantes).',
+    hint: 'mₗ vai de -l até +l em passos de 1. Com l=2, quantos valores isso gera?',
   },
+
+  { q: 'Para n=3, quais são os valores possíveis de l?', opts: ['0, 1','0, 1, 2','0, 1, 2, 3','1, 2, 3'], ans: 1, exp: 'l = 0, 1, ..., n-1. Para n=3: l = 0 (3s), 1 (3p), 2 (3d). Máximo l = n-1.', hint: 'l vai de 0 até n-1.' },
+  { q: 'O modelo de Bohr falha para átomos multieletrônicos porque:', opts: ['Usa órbitas circulares','Ignora repulsão intereletrônica e não trata o elétron como onda','Não considera o núcleo','É muito matematicamente complexo'], ans: 1, exp: 'Com vários elétrons, a repulsão mútua quebra a solução analítica. Além disso, Bohr trata o elétron como partícula clássica — não inclui dualidade onda-partícula (de Broglie/Schrödinger).', hint: 'O que o modelo de Bohr ignora ao adicionar o segundo elétron?' },,
+  { q:'O número quântico principal n define a energia do orbital no H. Para n=3, quantos orbitais existem?', opts:['3','6','9','12'], ans:2, exp:'n=3: l pode ser 0,1,2. l=0: 1 orbital (3s). l=1: 3 orbitais (3p). l=2: 5 orbitais (3d). Total = 1+3+5 = 9 orbitais. Regra: n² orbitais por nível n.', hint:'Total de orbitais no nível n = n². Para n=3: 9.' },
+  { q:'A dualidade onda-partícula foi confirmada experimentalmente para elétrons pelo:', opts:['Experimento de Rutherford','Experimento de difração de elétrons de Davisson-Germer (1927)','Efeito fotoelétrico de Einstein','Espectro do hidrogênio de Bohr'], ans:1, exp:'Davisson e Germer (1927): elétrons acelerados por cristal de Ni produziram padrões de difração idênticos aos de raios-X. Confirmou a hipótese de de Broglie (λ = h/mv). Nobel 1937.', hint:'Difração é fenômeno ondulatório. Elétrons difratando = ondas de matéria.' },
+  { q:'O comprimento de onda de de Broglie de um elétron (m=9,11×10⁻³¹ kg) a 10⁶ m/s é: (h=6,63×10⁻³⁴ J·s)', opts:['7,3×10⁻¹⁰ m','7,3×10⁻⁷ m','6,6×10⁻³⁴ m','1,5×10⁻⁹ m'], ans:0, exp:'λ = h/(mv) = 6,63×10⁻³⁴ / (9,11×10⁻³¹ × 10⁶) = 6,63×10⁻³⁴ / 9,11×10⁻²⁵ = 7,3×10⁻¹⁰ m = 0,73 nm. Comparável ao tamanho do átomo — por isso os elétrons exibem comportamento ondulatório em escala atômica.', hint:'λ = h/p = h/(mv). Resultado em metros.' },
+  { q:'Na TOM do N₂, a ordem de ligação é 3. Isso significa:', opts:['N₂ tem 3 pares de elétrons não-ligantes','(e⁻ ligantes - e⁻ antiligantes)/2 = (8-2)/2 = 3 — tripla ligação','N₂ tem 3 átomos','A energia de ligação é 3 kJ/mol'], ans:1, exp:'TOM N₂: (σ1s)²(σ*1s)²(σ2s)²(σ*2s)²(π2p)⁴(σ2p)². Ligantes: 2+2+4+2=10... Mais direto: N tem 5 e⁻ de valência cada, 2N = 10 e⁻ valência. Ordem = (8-2)/2 = 3. Confirma a tripla ligação N≡N, a mais forte (945 kJ/mol) das moléculas diatômicas simples.', hint:'Ordem = (e⁻ ligantes - e⁻ antiligantes)/2. Para N₂ = 3.' },
+  { q:'O spin do elétron tem ms = +½ ou -½. O Princípio de Exclusão de Pauli diz:', opts:['Dois elétrons não podem ter ms iguais','Dois elétrons no mesmo átomo não podem ter os 4 números quânticos iguais','Elétrons com mesmo spin se repelem mais','Orbitais não podem ter mais de 1 elétron'], ans:1, exp:'Pauli: em um mesmo sistema quântico (átomo/molécula), dois fermions não podem ter todos os números quânticos idênticos (n, l, ml, ms). Por isso cada orbital (n,l,ml definidos) suporta no máximo 2 elétrons — com ms opostos (+½ e -½).', hint:'4 números quânticos: n, l, ml, ms. Dois elétrons não podem ter os 4 iguais.' },
+  { q:'O efeito túnel quântico é relevante em:', opts:['Planetas em órbita','Decaimento alfa (α sai do núcleo mesmo com energia < barreira coulombiana)','Ligações iônicas','Fluidos viscosos'], ans:1, exp:'Efeito túnel: partícula quântica pode atravessar uma barreira de potencial mesmo com E < barreira — sua função de onda tem probabilidade não-nula do outro lado. Fundamental no decaimento α, na fusão estelar, nos transistores de tunelamento e na microscopia por varredura de tunelamento (STM).', hint:'Clássico: E < barreira → impossível cruzar. Quântico: função de onda "vaza" pela barreira.' },
+  { q:'Os orbitais atômicos s, p, d diferem em:', opts:['Energia apenas (n define tudo)','Forma (número quântico l) e orientação (ml)','Tamanho apenas','Spin dos elétrons'], ans:1, exp:'n: tamanho e energia. l: forma (l=0→s esférico, l=1→p halter, l=2→d complexo). ml: orientação no espaço (l=1: ml=-1,0,+1 → 3 orientações para p). ms: spin do elétron. Cada número quântico descreve uma dimensão diferente do orbital.', hint:'l = forma. ml = orientação. n = energia/tamanho. ms = spin do elétron.' },
+  { q:'O colapso da função de onda na medição quântica significa que:', opts:['A partícula se divide ao ser medida','Antes da medição, a partícula está em superposição; a medição força um resultado definido','A função de onda é destruída permanentemente','Apenas partículas clássicas têm funções de onda'], ans:1, exp:'Interpretação de Copenhague: antes da medição, o estado é superposição de autovalores. A medição projeta o estado em um único autovalor (colapso). Após o colapso, nova medição do mesmo observável dá o mesmo resultado. O "gato de Schrödinger" ilustra o absurdo de aplicar isso a objetos macroscópicos.', hint:'Superposição antes da medição. Colapso para estado definido ao medir.' },
+  { q:'A energia do elétron no hidrogênio no estado n=2 comparada a n=1 é:', opts:['Igual','4× maior (menos negativa — mais energético)','¼ do n=1','2× maior'], ans:2, exp:'E_n = -13,6/n² eV. E₁ = -13,6 eV; E₂ = -13,6/4 = -3,4 eV. E₂ é ¼ do módulo de E₁. E₂ > E₁ (menos negativa), mas o módulo é ¼. A transição n=2→n=1 libera 13,6 - 3,4 = 10,2 eV (fóton Lyman-α, UV).', hint:'E_n = -13,6/n² eV. E₁ = -13,6 eV. E₂ = -3,4 eV.' },
+  { q:'Em que condição o modelo de Bohr funciona bem?', opts:['Qualquer átomo multieletrônico','Sistemas de um elétron: H, He⁺, Li²⁺ — mas falha para He (2 e⁻)','Moléculas diatômicas','Apenas para o hidrogênio no vácuo'], ans:1, exp:'Bohr: correto para H e íons hidrogênio-like (He⁺, Li²⁺) onde há apenas 1 elétron. Para He (2 e⁻), a repulsão e-e não é tratada pelo modelo → falha. A mecânica quântica moderna (equação de Schrödinger) é necessária para átomos multieletrônicos.', hint:'Bohr funciona para Z prótons + 1 elétron. Falha quando há repulsão entre elétrons.' }
 ];
 
 let _loop       = null;
@@ -256,7 +269,7 @@ function _buildHTML() {
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         Ĥ = operador Hamiltoniano (energia cinética + potencial coulombiana)<br>
         ψ = função de onda (solução — os orbitais)<br>
-        E = autovalor de energia (quantizada: E<sub>n</sub> = −13,6/n² eV para H)
+        E = autovalor de energia (quantizada: E<sub>n</sub> = -13,6/n² eV para H)
       </p>
     </div>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
@@ -270,11 +283,11 @@ function _buildHTML() {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">Quantização</h3>
-        <p style="font-size:var(--text-sm)">As soluções da equação de Schrödinger só existem para valores específicos de E. Por isso a energia é quantizada: E<sub>n</sub> = −13,6/n² eV para o hidrogênio.</p>
+        <p style="font-size:var(--text-sm)">As soluções da equação de Schrödinger só existem para valores específicos de E. Por isso a energia é quantizada: E<sub>n</sub> = -13,6/n² eV para o hidrogênio.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-reaction)">Nós</h3>
-        <p style="font-size:var(--text-sm)">Regiões onde ψ = 0 (probabilidade nula). Nós <strong>radiais</strong>: esferas onde |ψ|² = 0; quantidade = n − l − 1. Nós <strong>angulares</strong>: planos/cones; quantidade = l.</p>
+        <p style="font-size:var(--text-sm)">Regiões onde ψ = 0 (probabilidade nula). Nós <strong>radiais</strong>: esferas onde |ψ|² = 0; quantidade = n - l - 1. Nós <strong>angulares</strong>: planos/cones; quantidade = l.</p>
       </div>
     </div>
   </section>
@@ -303,24 +316,24 @@ function _buildHTML() {
             <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-lg);color:var(--accent-electron)">n</td>
             <td style="padding:.5rem .6rem;font-weight:600">Principal</td>
             <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-xs)">1, 2, 3, 4, …</td>
-            <td style="padding:.5rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">Nível de energia e tamanho do orbital. E<sub>n</sub> ∝ −1/n²</td>
+            <td style="padding:.5rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">Nível de energia e tamanho do orbital. E<sub>n</sub> ∝ -1/n²</td>
           </tr>
           <tr style="border-bottom:1px solid var(--border-subtle)">
             <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-lg);color:var(--accent-bond)">l</td>
             <td style="padding:.5rem .6rem;font-weight:600">Azimutal (angular)</td>
-            <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-xs)">0 a n−1<br>0=s, 1=p, 2=d, 3=f</td>
+            <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-xs)">0 a n-1<br>0=s, 1=p, 2=d, 3=f</td>
             <td style="padding:.5rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">Forma do orbital e momento angular (L = ℏ√l(l+1))</td>
           </tr>
           <tr style="border-bottom:1px solid var(--border-subtle)">
             <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-lg);color:var(--accent-organic)">m<sub>l</sub></td>
             <td style="padding:.5rem .6rem;font-weight:600">Magnético</td>
-            <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-xs)">−l, …, 0, …, +l<br>(2l+1 valores)</td>
+            <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-xs)">-l, …, 0, …, +l<br>(2l+1 valores)</td>
             <td style="padding:.5rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">Orientação espacial do orbital. Degenerado sem campo externo.</td>
           </tr>
           <tr>
             <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-lg);color:var(--accent-reaction)">m<sub>s</sub></td>
             <td style="padding:.5rem .6rem;font-weight:600">Spin</td>
-            <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-xs)">+½ (↑) ou −½ (↓)</td>
+            <td style="padding:.5rem .6rem;font-family:monospace;font-size:var(--text-xs)">+½ (↑) ou -½ (↓)</td>
             <td style="padding:.5rem .6rem;font-size:var(--text-xs);color:var(--text-secondary)">Spin intrínseco do elétron. Exclusão de Pauli: dois e⁻ no mesmo orbital devem ter spins opostos.</td>
           </tr>
         </tbody>
@@ -397,8 +410,8 @@ function _buildHTML() {
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         n = número quântico principal (n = 1, 2, 3…) — nível de energia.<br>
         l = número quântico angular (0 ≤ l &lt; n) — s(0), p(1), d(2), f(3).<br>
-        m_l = número quântico magnético (−l ≤ m_l ≤ +l) — orientação.<br>
-        Nós radiais = n − l − 1. Nós angulares = l. Nós totais = n − 1.
+        m_l = número quântico magnético (-l ≤ m_l ≤ +l) — orientação.<br>
+        Nós radiais = n - l - 1. Nós angulares = l. Nós totais = n - 1.
       </p>
     </div>
 
@@ -416,14 +429,14 @@ function _buildHTML() {
         </thead>
         <tbody>
           ${[
-            ['1s','n=1, l=0','2·e^(−r/a₀)',                                '0','1,0'],
-            ['2s','n=2, l=0','(2 − r/a₀)·e^(−r/2a₀)',                      '1','5,2'],
-            ['2p','n=2, l=1','(r/a₀)·e^(−r/2a₀)',                           '0','4,0'],
-            ['3s','n=3, l=0','(27 − 18r/a₀ + 2(r/a₀)²)·e^(−r/3a₀)',       '2','13,1'],
-            ['3p','n=3, l=1','(6r/a₀ − (r/a₀)²)·e^(−r/3a₀)',               '1','12,0'],
-            ['3d','n=3, l=2','(r/a₀)²·e^(−r/3a₀)',                          '0','9,0'],
-            ['4s','n=4, l=0','polinômio grau 3 × e^(−r/4a₀)',               '3','~24'],
-            ['4f','n=4, l=3','(r/a₀)³·e^(−r/4a₀)',                          '0','~16'],
+            ['1s','n=1, l=0','2·e^(-r/a₀)',                                '0','1,0'],
+            ['2s','n=2, l=0','(2 - r/a₀)·e^(-r/2a₀)',                      '1','5,2'],
+            ['2p','n=2, l=1','(r/a₀)·e^(-r/2a₀)',                           '0','4,0'],
+            ['3s','n=3, l=0','(27 - 18r/a₀ + 2(r/a₀)²)·e^(-r/3a₀)',       '2','13,1'],
+            ['3p','n=3, l=1','(6r/a₀ - (r/a₀)²)·e^(-r/3a₀)',               '1','12,0'],
+            ['3d','n=3, l=2','(r/a₀)²·e^(-r/3a₀)',                          '0','9,0'],
+            ['4s','n=4, l=0','polinômio grau 3 × e^(-r/4a₀)',               '3','~24'],
+            ['4f','n=4, l=3','(r/a₀)³·e^(-r/4a₀)',                          '0','~16'],
           ].map(_r => { const [orb,nl,rnl,nos,rm]=_r; return `
           <tr style="border-bottom:1px solid var(--border-subtle)">
             <td style="padding:.4rem .6rem;font-family:monospace;font-weight:700;color:var(--accent-electron)">${orb}</td>
@@ -485,7 +498,7 @@ function _buildHTML() {
       os núcleos, denotado com *).
     </p>
     <p class="module-text">
-      <strong>Ordem de ligação (OL) = (e⁻ ligantes − e⁻ antiligantes) / 2.</strong>
+      <strong>Ordem de ligação (OL) = (e⁻ ligantes - e⁻ antiligantes) / 2.</strong>
       OL &gt; 0 → molécula estável. OL = 0 → não existe. OL fracionária → radical.
     </p>
 
@@ -564,7 +577,7 @@ function _drawOrbital(ctx, W, H, shape, color, t) {
     ctx.beginPath(); ctx.moveTo(cx, cy - H * 0.4); ctx.lineTo(cx, cy + H * 0.4);
     ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1; ctx.stroke();
     ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('+', cx + W * 0.22, cy + 4); ctx.fillText('−', cx - W * 0.22, cy + 4);
+    ctx.fillText('+', cx + W * 0.22, cy + 4); ctx.fillText('-', cx - W * 0.22, cy + 4);
   } else if (shape === 'dz2') {
     // d_z² — two lobes along z + torus in xy
     ctx.beginPath();
@@ -579,10 +592,10 @@ function _drawOrbital(ctx, W, H, shape, color, t) {
     ctx.strokeStyle = '#ef476f'; ctx.lineWidth = 6; ctx.stroke();
     ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('+', cx, cy - H * 0.22 + 4); ctx.fillText('+', cx, cy + H * 0.22 + 4);
-    ctx.fillStyle = '#ef476f90'; ctx.fillText('−', cx + W * 0.32, cy + 4);
+    ctx.fillStyle = '#ef476f90'; ctx.fillText('-', cx + W * 0.32, cy + 4);
   } else if (shape === 'dxy') {
     // d_xy — four lobes in quadrants
-    const positions = [[1,1],[−1,1],[1,−1],[−1,−1]];
+    const positions = [[1,1],[-1,1],[1,-1],[-1,-1]];
     positions.forEach(([sx, sy], i) => {
       ctx.beginPath();
       ctx.ellipse(cx + sx * W * 0.2, cy + sy * H * 0.2, W * 0.15, H * 0.15,
@@ -592,8 +605,8 @@ function _drawOrbital(ctx, W, H, shape, color, t) {
     });
     ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.font = '8px sans-serif'; ctx.textAlign = 'center';
     ctx.fillText('+', cx + W*0.2, cy - H*0.2 + 4);
-    ctx.fillText('−', cx - W*0.2, cy - H*0.2 + 4);
-    ctx.fillText('−', cx + W*0.2, cy + H*0.2 + 4);
+    ctx.fillText('-', cx - W*0.2, cy - H*0.2 + 4);
+    ctx.fillText('-', cx + W*0.2, cy + H*0.2 + 4);
     ctx.fillText('+', cx - W*0.2, cy + H*0.2 + 4);
   }
   ctx.restore();

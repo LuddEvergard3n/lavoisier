@@ -32,6 +32,7 @@ const SOLUTES_COLIG = [
 ];
 
 let _loop = null, _titVol = 0, _titC = 0.1, _titType = 'strong-strong';
+let _exIdx     = 0;
 let _beerEps = 1000, _beerL = 1.0, _beerC = 0.001;
 let _kspIdx = 0, _kspExtra = 0;
 let _coligIdx = 0, _coligM = 1.0;
@@ -161,12 +162,23 @@ function calcColig() {
   set('colig-pi', pi.toFixed(4)+' atm = '+(pi*101.325).toFixed(2)+' kPa');
 }
 
-const EXERCISE = {
-  question: 'Num experimento de Beer-Lambert, epsilon=500 L/(mol·cm), l=2 cm, c=0,001 mol/L. Qual a absorbancia A?',
-  options: ['A = 1,00','A = 0,50','A = 2,00','A = 0,25'],
-  correct: 0,
-  explanation: 'A = epsilon × l × c = 500 × 2 × 0,001 = 1,00. A transmitancia correspondente e T = 10^(-1) = 10%.',
-};
+const EXERCISES = [
+  { q: 'ε=500 L/(mol·cm), l=2 cm, c=0,001 mol/L. Absorbância A?', opts: ['0,5','1,0','2,0','0,25'], ans: 1, exp: 'A = ε×l×c = 500×2×0,001 = 1,0.', hint: 'A = ε l c (Lei de Beer-Lambert).' },
+  { q: 'Técnica mais adequada para separar aminoácidos com alta sensibilidade:', opts: ['CG','CLAE fase reversa com UV','Extração líquido-líquido','Destilação fracionada'], ans: 1, exp: 'Aminoácidos não são voláteis (inviabiliza CG). CLAE fase reversa (C18) + detector UV é o padrão.', hint: 'CG requer volatilidade. Aminoácidos são polares e não voláteis.' },
+  { q: 'LOD pelo critério IUPAC é:', opts: ['Sinal = 10×ruído','3σ_branco / S','Precisão de 1%','Sinal mínimo do instrumento'], ans: 1, exp: 'LOD = 3σ_branco/S. LOQ = 10σ/S. σ = desvio padrão do branco, S = sensibilidade.', hint: 'IUPAC usa 3 desvios padrão do branco.' },
+  { q: 'Na titulação de Ca²⁺ com EDTA, o EBT (Eriochrome Black T) vira de:', opts: ['Azul→vermelho','Vermelho→azul no ponto de equivalência','Incolor→roxo','Amarelo→laranja'], ans: 1, exp: 'EBT-Ca²⁺ = vermelho. No ponto de equivalência, EDTA remove Ca²⁺ do indicador → EBT livre = azul.', hint: 'Antes do ponto: EBT ligado ao metal (vermelho). Após: EBT livre (qual cor?).' },
+  { q: 'Por que ICP-MS tem LOD menor que ICP-OES?', opts: ['Temperatura mais alta','Separa íons por m/z com contagem individual — sem fundo óptico','Usa argônio mais puro','Analisa sólidos sem digestão'], ans: 1, exp: 'ICP-OES detecta emissão óptica competindo com fundo. ICP-MS conta íons individuais por m/z, alcançando LOD sub-ppt.', hint: 'OES detecta fótons em competição. MS conta íons individualmente.' },,
+  { q:'Uma solução tem absorbância A=0,60 em cubeta de 1 cm com ε=1500 L/(mol·cm). Qual a concentração? (Beer-Lambert: A=εlc)', opts:['4×10⁻⁴ mol/L','9×10⁻⁴ mol/L','4×10⁻³ mol/L','0,60 mol/L'], ans:0, exp:'c = A/(ε×l) = 0,60/(1500×1) = 4×10⁻⁴ mol/L.', hint:'A = ε × l × c. Isola c: c = A/(ε×l).' },
+  { q:'O limite de detecção (LOD) é definido como o sinal correspondente a:', opts:['10× o desvio padrão do branco','3× o desvio padrão do ruído de fundo (IUPAC)','1× o sinal do branco','A menor concentração no padrão'], ans:1, exp:'LOD (IUPAC) = 3σ (3 desvios-padrão do ruído/branco). LOQ (limite de quantificação) = 10σ. Abaixo do LOD, o sinal não é distinguível do ruído com >99% de confiança.', hint:'LOD = 3σ (detecta). LOQ = 10σ (quantifica com precisão).' },
+  { q:'Na titulação de 25 mL de NaOH com HCl 0,1 mol/L, o volume no ponto de equivalência é 20 mL. A concentração do NaOH é:', opts:['0,08 mol/L','0,10 mol/L','0,125 mol/L','0,05 mol/L'], ans:0, exp:'Na ponto equivalente: n(NaOH) = n(HCl). C(NaOH)×0,025 = 0,1×0,020. C(NaOH) = 0,002/0,025 = 0,08 mol/L.', hint:'Ponto de equivalência: n_ácido = n_base. CV=CV.' },
+  { q:'Na cromatografia, o fator de retenção k' = (tR - t₀)/t₀. Um analito eluiu em 12 min com t₀ = 3 min. k' = ?', opts:['3,0','4,0','9,0','0,25'], ans:0, exp:'k' = (12 - 3)/3 = 9/3 = 3,0. k' = 0 significa que o analito não interage com a fase estacionária (eluiu junto com o solvente).', hint:'k' = (tR - t0)/t0. tR = tempo de retenção; t0 = tempo morto.' },
+  { q:'O Ksp do AgCl é 1,8×10⁻¹⁰. A solubilidade molar do AgCl em água pura é:', opts:['1,8×10⁻¹⁰ mol/L','1,3×10⁻⁵ mol/L','3,6×10⁻¹⁰ mol/L','9×10⁻⁶ mol/L'], ans:1, exp:'AgCl ⇌ Ag⁺ + Cl⁻. Ksp = s² = 1,8×10⁻¹⁰. s = √(1,8×10⁻¹⁰) ≈ 1,34×10⁻⁵ mol/L.', hint:'AgCl → s mol/L de Ag⁺ e s mol/L de Cl⁻. Ksp = s×s = s².' },
+  { q:'O indicador fenolftaleína muda de cor de incolor para rosa em pH:', opts:['4-6','7','8,2-10,0','12-14'], ans:2, exp:'Fenolftaleína: incolor (forma ácida HIn) abaixo de pH 8,2; rosa/magenta (forma básica In⁻) acima de 10,0. Transição em 8,2-10. Ideal para neutralizações com ponto de equivalência em pH > 7 (bases fortes + ácidos fracos).', hint:'Fenolftaleína: cor muda em pH alcalino (~8-10). Azul de bromotimol: pH 6-7,6.' },
+  { q:'A espectrometria de massa mede:', opts:['A absorção de luz UV pelos compostos','A razão massa/carga (m/z) dos fragmentos iônicos da molécula','A fluorescência dos analitos','A condutividade iônica da solução'], ans:1, exp:'Em MS: a molécula é ionizada e fragmentada. O espectrômetro separa os íons por m/z. O pico de maior m/z geralmente é o íon molecular M⁺ (massa molar). Os fragmentos informam a estrutura. Combinar MS com RMN e IV identifica completamente moléculas desconhecidas.', hint:'MS: mede m/z. IV: grupos funcionais. RMN: conectividade carbono-hidrogênio.' },
+  { q:'Na CLAE (HPLC) de fase reversa, qual solvente eluirá um analito apolar mais rapidamente?', opts:['Água pura (mais polar, maior força)','Acetonitrila 90%/água 10% (mais apolar, elui apolares mais rápido)','Qualquer solvente — fase reversa não depende da polaridade','Metanol 10%/água 90%'], ans:1, exp:'HPLC fase reversa: fase estacionária apolar (C18). Analitos apolares têm mais afinidade pela fase estacionária → maiores tempos de retenção. Para eluí-los rapidamente, usa-se solvente mais apolar (acetonitrila alta concentração), que compete com a fase estacionária.', hint:'Fase reversa: estacionária apolar. Apolar elui com solvente apolar. Polar elui com água.' },
+  { q:'Qual validação analítica verifica que o método mede apenas o que se propõe a medir?', opts:['Precisão','Seletividade/especificidade','Linearidade','Robustez'], ans:1, exp:'Seletividade: o método deve medir o analito sem interferência de matriz, impurezas ou outros compostos presentes. Precisão = reprodutibilidade. Linearidade = proporcionalidade sinal×concentração. Robustez = resistência a pequenas variações de parâmetros.', hint:'Seletividade: "mede só o que deve medir". Precisão: "mede com reprodutibilidade".' },
+  { q:'A desvantagem do método das adições de padrão em relação à curva de calibração externa é:', opts:['É mais preciso','Requer múltiplas alíquotas da amostra e é mais trabalhoso, mas compensa efeito de matriz','Não corrige o efeito de matriz','É só para amostras sólidas'], ans:1, exp:'Adições de padrão: adiciona quantidades conhecidas do analito à própria amostra → compensa o efeito de matriz (supressão/aumento de sinal pela amostra real). Desvantagem: precisa de mais preparo. Vantagem: resultado mais exato quando a matriz interfere.', hint:'Adição de padrão: mais trabalho, mas compensa efeito de matriz. Curva externa: simples, mas pressupõe que a matriz não interfere.' }
+];
 
 export function render(outlet) {
   if (_loop) { _loop.stop(); _loop=null; }
@@ -180,7 +192,7 @@ export function render(outlet) {
   const coligBtns = SOLUTES_COLIG.map((s,i) =>
     `<button class="btn btn-xs ${i===0?'btn-secondary':'btn-ghost'}" id="colig-btn-${i}" data-coligidx="${i}">${s.name}</button>`
   ).join('');
-  const exOpts = EXERCISE.options.map((opt,i) =>
+  const exOpts = EXERCISES[0].opts.map((opt,i) =>
     `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" id="ex-opt-${i}" data-exopt="${i}">${esc(opt)}</button>`
   ).join('');
 
@@ -215,7 +227,7 @@ export function render(outlet) {
 
   <section class="module-section">
     <h2 class="module-section-title">Lei de Beer-Lambert</h2>
-    <p class="module-text">A absorbância de uma solução é proporcional à concentração e ao caminho óptico: <strong>A = ε·l·c</strong>. A transmitância T = 10^(−A). Usada em espectrofotometria para quantificar proteínas, DNA, metais em solução.</p>
+    <p class="module-text">A absorbância de uma solução é proporcional à concentração e ao caminho óptico: <strong>A = ε·l·c</strong>. A transmitância T = 10^(-A). Usada em espectrofotometria para quantificar proteínas, DNA, metais em solução.</p>
     <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem">
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
         <label style="min-width:220px;font-size:var(--text-sm);color:var(--text-secondary)">ε — coef. extinção molar (L/mol·cm):</label>
@@ -247,7 +259,7 @@ export function render(outlet) {
 
   <section class="module-section">
     <h2 class="module-section-title">Produto de solubilidade — Ksp</h2>
-    <p class="module-text">Para um sal pouco solúvel M_mX_n ⇌ m M^n+ + n X^m−, o Ksp = [M]^m[X]^n no equilíbrio. Ksp menor = menos solúvel. O efeito do íon comum reduz a solubilidade adicionando um dos íons já presentes.</p>
+    <p class="module-text">Para um sal pouco solúvel M_mX_n ⇌ m M^n+ + n X^m-, o Ksp = [M]^m[X]^n no equilíbrio. Ksp menor = menos solúvel. O efeito do íon comum reduz a solubilidade adicionando um dos íons já presentes.</p>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem">${kspBtns}</div>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr))">
       <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.4rem">Ksp</p><div id="ksp-val" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div></div>
@@ -430,13 +442,13 @@ export function render(outlet) {
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-bottom:var(--space-5)">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">Média e desvio padrão</h3>
-        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">x̄ = Σxᵢ/n &nbsp;|&nbsp; s = √[Σ(xᵢ−x̄)²/(n−1)]</p>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">x̄ = Σxᵢ/n &nbsp;|&nbsp; s = √[Σ(xᵢ-x̄)²/(n-1)]</p>
         <p style="font-size:var(--text-sm)">s estima σ da população. RSD (%) = (s/x̄)×100 = coeficiente de variação. Aceita-se RSD &lt;1% para análise química quantitativa.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-bond)">Intervalo de confiança</h3>
-        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">IC = x̄ ± t(α,n−1) · s/√n</p>
-        <p style="font-size:var(--text-sm)">t de Student para n−1 graus de liberdade. 95%IC: t(95%,3)=3,18; t(95%,9)=2,26; t(95%,∞)=1,96. Maior n → IC menor.</p>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">IC = x̄ ± t(α,n-1) · s/√n</p>
+        <p style="font-size:var(--text-sm)">t de Student para n-1 graus de liberdade. 95%IC: t(95%,3)=3,18; t(95%,9)=2,26; t(95%,∞)=1,96. Maior n → IC menor.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">Propagação de incerteza</h3>
@@ -445,7 +457,7 @@ export function render(outlet) {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-reaction)">Teste t de Student</h3>
-        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">t_calc = |x̄ − μ| / (s/√n)</p>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">t_calc = |x̄ - μ| / (s/√n)</p>
         <p style="font-size:var(--text-sm)">Compara média experimental com valor aceito (μ). Se t_calc &gt; t_tabela → diferença significativa (hipótese nula rejeitada). Usado para detectar erro sistemático.</p>
       </div>
     </div>
@@ -485,11 +497,11 @@ export function render(outlet) {
     <p class="module-text">
       Cromatografia separa componentes de uma mistura baseada em sua partição entre fase
       estacionária (FE) e fase móvel (FM). Componentes mais retidos pela FE eluem mais tarde.
-      Quantidade: fator de retenção k = (t_R − t_M)/t_M.
+      Quantidade: fator de retenção k = (t_R - t_M)/t_M.
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
-        N = (t_R/σ)² = 16(t_R/W)² &nbsp;&nbsp;|&nbsp;&nbsp; Rs = 2(t_R2−t_R1)/(W₁+W₂) &nbsp;&nbsp;|&nbsp;&nbsp; H = L/N
+        N = (t_R/σ)² = 16(t_R/W)² &nbsp;&nbsp;|&nbsp;&nbsp; Rs = 2(t_R2-t_R1)/(W₁+W₂) &nbsp;&nbsp;|&nbsp;&nbsp; H = L/N
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         N = número de pratos teóricos (eficiência). Rs = resolução (≥1,5 para separação completa).<br>
@@ -610,16 +622,111 @@ export function render(outlet) {
   </section>
 
 
+  <!-- AAS e ICP -->
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${esc(EXERCISE.question)}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">${exOpts}</div>
+    <h2 class="module-section-title">Espectroscopia de absorção atômica (AAS) e ICP-OES</h2>
+    <p class="module-text">
+      A <strong>absorção atômica (AAS)</strong> mede a absorção de radiação por átomos livres
+      na fase gasosa. Cada elemento tem linhas de absorção únicas (fingerprint atômico).
+      Altamente seletiva e sensível — detecta metais traço em μg/L (ppb) a ng/L (ppt).
+    </p>
+    <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
+      <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
+        A = log(I₀/I) = ε · b · c &nbsp;&nbsp;(Beer-Lambert para átomos)
+      </p>
+      <p style="font-size:var(--text-sm);color:var(--text-secondary)">
+        Fonte de radiação: lâmpada de cátodo oco (HCL) específica para cada elemento — emite a linha ressonante.<br>
+        Atomizador: converte a amostra em átomos livres. Dois tipos principais: chama e forno de grafite (GFAAS).<br>
+        Detector: fotomultiplicador (PMT) ou CCD. Modulação AC elimina emissão do atomizador (chopper).
+      </p>
+    </div>
+
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:var(--space-5)">
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-electron)">AAS em chama (FAAS)</h3>
+        <p style="font-size:var(--text-sm)">Nebulizador injeta aerossol na chama ar-acetileno (2300°C) ou N₂O-acetileno (2950°C). N₂O necessário para elementos refratários (Al, V, Ti, W). LOD: 1–50 μg/L. Vazão: 3–5 mL/min de amostra. Rápido mas menos sensível que GFAAS.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-bond)">GFAAS — forno de grafite</h3>
+        <p style="font-size:var(--text-sm)">3 etapas: secagem (110°C, 20s) → pirólise (400–1400°C, elimina matriz) → atomização (1700–2700°C, 3–5s). Volume: 10–50 μL. LOD: 0,01–1 μg/L. 10–100× mais sensível que FAAS. Modificadores de matriz (Pd(NO₃)₂ + Mg(NO₃)₂) estabilizam analito.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-organic)">ICP-OES</h3>
+        <p style="font-size:var(--text-sm)">Plasma de argônio induzido por acoplamento capacitivo (6000–10000 K). Ioniza e excita todos os elementos simultaneamente. Detecção: emissão de cada elemento em λ característico. LOD: 0,1–10 μg/L. Multielementar (50+ elementos em 1 análise). Mais robusto que AAS para matrizes complexas.</p>
+      </div>
+      <div class="info-card">
+        <h3 style="margin-top:0;color:var(--accent-reaction)">ICP-MS</h3>
+        <p style="font-size:var(--text-sm)">ICP acoplado a espectrômetro de massas (quadrupolo, setor magnético ou TOF). Separa íons por m/z. LOD: 0,001–0,1 μg/L (sub-ppt). Isótopos: quantificação absoluta por diluição isotópica. Interferências: isobáricas (⁵⁶Fe e ⁴⁰Ar¹⁶O) → modo de colisão/reação (KED).</p>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;margin-bottom:var(--space-4)">
+      <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm)">
+        <thead>
+          <tr style="font-size:var(--text-xs);text-transform:uppercase;color:var(--text-muted)">
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Técnica</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">LOD típico</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Elementos/análise</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Custo relativo</th>
+            <th style="text-align:left;padding:.4rem .6rem;border-bottom:1px solid var(--border-default)">Aplicação típica</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['FAAS',   '1–50 μg/L',   '1 por vez',  'Baixo',      'Rotina de metais em água, alimentos'],
+            ['GFAAS',  '0,01–1 μg/L', '1 por vez',  'Médio',      'Metais traço em sangue, urina, solos'],
+            ['ICP-OES','0,1–10 μg/L', '50+ por vez','Médio-alto', 'Análise ambiental, geoquímica, aço'],
+            ['ICP-MS', '0,001–0,1 μg/L','50+ + isót.','Alto',     'Raros, Pb em criança, diluição isotópica'],
+            ['XRF',    '1–100 mg/kg', '50+ sólidos','Médio',      'Análise de sólidos sem digestão'],
+          ].map(([t,lod,el,c,app]) => `
+          <tr style="border-bottom:1px solid var(--border-subtle)">
+            <td style="padding:.4rem .6rem;font-weight:700;color:var(--accent-electron)">${t}</td>
+            <td style="padding:.4rem .6rem;font-family:monospace;font-size:var(--text-xs);color:var(--accent-organic)">${lod}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs)">${el}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${c}</td>
+            <td style="padding:.4rem .6rem;font-size:var(--text-xs);color:var(--text-muted)">${app}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Calculadora de LOQ / curva de calibração -->
+    <h3 style="font-size:var(--text-sm);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3)">
+      Limite de detecção e quantificação
+    </h3>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">Desvio padrão do branco s_b (absorbância):</span>
+        <input type="range" id="aas-sb" min="0.0001" max="0.01" step="0.0001" value="0.002"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="aas-sb-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:70px">0,0020</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:200px">Sensibilidade S (L/mg = absorbância por mg/L):</span>
+        <input type="range" id="aas-sens" min="0.001" max="1.0" step="0.001" value="0.1"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="aas-sens-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:60px">0,100</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">LOD (3s/S)</p><div id="aas-lod" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">LOQ (10s/S)</p><div id="aas-loq" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-bond)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Sensi. caract. (μg/mL)</p><div id="aas-charac" style="font-size:var(--text-base);font-weight:600;color:var(--accent-organic)">—</div></div>
+    </div>
+  </section>
+
+
+  <section class="module-section">
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">${exOpts}</div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <div class="real-life-card">
     <div class="real-life-label">No cotidiano</div>
-    <p class="module-text">Hemograma conta hemoglobina por absorbância a 540 nm. Diálise usa osmose para filtrar ureia do sangue. Sal nas estradas derruba ponto de fusão do gelo para −15°C (CaCl₂, i=3). BaSO₄ é o contraste de raio-X gastrointestinal por ser tão insolúvel (Ksp=1,1×10⁻¹⁰) que não é absorvido pelo organismo.</p>
+    <p class="module-text">Hemograma conta hemoglobina por absorbância a 540 nm. Diálise usa osmose para filtrar ureia do sangue. Sal nas estradas derruba ponto de fusão do gelo para -15°C (CaCl₂, i=3). BaSO₄ é o contraste de raio-X gastrointestinal por ser tão insolúvel (Ksp=1,1×10⁻¹⁰) que não é absorvido pelo organismo.</p>
   </div>
 </div>
 `;
@@ -651,23 +758,58 @@ export function render(outlet) {
   document.getElementById('colig-m')?.addEventListener('input', e => {
     _coligM=parseFloat(e.target.value); const v=document.getElementById('colig-m-val'); if(v) v.textContent=_coligM.toFixed(1).replace('.',',')+' m'; calcColig();
   });
-  document.querySelectorAll('[data-exopt]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if(_exDone) return; _exAttempts++;
-      const choice=parseInt(btn.dataset.exopt,10), fb=document.getElementById('exercise-feedback');
-      if(choice===EXERCISE.correct) {
-        _exDone=true; btn.style.borderColor='var(--accent-organic)'; btn.style.color='var(--accent-organic)';
-        if(fb) fb.innerHTML='<p class="feedback-correct">Correto! '+EXERCISE.explanation+'</p>';
-        markSectionDone('analytical','exercise');
-      } else {
-        btn.style.borderColor='var(--accent-reaction)'; btn.style.color='var(--accent-reaction)';
-        if(fb&&_exAttempts===1) fb.innerHTML='<p class="feedback-hint">Dica: A = epsilon × l × c. Multiplique os tres valores.</p>';
-      }
+  
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('analytical', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
     });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
   });
   _initQKsp();
   _initOsmometry();
   _initStatistics();
+  _initAAS();
   _initEDTA();
 }
 
@@ -722,7 +864,7 @@ function _initOsmometry() {
 
     const M    = pi / (R * T);            // mol/L
     const Mm   = mass / (M * vol);        // g/mol
-    const m_mol= M * vol / (0.100);       // molalidade aproximada (solvente = vol−tiny)
+    const m_mol= M * vol / (0.100);       // molalidade aproximada (solvente = vol-tiny)
     const dTf  = Kf * m_mol;
     const dTb  = Kb * m_mol;
 
@@ -813,6 +955,28 @@ function _initEDTA() {
     ['edta-C','edta-V','edta-Va'].forEach(id =>
       document.getElementById(id)?.addEventListener('input', update));
   }
+}
+
+function _initAAS() {
+  function update() {
+    const sb   = parseFloat(document.getElementById('aas-sb')?.value   ?? 0.002);
+    const sens = parseFloat(document.getElementById('aas-sens')?.value ?? 0.1);
+
+    const lod  = 3  * sb / sens;  // mg/L
+    const loq  = 10 * sb / sens;  // mg/L
+    const char = 0.0044 / sens;   // concentração que dá A=0,0044 (1% absorção)
+
+    const fmt = v => v < 0.001 ? (v*1000).toFixed(3)+' μg/L' : v.toFixed(4)+' mg/L';
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('aas-sb-val',   sb.toFixed(4));
+    set('aas-sens-val', sens.toFixed(3));
+    set('aas-lod',      fmt(lod));
+    set('aas-loq',      fmt(loq));
+    set('aas-charac',   char.toFixed(4) + ' mg/L');
+  }
+  document.getElementById('aas-sb')?.addEventListener('input', update);
+  document.getElementById('aas-sens')?.addEventListener('input', update);
+  if (document.getElementById('aas-sb')) update();
 }
 
 export function destroy() { if(_loop){_loop.stop();_loop=null;} }

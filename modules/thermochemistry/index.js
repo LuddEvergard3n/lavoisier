@@ -59,6 +59,7 @@ let _rxKey      = 'combustion';
 let _progress   = 0;   // 0 a 1, animado
 let _animating  = false;
 let _loop       = null;
+let _exIdx     = 0;
 let _exAttempts = 0;
 let _exDone     = false;
 
@@ -256,17 +257,23 @@ function cubicBezier(p0, p1, p2, p3, t) {
 /* -----------------------------------------------------------------------
    Exercício
 ----------------------------------------------------------------------- */
-const EXERCISE = {
-  question: 'Bolsões de gelo instantâneo ficam frios quando ativados. Isso indica que a dissolução do sal dentro é:',
-  options: [
-    'Exotérmica — libera calor para o ambiente',
-    'Endotérmica — absorve calor do ambiente',
-    'Neutra — sem variação de entalpia',
-    'Exotérmica — mas o empacotamento isola',
-  ],
-  correct: 1,
-  explanation: 'A dissolução do NH₄NO₃ é endotérmica (ΔH = +25 kJ/mol): o processo absorve energia térmica do entorno, resfriando o ambiente em contato. Por isso o bolsão fica frio.',
-};
+const EXERCISES = [
+  { q: 'Bolsões de gelo instantâneo ficam frios ao ativar. A dissolução do NH₄NO₃ é:', opts: ['Exotérmica (ΔH < 0)','Endotérmica (ΔH > 0)','Atérmica (ΔH = 0)','Depende da pressão'], ans: 1, exp: 'O sistema absorve calor do entorno — ΔH > 0, endotérmica. ΔH_sol(NH₄NO₃) ≈ +26 kJ/mol.', hint: 'Se a bolsa esfria, calor saiu do entorno para o sistema. Exo ou endotérmico?' },
+  { q: 'ΔH_f°(H₂O(l)) = -286 kJ/mol. Quanto calor é liberado ao formar 36 g de H₂O líquida?', opts: ['143 kJ','286 kJ','572 kJ','-286 kJ'], ans: 2, exp: '36 g H₂O = 2 mol. Calor = 2 × 286 = 572 kJ liberados.', hint: '36 g ÷ 18 g/mol = ? mol. Multiplique pelo |ΔH_f°|.' },
+  { q: 'A Lei de Hess afirma que ΔH_rxn independe do caminho porque:', opts: ['A cinética é determinística','Entalpia é função de estado','Entropia sempre aumenta','Temperatura é constante'], ans: 1, exp: 'Entalpia H é função de estado — depende só do estado inicial e final, não do caminho percorrido.', hint: 'O que é uma função de estado em termodinâmica?' },
+  { q: 'Para CH₄ + 2O₂ → CO₂ + 2H₂O, ΔH = -890 kJ. Qual o ΔH da reação inversa?', opts: ['-890 kJ','+890 kJ','-445 kJ','+445 kJ'], ans: 1, exp: 'Reverter a reação inverte o sinal de ΔH. ΔH_inv = +890 kJ.', hint: 'A entalpia da reação inversa tem mesmo valor absoluto, sinal oposto.' },
+  { q: 'H-H = 436 kJ/mol, Cl-Cl = 243 kJ/mol, H-Cl = 432 kJ/mol. ΔH para H₂ + Cl₂ → 2HCl?', opts: ['+185 kJ','-185 kJ','+432 kJ','-432 kJ'], ans: 1, exp: 'ΔH = (436+243) - 2×432 = 679 - 864 = -185 kJ.', hint: 'ΔH = Σ(ligações quebradas) - Σ(ligações formadas).' },,
+  { q:'Em qual processo o sistema perde calor (q < 0) e realiza trabalho (w < 0)?', opts:['Combustão exotérmica em volume constante','Expansão adiabática (sem calor) — ΔU = w','Combustão em piston que se expande','Dissolução endotérmica em bomba calorimétrica'], ans:2, exp:'Combustão em pistão que se expande: reação exotérmica (q < 0, libera calor) e o gás produzido empurra o pistão (w < 0, sistema realiza trabalho). ΔU = q + w. Ambos negativos → ΔU < 0.', hint:'q < 0: exotérmica (libera calor). w < 0: sistema expande (realiza trabalho).' },
+  { q:'A Lei de Hess garante que ΔH da reação é independente do caminho. Qual propriedade termodinâmica garante isso?', opts:['ΔH é intensiva','Entalpia é uma função de estado','ΔH depende da temperatura','ΔH é negativa para reações exotérmicas sempre'], ans:1, exp:'Funções de estado dependem apenas do estado inicial e final — não do caminho. Entalpia H é função de estado (como T, P, U). Por isso somar ou subtrair equações termoquímicas dá o ΔH correto independentemente do caminho.', hint:'Funções de estado: só depende de início e fim, não do caminho.' },
+  { q:'ΔHcomb(C, grafite) = -393,5 kJ/mol; ΔHcomb(H₂) = -285,8 kJ/mol; ΔHf(CO₂) = -393,5 kJ/mol; ΔHf(H₂O,l) = -285,8 kJ/mol. ΔHcomb do metano (CH₄): use ΔHf(CH₄) = -74,8 kJ/mol.', opts:['-802,3 kJ/mol','-890,4 kJ/mol','+74,8 kJ/mol','-693,0 kJ/mol'], ans:1, exp:'CH₄ + 2O₂ → CO₂ + 2H₂O. ΔH = ΔHf(CO₂) + 2ΔHf(H₂O) - ΔHf(CH₄) = -393,5 + 2(-285,8) - (-74,8) = -393,5 - 571,6 + 74,8 = -890,3 kJ/mol ≈ -890 kJ/mol.', hint:'ΔHrxn = Σ ΔHf(produtos) - Σ ΔHf(reagentes).' },
+  { q:'Uma reação tem ΔH = -100 kJ/mol e ΔS = -200 J/(mol·K). A que temperatura ela muda de espontânea para não-espontânea?', opts:['500 K','250 K','200 K','1000 K'], ans:0, exp:'ΔG = ΔH - TΔS = 0 na transição. T = ΔH/ΔS = -100000 J / (-200 J/K) = 500 K. Abaixo de 500 K: ΔG < 0 (espontânea). Acima: ΔG > 0. Atenção: ΔH em J (não kJ) para combinar com ΔS em J/K.', hint:'ΔG = 0 na fronteira. T = ΔH/ΔS (converter para mesmas unidades).' },
+  { q:'O calor específico da água é 4,18 J/(g·K). Para aquecer 200 mL de água de 20°C a 80°C, a energia necessária é:', opts:['25,1 kJ','50,2 kJ','5,0 kJ','100 kJ'], ans:1, exp:'q = m × c × ΔT = 200 g × 4,18 J/(g·K) × 60 K = 50.160 J ≈ 50,2 kJ.', hint:'q = mcΔT. m=200g, c=4,18, ΔT=60°C.' },
+  { q:'Na calorimetria à pressão constante (calorímetro de copo), o calor medido corresponde a:', opts:['ΔU (energia interna)','ΔH (entalpia) — porque Qp = ΔH','ΔG (energia livre)','ΔS (entropia)'], ans:1, exp:'A pressão constante, o calor trocado Qp = ΔH. A maioria dos experimentos de laboratório ocorre a pressão atmosférica constante. Bomba calorimétrica mede ΔU (volume constante). ΔH = ΔU + ΔnRT (correção de gases).', hint:'Pressão constante: Qp = ΔH. Volume constante (bomba): Qv = ΔU.' },
+  { q:'O processo de fusão do gelo a 0°C é endotérmico (ΔH > 0) e espontâneo. Isso ocorre porque:', opts:['ΔG < 0 pois ΔH < 0','ΔG < 0 pois TΔS > ΔH (entropia aumenta muito na fusão)','ΔS < 0 (sólido mais organizado)','ΔH < 0 neste caso'], ans:1, exp:'ΔHfus(água) = +6,01 kJ/mol > 0 (endotérmico). Mas ΔSfus > 0 (líquido mais desordenado). ΔG = ΔH - TΔS = 6010 - 273×22 = 6010 - 6006 ≈ 0. Exatamente no equilíbrio a 0°C. Acima de 0°C, TΔS > ΔH → ΔG < 0 → fusão espontânea.', hint:'A 0°C, fusão está no equilíbrio (ΔG=0). Acima, a entropia domina.' },
+  { q:'A entalpia de ligação C-H é 413 kJ/mol e C-C é 347 kJ/mol. ΔH da quebra homolítica do etano em 2 radicais CH₃ é:', opts:['+413 kJ/mol','+347 kJ/mol','+760 kJ/mol','-347 kJ/mol'], ans:1, exp:'CH₃-CH₃ → 2 CH₃•. Quebra apenas a ligação C-C. ΔH = +347 kJ/mol (endotérmico — quebrar ligação sempre consome energia). As 6 ligações C-H permanecem intactas.', hint:'Só a ligação C-C é quebrada. Usar ΔH = energia dos laços quebrados.' },
+  { q:'A variação de entropia ΔS é positiva para:', opts:['Congelamento da água','Compressão de gás ideal','Dissolução de NaCl em água — mais partículas e desordem','Cristalização de proteína'], ans:2, exp:'Dissolução de NaCl: sólido cristalino → íons hidratados em solução. Aumenta o número de partículas independentes e a desordem do sistema → ΔS > 0. Congelamento, compressão e cristalização aumentam a ordem → ΔS < 0.', hint:'ΔS > 0: mais desordem, mais partículas, mais graus de liberdade.' },
+  { q:'O 3° Lei da Termodinâmica afirma que S=0 para cristais perfeitos a 0 K. Por isso as entropias padrão S° são:', opts:['Negativas para compostos orgânicos','Sempre positivas (S > 0 a qualquer T > 0 K)','Iguais para todos os gases','Independentes da temperatura'], ans:1, exp:'Qualquer T > 0 K adiciona desordem ao cristal (vibrações). S > 0 para toda substância real a T > 0. Isso permite calcular entropias absolutas (diferente de entalpias, que são relativas a uma referência arbitrária).', hint:'A 3ª Lei fixa a referência em S=0 a 0 K. Acima disso, S só aumenta.' }
+];
 
 /* -----------------------------------------------------------------------
    render()
@@ -307,7 +314,7 @@ export function render(outlet) {
       seja liberando (exotérmicas) ou absorvendo (endotérmicas).
     </p>
     <p class="module-text">
-      A variação de entalpia <strong>ΔH = H(produtos) − H(reagentes)</strong>. Negativo = exotérmica;
+      A variação de entalpia <strong>ΔH = H(produtos) - H(reagentes)</strong>. Negativo = exotérmica;
       positivo = endotérmica. Mas toda reação também precisa de energia de ativação (Ea) para começar.
     </p>
   </section>
@@ -343,7 +350,7 @@ export function render(outlet) {
     <h2 class="module-section-title">Energia de Gibbs e espontaneidade</h2>
     <p class="module-text">
       Uma reação é espontânea se a variação de energia de Gibbs for negativa:
-      <strong>ΔG = ΔH − TΔS</strong>. ΔH é a variação de entalpia, T a temperatura absoluta e
+      <strong>ΔG = ΔH - TΔS</strong>. ΔH é a variação de entalpia, T a temperatura absoluta e
       ΔS a variação de entropia. A espontaneidade depende do balanço entre entalpia e entropia.
     </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin:.5rem 0 1rem">
@@ -352,13 +359,13 @@ export function render(outlet) {
       <div class="info-card"><h3 style="margin-top:0;color:var(--text-muted)">ΔG = 0</h3><p style="font-size:var(--text-sm)">Equilíbrio dinâmico. Taxa forward = taxa reverse. Ex: gelo/água a 0°C e 1 atm.</p></div>
     </div>
 
-    <p class="module-text"><strong>Relação com equilíbrio</strong>: ΔG° = −RT·lnK. Se K &gt; 1, ΔG° &lt; 0 (produtos favorecidos). Se K &lt; 1, ΔG° &gt; 0.</p>
+    <p class="module-text"><strong>Relação com equilíbrio</strong>: ΔG° = -RT·lnK. Se K &gt; 1, ΔG° &lt; 0 (produtos favorecidos). Se K &lt; 1, ΔG° &gt; 0.</p>
 
     <div style="display:flex;flex-direction:column;gap:.6rem;margin:.75rem 0 1rem">
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
         <label style="min-width:180px;font-size:var(--text-sm);color:var(--text-secondary)">ΔH (kJ/mol):</label>
         <input type="range" id="gibbs-dh" min="-400" max="400" step="5" value="-100" style="width:160px;accent-color:var(--accent-electron)">
-        <span id="gibbs-dh-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:80px">−100 kJ/mol</span>
+        <span id="gibbs-dh-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:80px">-100 kJ/mol</span>
       </div>
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
         <label style="min-width:180px;font-size:var(--text-sm);color:var(--text-secondary)">ΔS (J/mol·K):</label>
@@ -391,20 +398,21 @@ export function render(outlet) {
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-organic)">ΔS &gt; 0 (aumenta)</h3><p style="font-size:var(--text-sm)">Sólido → líquido → gás; mistura de gases; dissolução; reações que aumentam número de moles de gás (ex: N₂O₄ → 2NO₂).</p></div>
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-reaction)">ΔS &lt; 0 (diminui)</h3><p style="font-size:var(--text-sm)">Gás → líquido → sólido; polimerização; formação de precipitado; reações que reduzem moles de gás.</p></div>
-      <div class="info-card"><h3 style="margin-top:0">3ª Lei</h3><p style="font-size:var(--text-sm)">S = 0 para cristal perfeito a 0 K. Permite tabular entropias absolutas S° e calcular ΔS°_rxn = ΣS°_prod − ΣS°_react.</p></div>
+      <div class="info-card"><h3 style="margin-top:0">3ª Lei</h3><p style="font-size:var(--text-sm)">S = 0 para cristal perfeito a 0 K. Permite tabular entropias absolutas S° e calcular ΔS°_rxn = ΣS°_prod - ΣS°_react.</p></div>
     </div>
   </section>
 
   <section class="module-section" id="exercise-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${esc(EXERCISE.question)}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
-      ${EXERCISE.options.map((opt, i) => `
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+      ${EXERCISES[0].opts.map((opt, i) => `
         <button class="btn btn-ghost" style="text-align:left;justify-content:flex-start"
                 id="ex-opt-${i}" data-exopt="${i}">${esc(opt)}</button>
       `).join('')}
     </div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
 
@@ -418,20 +426,20 @@ export function render(outlet) {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin:.5rem 0 1rem;max-width:480px">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin:0">
-        ΔH_reação = Σ ΔH_produtos − Σ ΔH_reagentes<br>
+        ΔH_reação = Σ ΔH_produtos - Σ ΔH_reagentes<br>
         (usando entalpias de formação padrão ΔHf°)
       </p>
     </div>
     <p class="module-text"><strong>Exemplo — Formação do CO₂ pelo caminho indireto (via CO):</strong></p>
     <div class="module-grid" style="grid-template-columns:1fr;max-width:520px;gap:.5rem">
       <div class="info-card" style="font-family:monospace;font-size:var(--text-sm)">
-        <span style="color:var(--accent-electron)">(1)</span> C(s) + ½O₂ → CO(g)&nbsp;&nbsp;&nbsp;ΔH₁ = −110 kJ
+        <span style="color:var(--accent-electron)">(1)</span> C(s) + ½O₂ → CO(g)&nbsp;&nbsp;&nbsp;ΔH₁ = -110 kJ
       </div>
       <div class="info-card" style="font-family:monospace;font-size:var(--text-sm)">
-        <span style="color:var(--accent-electron)">(2)</span> CO(g) + ½O₂ → CO₂(g)&nbsp;ΔH₂ = −283 kJ
+        <span style="color:var(--accent-electron)">(2)</span> CO(g) + ½O₂ → CO₂(g)&nbsp;ΔH₂ = -283 kJ
       </div>
       <div class="info-card" style="background:var(--bg-raised);font-family:monospace;font-size:var(--text-sm)">
-        <span style="color:var(--accent-bond)">Total:</span> C(s) + O₂ → CO₂(g)&nbsp;&nbsp;ΔH = −393 kJ
+        <span style="color:var(--accent-bond)">Total:</span> C(s) + O₂ → CO₂(g)&nbsp;&nbsp;ΔH = -393 kJ
       </div>
     </div>
     <p class="module-text" style="margin-top:.75rem">
@@ -446,7 +454,7 @@ export function render(outlet) {
     <p class="module-text">
       Calorimetria mede o calor trocado em reações. A equação fundamental é:
       <strong>Q = m · c · ΔT</strong>, onde m é a massa, c é o calor específico e ΔT a
-      variação de temperatura. Em um calorímetro de pressão constante, Q_rxn = −Q_agua.
+      variação de temperatura. Em um calorímetro de pressão constante, Q_rxn = -Q_agua.
     </p>
     <div id="calor-calc" style="margin-top:.75rem">
       <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem">
@@ -468,7 +476,7 @@ export function render(outlet) {
         </div>
         <div class="info-card">
           <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.4rem">ΔH reação (sinal inverso)</p>
-          <div id="cal-dh" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-reaction)">−4.184 kJ</div>
+          <div id="cal-dh" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-reaction)">-4.184 kJ</div>
         </div>
         <div class="info-card">
           <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.4rem">Tipo</p>
@@ -485,7 +493,7 @@ export function render(outlet) {
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">1ª Lei — Conservação de energia</h3>
-        <p style="font-size:var(--text-sm)"><strong>ΔU = q + w</strong> (convenção IUPAC: w = −PΔV para expansão). Energia interna é função de estado. q_p = ΔH a pressão constante; q_v = ΔU em bomba calorimétrica (volume constante).</p>
+        <p style="font-size:var(--text-sm)"><strong>ΔU = q + w</strong> (convenção IUPAC: w = -PΔV para expansão). Energia interna é função de estado. q_p = ΔH a pressão constante; q_v = ΔU em bomba calorimétrica (volume constante).</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-bond)">2ª Lei — Entropia e espontaneidade</h3>
@@ -497,7 +505,7 @@ export function render(outlet) {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-reaction)">Relação entre as leis</h3>
-        <p style="font-size:var(--text-sm)">ΔG = ΔH − TΔS combina 1ª e 2ª lei. ΔG &lt; 0 → espontâneo a T e P const. ΔG° = −RT ln K → liga espontaneidade ao equilíbrio. ΔG = ΔG° + RT ln Q → reação progride enquanto Q ≠ K.</p>
+        <p style="font-size:var(--text-sm)">ΔG = ΔH - TΔS combina 1ª e 2ª lei. ΔG &lt; 0 → espontâneo a T e P const. ΔG° = -RT ln K → liga espontaneidade ao equilíbrio. ΔG = ΔG° + RT ln Q → reação progride enquanto Q ≠ K.</p>
       </div>
     </div>
   </section>
@@ -512,7 +520,7 @@ export function render(outlet) {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-base);color:var(--accent-electron);margin-bottom:.5rem">
-        η = 1 − T_f / T_q &nbsp;&nbsp;(T em Kelvin)
+        η = 1 - T_f / T_q &nbsp;&nbsp;(T em Kelvin)
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         Usina a vapor típica: T_q ≈ 800 K, T_f ≈ 300 K → η_max = 62,5%. Real &lt; teórico por irreversibilidades.<br>
@@ -565,7 +573,7 @@ export function render(outlet) {
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         W = número de microestados compatíveis com o macroestado (energia, volume, n fixos).<br>
         Sistema puro na T=0 K: W=1 → S=0 (3ª lei, consistente). Ao expandir: W↑ → S↑.<br>
-        Mistura de 2 gases ideais: ΔS_mix = −R(x₁ ln x₁ + x₂ ln x₂) &gt; 0 sempre.
+        Mistura de 2 gases ideais: ΔS_mix = -R(x₁ ln x₁ + x₂ ln x₂) &gt; 0 sempre.
       </p>
     </div>
 
@@ -574,7 +582,7 @@ export function render(outlet) {
       Função de partição e propriedades termodinâmicas
     </h3>
     <p class="module-text">
-      A <strong>função de partição</strong> q = Σᵢ gᵢ · exp(−εᵢ/k_BT) codifica toda a
+      A <strong>função de partição</strong> q = Σᵢ gᵢ · exp(-εᵢ/k_BT) codifica toda a
       informação termodinâmica de uma molécula. Para N moléculas: Q = q^N/N! (indistinguíveis).
     </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-bottom:var(--space-5)">
@@ -590,7 +598,7 @@ export function render(outlet) {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">q_vib (vibração)</h3>
-        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">q_v = 1/(1−e^(−Θ_vib/T))</p>
+        <p style="font-family:monospace;font-size:var(--text-xs);margin-bottom:.3rem">q_v = 1/(1-e^(-Θ_vib/T))</p>
         <p style="font-size:var(--text-sm)">Θ_vib = hν/k_B. Para H₂: Θ_vib ≈ 6330 K (vibração quase não excitada a 298 K). Para modos "flácidos" (Θ_vib ~ 500 K): significativo. Einstein: Cv ∝ (Θ_vib/T)² para cristais.</p>
       </div>
       <div class="info-card">
@@ -634,7 +642,7 @@ export function render(outlet) {
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
       <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ΔS_mix (J/mol·K)</p><div id="smix-S" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div></div>
       <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ΔG_mix (kJ/mol) a 298K</p><div id="smix-G" style="font-size:var(--text-lg);font-weight:700;color:var(--accent-electron)">—</div></div>
-      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">x₂ = 1 − x₁</p><div id="smix-x2" style="font-size:var(--text-base);font-weight:600;color:var(--text-secondary)">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">x₂ = 1 - x₁</p><div id="smix-x2" style="font-size:var(--text-base);font-weight:600;color:var(--text-secondary)">—</div></div>
     </div>
   </section>
 
@@ -645,16 +653,16 @@ export function render(outlet) {
       O <strong>ensemble canônico</strong> (NVT) descreve um sistema com N, V e T fixos
       em contato térmico com um reservatório. A probabilidade de o sistema estar no
       microestado <em>i</em> com energia ε_i é dada pela
-      <strong>distribuição de Boltzmann</strong>: p_i = e^(−ε_i/k_BT) / q.
+      <strong>distribuição de Boltzmann</strong>: p_i = e^(-ε_i/k_BT) / q.
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
-        p_i = g_i · e^(−ε_i/k_BT) / q &nbsp;&nbsp;|&nbsp;&nbsp; q = Σᵢ gᵢ · e^(−ε_i/k_BT)
+        p_i = g_i · e^(-ε_i/k_BT) / q &nbsp;&nbsp;|&nbsp;&nbsp; q = Σᵢ gᵢ · e^(-ε_i/k_BT)
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         g_i = degenerescência do nível i (número de microestados com a mesma energia).<br>
         q = função de partição canônica: normaliza a distribuição; qua todas as propriedades termodinâmicas.<br>
-        Propriedades: U = −(∂ ln q/∂β)_N,V &nbsp;|&nbsp; S = k_B(ln q + βU) &nbsp;|&nbsp; F = −k_BT ln q &nbsp;(β = 1/k_BT)
+        Propriedades: U = -(∂ ln q/∂β)_N,V &nbsp;|&nbsp; S = k_B(ln q + βU) &nbsp;|&nbsp; F = -k_BT ln q &nbsp;(β = 1/k_BT)
       </p>
     </div>
 
@@ -664,7 +672,7 @@ export function render(outlet) {
     </h3>
     <p class="module-text">
       Para dois níveis com energias ε₁ &lt; ε₂ e degenerescências g₁, g₂:
-      <span style="font-family:monospace">N₂/N₁ = (g₂/g₁)·exp(−Δε/k_BT)</span>.
+      <span style="font-family:monospace">N₂/N₁ = (g₂/g₁)·exp(-Δε/k_BT)</span>.
       Demonstra como T controla as populações e como lasers exploram inversão de população.
     </p>
     <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
@@ -712,9 +720,9 @@ export function render(outlet) {
         <tbody>
           ${[
             ['Microcanônico','N, V, E','Entropia S = k_B ln Ω','Ω(N,V,E) = nº microestados','Sistemas isolados; fundamentos'],
-            ['Canônico (NVT)','N, V, T','Energia livre de Helmholtz F = −k_BT ln Q','Q = Σ e^(−βEᵢ)','Simulações MD/MC; gases ideais'],
-            ['Gran-canônico','μ, V, T','Potencial gran-canônico Ω = −k_BT ln Z_gc','Z_gc = Σ e^(−β(Eᵢ−μNᵢ))','Fluidos abertos; sorção'],
-            ['Isobárico-isotérmico (NPT)','N, P, T','Energia livre de Gibbs G = −k_BT ln Δ','Δ = Σ e^(−β(Eᵢ+PVᵢ))','Simulações a pressão constante'],
+            ['Canônico (NVT)','N, V, T','Energia livre de Helmholtz F = -k_BT ln Q','Q = Σ e^(-βEᵢ)','Simulações MD/MC; gases ideais'],
+            ['Gran-canônico','μ, V, T','Potencial gran-canônico Ω = -k_BT ln Z_gc','Z_gc = Σ e^(-β(Eᵢ-μNᵢ))','Fluidos abertos; sorção'],
+            ['Isobárico-isotérmico (NPT)','N, P, T','Energia livre de Gibbs G = -k_BT ln Δ','Δ = Σ e^(-β(Eᵢ+PVᵢ))','Simulações a pressão constante'],
           ].map(_r => { const [e,v,pot,q,uso]=_r; return `
           <tr style="border-bottom:1px solid var(--border-subtle)">
             <td style="padding:.4rem .6rem;font-weight:600;color:var(--accent-electron)">${e}</td>
@@ -941,6 +949,53 @@ function _initSmix() {
   if (document.getElementById('smix-x1')) update();
 }
 
+
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('thermochemistry', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
 export function destroy() {
   if (_loop) { _loop.stop(); _loop = null; }
 }

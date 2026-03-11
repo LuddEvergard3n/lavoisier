@@ -111,6 +111,19 @@ const EXERCISES = [
     exp: 'A série do cloro: HClO = hipoloroso, HClO₂ = cloroso, HClO₃ = clórico, HClO₄ = perclórico. Com 2 oxigênios o nox do Cl é +3 → sufixo "oso".',
     hint: 'Lembre a sequência: hipo…oso → …oso → …ico → per…ico. Conte os átomos de O.',
   },
+
+  { q: 'O óxido Al₂O₃ é classificado como:', opts: ['Ácido','Básico','Anfótero','Neutro'], ans: 2, exp: 'Al₂O₃ reage com ácidos (Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O) e com bases (Al₂O₃ + 2NaOH + 3H₂O → 2NaAl(OH)₄). Anfótero.', hint: 'Anfótero significa que reage tanto com ácidos quanto com bases.' },
+  { q: 'Qual sal produz solução ácida em água?', opts: ['NaCl','Na₂CO₃','NH₄Cl','CH₃COONa'], ans: 2, exp: 'NH₄Cl: NH₄⁺ (ácido de Brønsted fraco) hidrolisa → pH < 7. NaCl: neutro. Na₂CO₃: básico. CH₃COONa: básico.', hint: 'Sal de ácido forte + base fraca → solução ácida (hidrólise do cátion).' },,
+  { q:'Classifique HClO₄ segundo Arrhenius e Brønsted-Lowry:', opts:['Arrhenius: produz OH⁻; BL: aceita H⁺','Arrhenius: produz H⁺; BL: doa H⁺ (próton)','Arrhenius: base; BL: ácido','Não é classificável como ácido'], ans:1, exp:'Arrhenius: ácido = gera H⁺ em água. BL: ácido = doador de próton. HClO₄ → H⁺ + ClO₄⁻. Ambas as definições concordam para ácidos que ionizam em água.', hint:'Arrhenius: H⁺ em água. Brønsted-Lowry: doa próton (mais geral).' },
+  { q:'O NaOH é uma base forte: em 0,01 mol/L, qual é o pH?', opts:['2','7','10','12'], ans:3, exp:'NaOH forte: [OH⁻] = 0,01 mol/L = 10⁻² mol/L. pOH = 2. pH = 14 - pOH = 12. A 25°C: pH + pOH = 14.', hint:'pOH = -log[OH⁻]. pH = 14 - pOH.' },
+  { q:'Qual óxido, ao reagir com água, forma ácido?', opts:['CaO (óxido básico)','SO₃ (óxido ácido)','CO (óxido neutro)','Na₂O (óxido básico)'], ans:1, exp:'SO₃ + H₂O → H₂SO₄ (ácido sulfúrico). Óxidos ácidos (anidridos) = óxidos de não-metais que reagem com água formando ácido. CaO e Na₂O formam bases. CO não reage com água (neutro).', hint:'Óxido ácido = óxido de não-metal. Forma ácido com H₂O.' },
+  { q:'O HCN (Ka = 6×10⁻¹⁰) e o HF (Ka = 6,8×10⁻⁴). Qual é mais forte e por quê?', opts:['HCN — maior massa molar','HF — Ka maior, maior grau de ionização em água','Iguais — ambos são ácidos fracos','HCN — C é mais eletronegativo que F'], ans:1, exp:'Ka maior = mais ionizado = ácido mais forte. HF (Ka = 6,8×10⁻⁴) >> HCN (Ka = 6×10⁻¹⁰). Embora F seja mais eletronegativo, a ligação H-F é muito forte (pKa = 3,17 vs 9,22 do HCN).', hint:'Ka maior = ácido mais forte. Compara diretamente os valores.' },
+  { q:'A hidrólise do acetato de sódio (CH₃COONa) em água resulta em solução:', opts:['Ácida — CH₃COOH é ácido fraco','Básica — CH₃COO⁻ aceita H⁺ da água gerando OH⁻','Neutra — NaOH e CH₃COOH se cancelam','Ácida — Na⁺ libera H⁺'], ans:1, exp:'CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻. O acetato (base conjugada de ácido fraco) aceita próton da água gerando OH⁻ → pH > 7. Sal de ácido fraco + base forte = hidrólise básica.', hint:'Sal de ácido fraco + base forte: o ânion hidrolisa → pH > 7.' },
+  { q:'Um tampão pH 4,75 é preparado com CH₃COOH/CH₃COONa (pKa = 4,76). Pela equação de Henderson-Hasselbalch, [CH₃COO⁻]/[CH₃COOH] é:', opts:['0,98 ≈ 1:1','10','0,1','2'], ans:0, exp:'pH = pKa + log([A⁻]/[HA]). 4,75 = 4,76 + log([A⁻]/[HA]). log([A⁻]/[HA]) = -0,01. [A⁻]/[HA] = 10⁻⁰·⁰¹ ≈ 0,98 ≈ 1. Tampão com pH ≈ pKa tem proporção ~1:1.', hint:'pH = pKa quando [A⁻] = [HA]. Se pH ≈ pKa, a razão é ≈ 1.' },
+  { q:'Qual ácido oxigenado do cloro é o mais forte?', opts:['HClO (hipocloroso)','HClO₂ (cloroso)','HClO₃ (clórico)','HClO₄ (perclórico)'], ans:3, exp:'Força aumenta com o número de oxigênios: mais O = maior estado de oxidação do Cl = elétrons mais atraídos do O-H = H mais ácido. HClO₄ (Cl em +7) é ácido forte; HClO (Cl em +1) é fraco.', hint:'Mais oxigênios no ácido oxigenado = ácido mais forte.' },
+  { q:'Na reação de óxido-redução: MnO₄⁻ + Fe²⁺ → Mn²⁺ + Fe³⁺ (meio ácido), qual é o coeficiente do Fe²⁺ balanceado?', opts:['1','3','5','2'], ans:2, exp:'Mn reduz de +7 a +2 (ganha 5e⁻). Fe oxida de +2 a +3 (perde 1e⁻). Para balancear elétrons: 1 MnO₄⁻ × 5e⁻ = 5 Fe²⁺ × 1e⁻. Logo MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O.', hint:'Balance as meias-reações. Elétrons ganhos = perdidos.' },
+  { q:'O cloreto de amônio (NH₄Cl) em água forma solução:', opts:['Básica — Cl⁻ é base fraca','Ácida — NH₄⁺ doa H⁺ (ácido conjugado de base fraca)','Neutra — NH₃ e HCl são fortes','Básica — NH₃ é uma base'], ans:1, exp:'NH₄Cl → NH₄⁺ + Cl⁻. NH₄⁺ (ácido conjugado de NH₃, base fraca) doa H⁺: NH₄⁺ ⇌ NH₃ + H⁺. pH < 7. Cl⁻ (base conjugada de HCl forte) não hidrolisa.', hint:'Sal de ácido fraco + base forte → básico. Sal de ácido forte + base fraca → ácido.' },
+  { q:'Um ácido de Lewis é:', opts:['Espécie que doa H⁺','Espécie que aceita par de elétrons','Espécie que produz OH⁻','Espécie que doa OH⁻'], ans:1, exp:'Lewis: ácido = aceptor de par de elétrons; base = doador. BF₃ é ácido de Lewis (aceita par do N de NH₃). Inclui casos sem H⁺. É a definição mais geral: Arrhenius ⊂ Brønsted-Lowry ⊂ Lewis.', hint:'Lewis é a definição mais ampla. Sem H⁺ envolvido necessariamente.' }
 ];
 
 let _exIdx = 0, _exAttempts = 0, _exDone = false;
@@ -160,6 +173,16 @@ function _buildHTML() {
       liberando <strong>H⁺</strong> como único cátion.
       Ácidos <strong>fortes</strong> ionizam completamente (grau de ionização &gt; 50%);
       ácidos <strong>fracos</strong> ionizam parcialmente — o equilíbrio é descrito pelo Ka.
+    </p>
+    <p class="module-text">
+      As definições evoluíram historicamente em abrangência crescente.
+      <strong>Brønsted-Lowry</strong> (1923): ácido é doador de próton (H⁺), base é aceitador.
+      Isso permite tratar reações em solventes não-aquosos e explica o conceito de par
+      conjugado: CH₃COOH ⇌ CH₃COO⁻ + H⁺ — acético/acetato são par conjugado. Quanto
+      mais fraco o ácido, mais forte é sua base conjugada (e vice-versa).
+      <strong>Lewis</strong> (1923): ácido aceita par de elétrons, base doa par de elétrons.
+      Inclui reações como BF₃ + F⁻ → BF₄⁻ e todas as reações de formação de complexos
+      de coordenação (metal = ácido de Lewis, ligante = base de Lewis).
     </p>
 
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-bottom:1.25rem">
@@ -231,6 +254,15 @@ function _buildHTML() {
       Sal é produto da neutralização ácido + base → sal + H₂O.
       Nomenclatura: <strong>[nome do ânion] de [nome do cátion]</strong>.
     </p>
+    <p class="module-text">
+      A hidrólise salina determina se uma solução de sal é ácida, básica ou neutra.
+      Sal de ácido forte + base forte (NaCl): pH = 7 — nenhum dos íons reage com água.
+      Sal de ácido fraco + base forte (CH₃COONa): ânion aceita H⁺ da água → pH &gt; 7
+      (solução básica). Sal de ácido forte + base fraca (NH₄Cl): cátion doa H⁺ à água
+      → pH &lt; 7 (solução ácida). Sal de ácido fraco + base fraca (CH₃COONH₄):
+      pH ≈ 7 + (pKa - pKb)/2 — depende das constantes relativas.
+      Esta análise é essencial para prever o pH de soluções sem calcular explicitamente.
+    </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(190px,1fr));margin-bottom:1rem">
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-organic)">Normal</h3><p style="font-size:var(--text-sm)">Todos os H do ácido foram substituídos. NaCl, CaCO₃, Na₂SO₄.</p></div>
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-reaction)">Ácido</h3><p style="font-size:var(--text-sm)">Ainda tem H ionizável. Neutralização parcial de ácido poliprótico. NaHCO₃, NaHSO₄, NaH₂PO₄.</p></div>
@@ -253,6 +285,15 @@ function _buildHTML() {
       Óxido: composto binário de oxigênio com outro elemento.
       Classificação pelo comportamento frente à água, ácidos e bases.
     </p>
+    <p class="module-text">
+      Os óxidos ácidos (anidridos) são óxidos de não-metais ou de metais em alto estado de
+      oxidação: reagem com água formando ácidos (SO₃ + H₂O → H₂SO₄; CO₂ + H₂O → H₂CO₃)
+      e com bases formando sais. Os óxidos básicos são óxidos de metais alcalinos e alcalino-
+      terrosos: reagem com água formando hidróxidos (CaO + H₂O → Ca(OH)₂) e com ácidos
+      formando sais. Os óxidos anfóteros (Al₂O₃, ZnO, Cr₂O₃, SnO₂) reagem tanto com ácidos
+      quanto com bases: Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O; Al₂O₃ + 2NaOH + 3H₂O → 2NaAl(OH)₄.
+      Os óxidos neutros (CO, NO, N₂O) não reagem com água, ácidos nem bases em condições normais.
+    </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(190px,1fr));margin-bottom:1rem">
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-reaction)">Ácido</h3><p style="font-size:var(--text-sm)">Reage com H₂O → oxiácido; com base → sal + H₂O. Óxidos de não-metais. SO₃, CO₂, NO₂, P₂O₅.</p></div>
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-electron)">Básico</h3><p style="font-size:var(--text-sm)">Reage com H₂O → base; com ácido → sal + H₂O. Óxidos de metais alcalinos/alcalinoterrosos. Na₂O, CaO, Fe₂O₃.</p></div>
@@ -273,7 +314,7 @@ function _buildHTML() {
     <h2 class="module-section-title">Calculadora de pH — ácido/base forte</h2>
     <p class="module-text">
       Para ácidos e bases <strong>fortes</strong>, a ionização é completa:
-      pH = −log[H⁺] e pOH = −log[OH⁻], com pH + pOH = 14 (a 25 °C).
+      pH = -log[H⁺] e pOH = -log[OH⁻], com pH + pOH = 14 (a 25 °C).
     </p>
 
     <div style="display:flex;flex-direction:column;gap:.75rem;margin:.75rem 0 1rem">
@@ -311,6 +352,10 @@ function _buildHTML() {
         <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Meio</p>
         <div id="ph-meio" style="font-size:var(--text-base);font-weight:600">—</div>
       </div>
+    </div>
+    <!-- Escala de pH visual -->
+    <div class="canvas-frame" id="ph-canvas-frame" style="min-height:60px;margin-top:var(--space-3)">
+      <canvas id="ph-canvas" aria-label="Escala de pH"></canvas>
     </div>
   </section>
 
@@ -483,7 +528,10 @@ function _initInorganic() {
     set('ph-meio', meio);
     const meioEl = document.getElementById('ph-meio');
     if (meioEl) meioEl.style.color = pH < 6.999 ? 'var(--accent-reaction)' : 'var(--accent-electron)';
+    const phCv = document.getElementById('ph-canvas');
+    if (phCv && phCv._drawPH) { phCv._currentPH = phCv._currentPH ?? pH; phCv._drawPH(pH); }
   }
+  _initPHCanvas();
   updatePH();
   document.getElementById('ph-conc')?.addEventListener('input', updatePH);
   ['acid', 'base'].forEach(t => {
@@ -546,4 +594,124 @@ function _initInorganic() {
   });
 }
 
-export function destroy() {}
+// ---------------------------------------------------------------------------
+// Canvas de escala de pH — gradiente colorimétrico
+// ---------------------------------------------------------------------------
+function _initPHCanvas() {
+  const frame  = document.getElementById('ph-canvas-frame');
+  const canvas = document.getElementById('ph-canvas');
+  if (!canvas || !frame) return;
+
+  const W   = Math.min(frame.clientWidth || 480, 480);
+  const H   = 56;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  // Cores do indicador universal pH 0-14
+  const PH_COLORS = [
+    [0,  '#ff0000'], [1,  '#ff2200'], [2,  '#ff6600'], [3,  '#ff9900'],
+    [4,  '#ffcc00'], [5,  '#ccff00'], [6,  '#66ff00'], [7,  '#00cc44'],
+    [8,  '#00aacc'], [9,  '#0088ff'], [10, '#0044ff'], [11, '#2200cc'],
+    [12, '#4400aa'], [13, '#660088'], [14, '#880066'],
+  ];
+
+  function hexToRGB(hex) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return [r, g, b];
+  }
+
+  function phToColor(ph) {
+    const clamped = Math.max(0, Math.min(14, ph));
+    const lo = Math.floor(clamped);
+    const hi = Math.min(14, lo + 1);
+    const t  = clamped - lo;
+    const [r1, g1, b1] = hexToRGB(PH_COLORS[lo][1]);
+    const [r2, g2, b2] = hexToRGB(PH_COLORS[hi][1]);
+    return `rgb(${Math.round(r1+(r2-r1)*t)},${Math.round(g1+(g2-g1)*t)},${Math.round(b1+(b2-b1)*t)})`;
+  }
+
+  function draw(currentPH) {
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, W, H);
+
+    // Gradiente de fundo 0-14
+    const grad = ctx.createLinearGradient(0, 0, W, 0);
+    PH_COLORS.forEach(([ph, color]) => grad.addColorStop(ph / 14, color));
+    ctx.fillStyle = grad;
+    const barY = 8, barH = 24;
+    ctx.fillRect(0, barY, W, barH);
+
+    // Ticks e labels
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '8px monospace';
+    ctx.textAlign = 'center';
+    for (let i = 0; i <= 14; i++) {
+      const x = (i / 14) * W;
+      ctx.fillRect(x, barY + barH, 1, 4);
+      if (i % 2 === 0) ctx.fillText(i, x, barY + barH + 12);
+    }
+
+    // Marcador da posição atual
+    const markerX = Math.max(1, Math.min(W - 1, (currentPH / 14) * W));
+    const markerColor = phToColor(currentPH);
+
+    // Sombra do marcador
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.beginPath();
+    ctx.moveTo(markerX - 6, barY - 3);
+    ctx.lineTo(markerX + 6, barY - 3);
+    ctx.lineTo(markerX,     barY + 3);
+    ctx.fill();
+
+    // Marcador colorido
+    ctx.fillStyle = markerColor;
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(markerX - 5, barY - 2);
+    ctx.lineTo(markerX + 5, barY - 2);
+    ctx.lineTo(markerX,     barY + barH + 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Label pH acima
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('pH ' + currentPH.toFixed(2), markerX, barY - 6);
+  }
+
+  // Expor função de redesenho — chamada por updatePH
+  canvas._drawPH = (targetPH) => {
+    // Animação de entrada suave ao chamar pela primeira vez ou ao mudar
+    let anim = 0;
+    if (canvas._phAnimId) cancelAnimationFrame(canvas._phAnimId);
+    const startPH = canvas._currentPH ?? 7;
+    canvas._currentPH = targetPH;
+    function step() {
+      anim = Math.min(1, anim + 0.08);
+      const ph = startPH + (targetPH - startPH) * anim;
+      draw(ph);
+      if (anim < 1) canvas._phAnimId = requestAnimationFrame(step);
+    }
+    canvas._phAnimId = requestAnimationFrame(step);
+  };
+  canvas._drawPH(7);
+}
+
+export function destroy() {
+  // _phAnimId fica no canvas element; cancelar se ainda em execucao
+  const canvas = document.getElementById('ph-canvas');
+  if (canvas && canvas._phAnimId) {
+    cancelAnimationFrame(canvas._phAnimId);
+    canvas._phAnimId = null;
+  }
+}

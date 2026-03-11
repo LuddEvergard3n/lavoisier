@@ -115,12 +115,24 @@ function calcGraham() {
   set('graham-explain', 'A molécula mais leve (M₁) difunde '+ratio.toFixed(2)+'× mais rápido que a mais pesada.');
 }
 
-const EXERCISE = {
-  question: 'Um gás ideal ocupa 5 L a 2 atm e 300 K. Qual o volume a 1 atm e 600 K (mesmo n)?',
-  options: ['5 L', '10 L', '20 L', '2,5 L'],
-  correct: 2,
-  explanation: 'Lei combinada: V₂ = P₁V₁T₂/(T₁P₂) = 2×5×600/(300×1) = 20 L. Dobrar T dobra V; reduzir P à metade dobra V novamente.',
-};
+const EXERCISES = [
+  {q:'Um gás ideal ocupa 5 L a 2 atm e 300 K. Qual o volume a 1 atm e 600 K?',opts:['5 L','10 L','20 L','2,5 L'],ans:2,exp:'V₂ = 5 × (2/1) × (600/300) = 20 L.',hint:'P₁V₁/T₁ = P₂V₂/T₂.'},
+  {q:'Pressão parcial do N₂ (79%) em ar a P=1 atm:',opts:['0,21 atm','0,79 atm','1 atm','0,50 atm'],ans:1,exp:'P_N₂ = 0,79 × 1 = 0,79 atm (Lei de Dalton).',hint:'P_parcial = fração molar × P_total.'},
+  {q:'Gás real a alta pressão — Z = PV/nRT:',opts:['Sempre 1','> 1 (repulsão domina)','< 1 para todos','Independe de P'],ans:1,exp:'Volume excluído pelas moléculas: Z > 1.',hint:'Z=1: ideal. Volume molecular não desprezível eleva Z.'},
+  {q:'r(He)/r(N₂) pela Lei de Graham:',opts:['√7 ≈ 2,65','7','1/7','0,38'],ans:0,exp:'r ∝ 1/√M → √(28/4) = √7 ≈ 2,65.',hint:'r ∝ 1/√M.'},
+  {q:'Volume molar ideal a STP (0°C, 1 atm):',opts:['22,4 L/mol','24,0 L/mol','11,2 L/mol','44,8 L/mol'],ans:0,exp:'V = nRT/P = 0,08206 × 273,15 = 22,4 L/mol.',hint:'V = nRT/P com T = 273,15 K.'},,
+  { q:'1 mol de gás ideal a 25°C (298 K) e 1 atm ocupa:', opts:['22,4 L','24,5 L','22,7 L','25,0 L'], ans:1, exp:'V = nRT/P = 1 × 0,082 × 298 / 1 = 24,4 L ≈ 24,5 L. (22,4 L é o volume a 0°C e 1 atm = CNTP).', hint:'V = nRT/P. R = 0,082 L·atm/(mol·K). T em Kelvin.' },
+  { q:'Uma mistura tem N₂ (0,6 atm) e O₂ (0,4 atm). A pressão total e a fração molar de O₂ são:', opts:['1,0 atm; 0,40','0,6 atm; 0,40','1,0 atm; 0,60','0,4 atm; 0,60'], ans:0, exp:'Lei de Dalton: P_total = 0,6 + 0,4 = 1,0 atm. x_O₂ = P_O₂/P_total = 0,4/1,0 = 0,40. Fração molar = pressão parcial / pressão total.', hint:'P_total = ΣP_i (Dalton). x_i = P_i/P_total.' },
+  { q:'Um balão a 300 K e 1 atm ocupa 10 L. Resfriado a 150 K a pressão constante, seu volume é:', opts:['20 L','5 L','10 L','1 L'], ans:1, exp:'Lei de Charles: V₁/T₁ = V₂/T₂ a P constante. V₂ = V₁ × T₂/T₁ = 10 × 150/300 = 5 L. Temperatura absoluta (Kelvin) é proporcional ao volume.', hint:'Lei de Charles: V/T = constante (P constante). Usar T em Kelvin!' },
+  { q:'Gás real versus gás ideal: o fator de compressibilidade Z = PV/nRT > 1 indica:', opts:['Forças atrativas dominam — V menor que ideal','Forças repulsivas dominam — V maior que ideal','O gás se comporta idealmente','A temperatura está abaixo do ponto de Boyle'], ans:1, exp:'Z > 1: V real > V ideal. As repulsões moleculares (volume excluído, covolume b na Van der Waals) superam as atrações. Comum a alta pressão ou para gases pequenos/não-polares a temperatura moderada.', hint:'Z > 1: repulsão domina (moléculas ocupam espaço físico). Z < 1: atração domina.' },
+  { q:'A velocidade mais provável de moléculas de O₂ (M=0,032 kg/mol) a 300 K (R=8,314) é:', opts:['395 m/s','280 m/s','560 m/s','140 m/s'], ans:0, exp:'v_p = √(2RT/M) = √(2 × 8,314 × 300 / 0,032) = √(155887) ≈ 395 m/s.', hint:'v_p = √(2RT/M). R=8,314 J/(mol·K). M em kg/mol. Resultado em m/s.' },
+  { q:'A Lei de Graham: uma molécula de H₂ (M=2) efunde __ vezes mais rápido que O₂ (M=32):', opts:['2×','4×','16×','16× mais lento'], ans:1, exp:'v₁/v₂ = √(M₂/M₁) = √(32/2) = √16 = 4. H₂ efunde 4 vezes mais rápido que O₂. Usado na separação de isótopos (U²³⁵F₆ / U²³⁸F₆ por efusão).', hint:'Razão de velocidades = raiz quadrada da razão inversa das massas molares.' },
+  { q:'Num cilindro a 10 atm e 300 K contendo 5 mol de gás ideal, qual o volume? (R=0,082)', opts:['12,3 L','123 L','1,23 L','24,6 L'], ans:0, exp:'V = nRT/P = 5 × 0,082 × 300 / 10 = 123/10 = 12,3 L.', hint:'V = nRT/P.' },
+  { q:'A equação de Van der Waals (P + a/V²)(V - b) = RT corrige o gás ideal introduzindo:', opts:['a: volume molecular; b: atração intermolecular','a: atração intermolecular (reduz P efetiva); b: volume excluído (reduz V livre)','a e b são desprezíveis a baixa pressão (correto)','a: temperatura crítica; b: pressão crítica'], ans:1, exp:'Termo a/V²: atração entre moléculas reduz a pressão efetiva sobre as paredes (P_real < P_ideal). Termo b: volume excluído pelas moléculas reais reduz o volume livre. Para gás ideal: a=b=0.', hint:'a corrige a pressão (atração). b corrige o volume (tamanho molecular).' },
+  { q:'O gás carbônico (CO₂) é mais solúvel em água que N₂ porque:', opts:['CO₂ tem massa molar maior','CO₂ reage com H₂O (CO₂ + H₂O ⇌ H₂CO₃) além de se dissolver fisicamente','N₂ tem menor ponto de ebulição','CO₂ é mais pesado e sedimenta'], ans:1, exp:'CO₂ não apenas dissolve fisicamente (Lei de Henry) mas também reage: CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. Essa reação "consome" o CO₂ dissolvido, deslocando o equilíbrio de dissolução para mais CO₂ entrar. N₂ não reage com água.', hint:'CO₂ reage com água formando ácido carbônico — aumenta a solubilidade efetiva.' },
+  { q:'Na lei PV = nRT, se P dobra e T dobra, V:', opts:['Dobra','Fica igual (P e T se compensam)','Quadruplica','Cai à metade'], ans:1, exp:'PV = nRT → V = nRT/P. Se P→2P e T→2T: V_novo = nR(2T)/(2P) = nRT/P = V. Dobrar P e dobrar T se cancela: V não muda.', hint:'V = nRT/P. Analise o efeito de cada variável.' }
+];
+let _exIdx = 0;
 
 // Dados VdW para calculadora de Z (a em L²·atm/mol², b em L/mol)
 const VDW_Z = [
@@ -258,7 +270,7 @@ export function render(outlet) {
 
   <section class="module-section">
     <h2 class="module-section-title">Gás real — Van der Waals</h2>
-    <p class="module-text">O gás ideal ignora volume molecular e interações. Van der Waals corrige: <strong>(P + n²a/V²)(V − nb) = nRT</strong>. Parâmetro <em>a</em>: atração intermolecular; <em>b</em>: volume excluído por mol.</p>
+    <p class="module-text">O gás ideal ignora volume molecular e interações. Van der Waals corrige: <strong>(P + n²a/V²)(V - nb) = nRT</strong>. Parâmetro <em>a</em>: atração intermolecular; <em>b</em>: volume excluído por mol.</p>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem">${vdwBtns}</div>
     <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem">
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
@@ -320,12 +332,13 @@ export function render(outlet) {
   </section>
 
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${EXERCISE.question}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
-      ${EXERCISE.options.map((opt,i) => `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" id="ex-opt-${i}" data-exopt="${i}">${opt}</button>`).join('')}
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text" id="ex-question">${EXERCISES[0].q}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+      ${EXERCISES[0].opts.map((opt,i) => `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${opt}</button>`).join('')}
     </div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <!-- Fator de compressibilidade e gases reais avançado -->
@@ -519,6 +532,50 @@ export function render(outlet) {
         if(fb&&_exAttempts===1) fb.innerHTML='<p class="feedback-hint">Dica: use P₁V₁/T₁ = P₂V₂/T₂. Isole V₂.</p>';
       }
     });
+  });
+
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx]; if (!ex) return;
+    _exAttempts = 0; _exDone = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt,i)=>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice===ex.ans) {
+          _exDone=true;
+          btn.style.borderColor='var(--accent-organic)';
+          btn.style.color='var(--accent-organic)';
+          if (fb2) fb2.innerHTML=`<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('gases','exercise');
+          const nxBtn=document.getElementById('ex-next');
+          if (nxBtn && idx<EXERCISES.length-1) nxBtn.style.display='inline-flex';
+        } else {
+          btn.style.borderColor='var(--accent-reaction)';
+          btn.style.color='var(--accent-reaction)';
+          if (fb2 && _exAttempts===1) fb2.innerHTML=`<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', ()=>{
+    _exIdx=Math.min(_exIdx+1, EXERCISES.length-1);
+    loadExercise(_exIdx);
   });
 }
 

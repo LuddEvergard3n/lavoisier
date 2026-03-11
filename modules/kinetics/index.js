@@ -35,6 +35,7 @@ let _conc        = BASE_CONC;
 let _particles   = [];
 let _products    = 0;    // contador visual
 let _loop        = null;
+let _exIdx     = 0;
 let _exAttempts  = 0;
 let _exDone      = false;
 
@@ -203,17 +204,23 @@ function startCanvas(canvasEl) {
 /* -----------------------------------------------------------------------
    Exercício
 ----------------------------------------------------------------------- */
-const EXERCISE = {
-  question: 'Ao aumentar a temperatura de uma reação, a velocidade aumenta principalmente porque:',
-  options: [
-    'A concentração dos reagentes aumenta',
-    'A energia de ativação diminui permanentemente',
-    'Mais moléculas possuem energia cinética suficiente para superar a barreira (Ea)',
-    'O catalisador é ativado pelo calor',
-  ],
-  correct: 2,
-  explanation: 'A distribuição de velocidades de Maxwell-Boltzmann mostra que ao aumentar T, a fração de moléculas com energia ≥ Ea cresce exponencialmente — relação de Arrhenius: k = A·e^(-Ea/RT). A Ea em si não muda.',
-};
+const EXERCISES = [
+  { q: 'Ao aumentar T, a velocidade aumenta principalmente porque:', opts: ['A pressão aumenta','Mais moléculas têm E ≥ Ea','O volume diminui','A entropia aumenta'], ans: 1, exp: 'Equação de Arrhenius: k = Ae^(-Ea/RT). Ao subir T, a fração com E ≥ Ea cresce exponencialmente.', hint: 'Distribuição de Maxwell-Boltzmann: o que muda na cauda de alta energia ao aumentar T?' },
+  { q: 'Uma reação de 1ª ordem tem k = 0,0693 min⁻¹. Qual é o t₁/₂?', opts: ['10 min','14,4 min','1 min','100 min'], ans: 0, exp: 't₁/₂ = ln2/k = 0,693/0,0693 = 10 min.', hint: 't₁/₂ = ln(2)/k para ordem 1. ln(2) ≈ 0,693.' },
+  { q: 'Se [A] é dobrada e a velocidade quadruplica, a ordem em A é:', opts: ['0','1','2','3'], ans: 2, exp: 'v ∝ [A]^n. 4 = 2^n → n = 2.', hint: 'Ao dobrar [A], v multiplica por 2^n. Resolva para n.' },
+  { q: 'Um catalisador acelera a reação porque:', opts: ['Aumenta ΔG','Oferece caminho com Ea menor','Consome-se na etapa lenta','Aumenta a temperatura'], ans: 1, exp: 'O catalisador oferece mecanismo alternativo com Ea menor. ΔG e K_eq não mudam.', hint: 'O catalisador altera cinética, não o equilíbrio termodinâmico.' },
+  { q: 'v = k[A][B]² — qual a ordem global?', opts: ['1','2','3','4'], ans: 2, exp: 'Ordem global = 1 + 2 = 3.', hint: 'Some os expoentes de todas as concentrações na lei de velocidade.' },,
+  { q:'A constante de velocidade k dobra de 300 K para 310 K. A energia de ativação é aproximadamente:', opts:['10 kJ/mol','53 kJ/mol','120 kJ/mol','200 kJ/mol'], ans:1, exp:'Arrhenius: k2/k1 = exp(-Ea/R × (1/T2 - 1/T1)). ln(2) = -Ea/8,314 × (1/310 - 1/300) = Ea/8,314 × 1,075×10⁻⁴. Ea = 0,693/1,075×10⁻⁴ × 8,314 ≈ 53.600 J/mol ≈ 53 kJ/mol.', hint:'ln(k2/k1) = -Ea/R × (1/T2 - 1/T1). R = 8,314 J/(mol·K).' },
+  { q:'Para a reação A → B com lei de velocidade v = k[A]², se [A] dobrar, a velocidade:', opts:['Dobra','Triplica','Quadruplica','Não muda'], ans:2, exp:'v = k[A]². Se [A] → 2[A]: v_nova = k(2[A])² = 4k[A]² = 4v. Ordem 2: quadruplica ao dobrar a concentração.', hint:'v = k[A]^n. Dobrar A: v_nova = k(2)^n × [A]^n = 2^n × v.' },
+  { q:'A meia-vida de uma reação de primeira ordem é independente da concentração inicial. Isso ocorre porque:', opts:['A lei de velocidade é linear','t½ = ln2/k — depende apenas de k, não de [A]₀','A reação é isotérmica','k é constante com a temperatura'], ans:1, exp:'Para 1ª ordem: [A] = [A]₀ × e^(-kt). Quando [A] = [A]₀/2: e^(-kt½) = 0,5 → kt½ = ln2 → t½ = 0,693/k. Não depende de [A]₀ — característica única da 1ª ordem.', hint:'t½(1ª ordem) = ln2/k. Compare com 2ª ordem: t½ = 1/(k[A]₀) — depende de [A]₀.' },
+  { q:'A distribuição de Maxwell-Boltzmann explica por que elevar a temperatura acelera muito as reações porque:', opts:['Aumenta [A] das moléculas','A fração de moléculas com energia > Ea cresce exponencialmente com T','A energia de ativação diminui com T','Moléculas ficam maiores e colidem mais'], ans:1, exp:'A cauda da distribuição M-B (moléculas com E > Ea) cresce exponencialmente com T. Um aumento de 10°C pode dobrar ou triplicar a velocidade porque a fração de moléculas "ativadas" cresce desproporcionalmente.', hint:'Pense no gráfico: a área além de Ea cresce muito mais que linearmente com T.' },
+  { q:'Kc = [NH₃]²/[N₂][H₂]³ para N₂ + 3H₂ ⇌ 2NH₃. Se a 400°C, Kc = 0,5 mol⁻² L², isso indica:', opts:['Equilíbrio favorece os produtos (NH₃)','Equilíbrio favorece os reagentes (N₂ e H₂) — Kc << 1','Reação vai só para a esquerda','Concentrações iguais de reagentes e produtos'], ans:1, exp:'Kc << 1 indica que no equilíbrio há muito mais reagentes que produtos. Para N₂ + 3H₂ ⇌ 2NH₃, Kc = 0,5 é relativamente pequeno — o rendimento é baixo a 400°C (por isso usa-se alta pressão e catalisador de Fe na síntese Haber-Bosch).', hint:'Kc >> 1: produtos dominam. Kc << 1: reagentes dominam. Kc ≈ 1: equilíbrio.' },
+  { q:'O princípio de Le Chatelier prevê: ao aumentar a pressão no equilíbrio N₂ + 3H₂ ⇌ 2NH₃, o equilíbrio:', opts:['Desloca para esquerda (mais mol de gás)','Desloca para direita (menor número de mol de gás: 4→2)','Não se desloca — pressão não afeta equilíbrio gasoso','Desloca para esquerda porque NH₃ é mais denso'], ans:1, exp:'Aumentar pressão favorece o lado com MENOS mol de gás. Reagentes: 1+3=4 mol; produto: 2 mol. Pressão alta → desloca para NH₃ (2 mol). Esse é o motivo do uso de alta pressão na síntese de amônia (150-300 atm).', hint:'Pressão → menos mol de gás. Conte os coeficientes de gases nos dois lados.' },
+  { q:'Um inibidor enzimático competitivo:', opts:['Destrói permanentemente a enzima','Liga-se ao sítio ativo, competindo com o substrato (reversível, aumentando Km)','Liga-se fora do sítio ativo alterando a conformação','Diminui Vmax sem alterar Km'], ans:1, exp:'Inibidor competitivo liga-se ao sítio ativo (mesma posição do substrato). Aumenta o Km aparente (menor afinidade aparente pelo substrato) mas não altera Vmax — com substrato em excesso, a inibição é superada. Ex: metotrexato inibe dihidrofolato redutase competitivamente.', hint:'Competitivo: sítio ativo. Não-competitivo: sítio alostérico. Competitivo altera Km; não-competitivo altera Vmax.' },
+  { q:'A lei de velocidade não pode ser determinada apenas a partir da equação química balanceada porque:', opts:['A equação mostra a estequiometria dos produtos','As ordens dependem do mecanismo (etapa determinante), não dos coeficientes globais','A lei de velocidade é sempre de 1ª ordem','Os coeficientes globais são usados diretamente nas ordens'], ans:1, exp:'Uma reação A + B → C pode ter v = k[A][B], v = k[A]², ou v = k[A]⁰[B] — depende do mecanismo. As ordens experimentais refletem a etapa mais lenta (determinante). Coeficientes estequiométricos globais só são iguais às ordens em reações elementares (mecanismo de uma etapa).', hint:'Reação global ≠ mecanismo. Só para reação elementar a ordem = coeficiente.' },
+  { q:'O Kc de N₂O₄ ⇌ 2NO₂ é 0,14 a 25°C. Se Kc para 2NO₂ ⇌ N₂O₄ é:', opts:['0,14','7,14','0,07','0,28'], ans:1, exp:'Inverter a reação inverte o Kc. Kc(inversa) = 1/Kc(direta) = 1/0,14 ≈ 7,14.', hint:'Inverte a reação → Kc_novo = 1/Kc_original.' },
+  { q:'A catálise heterogênea (ex: Pt em superfície) age principalmente por:', opts:['Aumentar a temperatura de ativação','Adsorção dos reagentes na superfície, enfraquecendo ligações e reduzindo Ea','Aumentar a concentração dos reagentes','Fornecer energia extra via campo elétrico'], ans:1, exp:'Catálise heterogênea: reagentes adsorvem na superfície do catalisador. Ligações se enfraquecem (energia de ativação diminui) e a proximidade aumenta a frequência de colisões efetivas. Pd/Pt em conversores catalíticos, Fe em síntese de NH₃, Ni em hidrogenação.', hint:'Superfície do catalisador adsorve reagentes → ligações enfraquecem → Ea menor.' }
+];
 
 /* -----------------------------------------------------------------------
    render()
@@ -254,13 +261,13 @@ export function render(outlet) {
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-bottom:1rem">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">Ordem 0</h3>
-        <p style="font-family:monospace;font-size:var(--text-sm)">[A] = [A]₀ − kt</p>
+        <p style="font-family:monospace;font-size:var(--text-sm)">[A] = [A]₀ - kt</p>
         <p style="font-family:monospace;font-size:var(--text-sm)">t½ = [A]₀ / 2k</p>
         <p style="font-size:var(--text-xs);color:var(--text-muted);margin-top:.4rem">Velocidade constante; independe de [A]. Gráfico [A]×t: linha reta. Ex: dissolução de comprimido de liberação controlada.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-bond)">Ordem 1</h3>
-        <p style="font-family:monospace;font-size:var(--text-sm)">ln[A] = ln[A]₀ − kt</p>
+        <p style="font-family:monospace;font-size:var(--text-sm)">ln[A] = ln[A]₀ - kt</p>
         <p style="font-family:monospace;font-size:var(--text-sm)">t½ = ln2 / k = 0,693/k</p>
         <p style="font-size:var(--text-xs);color:var(--text-muted);margin-top:.4rem">Meia-vida constante (independe de [A]₀). Gráfico ln[A]×t: reta. Decaimento radioativo, reações enzimáticas saturadas, farmacocinética.</p>
       </div>
@@ -362,6 +369,57 @@ export function render(outlet) {
   </section>
 
 
+  <!-- Simulação de equilíbrio reversível -->
+  <section class="module-section">
+    <h2 class="module-section-title">Simulação de equilíbrio reversível — A ⇌ B</h2>
+    <p class="module-text">
+      Na reação reversível A ⇌ B, o equilíbrio é atingido quando
+      <strong>v_direta = v_inversa</strong>. O gráfico abaixo mostra as concentrações
+      de A e B ao longo do tempo até o equilíbrio, com Kc = k_d / k_i.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-3)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">k_direto (s⁻¹):</span>
+        <input type="range" id="eq-kd" min="0.01" max="2" step="0.01" value="0.5"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="eq-kd-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:60px">0,50</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">k_inverso (s⁻¹):</span>
+        <input type="range" id="eq-ki" min="0.01" max="2" step="0.01" value="0.25"
+               style="width:120px;accent-color:var(--accent-reaction)">
+        <span id="eq-ki-val" style="font-size:var(--text-sm);color:var(--accent-reaction);min-width:60px">0,25</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:160px">[A]₀ inicial (mol/L):</span>
+        <input type="range" id="eq-a0" min="0.1" max="2" step="0.1" value="1.0"
+               style="width:120px;accent-color:var(--accent-bond)">
+        <span id="eq-a0-val" style="font-size:var(--text-sm);color:var(--accent-bond);min-width:60px">1,00</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr));margin-bottom:var(--space-3)">
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Kc = k_d/k_i</p>
+        <div id="eq-Kc" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-electron)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">[A]_eq (mol/L)</p>
+        <div id="eq-Aeq" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-bond)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">[B]_eq (mol/L)</p>
+        <div id="eq-Beq" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-reaction)">—</div>
+      </div>
+      <div class="info-card">
+        <p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">t½ aprox. (s)</p>
+        <div id="eq-thalf" style="font-size:var(--text-xl);font-weight:700;color:var(--accent-organic)">—</div>
+      </div>
+    </div>
+    <div class="canvas-frame" id="eqsim-frame" style="min-height:160px">
+      <canvas id="eqsim-canvas" aria-label="Gráfico de equilíbrio reversível [A] e [B] no tempo"></canvas>
+    </div>
+  </section>
+
   <!-- Maxwell-Boltzmann -->
   <section class="module-section">
     <h2 class="module-section-title">Distribuição de Maxwell-Boltzmann</h2>
@@ -406,22 +464,23 @@ export function render(outlet) {
     </div>
     <p class="module-text" style="margin-top:.75rem">
       A equação de Arrhenius relaciona k com T:
-      <strong>k = A · e^(−Ea/RT)</strong>. Um catalisador aumenta A (fator pré-exponencial) ou
+      <strong>k = A · e^(-Ea/RT)</strong>. Um catalisador aumenta A (fator pré-exponencial) ou
       diminui Ea, acelerando k sem alterar ΔH da reação.
     </p>
   </section>
 
   <!-- Exercício -->
   <section class="module-section">
-    <h2 class="module-section-title">Exercício</h2>
-    <p class="module-text">${esc(EXERCISE.question)}</p>
-    <div id="exercise-opts" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
-      ${EXERCISE.options.map((opt, i) => `
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+      ${EXERCISES[0].opts.map((opt, i) => `
         <button class="btn btn-ghost" style="text-align:left;justify-content:flex-start"
                 id="ex-opt-${i}" data-exopt="${i}">${esc(opt)}</button>
       `).join('')}
     </div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
   </section>
 
   <!-- Cotidiano -->
@@ -518,7 +577,7 @@ export function render(outlet) {
         Kp = Kc · (RT)^Δn_g
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
-        Δn_g = (moles gasosos de produtos) − (moles gasosos de reagentes)<br>
+        Δn_g = (moles gasosos de produtos) - (moles gasosos de reagentes)<br>
         R = 0,08206 L·atm/(mol·K) &nbsp;|&nbsp; T em Kelvin<br>
         Se Δn_g = 0 → Kp = Kc (ex: H₂ + I₂ ⇌ 2 HI)<br>
         Kc e Kp são adimensionais quando expressos em razão às concentrações/pressões padrão.
@@ -574,7 +633,7 @@ export function render(outlet) {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
-        Kp = [4α² / (1 − α²)] · P_total
+        Kp = [4α² / (1 - α²)] · P_total
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         Dado Kp e P_total → resolver para α: α = √(Kp / (Kp + 4P_total))<br>
@@ -847,7 +906,7 @@ function _initKpKc() {
     const logKp = parseFloat(document.getElementById('diss-kp')?.value ?? -0.85);
     const Ptot  = parseFloat(document.getElementById('diss-P')?.value ?? 1.0);
     const Kp    = Math.pow(10, logKp);
-    // Kp = 4α²P/(1−α²) → α² = Kp/(Kp+4P) 
+    // Kp = 4α²P/(1-α²) → α² = Kp/(Kp+4P) 
     const alpha2 = Kp / (Kp + 4 * Ptot);
     const alpha  = Math.sqrt(Math.max(0, alpha2));
 
@@ -871,6 +930,202 @@ function _initKpKc() {
   }
 }
 
+
+  // --- Exercises (multi) ---
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx];
+    if (!ex) return;
+    _exAttempts = 0;
+    _exDone     = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('kinetics', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(0);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
+// ---------------------------------------------------------------------------
+// Simulação de equilíbrio reversível A ⇌ B
+// Integração numérica de Euler: d[A]/dt = -kd[A] + ki[B], d[B]/dt = kd[A] - ki[B]
+// ---------------------------------------------------------------------------
+let _eqAnimId = null;
+
+function _initEqSim() {
+  const setV = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+  function runAndDraw() {
+    const kd  = parseFloat(document.getElementById('eq-kd')?.value  ?? 0.5);
+    const ki  = parseFloat(document.getElementById('eq-ki')?.value  ?? 0.25);
+    const A0  = parseFloat(document.getElementById('eq-a0')?.value  ?? 1.0);
+
+    setV('eq-kd-val', kd.toFixed(2));
+    setV('eq-ki-val', ki.toFixed(2));
+    setV('eq-a0-val', A0.toFixed(2));
+
+    // Valores analíticos de equilíbrio
+    const Kc   = kd / ki;
+    const Aeq  = A0 / (1 + Kc);
+    const Beq  = A0 * Kc / (1 + Kc);
+    const keff = kd + ki;
+    const thalf = Math.LN2 / keff;
+
+    setV('eq-Kc',    Kc.toFixed(3));
+    setV('eq-Aeq',   Aeq.toFixed(4));
+    setV('eq-Beq',   Beq.toFixed(4));
+    setV('eq-thalf', thalf.toFixed(2) + ' s');
+
+    // Gerar trajetória por integração de Euler
+    const T_END = 4 * thalf;
+    const N = 300;
+    const dt = T_END / N;
+    const pointsA = [], pointsB = [];
+    let A = A0, B = 0;
+    for (let i = 0; i <= N; i++) {
+      pointsA.push({ t: i * dt, c: A });
+      pointsB.push({ t: i * dt, c: B });
+      const dA = (-kd * A + ki * B) * dt;
+      A += dA;
+      B -= dA;
+      A = Math.max(0, A);
+      B = Math.max(0, B);
+    }
+
+    // Canvas
+    const canvas = document.getElementById('eqsim-canvas');
+    const frame  = document.getElementById('eqsim-frame');
+    if (!canvas || !frame) return;
+
+    const W   = Math.min(frame.clientWidth || 520, 520);
+    const H   = 160;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width  = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const MX = 38, MY = 10, PW = W - MX - 10, PH = H - MY - 24;
+    const C_MAX = A0;
+
+    function toX(t)  { return MX + (t / T_END) * PW; }
+    function toY(c)  { return MY + PH - (c / C_MAX) * PH; }
+
+    // Fundo
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, W, H);
+
+    // Eixos
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(MX, MY); ctx.lineTo(MX, MY + PH); ctx.lineTo(MX + PW, MY + PH);
+    ctx.stroke();
+
+    // Rótulos eixo Y
+    ctx.fillStyle = 'rgba(200,200,200,0.55)';
+    ctx.font = '8px monospace';
+    ctx.textAlign = 'right';
+    [0, 0.25, 0.5, 0.75, 1].forEach(f => {
+      const y = MY + PH - f * PH;
+      ctx.fillText((f * C_MAX).toFixed(2), MX - 3, y + 3);
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.beginPath(); ctx.moveTo(MX, y); ctx.lineTo(MX + PW, y); ctx.stroke();
+    });
+
+    // Rótulos eixo X
+    ctx.textAlign = 'center';
+    [0, 0.25, 0.5, 0.75, 1].forEach(f => {
+      const x = MX + f * PW;
+      ctx.fillText((f * T_END).toFixed(1) + 's', x, MY + PH + 12);
+    });
+
+    // Labels dos eixos
+    ctx.fillStyle = 'rgba(200,200,200,0.35)';
+    ctx.textAlign = 'center';
+    ctx.fillText('tempo (s)', MX + PW / 2, H - 2);
+    ctx.save();
+    ctx.translate(8, MY + PH / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Conc. (mol/L)', 0, 0);
+    ctx.restore();
+
+    // Linhas de equilíbrio (tracejadas)
+    ctx.strokeStyle = 'rgba(79,195,247,0.25)';
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(MX, toY(Aeq)); ctx.lineTo(MX + PW, toY(Aeq));
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(239,71,111,0.25)';
+    ctx.beginPath();
+    ctx.moveTo(MX, toY(Beq)); ctx.lineTo(MX + PW, toY(Beq));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Curva [A] — azul
+    ctx.strokeStyle = '#4fc3f7';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(toX(pointsA[0].t), toY(pointsA[0].c));
+    pointsA.slice(1).forEach(p => ctx.lineTo(toX(p.t), toY(p.c)));
+    ctx.stroke();
+
+    // Curva [B] — vermelho
+    ctx.strokeStyle = '#ef476f';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(toX(pointsB[0].t), toY(pointsB[0].c));
+    pointsB.slice(1).forEach(p => ctx.lineTo(toX(p.t), toY(p.c)));
+    ctx.stroke();
+
+    // Legenda
+    [[4,'#4fc3f7','[A]'], [14,'#ef476f','[B]']].forEach(([xOff, col, lbl]) => {
+      ctx.fillStyle = col;
+      ctx.font = 'bold 9px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(lbl, MX + xOff, MY + 9);
+    });
+  }
+
+  runAndDraw();
+  ['eq-kd','eq-ki','eq-a0'].forEach(id =>
+    document.getElementById(id)?.addEventListener('input', runAndDraw));
+}
+
 export function destroy() {
+  if (_eqAnimId) { cancelAnimationFrame(_eqAnimId); _eqAnimId = null; }
   if (_loop) { _loop.stop(); _loop = null; }
 }

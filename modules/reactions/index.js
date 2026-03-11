@@ -83,9 +83,102 @@ let _exDone     = false;
 /* -----------------------------------------------------------------------
    Exports
 ----------------------------------------------------------------------- */
+// ---------------------------------------------------------------------------
+// Semirreações padrão (E° em V vs SHE, 25°C)
+// ---------------------------------------------------------------------------
+const HALF_CELLS = [
+  { label: 'F₂ + 2e⁻ → 2F⁻',             E:  2.87 },
+  { label: 'MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺',   E:  1.51 },
+  { label: 'Cl₂ + 2e⁻ → 2Cl⁻',            E:  1.36 },
+  { label: 'O₂ + 4H⁺ + 4e⁻ → 2H₂O',       E:  1.23 },
+  { label: 'Br₂ + 2e⁻ → 2Br⁻',            E:  1.07 },
+  { label: 'Ag⁺ + e⁻ → Ag',               E:  0.80 },
+  { label: 'Fe³⁺ + e⁻ → Fe²⁺',            E:  0.77 },
+  { label: 'I₂ + 2e⁻ → 2I⁻',              E:  0.54 },
+  { label: 'Cu²⁺ + 2e⁻ → Cu',             E:  0.34 },
+  { label: '2H⁺ + 2e⁻ → H₂ (SHE)',        E:  0.00 },
+  { label: 'Pb²⁺ + 2e⁻ → Pb',             E: -0.13 },
+  { label: 'Ni²⁺ + 2e⁻ → Ni',             E: -0.26 },
+  { label: 'Fe²⁺ + 2e⁻ → Fe',             E: -0.44 },
+  { label: 'Zn²⁺ + 2e⁻ → Zn',             E: -0.76 },
+  { label: 'Al³⁺ + 3e⁻ → Al',             E: -1.66 },
+  { label: 'Mg²⁺ + 2e⁻ → Mg',             E: -2.37 },
+  { label: 'Na⁺ + e⁻ → Na',               E: -2.71 },
+  { label: 'Li⁺ + e⁻ → Li',               E: -3.05 },
+];
+
+// ---------------------------------------------------------------------------
+// Calculadora de E°célula
+// ---------------------------------------------------------------------------
+function _initRedoxCell() {
+  const F   = 96485;   // C/mol
+  const R   = 8.314;   // J/(mol·K)
+  const T   = 298.15;  // K
+
+  function update() {
+    const Ec = parseFloat(document.getElementById('redox-cathode')?.value ?? 1.23);
+    const Ea = parseFloat(document.getElementById('redox-anode')?.value ?? 0.00);
+    const n  = parseInt(document.getElementById('redox-n')?.value ?? 2, 10);
+
+    const Ecell = Ec - Ea;
+    const dG    = -n * F * Ecell / 1000;  // kJ/mol
+    const lnK   = n * F * Ecell / (R * T);
+    const K     = Math.exp(Math.min(lnK, 700));  // evitar overflow
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    const setColor = (id, c) => { const el = document.getElementById(id); if (el) el.style.color = c; };
+
+    const ecStr = (Ecell >= 0 ? '+' : '') + Ecell.toFixed(3) + ' V';
+    const dgStr = (dG >= 0 ? '+' : '') + dG.toFixed(1) + ' kJ/mol';
+
+    set('redox-ecell', ecStr);
+    set('redox-dg',    dgStr);
+    set('redox-n-val', n);
+
+    const color = Ecell > 0 ? 'var(--accent-organic)' : Ecell < 0 ? 'var(--accent-reaction)' : 'var(--text-muted)';
+    setColor('redox-ecell', color);
+    setColor('redox-dg',    Ecell > 0 ? 'var(--accent-organic)' : 'var(--accent-reaction)');
+
+    const spont = Ecell > 0.001 ? 'Sim (espontânea)' : Ecell < -0.001 ? 'Não (forçar)' : 'Equilíbrio';
+    set('redox-spont', spont);
+    setColor('redox-spont', color);
+
+    let kStr;
+    if (lnK > 300)      kStr = '10^' + (lnK / Math.LN10).toFixed(0);
+    else if (lnK < -300) kStr = '≈ 0';
+    else                 kStr = K.toExponential(2);
+    set('redox-K', kStr);
+  }
+
+  document.getElementById('redox-cathode')?.addEventListener('change', update);
+  document.getElementById('redox-anode')?.addEventListener('change', update);
+  document.getElementById('redox-n')?.addEventListener('input', update);
+  if (document.getElementById('redox-cathode')) update();
+}
+
+const EXERCISES = [
+  { q: '2H₂ + O₂ → 2H₂O — qual equação está balanceada?', opts: ['H₂ + O₂ → H₂O','2H₂ + O₂ → 2H₂O','H₂ + 2O₂ → H₂O','2H₂ + 2O₂ → H₂O'], ans: 1, exp: '2H₂ (4H) + O₂ (2O) → 2H₂O (4H + 2O). Massa conservada.', hint: 'Conte os átomos de H e O nos dois lados.' },
+  { q: 'Na reação redox: Zn + CuSO₄ → ZnSO₄ + Cu, o Zn:', opts: ['Se reduz','Se oxida (Zn → Zn²⁺)','Não muda de NOx','É o agente redutor e se oxida'], ans: 3, exp: 'Zn perde 2 e⁻: Zn⁰ → Zn²⁺ (oxidação). Zn atua como agente redutor (doa elétrons para Cu²⁺).', hint: 'Oxidação = perda de elétrons. Zn vai de 0 para +2.' },
+  { q: 'E°(Cu²⁺/Cu) = +0,34 V; E°(Zn²⁺/Zn) = -0,76 V. E°célula Zn/Cu?', opts: ['+0,42 V','-0,42 V','+1,10 V','-1,10 V'], ans: 2, exp: 'E°célula = E°cátodo - E°ânodo = 0,34 - (-0,76) = 1,10 V. Positivo → espontânea.', hint: 'E°célula = E°cátodo - E°ânodo. Cátodo tem E° maior.' },
+  { q: 'Na combustão de propano C₃H₈ + 5O₂ → 3CO₂ + 4H₂O, qual é o produto formado em maior quantidade molar?', opts: ['CO₂','H₂O','O₂ sobra','Todos iguais'], ans: 1, exp: 'Coeficientes: 3 mol CO₂ e 4 mol H₂O. H₂O é produzida em maior quantidade (4 > 3).', hint: 'Compare os coeficientes de CO₂ e H₂O na equação balanceada.' },
+  { q: 'Qual tipo de reação é: 2KClO₃ → 2KCl + 3O₂ ?', opts: ['Síntese','Decomposição','Simples troca','Dupla troca'], ans: 1, exp: 'Um composto se divide em dois ou mais produtos → reação de decomposição. KClO₃ → KCl + O₂.', hint: 'Quantos reagentes e produtos existem? Síntese: A+B→AB. Decomposição: AB→A+B.' },,
+  { q:'Balanceie: Fe + O₂ → Fe₂O₃. Os coeficientes corretos são:', opts:['1,1,1','4,3,2','2,1,1','1,3,2'], ans:1, exp:'4Fe + 3O₂ → 2Fe₂O₃. Fe: 4 dos dois lados. O: 6 dos dois lados (3×2=6 e 2×3=6). Use método algébrico ou tentativa com coeficientes.', hint:'Comece pelo elemento que aparece em menos substâncias. Fe aparece em Fe e Fe₂O₃.' },
+  { q:'Na reação 2Al + 6HCl → 2AlCl₃ + 3H₂, qual é o agente oxidante?', opts:['Al','H⁺ do HCl','Cl⁻','AlCl₃'], ans:1, exp:'Al se oxida (Al⁰ → Al³⁺, perde 3e⁻). H⁺ se reduz (H⁺ → H₂, ganha 1e⁻). O agente oxidante é a espécie que se reduz = H⁺.', hint:'Agente oxidante = o que se reduz (recebe elétrons).' },
+  { q:'Qual reação é de síntese (ou combinação)?', opts:['CaCO₃ → CaO + CO₂','Na + Cl₂ → NaCl (a partir dos elementos)','2NaCl → 2Na + Cl₂','Fe + CuSO₄ → FeSO₄ + Cu'], ans:1, exp:'Síntese: dois ou mais reagentes formam UM produto. Na + ½Cl₂ → NaCl (ajustando coeficientes). As demais são decomposição, eletrólise e simples troca.', hint:'Síntese: A + B → AB. Decomposição: AB → A + B.' },
+  { q:'Na eletrólise da água: 2H₂O → 2H₂ + O₂, qual gás é produzido no cátodo?', opts:['O₂ — oxidação','H₂ — redução (cátodo recebe elétrons)','HO⁻','H₂O₂'], ans:1, exp:'Cátodo = redução. 2H₂O + 2e⁻ → H₂ + 2OH⁻. O H⁺ é reduzido a H₂ no cátodo. No ânodo, 2H₂O → O₂ + 4H⁺ + 4e⁻ (oxidação). Volume de H₂ produzido é o dobro do O₂.', hint:'Cátodo = redução = ganha elétrons. Ânodo = oxidação = perde elétrons.' },
+  { q:'Determine o número de oxidação (NOx) do Cr em K₂Cr₂O₇:', opts:['+3','+6','+7','+4'], ans:1, exp:'K₂Cr₂O₇: 2(+1) + 2x + 7(-2) = 0 → 2 + 2x - 14 = 0 → 2x = 12 → x = +6. Cr está no estado de oxidação +6 (dicromato, forte oxidante).', hint:'Soma de NOx = carga total. K=+1, O=-2. Resolva para Cr.' },
+  { q:'Na reação de neutralização: HNO₃ + KOH → KNO₃ + H₂O, qual é a reação iônica líquida?', opts:['H⁺ + NO₃⁻ + K⁺ + OH⁻ → K⁺ + NO₃⁻ + H₂O','H⁺ + OH⁻ → H₂O','HNO₃ → H⁺ + NO₃⁻','KOH → K⁺ + OH⁻'], ans:1, exp:'K⁺ e NO₃⁻ são íons espectadores (aparecem igual nos dois lados). A reação iônica líquida é H⁺ + OH⁻ → H₂O — válida para toda neutralização de ácido forte + base forte.', hint:'Cancele os íons que aparecem igual em ambos os lados (espectadores).' },
+  { q:'0,5 mol de C₃H₈ queima completamente. Quantos mol de CO₂ são produzidos? (C₃H₈+5O₂→3CO₂+4H₂O)', opts:['1,5 mol','3 mol','0,5 mol','2 mol'], ans:0, exp:'1 mol C₃H₈ → 3 mol CO₂. Para 0,5 mol: 0,5 × 3 = 1,5 mol CO₂. Regra: multiplicar os coeficientes pela quantidade em mol do reagente.', hint:'Proporção estequiométrica: 1 mol C₃H₈ : 3 mol CO₂.' },
+  { q:'Qual afirmação sobre catalisadores é correta?', opts:['Aumentam ΔG da reação','Diminuem a energia de ativação e são consumidos','Diminuem a energia de ativação sem serem consumidos','Alteram o ΔH da reação'], ans:2, exp:'Catalisadores fornecem um caminho alternativo de menor energia de ativação (Ea). Não são consumidos (são regenerados). Não alteram ΔG, ΔH, Keq — só a velocidade de atingir o equilíbrio.', hint:'Catalisador: mais rápido, mesmo produto final, não consumido.' },
+  { q:'A disproportionação é uma reação em que o mesmo elemento:', opts:['Reage com dois produtos diferentes','Se oxida e se reduz simultaneamente','Mantém o NOx constante','Reage com água para dar ácido e base'], ans:1, exp:'Disproportionação (autooxidação): um mesmo elemento muda de NOx em direções opostas. Ex: 2H₂O₂ → 2H₂O + O₂. O²⁻¹ → O²⁻ (redução) e O²⁻¹ → O₂⁰ (oxidação). Cl₂ + NaOH → NaCl + NaClO também é disproportionação do Cl.', hint:'Um elemento serve como agente oxidante e redutor ao mesmo tempo.' },
+  { q:'Na reação de simples troca: Zn + 2AgNO₃ → Zn(NO₃)₂ + 2Ag, qual previsão da série de atividade é confirmada?', opts:['Zn é menos reativo que Ag','Zn desloca Ag porque é mais ativo (reduz Ag⁺)','Ag oxida Zn²⁺','A reação não é espontânea'], ans:1, exp:'Na série de atividade, Zn está acima de Ag. Metais mais ativos reduzem íons de metais menos ativos. Zn⁰ → Zn²⁺ (oxidação); 2Ag⁺ → 2Ag⁰ (redução). E° > 0 → espontânea.', hint:'Metal mais ativo desloca o menos ativo de seus sais em solução.' }
+];
+let _exIdx = 0;
+
 export function render(outlet) {
   if (_loop) { _loop.stop(); _loop = null; }
   _rxKey      = 'water';
+  _exIdx = 0;
   _exAttempts = 0;
   _exDone     = false;
   _particles  = [];
@@ -97,6 +190,8 @@ export function render(outlet) {
   _initCanvas();
   _bindEvents();
   _initRedox();
+  _initRedoxCell();
+  _initExercises();
   markSectionDone('reactions', 'visited');
 }
 
@@ -119,6 +214,55 @@ function _initRedox() {
     }
     renderRedox(0);
     REDOX_DATA.forEach((_,i)=>{ document.getElementById('rdx-'+i)?.addEventListener('click',()=>renderRedox(i)); });
+}
+
+// ---------------------------------------------------------------------------
+// Multi-exercise system
+// ---------------------------------------------------------------------------
+function _initExercises() {
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx]; if (!ex) return;
+    _exAttempts = 0; _exDone = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('reactions', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(_exIdx);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
 }
 
 export function destroy() {
@@ -152,10 +296,30 @@ function _buildHTML() {
     <!-- Redox e números de oxidação -->
   <section class="module-section">
     <h2 class="module-section-title">Reações redox — oxidação e redução</h2>
-    <p class="module-text">Reações de oxidação-redução (redox) envolvem transferência de elétrons. <strong>Oxidação</strong>: perda de e⁻ (NOx aumenta). <strong>Redução</strong>: ganho de e⁻ (NOx diminui). Mnemônica: LEO diz GER (Lose Electrons = Oxidation; Gain Electrons = Reduction).</p>
+    <p class="module-text">
+      Reações de oxidação-redução (redox) envolvem transferência de elétrons entre espécies.
+      <strong>Oxidação</strong>: perda de elétrons (número de oxidação aumenta).
+      <strong>Redução</strong>: ganho de elétrons (NOx diminui). As duas meias-reações
+      ocorrem simultaneamente e de forma acoplada — não existe oxidação sem redução correspondente.
+      Mnemônica: <em>OIL RIG</em> (Oxidation Is Loss, Reduction Is Gain).
+    </p>
+    <p class="module-text">
+      O <strong>agente oxidante</strong> é a espécie que aceita elétrons e se reduz.
+      O <strong>agente redutor</strong> doa elétrons e se oxida. A força relativa desses agentes
+      é quantificada pelo potencial padrão de redução E° (medido em relação ao eletrodo
+      padrão de hidrogênio, E° = 0,00 V). Quanto maior E°, maior a tendência de ser reduzido.
+      A espontaneidade de uma reação redox é determinada pela diferença:
+      E°célula = E°cátodo - E°ânodo. Se E°célula &gt; 0 → ΔG &lt; 0 → reação espontânea.
+    </p>
+    <p class="module-text">
+      <strong>Regras de NOx</strong> em ordem de prioridade: (1) elemento puro = 0;
+      (2) íon monoatômico = carga do íon; (3) F sempre -1; (4) O geralmente -2
+      (exceto peróxidos -1, OF₂ +2); (5) H geralmente +1 (exceto hidretos metálicos -1);
+      (6) soma dos NOx em composto neutro = 0; em íon = carga do íon.
+    </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin-bottom:1rem">
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-reaction)">Regras de NOx</h3>
-        <p style="font-size:var(--text-xs)">Elemento livre = 0 | H: +1 (exceto hidretos: −1) | O: −2 (exceto peróxidos: −1; OF₂: +2) | Metais alcalinos: +1 | Alcalinoterrosos: +2 | F: sempre −1 | Soma = carga total da espécie</p></div>
+        <p style="font-size:var(--text-xs)">Elemento livre = 0 | H: +1 (exceto hidretos: -1) | O: -2 (exceto peróxidos: -1; OF₂: +2) | Metais alcalinos: +1 | Alcalinoterrosos: +2 | F: sempre -1 | Soma = carga total da espécie</p></div>
       <div class="info-card"><h3 style="margin-top:0;color:var(--accent-electron)">Meia-reação anódica</h3>
         <p style="font-family:monospace;font-size:var(--text-sm)">Zn → Zn²⁺ + 2e⁻</p>
         <p style="font-size:var(--text-sm)">Anodo: oxidação (perde e⁻). NOx de Zn: 0 → +2.</p></div>
@@ -164,7 +328,27 @@ function _buildHTML() {
         <p style="font-size:var(--text-sm)">Catodo: redução (ganha e⁻). NOx de Cu: +2 → 0.</p></div>
     </div>
 
-    <p class="module-text"><strong>Balanceamento redox pelo método de meia-reação:</strong> (1) separar meia-reações; (2) balancear átomos (H₂O para O; H⁺ para H); (3) balancear cargas com e⁻; (4) igualar e⁻ e somar; (5) em meio básico: adicionar OH⁻ para neutralizar H⁺.</p>
+    <p class="module-text">
+      <strong>Balanceamento redox pelo método de meia-reação:</strong>
+      (1) identificar as espécies oxidadas e reduzidas;
+      (2) escrever as duas meias-reações separadas;
+      (3) balancear todos os átomos exceto H e O;
+      (4) balancear O adicionando H₂O; balancear H adicionando H⁺;
+      (5) balancear cargas adicionando e⁻;
+      (6) multiplicar as meias-reações pelo mmc dos elétrons trocados;
+      (7) somar e simplificar. Em meio básico: ao final, adicionar OH⁻ para neutralizar
+      cada H⁺, formando H₂O nos dois lados. Este método garante conservação de massa
+      e de carga simultaneamente — o único algoritmo rigoroso para qualquer reação redox.
+    </p>
+    <p class="module-text">
+      Tipos principais de reações químicas: (1) <strong>síntese</strong> A + B → AB;
+      (2) <strong>decomposição</strong> AB → A + B; (3) <strong>simples troca</strong>
+      A + BC → AC + B (deslocamento); (4) <strong>dupla troca</strong>
+      AB + CD → AD + CB (metátese — precipitação, neutralização, formação de gás);
+      (5) <strong>combustão</strong> hidrocarboneto + O₂ → CO₂ + H₂O.
+      As reações redox podem ser de qualquer tipo — o critério é a variação de NOx,
+      não a forma estrutural da equação.
+    </p> (1) separar meia-reações; (2) balancear átomos (H₂O para O; H⁺ para H); (3) balancear cargas com e⁻; (4) igualar e⁻ e somar; (5) em meio básico: adicionar OH⁻ para neutralizar H⁺.</p>
 
     <div id="redox-tabs" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem">
       <button class="btn btn-xs btn-secondary" id="rdx-0" data-rdx="0">MnO₄⁻/Fe²⁺</button>
@@ -201,9 +385,44 @@ function _buildHTML() {
   </section>
 
   <section class="module-section">
-    <h2 class="module-section-title">Exercício Guiado</h2>
+    <h2 class="module-section-title">Célula eletroquímica — E° e espontaneidade</h2>
+    <p class="module-text">
+      Selecione o par de semirreações para calcular E°célula = E°cátodo - E°ânodo.
+      E°célula &gt; 0 → ΔG &lt; 0 → espontânea. A relação exata é ΔG° = -nFE°,
+      onde n é o número de elétrons transferidos e F = 96485 C/mol.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:var(--space-4)">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:80px">Cátodo (+):</span>
+        <select id="redox-cathode" style="flex:1;max-width:320px;background:var(--bg-raised);color:var(--text-primary);border:1px solid var(--border-default);border-radius:var(--radius-sm);padding:.3rem .5rem;font-size:var(--text-sm)">
+          ${HALF_CELLS.map(h => `<option value="${esc(String(h.E))}">${esc(h.label)} (${h.E >= 0 ? '+' : ''}${h.E.toFixed(2)} V)</option>`).join('')}
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:80px">Ânodo (-):</span>
+        <select id="redox-anode" style="flex:1;max-width:320px;background:var(--bg-raised);color:var(--text-primary);border:1px solid var(--border-default);border-radius:var(--radius-sm);padding:.3rem .5rem;font-size:var(--text-sm)">
+          ${HALF_CELLS.map((h,i) => `<option value="${esc(String(h.E))}" ${i===3?'selected':''}>${esc(h.label)} (${h.E >= 0 ? '+' : ''}${h.E.toFixed(2)} V)</option>`).join('')}
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <span style="font-size:var(--text-sm);color:var(--text-muted);min-width:80px">n (e⁻):</span>
+        <input type="range" id="redox-n" min="1" max="6" step="1" value="2"
+               style="width:120px;accent-color:var(--accent-electron)">
+        <span id="redox-n-val" style="font-size:var(--text-sm);color:var(--accent-electron);min-width:20px">2</span>
+      </div>
+    </div>
+    <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">E°célula (V)</p><div id="redox-ecell" style="font-size:var(--text-xl);font-weight:700">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">ΔG° (kJ/mol)</p><div id="redox-dg" style="font-size:var(--text-xl);font-weight:700">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Espontânea?</p><div id="redox-spont" style="font-size:var(--text-sm);font-weight:700">—</div></div>
+      <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">K (25°C)</p><div id="redox-K" style="font-size:var(--text-sm);font-weight:700;color:var(--text-muted)">—</div></div>
+    </div>
+  </section>
+
+  <section class="module-section">
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
     <div class="exercise-card">
-      <p class="exercise-question">
+      <p class="exercise-question" id="ex-question">
         Na reação de combustão do metano:
         <strong>CH₄ + O₂ → CO₂ + H₂O</strong>.
         Quais coeficientes balanceiam esta equação?
@@ -217,6 +436,7 @@ function _buildHTML() {
         ].map(o => `<button class="exercise-option" data-answer="${esc(o)}">${esc(o)}</button>`).join('')}
       </div>
       <div class="hint-box" id="rx-ex-hint"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
       <div class="exercise-feedback" id="rx-ex-feedback"></div>
       <div class="exercise-actions">
         <button class="btn btn-secondary btn-sm" id="rx-btn-hint">Usar dica</button>
@@ -227,6 +447,15 @@ function _buildHTML() {
 
   <section class="module-section">
     <h2 class="module-section-title">Onde isso aparece na vida real?</h2>
+    <p class="module-text">
+      Reações redox são a base de praticamente toda a tecnologia energética moderna.
+      Em pilhas e baterias, energia química é convertida em energia elétrica via reações redox
+      espontâneas. Em eletrólise, o processo reverso usa energia elétrica para forçar reações
+      não-espontâneas — como a produção de alumínio metálico (Hall-Héroult, 1886) e a
+      cloração de água. A fotossíntese é uma sequência de reações redox onde a água é oxidada
+      (doa e⁻) e o CO₂ é reduzido (aceita e⁻ para formar glicose).
+      A corrosão do ferro é uma reação redox espontânea: Fe → Fe²⁺ (ânodo) e O₂ + H₂O → OH⁻ (cátodo).
+    </p>
     <div class="real-life-card">
       <div class="real-life-label">Energia</div>
       <p>Combustíveis fósseis (gás natural, gasolina, carvão) liberam energia via reações de
@@ -303,7 +532,7 @@ function _renderEquation() {
     const coeff = _coeffs[side][idx];
     return `<div class="reaction-compound">
       <button class="reaction-coeff" data-side="${side}" data-idx="${idx}" data-dir="-1"
-              aria-label="Diminuir coeficiente">−</button>
+              aria-label="Diminuir coeficiente">-</button>
       <span class="reaction-coeff" style="cursor:default;min-width:24px;text-align:center">
         ${coeff}
       </span>

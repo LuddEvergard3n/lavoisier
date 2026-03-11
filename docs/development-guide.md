@@ -8,35 +8,82 @@
 modules/<id>/index.js
 ```
 
-Estrutura mínima:
+Estrutura mínima com padrão `_initX()`:
 
 ```js
-import { esc }             from '../../js/ui.js';
-import { markSectionDone } from '../../js/state.js';
+import { esc, createHiDPICanvas } from '../../js/ui.js';
+import { markSectionDone }        from '../../js/state.js';
+import { SimLoop }                from '../../js/engine/simulation.js';
+import { clearCanvas, COLOR }     from '../../js/engine/renderer.js';
 
 // Estado local — sempre resetado em render()
-let _exDone = false;
+let _loop      = null;
+let _animId    = null;
+let _exIdx     = 0;
+let _exAttempts = 0;
+let _exDone    = false;
+
+const EXERCISES = [
+  { q: '...', opts: ['A','B','C','D'], ans: 0, exp: '...', hint: '...' },
+  // mínimo 5 exercícios
+];
 
 export function render(outlet) {
-  _exDone = false;
+  // 1. Resetar estado
+  if (_loop)   { _loop.stop(); _loop = null; }
+  if (_animId) { cancelAnimationFrame(_animId); _animId = null; }
+  _exIdx = 0; _exAttempts = 0; _exDone = false;
 
+  // 2. Montar HTML
   outlet.innerHTML = `
     <div class="module-page">
       <button class="module-back btn-ghost"
-              onclick="window.location.hash='#/modules'">&#8592; Módulos</button>
+              data-nav="/modules">&#8592; Módulos</button>
       <header class="module-header">
         <h1 class="module-title">Nome do Módulo</h1>
-        <p class="module-concept">Descrição introdutória...</p>
+        <p class="module-concept">Descrição introdutória.</p>
       </header>
-      <!-- seções do ciclo pedagógico -->
+
+      <section class="module-section">
+        <h2 class="module-section-title">Fenômeno</h2>
+        <p class="module-text">Ponto de partida concreto...</p>
+      </section>
+
+      <section class="module-section">
+        <h2 class="module-section-title">Simulação</h2>
+        <div class="canvas-frame" id="sim-frame">
+          <canvas id="sim-canvas" aria-label="Descrição da simulação"></canvas>
+        </div>
+      </section>
+
+      <section class="module-section" id="exercise-section">
+        <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/${EXERCISES.length})</h2>
+        <p class="module-text" id="ex-question">${esc(EXERCISES[0].q)}</p>
+        <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;max-width:440px;margin-top:.75rem">
+          ${EXERCISES[0].opts.map((o, i) =>
+            `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start"
+                     data-exopt="${i}">${esc(o)}</button>`).join('')}
+        </div>
+        <div id="exercise-feedback" style="margin-top:1rem"></div>
+        <button class="btn btn-ghost btn-sm" id="ex-next"
+                style="margin-top:1rem;display:none">Próximo exercício →</button>
+      </section>
+
+      <section class="module-section">
+        <h2 class="module-section-title">No cotidiano</h2>
+        <p class="module-text">Aplicações reais...</p>
+      </section>
     </div>`;
 
-  _bindEvents();
+  // 3. Inicializar seções interativas
+  _initSimulation();
+  _initExercises();
   markSectionDone('<id>', 'visited');
 }
 
 export function destroy() {
-  // parar SimLoop se existir
+  if (_loop)   { _loop.stop(); _loop = null; }
+  if (_animId) { cancelAnimationFrame(_animId); _animId = null; }
 }
 ```
 
@@ -55,19 +102,13 @@ export function destroy() {
   "title": "Nome do Módulo",
   "icon": "⚗",
   "description": "Uma linha explicando o módulo.",
-  "concept": "Dois parágrafos introdutórios.",
   "status": "available",
   "route": "/module/<id>",
+  "level": "university",
+  "topics": ["tópico 1", "tópico 2", "tópico 3"],
+  "prerequisites": ["outro-modulo"],
+  "estimatedTime": 30,
   "sections": ["visualization", "interaction", "exercise", "reallife"],
-  "exercises": [
-    {
-      "id": "<id>-ex-01",
-      "question": "Pergunta do exercício?",
-      "options": ["A", "B", "C", "D"],
-      "answer": "B",
-      "hints": ["Dica 1 — observacional", "Dica 2 — conceitual", "Dica 3 — factual"]
-    }
-  ],
   "realLife": ["Aplicação 1", "Aplicação 2"]
 }
 ```
@@ -77,62 +118,219 @@ export function destroy() {
 ## Convenções de código
 
 ### Estado local
-- Declare variáveis de estado no topo do arquivo, fora das funções
-- **Sempre** resete todo o estado no início de `render()`
-- Não use closures que capturam o estado sem intenção
 
 ```js
-// Correto
-let _loop = null;
-let _exDone = false;
+// Correto: declare no topo do arquivo, resete em render()
+let _loop    = null;
+let _exIdx   = 0;
+let _animId  = null;
 
 export function render(outlet) {
-  if (_loop) { _loop.stop(); _loop = null; }
-  _exDone = false;
+  if (_loop)   { _loop.stop(); _loop = null; }
+  if (_animId) { cancelAnimationFrame(_animId); _animId = null; }
+  _exIdx = 0;
   // ...
 }
 ```
 
-### Canvas
-- Calcule `_W` a partir de `frame.clientWidth` capped em um valor máximo
-- Nunca use `canvas.style.width = '100%'`
-- Escale o contexto uma vez com `ctx.scale(dpr, dpr)` imediatamente após criar
-- Todas as coordenadas de desenho e hit detection são em CSS px (não px físicos)
+### Canvas — inicialização
 
 ```js
-const W = Math.min(frame.clientWidth || 500, 500);
-const H = 300;
-const dpr = window.devicePixelRatio || 1;
-canvas.width  = Math.round(W * dpr);
-canvas.height = Math.round(H * dpr);
-canvas.style.width  = W + 'px';
-canvas.style.height = H + 'px';
-const ctx = canvas.getContext('2d');
-ctx.scale(dpr, dpr);
+function _initMyCanvas() {
+  const frame  = document.getElementById('my-frame');
+  const canvas = document.getElementById('my-canvas');
+  if (!canvas || !frame) return;
+
+  const W   = Math.min(frame.clientWidth || 500, 500);
+  const H   = 300;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  // Todas as coordenadas daqui em diante são em CSS px
+  draw();
+}
+```
+
+### Canvas — animação de entrada (fade-in / grow)
+
+```js
+let _entryAnimId = null;
+
+function _animateEntry(drawFn) {
+  if (_entryAnimId) cancelAnimationFrame(_entryAnimId);
+  let t = 0;
+  function step() {
+    t = Math.min(1, t + 0.06);   // ~17 frames para completar
+    drawFn(t);
+    if (t < 1) _entryAnimId = requestAnimationFrame(step);
+    else _entryAnimId = null;
+  }
+  _entryAnimId = requestAnimationFrame(step);
+}
+
+// Uso: ao trocar de item selecionado, animar a entrada
+function renderItem(idx) {
+  const item = ITEMS[idx];
+  _animateEntry(t => draw(item, t));
+}
+```
+
+### Canvas — loop contínuo (pulsação, glow)
+
+```js
+let _loopAnimId = null;
+let _phase = 0;
+
+function _startContinuousLoop() {
+  if (_loopAnimId) cancelAnimationFrame(_loopAnimId);
+  function step() {
+    _phase += 0.04;
+    draw(_phase);
+    _loopAnimId = requestAnimationFrame(step);
+  }
+  _loopAnimId = requestAnimationFrame(step);
+}
+
+export function destroy() {
+  if (_loopAnimId) { cancelAnimationFrame(_loopAnimId); _loopAnimId = null; }
+}
+```
+
+### Integração numérica de Euler
+
+Para simular equações diferenciais simples (ex: A ⇌ B, decaimento radioativo):
+
+```js
+function integrate(kd, ki, A0, nSteps, dt) {
+  const points = [];
+  let A = A0, B = 0;
+  for (let i = 0; i <= nSteps; i++) {
+    points.push({ t: i * dt, A, B });
+    const dA = (-kd * A + ki * B) * dt;
+    A = Math.max(0, A + dA);
+    B = Math.max(0, B - dA);
+  }
+  return points;
+}
+// Escolha dt = T_total / nSteps com nSteps ≥ 200 para curvas suaves
 ```
 
 ### Eventos
-- Use delegação quando possível: um listener no container, não um por elemento
-- Sempre use `e.target.closest('[data-attr]')` para delegação robusta
-- Guard contra elementos nulos: `el?.addEventListener(...)`
 
 ```js
-// Correto: delegação
+// Delegação de clique — robusto contra re-renderização do DOM
 document.getElementById('container')?.addEventListener('click', e => {
   const btn = e.target.closest('[data-action]');
   if (!btn) return;
-  // ...
+  handleAction(btn.dataset.action);
+});
+
+// Guards contra nulo
+document.getElementById('slider')?.addEventListener('input', e => {
+  update(parseFloat(e.target.value));
 });
 ```
 
 ### XSS
-- **Todo** dado dinâmico inserido via `innerHTML` deve passar por `esc()`
-- Dados em atributos HTML também: `data-answer="${esc(option)}"`
-- Textos em Canvas (`ctx.fillText`) não precisam de escape
 
-### SimLoop
-- Pare o loop em `destroy()` sem exceção
-- Verifique se o canvas ainda existe antes de desenhar (pode ter sido desmontado)
+```js
+// Todo dado dinâmico via innerHTML passa por esc()
+container.innerHTML = `
+  <h3>${esc(item.name)}</h3>
+  <button data-id="${esc(item.id)}">${esc(item.label)}</button>`;
+
+// ctx.fillText no canvas não precisa de escape
+ctx.fillText(item.name, x, y);
+```
+
+---
+
+## Sistema de exercícios — padrão `loadExercise`
+
+```js
+const EXERCISES = [
+  { q: 'Pergunta?',
+    opts: ['Opção A', 'Opção B', 'Opção C', 'Opção D'],
+    ans: 1,                            // índice da opção correta (0-based)
+    exp: 'Explicação completa...',
+    hint: 'Dica progressiva...' },
+  // mínimo 5 exercícios por módulo
+];
+
+let _exIdx      = 0;
+let _exAttempts = 0;
+let _exDone     = false;
+
+function loadExercise(idx) {
+  const ex = EXERCISES[idx];
+  if (!ex) return;
+  _exAttempts = 0;
+  _exDone     = false;
+
+  const qEl = document.getElementById('ex-question');
+  const cEl = document.getElementById('ex-counter');
+  const fb  = document.getElementById('exercise-feedback');
+  const nx  = document.getElementById('ex-next');
+  const op  = document.getElementById('ex-options');
+
+  if (qEl) qEl.textContent = ex.q;
+  if (cEl) cEl.textContent = idx + 1;
+  if (fb)  fb.innerHTML = '';
+  if (nx)  nx.style.display = 'none';
+
+  if (op) {
+    op.innerHTML = ex.opts.map((o, i) =>
+      `<button class="btn btn-ghost"
+               style="text-align:left;justify-content:flex-start"
+               data-exopt="${i}">${esc(o)}</button>`
+    ).join('');
+  }
+}
+
+function _initExercises() {
+  loadExercise(0);
+
+  document.getElementById('ex-options')?.addEventListener('click', e => {
+    const btn = e.target.closest('[data-exopt]');
+    if (!btn || _exDone) return;
+
+    const chosen = parseInt(btn.dataset.exopt, 10);
+    const ex     = EXERCISES[_exIdx];
+    const fb     = document.getElementById('exercise-feedback');
+
+    if (chosen === ex.ans) {
+      _exDone = true;
+      if (fb) {
+        fb.innerHTML = `<div style="color:var(--accent-organic);padding:.5rem;
+          border-left:3px solid var(--accent-organic);background:var(--bg-raised);
+          margin-top:.5rem;border-radius:4px">
+          ✓ Correto! ${esc(ex.exp)}</div>`;
+      }
+      markSectionDone('<id>', 'exercise');
+      const nx = document.getElementById('ex-next');
+      if (nx && _exIdx < EXERCISES.length - 1) nx.style.display = 'block';
+    } else {
+      _exAttempts++;
+      if (fb) {
+        fb.innerHTML = `<div style="color:var(--accent-reaction);padding:.5rem;
+          border-left:3px solid var(--accent-reaction);background:var(--bg-raised);
+          margin-top:.5rem;border-radius:4px">
+          ✗ Tente novamente. ${_exAttempts >= 1 ? esc(ex.hint) : ''}</div>`;
+      }
+    }
+  });
+
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx++;
+    if (_exIdx < EXERCISES.length) loadExercise(_exIdx);
+  });
+}
+```
 
 ---
 
@@ -144,50 +342,32 @@ document.getElementById('container')?.addEventListener('click', e => {
 - `.module-section` — seção com margin-bottom
 - `.module-section-title` — título de seção uppercase com linha decorativa
 - `.module-back` — botão de voltar
+- `.module-text` — parágrafo de texto do módulo (line-height 1.7)
+- `.module-grid` — grid responsivo de info-cards
 
 ### Simulação
 - `.sim-panel` — grid para controles + canvas
 - `.sim-controls` — flex row para controles
-- `.sim-slider` — range input estilizado
 - `.canvas-frame` — container com borda e border-radius para canvas
 
 ### Exercício
 - `.exercise-card` — card do exercício
-- `.exercise-question` — texto da pergunta
-- `.exercise-options` — container das opções
 - `.exercise-option` — botão de opção (`.selected`, `.correct`, `.wrong`)
 - `.exercise-feedback` — texto de feedback (`.bg-correct`, `.bg-error`)
-- `.exercise-actions` — row de botões de ação
 - `.hint-box` — box de dica (`.visible` para mostrar)
 
 ### Cards
 - `.info-card` — card informativo genérico
 - `.real-life-card` — card de cotidiano com borda esquerda verde
 
-### Badges e estados
-- `.badge` — badge inline
+### Badges
 - `.badge-electron`, `.badge-bond`, `.badge-organic`, `.badge-reaction`, `.badge-energy`, `.badge-neutral`
-- `.bg-correct`, `.bg-error`, `.bg-hint` — fundos de estado
-
-### Tabela periódica
-- `.periodic-table-wrapper` — scroll horizontal com scrollbar estilizada
-- `.element-cell` — célula de elemento
-- `.element-detail` — painel de detalhes
-- `.element-props` / `.element-prop` — grid de propriedades
-
-### Reações
-- `.reaction-equation` — container da equação
-- `.reaction-coeff` — botão/span de coeficiente
-- `.reaction-arrow` — seta da equação
-- `.mass-balance` — grid reagentes / símbolo / produtos
-- `.mass-side` — lado da balança
-- `.mass-balanced` — símbolo de igualdade (`.ok` verde, `.fail` vermelho)
 
 ---
 
 ## Acessibilidade
 
-- Botões de opção devem ter `aria-pressed` dinâmico
+- Botões de opção de exercício devem ter `aria-pressed` dinâmico
 - Canvas deve ter `aria-label` descritivo
 - Grupos de controles devem ter `role="group"` e `aria-label`
 - Regiões dinâmicas devem ter `aria-live="polite"`
@@ -199,11 +379,47 @@ document.getElementById('container')?.addEventListener('click', e => {
 
 O runner em `tests/test-runner.js` verifica:
 
-1. **Estrutura de arquivos** — todos os arquivos esperados existem
-2. **elements.json** — integridade, unicidade de Z e symbol
-3. **modules.json** — campos obrigatórios, exercícios com resposta válida
-4. **Conteúdo dos módulos JS** — `export render`, `markSectionDone`, exercício, cotidiano
-5. **Router** — exports e listeners
-6. **State** — exports e localStorage
+1. Estrutura de arquivos — todos os arquivos esperados existem
+2. `elements.json` — integridade, unicidade de Z e symbol
+3. `modules.json` — campos obrigatórios (`level`, `topics`, `prerequisites`, `estimatedTime`)
+4. Conteúdo dos módulos JS — `export render`, `export destroy`, `markSectionDone`, `EXERCISES`
+5. Router — exports e listeners
+6. State — exports e localStorage
 
-Para adicionar testes ao seu módulo, edite `tests/test-runner.js` e adicione casos ao suite correspondente.
+```bash
+node tests/test-runner.js
+# Resultado esperado: 591 passed, 0 failed
+```
+
+Para verificar sintaxe JS sem executar:
+
+```bash
+node --check modules/kinetics/index.js
+```
+
+Para detectar o caractere `−` (U+2212, mathematical minus) que causa SyntaxError em template literals:
+
+```bash
+python3 -c "
+import glob
+for p in glob.glob('modules/*/index.js'):
+    data = open(p,'rb').read()
+    if b'\xe2\x88\x92' in data:
+        print('AVISO U+2212:', p)
+"
+```
+
+---
+
+## Checklist para novo módulo
+
+- [ ] `render()` reseta todo estado local
+- [ ] `destroy()` para SimLoop e cancela rAF
+- [ ] Canvas sem `max-width` nem `width:100%` via CSS
+- [ ] Toda saída via `innerHTML` usa `esc()`
+- [ ] Canvas com `aria-label` descritivo
+- [ ] Mínimo 5 exercícios em `EXERCISES[]`
+- [ ] `markSectionDone()` chamado ao final de `render()`
+- [ ] Entrada em `modules.json` com todos os campos
+- [ ] Import em `main.js`
+- [ ] `node --check` sem erros

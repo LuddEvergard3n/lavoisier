@@ -26,7 +26,7 @@ const MOLECULES = {
   H2O: {
     label: 'H₂O — Água',
     type:  'covalente polar',
-    info:  'Dois átomos de H compartilham elétrons com o O. O oxigênio é mais eletronegativo (3,44) — puxa os elétrons para si, criando dipolos. A geometria angular gera um dipolo resultante permanente: o O fica parcialmente negativo (δ−) e os H ficam positivos (δ+).',
+    info:  'Dois átomos de H compartilham elétrons com o O. O oxigênio é mais eletronegativo (3,44) — puxa os elétrons para si, criando dipolos. A geometria angular gera um dipolo resultante permanente: o O fica parcialmente negativo (δ-) e os H ficam positivos (δ+).',
     atoms: [
       { s:'O', x:0.50, y:0.45, r:22 },
       { s:'H', x:0.28, y:0.65, r:14 },
@@ -84,7 +84,7 @@ const MOLECULES = {
     info:  'O Na (metal alcalino, baixa energia de ionização) cede seu elétron ao Cl (halogênio, alta eletronegatividade). Formam-se íons: Na⁺ e Cl⁻. A atração eletrostática entre cargas opostas é a ligação iônica — muito mais forte que covalente polar.',
     atoms: [
       { s:'Na', x:0.32, y:0.50, r:24, charge:'+' },
-      { s:'Cl', x:0.68, y:0.50, r:24, charge:'−' },
+      { s:'Cl', x:0.68, y:0.50, r:24, charge:'-' },
     ],
     bonds: [[0,1,1]],
     dipole: true,
@@ -207,12 +207,32 @@ const VSEPR_GEOMETRIES = [
   },
 ];
 
+const EXERCISES = [
+  { q: 'NaCl é uma ligação iônica porque:', opts: ['Na é metal','Diferença de eletronegatividade Δχ > 1,7 — há transferência de e⁻','Cl é não-metal','O sal é sólido'], ans: 1, exp: 'Δχ(Cl-Na) = 3,16 - 0,93 = 2,23 > 1,7. Na doa e⁻ → Na⁺; Cl aceita e⁻ → Cl⁻. Atração eletrostática.', hint: 'O critério de ligação iônica é Δχ > 1,7 (escala de Pauling).' },
+  { q: 'H₂O é polar e CO₂ é apolar porque:', opts: ['H₂O tem O mais eletronegativo','CO₂ tem simetria linear que cancela os dipolos; H₂O é angular e os dipolos não se cancelam','H₂O tem duas ligações','CO₂ é gás'], ans: 1, exp: 'CO₂ (D∞h): dois dipolos C=O opostos se cancelam. H₂O (C₂ᵥ, ângulo 104,5°): dipolos O-H não se cancelam → μ ≠ 0.', hint: 'Geometria linear com ligações polares → dipolos se cancelam ou não?' },
+  { q: 'Qual substância tem o maior ponto de ebulição?', opts: ['CH₄ (M=16)','NH₃ (M=17)','HF (M=20)','H₂O (M=18)'], ans: 3, exp: 'H₂O tem as ligações de hidrogênio mais fortes (O-H…O). Dois pares doadores e dois aceptores. μ = 1,85 D.', hint: 'Qual molécula tem maior número de pontes H e dipolo maior?' },
+  { q: 'Na TOM, a ordem de ligação do N₂ é:', opts: ['1','2','3','4'], ans: 2, exp: 'N₂: (σ1s)²(σ*1s)²(σ2s)²(σ*2s)²(π2p)⁴(σ2p)². OL = (8-2)/2 = 3. Tripla ligação, mais forte de todas as moléculas diatômicas.', hint: 'OL = (e⁻ ligantes - e⁻ antiligantes)/2. Conte os elétrons nos OMs de N₂.' },
+  { q: 'sp³ descreve hibridização do carbono em:', opts: ['Benzeno','Etileno (C₂H₄)','Metano (CH₄)','Etino (C₂H₂)'], ans: 2, exp: 'CH₄: C tem 4 ligações σ → sp³ (4 orbitais híbridos). C₂H₄: sp² (3 σ + 1 π). Benzeno: sp² (deslocalizado). C₂H₂: sp.', hint: 'sp³ = 4 σ. sp² = 3 σ + 1 π. sp = 2 σ + 2 π.' },,
+  { q:'Qual molécula tem geometria angular e momento dipolar diferente de zero?', opts:['CO₂','BF₃','H₂O','CCl₄'], ans:2, exp:'H₂O: geometria angular (2 pares ligantes + 2 não-ligantes no O). Os dipolos O-H não se cancelam → momento dipolar resultante ≠ 0. CO₂, BF₃ e CCl₄ têm geometrias simétricas com dipolos que se cancelam.', hint:'A simetria da molécula cancela ou não os vetores dipolo.' },
+  { q:'Numa ligação iônica NaCl, o que ocorre com os elétrons de valência do Na?', opts:['São compartilhados igualmente','O Na doa 1 e⁻ ao Cl; ambos ficam com configuração de gás nobre','O Cl doa 1 e⁻ ao Na','Os elétrons são deslocalizados em banda metálica'], ans:1, exp:'Na (3s¹) doa 1 e⁻ → Na⁺ ([Ne]). Cl (3s²3p⁵) ganha 1 e⁻ → Cl⁻ ([Ar]). A força eletrostática Na⁺···Cl⁻ é a ligação iônica. Sem compartilhamento — transferência completa.', hint:'Iônica = transferência; covalente = compartilhamento.' },
+  { q:'O SF₆ tem 6 ligações S-F com geometria octaédrica e momento dipolar zero. Por quê?', opts:['S e F têm a mesma eletronegatividade','Os 6 vetores dipolo S-F são iguais e se cancelam pela simetria Oh','A ligação S-F é apolar','SF₆ é uma molécula linear'], ans:1, exp:'Cada ligação S-F é polar (F muito mais eletronegativo). Mas com simetria octaédrica (Oh), os 6 vetores se cancelam completamente → μ = 0. Geometria simétrica com ligações polares idênticas = molécula apolar.', hint:'Mesmo com ligações polares, simetria perfeita cancela os dipolos.' },
+  { q:'A hibridização do carbono no etileno (C₂H₄) é:', opts:['sp³','sp²','sp','sp³d'], ans:1, exp:'Cada C em C₂H₄ faz 3 ligações sigma (2 C-H + 1 C=C parte sigma) → 3 grupos → sp². O p não-hibridizado forma a ligação π da dupla. Ângulo H-C-H ≈ 120°, molécula plana.', hint:'Conta os grupos ao redor do C (ligações sigma + pares não-ligantes). 3 grupos = sp².' },
+  { q:'Por que o ponto de ebulição da água (100°C) é muito maior que o do H₂S (-60°C)?', opts:['H₂O é mais pesada','H₂O forma ligações de hidrogênio (O-H···O) muito mais fortes que as forças de dispersão do H₂S','H₂S tem ligações iônicas','O oxigênio é mais eletronegativo que o S e forma ligações covalentes mais curtas'], ans:1, exp:'O (alta EN, átomo pequeno) forma ligações de H O-H···O fortes (20-25 kJ/mol). S (menor EN, átomo maior) não forma ligações de H significativas com H₂S. As forças de dispersão do H₂S são fracas. Resultado: água precisa de muito mais energia para ferver.', hint:'Ligações de hidrogênio só ocorrem com N-H, O-H e F-H.' },
+  { q:'A energia de ligação da tripla C≡C (835 kJ/mol) é maior que 3× a energia da ligação simples C-C (346 kJ/mol). Isso indica:', opts:['A ligação tripla é 2,4× mais forte que a simples, não 3×','O cálculo está errado','Ligações simples e duplas têm a mesma energia','Ligações π são mais fortes que ligações sigma'], ans:0, exp:'C-C simples: 346 kJ/mol. 3× = 1038. Mas C≡C real = 835 kJ/mol. Razão: as ligações π são mais fracas que a ligação sigma (menor sobreposição lateral dos orbitais p). A tripla ligação é mais forte, mas não linearmente.', hint:'Sigma (sobreposição frontal) > Pi (sobreposição lateral). Por isso π < σ em energia.' },
+  { q:'Qual das seguintes espécies tem estrutura com par de elétrons não-ligantes que causa geometria diferente da molecular?', opts:['CH₄ (tetrahedral)','BH₃ (trigonal plana)','NH₃ (piramidal triangular — par não-ligante no N)','BeCl₂ (linear)'], ans:2, exp:'NH₃: N tem 4 grupos (3 ligantes H + 1 par não-ligante) → geometria eletrônica tetraédrica. Mas a geometria molecular ignora o par não-ligante → piramidal triangular. O par não-ligante comprime o ângulo H-N-H para ~107° (< 109,5°).', hint:'Geometria eletrônica conta pares não-ligantes; geometria molecular, não.' },
+  { q:'Na TOM (teoria dos orbitais moleculares) do O₂, a ordem de ligação é 2 e ele é paramagnético porque:', opts:['Tem dois elétrons desemparelhados nos orbitais π* antiligantes','Tem 4 ligações sigma','Os orbitais d do O participam da ligação','Os elétrons de O₂ estão todos emparelhados'], ans:0, exp:'Diagrama TOM do O₂: (σ1s)²(σ*1s)²(σ2s)²(σ*2s)²(σ2p)²(π2p)⁴(π*2p)². Os 2 e⁻ nos dois π* degenerados ficam um em cada (Hund) → 2 e⁻ desemparelhados → paramagnetismo. Ordem ligação = (8-4)/2 = 2.', hint:'Ordem de ligação = (e⁻ ligantes - e⁻ antiligantes) / 2.' },
+  { q:'Qual é a força intermolecular predominante entre moléculas de I₂?', opts:['Ligação de hidrogênio','Dipolo permanente','Forças de dispersão de London','Ligação iônica'], ans:2, exp:'I₂ é apolar (mesma eletronegatividade em ambos os átomos). Sem dipolo permanente e sem H ligado a F/O/N. A única força é dipolo instantâneo-induzido (dispersão de London). I₂ é sólido à temperatura ambiente porque I é grande e muito polarizável → forças de London intensas.', hint:'Moléculas apolares só têm forças de dispersão de London.' },
+  { q:'A ligação metálica explica a ductilidade dos metais porque:', opts:['Os elétrons formam ligações direcionais fortes','Os cátions metálicos podem deslizar sem romper o "mar de elétrons"','Os metais têm estrutura covalente em rede','Os prótons do núcleo repelem uns aos outros permitindo deformação'], ans:1, exp:'Na ligação metálica, cátions positivos estão imersos em "mar de elétrons" deslocalizados. Ao aplicar força, os planos de cátions deslizam — os elétrons se redistribuem sem romper a ligação. Em iônico, o deslizamento aproximaria cargas iguais → repulsão → fratura.', hint:'Compara com sólido iônico: por que NaCl quebra ao ser martelado enquanto Cu achata?' }
+];
+let _exIdx = 0;
+
 export function render(outlet) {
   // Limpar loop anterior se existir
   if (_loop) { _loop.stop(); _loop = null; }
   _drag    = null;
   _molKey  = 'H2O';
   _atoms   = [];
+  _exIdx = 0;
   _exAttempts = 0;
   _exDone     = false;
 
@@ -220,6 +240,8 @@ export function render(outlet) {
   _initCanvas();
   _bindEvents();
   _initMO();
+  _initPolarity();
+  _initExercises();
   markSectionDone('chemical-bonds', 'visited');
 }
 
@@ -252,6 +274,192 @@ function _initMO() {
     Object.keys(MO_DATA).forEach(k => {
       document.getElementById('mo-tab-'+k)?.addEventListener('click', ()=>renderMO(k));
     });
+}
+
+// ---------------------------------------------------------------------------
+// Polaridade interativa
+// ---------------------------------------------------------------------------
+let _polLastField = 'b';  // próximo preset vai para b
+
+function _initPolarity() {
+  const frame  = document.getElementById('pol-frame');
+  const canvas = document.getElementById('pol-canvas');
+  if (!canvas || !frame) return;
+
+  const W   = Math.min(frame.clientWidth || 480, 480);
+  const H   = 110;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  function draw(xa, xb) {
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, W, H);
+
+    const delta = Math.abs(xa - xb);
+    // Fração de carga no átomo B (mais eletronegativo): 0 = apolar, 1 = iônico
+    const frac  = Math.min(1, delta / 3.5);  // normaliza 0-3.5
+    const cx    = W / 2, cy = H / 2;
+    const rBond = W * 0.32;
+
+    // Nuvem eletrônica (gradiente deslocado)
+    const offset = frac * rBond * 0.5;  // deslocamento em direção ao mais eletronegativo
+    const moreElec = xa >= xb ? -1 : 1; // direção do átomo mais eletronegativo
+    const cloudCx  = cx + moreElec * offset;
+
+    const grad = ctx.createRadialGradient(cloudCx, cy, 2, cloudCx, cy, rBond * 0.9);
+    grad.addColorStop(0,   `rgba(79,195,247,${0.15 + frac * 0.25})`);
+    grad.addColorStop(0.5, `rgba(79,195,247,${0.08 + frac * 0.12})`);
+    grad.addColorStop(1,   'rgba(79,195,247,0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.ellipse(cloudCx, cy, rBond * 0.9, H * 0.38, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Ligação
+    const ax = cx - rBond * 0.7, bx = cx + rBond * 0.7;
+    const bondType = delta < 0.4 ? 'apolar' : delta < 1.7 ? 'polar' : 'iônica';
+    ctx.strokeStyle = bondType === 'iônica' ? '#ef476f99' : 'rgba(200,200,200,0.4)';
+    ctx.lineWidth   = 2.5;
+    ctx.setLineDash(bondType === 'iônica' ? [6,4] : []);
+    ctx.beginPath(); ctx.moveTo(ax, cy); ctx.lineTo(bx, cy); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Átomos
+    const rA = 16 + xa * 3, rB = 16 + xb * 3;
+    [[ax, xa, '#ffd166', 'A'], [bx, xb, '#4fc3f7', 'B']].forEach(([x, chi, col, lbl]) => {
+      ctx.beginPath();
+      ctx.arc(x, cy, 16 + chi * 3, 0, Math.PI * 2);
+      ctx.fillStyle = col + 'cc';
+      ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(lbl, x, cy);
+      ctx.textBaseline = 'alphabetic';
+      // chi label
+      ctx.fillStyle = col;
+      ctx.font = '9px sans-serif';
+      ctx.fillText('χ=' + chi.toFixed(2), x, cy - 22 - chi * 3);
+    });
+
+    // Dipole arrow (if polar)
+    if (delta >= 0.4) {
+      const arrowDir = xa >= xb ? -1 : 1;  // aponta para mais eletroneg.
+      const arrowLen = Math.min(rBond * 0.5, delta * 18);
+      const arrowX   = cx + arrowDir * arrowLen / 2;
+      ctx.strokeStyle = '#6bcb77bb';
+      ctx.lineWidth   = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx - arrowDir * arrowLen / 2, cy + 24);
+      ctx.lineTo(arrowX, cy + 24);
+      ctx.stroke();
+      // arrowhead
+      ctx.fillStyle = '#6bcb77bb';
+      ctx.beginPath();
+      ctx.moveTo(arrowX, cy + 20);
+      ctx.lineTo(arrowX + arrowDir * 8, cy + 24);
+      ctx.lineTo(arrowX, cy + 28);
+      ctx.fill();
+      ctx.fillStyle = '#6bcb77';
+      ctx.font = '8px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('μ', cx, cy + 36);
+    }
+  }
+
+  function update() {
+    const xa    = parseFloat(document.getElementById('pol-xa')?.value ?? 2.5);
+    const xb    = parseFloat(document.getElementById('pol-xb')?.value ?? 0.9);
+    const delta = Math.abs(xa - xb);
+    let type, color;
+    if      (delta < 0.4)  { type = 'Apolar covalente'; color = 'var(--accent-organic)'; }
+    else if (delta < 1.7)  { type = 'Polar covalente';  color = 'var(--accent-electron)'; }
+    else                   { type = 'Iônica';            color = 'var(--accent-reaction)'; }
+
+    const mu = delta < 0.4 ? '≈ 0' : (delta * 0.95).toFixed(2);  // estimativa grosseira
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    document.getElementById('pol-xa-val').textContent = xa.toFixed(2);
+    document.getElementById('pol-xb-val').textContent = xb.toFixed(2);
+    set('pol-delta', delta.toFixed(2));
+    const typeEl = document.getElementById('pol-type');
+    if (typeEl) { typeEl.textContent = type; typeEl.style.color = color; }
+    set('pol-mu', mu);
+    draw(xa, xb);
+  }
+
+  document.getElementById('pol-xa')?.addEventListener('input', update);
+  document.getElementById('pol-xb')?.addEventListener('input', update);
+
+  // Presets de elementos
+  document.querySelectorAll('[data-chi]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chi = btn.dataset.chi;
+      const target = _polLastField === 'a' ? 'pol-xb' : 'pol-xa';
+      const targetOut = _polLastField === 'a' ? 'pol-xb-val' : 'pol-xa-val';
+      _polLastField = _polLastField === 'a' ? 'b' : 'a';
+      const sl = document.getElementById(target);
+      if (sl) { sl.value = chi; }
+      update();
+    });
+  });
+
+  update();
+}
+
+// ---------------------------------------------------------------------------
+// Multi-exercise system
+// ---------------------------------------------------------------------------
+function _initExercises() {
+  function loadExercise(idx) {
+    const ex = EXERCISES[idx]; if (!ex) return;
+    _exAttempts = 0; _exDone = false;
+    const qEl = document.getElementById('ex-question');
+    const cEl = document.getElementById('ex-counter');
+    const fb  = document.getElementById('exercise-feedback');
+    const nx  = document.getElementById('ex-next');
+    if (qEl) qEl.textContent = ex.q;
+    if (cEl) cEl.textContent = idx + 1;
+    if (fb)  fb.innerHTML = '';
+    if (nx)  nx.style.display = 'none';
+    const optsEl = document.getElementById('ex-options');
+    if (!optsEl) return;
+    optsEl.innerHTML = ex.opts.map((opt, i) =>
+      `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
+    ).join('');
+    optsEl.querySelectorAll('[data-exopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (_exDone) return;
+        _exAttempts++;
+        const choice = parseInt(btn.dataset.exopt, 10);
+        const fb2 = document.getElementById('exercise-feedback');
+        if (choice === ex.ans) {
+          _exDone = true;
+          btn.style.borderColor = 'var(--accent-organic)';
+          btn.style.color       = 'var(--accent-organic)';
+          if (fb2) fb2.innerHTML = `<p class="feedback-correct">Correto! ${esc(ex.exp)}</p>`;
+          markSectionDone('chemical-bonds', 'exercise');
+          const nxBtn = document.getElementById('ex-next');
+          if (nxBtn && idx < EXERCISES.length - 1) nxBtn.style.display = 'inline-flex';
+        } else {
+          btn.style.borderColor = 'var(--accent-reaction)';
+          btn.style.color       = 'var(--accent-reaction)';
+          if (fb2 && _exAttempts === 1) fb2.innerHTML = `<p class="feedback-hint">Dica: ${esc(ex.hint)}</p>`;
+        }
+      });
+    });
+  }
+  loadExercise(_exIdx);
+  document.getElementById('ex-next')?.addEventListener('click', () => {
+    _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
+    loadExercise(_exIdx);
+  });
 }
 
 export function destroy() {
@@ -287,12 +495,31 @@ function _buildHTML() {
     <!-- Teoria de Orbitais Moleculares (TOM) -->
   <section class="module-section">
     <h2 class="module-section-title">Teoria dos Orbitais Moleculares (TOM)</h2>
-    <p class="module-text">Enquanto a Teoria de Lewis descreve ligações como pares de elétrons localizados, a TOM trata os elétrons como ondas espalhadas por toda a molécula. Orbitais atômicos se combinam por combinação linear (LCAO) formando orbitais moleculares ligantes (menor energia) e antiligantes (maior energia, assinalado com *).</p>
+    <p class="module-text">
+      Enquanto a Teoria de Lewis descreve ligações como pares de elétrons localizados,
+      a TOM trata os elétrons como ondas que se estendem por toda a molécula. Orbitais
+      atômicos se combinam por combinação linear (LCAO) quando têm <em>energia compatível</em>
+      e <em>simetria compatível</em>, formando dois orbitais moleculares: um
+      <strong>ligante</strong> (combinação construtiva — menor energia, elétron entre os
+      núcleos, estabiliza a ligação) e um <strong>antiligante</strong> (combinação destrutiva,
+      indicado com *, maior energia, desestabiliza). A ordem de ligação é
+      (e⁻ ligantes - e⁻ antiligantes)/2.
+    </p>
+    <p class="module-text">
+      O poder preditivo da TOM vai além da Lewis: explica o paramagnetismo do O₂
+      (dois elétrons desemparelhados nos orbitais π* degenrados — imprevisível pela Lewis),
+      a existência de He₂⁺ (ordem de ligação 0,5) e a extrema estabilidade do N₂
+      (tripla ligação, ordem 3, HOMO-LUMO gap de 10,8 eV). O HOMO (Highest Occupied MO)
+      e o LUMO (Lowest Unoccupied MO) determinam a reatividade: o HOMO doa elétrons
+      (base de Lewis/nucleófilo) e o LUMO os aceita (ácido de Lewis/eletrófilo).
+      A diferença HOMO-LUMO determina a cor: benzeno absorve UV (~270 nm); β-caroteno
+      absorve azul (~450 nm, HOMO-LUMO pequeno por cadeia conjugada longa).
+    </p>
 
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:1rem">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">Ordem de ligação</h3>
-        <p style="font-family:monospace;font-size:var(--text-sm)">OL = (e⁻ lig − e⁻ antilig) / 2</p>
+        <p style="font-family:monospace;font-size:var(--text-sm)">OL = (e⁻ lig - e⁻ antilig) / 2</p>
         <p style="font-size:var(--text-sm);margin-top:.4rem">OL = 0: molécula não existe (He₂). OL = 1: ligação simples (H₂). OL = 2: dupla (O₂). OL = 3: tripla (N₂). Maior OL = ligação mais curta e forte.</p>
       </div>
       <div class="info-card">
@@ -332,6 +559,16 @@ function _buildHTML() {
 
   <section class="module-section">
     <h2 class="module-section-title">Polaridade e dipolos</h2>
+    <p class="module-text">
+      Uma ligação covalente é polar quando os dois átomos têm eletronegatividades diferentes:
+      o mais eletronegativo atrai a densidade eletrônica, criando uma distribuição assimétrica
+      de carga. A polaridade da <em>ligação</em> não implica polaridade da <em>molécula</em>:
+      o CO₂ tem duas ligações C=O polares, mas os dipolos são antiparalelos e se cancelam —
+      a molécula é apolar (D∞h). O H₂O tem duas ligações O–H polares e dipolos que
+      <em>não</em> se cancelam (ângulo H-O-H ≈ 104,5°) — molécula polar (μ = 1,85 D).
+      Critério: molécula apolar se tem centro de inversão i OU todos os dipolos de ligação
+      se cancelam por simetria.
+    </p>
     <div class="info-card">
       <h3>O que determina a polaridade de uma molécula?</h3>
       <p>Dois fatores em conjunto: a <strong>polaridade das ligações</strong> (diferença de
@@ -405,6 +642,16 @@ function _buildHTML() {
   <section class="module-section">
     <h2 class="module-section-title">Forças intermoleculares</h2>
     <p class="module-text">
+      As forças intermoleculares (FIM) são fundamentalmente interações eletrostáticas entre
+      distribuições de carga permanentes ou induzidas. Elas determinam pontos de fusão,
+      ebulição, solubilidade, viscosidade e tensão superficial. Em ordem crescente de energia:
+      dispersão de London (0,5–40 kJ/mol) &lt; Debye/indução (1–10 kJ/mol) &lt;
+      dipolo-dipolo Keesom (3–25 kJ/mol) &lt; ligação de hidrogênio (10–40 kJ/mol) &lt;
+      interações íon-dipolo (40–600 kJ/mol) &lt; iônicas (150–1000 kJ/mol).
+      Ligações de H são mais fortes que outras FIM pelo tamanho diminuto do H (alta densidade
+      de carga), distância curta N/O/F–H e orientação direcional.
+    </p>
+    <p class="module-text">
       As propriedades físicas de substâncias (PE, PF, viscosidade, solubilidade) dependem
       das <strong>forças intermoleculares</strong> — interações entre moléculas distintas,
       sempre mais fracas que ligações covalentes internas. Moléculas polares e com LH
@@ -464,11 +711,11 @@ function _buildHTML() {
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-reaction)">Anomalia da água</h3>
-        <p style="font-size:var(--text-sm)">H₂O tem PE de 100°C — muito acima do esperado para Mm=18 (compare: H₂S Mm=34, PE=−60°C). A rede tridimensional de LH, com cada molécula podendo fazer até 4 LH (2 como doadora, 2 como aceitadora), eleva dramaticamente a energia coesiva.</p>
+        <p style="font-size:var(--text-sm)">H₂O tem PE de 100°C — muito acima do esperado para Mm=18 (compare: H₂S Mm=34, PE=-60°C). A rede tridimensional de LH, com cada molécula podendo fazer até 4 LH (2 como doadora, 2 como aceitadora), eleva dramaticamente a energia coesiva.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">London cresce com Mm</h3>
-        <p style="font-size:var(--text-sm)">Moléculas maiores têm mais elétrons → polarizabilidade maior → dipolo instantâneo maior → London mais forte. Ex: noble gases: He(−269°C) &lt; Ne(−246°C) &lt; Ar(−186°C) &lt; Kr(−153°C) &lt; Xe(−108°C). Halogênios: F₂(−188°C) → I₂(+184°C).</p>
+        <p style="font-size:var(--text-sm)">Moléculas maiores têm mais elétrons → polarizabilidade maior → dipolo instantâneo maior → London mais forte. Ex: noble gases: He(-269°C) &lt; Ne(-246°C) &lt; Ar(-186°C) &lt; Kr(-153°C) &lt; Xe(-108°C). Halogênios: F₂(-188°C) → I₂(+184°C).</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">Solubilidade: "like dissolves like"</h3>
@@ -479,9 +726,9 @@ function _buildHTML() {
 
 
   <section class="module-section">
-    <h2 class="module-section-title">Exercício Guiado</h2>
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
     <div class="exercise-card">
-      <p class="exercise-question">
+      <p class="exercise-question" id="ex-question">
         O <strong>CO₂</strong> possui ligações covalentes polares (C–O).
         Por que a molécula como um todo é classificada como <strong>apolar</strong>?
       </p>
@@ -494,6 +741,7 @@ function _buildHTML() {
         ].map(o => `<button class="exercise-option" data-answer="${esc(o)}">${esc(o)}</button>`).join('')}
       </div>
       <div class="hint-box" id="cb-ex-hint"></div>
+    <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
       <div class="exercise-feedback" id="cb-ex-feedback"></div>
       <div class="exercise-actions">
         <button class="btn btn-secondary btn-sm" id="cb-btn-hint">Usar dica</button>

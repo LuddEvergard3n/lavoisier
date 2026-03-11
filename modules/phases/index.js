@@ -4,7 +4,7 @@
  *
  * Cobre Graduação 1º/2º ano:
  *  - Diagrama de fases P×T: linhas de equilíbrio, ponto triplo, ponto crítico
- *  - Cláusio-Clapeyron: ln(P₂/P₁) = −ΔHvap/R × (1/T₂ − 1/T₁)
+ *  - Cláusio-Clapeyron: ln(P₂/P₁) = -ΔHvap/R × (1/T₂ - 1/T₁)
  *  - Diagrama de fases da água (anomalia: inclinação negativa s/l)
  *  - Diagrama de fases do CO₂ (ponto crítico acessível)
  *  - Soluções binárias: diagrama P×x (Raoult), diagrama T×x ebulição
@@ -55,8 +55,8 @@ const EXERCISES = [
     q: 'Segundo a equação de Clausius-Clapeyron, se a pressão de vapor de uma substância é 1 atm a 100°C e ΔHvap = 40,7 kJ/mol, qual a pressão de vapor a 120°C?',
     opts: ['≈ 1,5 atm', '≈ 2,0 atm', '≈ 0,5 atm', '≈ 3,0 atm'],
     ans: 1,
-    exp: 'ln(P₂/P₁) = −(ΔHvap/R)·(1/T₂ − 1/T₁) = −(40700/8.314)·(1/393 − 1/373) ≈ −4893·(−0,000137) ≈ +0,670. P₂/P₁ = e^0,670 ≈ 1,95 ≈ 2,0 atm.',
-    hint: 'Aplique ln(P₂/P₁) = −(ΔHvap/R)·(1/T₂ − 1/T₁). Converta T para Kelvin.',
+    exp: 'ln(P₂/P₁) = -(ΔHvap/R)·(1/T₂ - 1/T₁) = -(40700/8.314)·(1/393 - 1/373) ≈ -4893·(-0,000137) ≈ +0,670. P₂/P₁ = e^0,670 ≈ 1,95 ≈ 2,0 atm.',
+    hint: 'Aplique ln(P₂/P₁) = -(ΔHvap/R)·(1/T₂ - 1/T₁). Converta T para Kelvin.',
   },
   {
     q: 'O ponto triplo da água está em 273,16 K e 611,7 Pa. O que ocorre com um sistema de água pura nessas condições exatas?',
@@ -67,16 +67,29 @@ const EXERCISES = [
       'O sistema é monofásico',
     ],
     ans: 1,
-    exp: 'O ponto triplo é a única combinação de T e P onde três fases coexistem em equilíbrio. É invariante (grau de liberdade = 0, pela regra das fases de Gibbs: F = C − P + 2 = 1 − 3 + 2 = 0).',
-    hint: 'Regra de Gibbs: F = C − P + 2. Com 1 componente e 3 fases, quantos graus de liberdade?',
+    exp: 'O ponto triplo é a única combinação de T e P onde três fases coexistem em equilíbrio. É invariante (grau de liberdade = 0, pela regra das fases de Gibbs: F = C - P + 2 = 1 - 3 + 2 = 0).',
+    hint: 'Regra de Gibbs: F = C - P + 2. Com 1 componente e 3 fases, quantos graus de liberdade?',
   },
   {
     q: 'Uma mistura ideal de benzeno (P* = 100 mmHg) e tolueno (P* = 30 mmHg) tem x_benzeno = 0,6. Qual a pressão total de vapor (Lei de Raoult)?',
     opts: ['72 mmHg', '65 mmHg', '130 mmHg', '78 mmHg'],
     ans: 0,
     exp: 'P_total = x_benz · P*_benz + x_tol · P*_tol = 0,6·100 + 0,4·30 = 60 + 12 = 72 mmHg. Lei de Raoult para mistura ideal.',
-    hint: 'P_total = Σ xᵢ · P*ᵢ. Calcule x_tolueno = 1 − x_benzeno.',
+    hint: 'P_total = Σ xᵢ · P*ᵢ. Calcule x_tolueno = 1 - x_benzeno.',
   },
+
+  { q: 'No ponto triplo da água (273,16 K, 611 Pa), coexistem:', opts: ['Só sólido e líquido','Só líquido e vapor','Sólido, líquido e vapor simultaneamente','Só sólido e vapor'], ans: 2, exp: 'Ponto triplo: F = C - P + 2 = 1 - 3 + 2 = 0. T e P são fixos; as três fases coexistem em equilíbrio.', hint: 'Regra das fases: F=0 significa que não há grau de liberdade — T e P são fixos.' },
+  { q: 'A inclinação negativa da curva de fusão da água significa que:', opts: ['Água congela mais fácil com pressão','Pressão aumenta abaixa o ponto de fusão — gelo funde sob pressão','Temperatura de ebulição cai','O ponto triplo sobe'], ans: 1, exp: 'Gelo é menos denso que água (0,917 vs 1,000 g/cm³). Pressão favorece a fase mais densa → favorece fusão. Inclinação dP/dT < 0.', hint: 'Clausius-Clapeyron: dP/dT = ΔS/ΔV. Se ΔV_fusão < 0 (gelo → água), qual o sinal de dP/dT?' },,
+  { q:'No diagrama de fases da água, a curva de fusão tem inclinação negativa (dP/dT < 0). Isso implica que:', opts:['O gelo flutua na água porque tem menor densidade que a água líquida','O gelo derrete sob pressão — pressão extra favorece a fase menos densa (líquida)','A água solidifica mais fácil que outros líquidos','O ponto triplo está acima de 1 atm'], ans:1, exp:'Clapeyron: dP/dT = ΔHfus/(TΔV). Para água, ΔVfus < 0 (gelo menos denso que água) → dP/dT < 0. Pressão extra força a transição para o líquido (mais denso). Por isso patinação no gelo é possível: a pressão do gume funde uma fina camada. É exceção — quase todos os sólidos são mais densos que seus líquidos.', hint:'Água: gelo menos denso que líquido → curva fusão com inclinação negativa → pressão desfaz o sólido.' },
+  { q:'A regra de fases de Gibbs: F = C - P + 2. Para 1 componente (C=1) com 2 fases (P=2) coexistindo:', opts:['F=2 — temperatura e pressão livres','F=1 — apenas T ou P pode variar (a outra é determinada)','F=0 — ponto triplo','F=3'], ans:1, exp:'F = 1 - 2 + 2 = 1. Uma variável intensiva (T ou P) é livre; a outra é determinada pela curva de coexistência. Por isso ao ferver água a 1 atm, T fica em 100°C — não pode variar enquanto há coexistência líquido-vapor a pressão fixada.', hint:'F = C - P + 2. Mais fases coexistentes = menos graus de liberdade.' },
+  { q:'A destilação azeotrópica é necessária para separar etanol de água acima de ~96% porque:', opts:['Acima de 96% o etanol fica sólido','Etanol-água forma azeótropo a 95,6%: a mistura ferve como se fosse componente puro, sem enriquecimento','A água boila primeiro que o etanol a 1 atm','O etanol puro não tem ponto de ebulição definido'], ans:1, exp:'Azeótropo: mistura com composição em que líquido e vapor têm a mesma composição → não há enriquecimento por destilação. EtOH/água a 95,6% en massa = azeótropo mínimo (Pb = 78,1°C). Para obter etanol anidro, usa-se dessecante (CaO), destilação com benzeno, ou membranas.', hint:'Azeótropo: líquido e vapor têm mesma composição → destilação não funciona mais.' },
+  { q:'O fenômeno de super-resfriamento ocorre quando:', opts:['Um gás é comprimido abaixo do ponto de orvalho','Líquido é resfriado abaixo de seu ponto de fusão sem solidificar (estado metaestável)','Sólido sublima diretamente sem fundir','Gás se condensa abruptamente'], ans:1, exp:'Super-resfriamento: líquido muito puro e livre de nucleadores pode ser resfriado abaixo de Tf sem cristalizar. Estado metaestável. Ao adicionar cristal-semente ou sacudir, cristaliza instantaneamente com liberação de calor (calor latente). Usado em bolsas de calor reutilizáveis (acetato de sódio).', hint:'Nucleação é necessária para cristalizar. Sem nucleadores: super-resfriamento possível.' },
+  { q:'Na solidificação de misturas (diagrama binário), o ponto eutético é:', opts:['O ponto de ebulição mais alto','A composição e temperatura em que líquido e dois sólidos coexistem com F=0','O ponto de fusão mais alto possível','Onde os dois sólidos têm a mesma composição'], ans:1, exp:'Eutético: F = C - P + 1 = 2 - 3 + 1 = 0 (a pressão costante, +1). Dois componentes (C=2), três fases (líquido + 2 sólidos): F=0, ponto invariante. Exemplo: Au-Si eutético a 363°C/19% Si (usado em eletrônica). Liga de solda 63Sn-37Pb: eutético a 183°C.', hint:'Eutético: C=2, P=3, F=0. Ponto invariante — T e composição fixas.' },
+  { q:'A variação de entalpia de vaporização da água (ΔHvap = 44 kJ/mol a 25°C) é maior que a de fusão (6 kJ/mol) porque:', opts:['A água ferve em temperatura maior','Vaporização remove todas as ligações intermoleculares (leva ao gás); fusão só desfaz parte das LH do gelo','O vapor é mais pesado que o líquido','A pressão externa faz mais trabalho na vaporização'], ans:1, exp:'No gelo, ~90% das LH do cristal se mantêm na fusão (líquido ainda tem LH). Na vaporização (líquido → vapor), todas as interações intermoleculares são rompidas → muito mais energia necessária. ΔHvap >> ΔHfus é geral para líquidos associados.', hint:'Fusão: parcialmente desfaz a estrutura. Vaporização: rompe todas as interações.' },
+  { q:'O fenômeno de "ebulição nucleada" e "ebulição de filme" diferem em eficiência de transferência de calor porque:', opts:['Ebulição de filme é sempre mais eficiente','Na ebulição nucleada, bolhas formam e saem rapidamente, renovando o contato liquido-superfície; no filme, uma camada de vapor isola a superfície','São equivalentes acima de 100°C','Apenas a nucleada ocorre em laboratório'], ans:1, exp:'Abaixo da temperatura de Leidenfrost: ebulição nucleada. Acima: forma-se camada de vapor (ebulição de filme) que isola termicamente a superfície — paradoxalmente transfere menos calor. Efeito Leidenfrost: gota de água sobre superfície >200°C flutua sobre vapor → não ferve rapidamente.', hint:'Efeito Leidenfrost: camada de vapor isola. Gota flutua e demora para evaporar.' },
+  { q:'O CO₂ supercrítico (acima de 31°C e 73 atm) é usado industrialmente porque:', opts:['É radioativo e esteriliza o produto','Tem propriedades de solvente ajustáveis com pressão e nenhum resíduo ao despressurizar','Reage com todos os polares','É mais barato que todos os solventes orgânicos'], ans:1, exp:'CO₂ supercrítico: densiadade e capacidade de solvente ajustáveis por T e P. Ao despressurizar → CO₂ vira gás → sem resíduo de solvente. Aplicações: descafeinação, extração de lúpulo, cromatografia SFC, limpeza a seco ecológica.', hint:'Fluido supercrítico: acima de Tc e Pc. Propriedades intermediárias entre gás e líquido. CO₂: "verde", sem resíduo.' },
+  { q:'Na lei de Clausius-Clapeyron: ln(P₂/P₁) = -ΔHvap/R × (1/T₂ - 1/T₁), se a 100°C (373K) P=1 atm e ΔHvap = 40,7 kJ/mol, qual é a P a 120°C (393K)?', opts:['~1,5 atm','~2,0 atm','~3,0 atm','~0,5 atm'], ans:1, exp:'ln(P₂/1) = -40700/8,314 × (1/393 - 1/373) = -4895 × (-1,36×10⁻⁴) = 0,666. P₂ = e^0,666 ≈ 1,95 ≈ 2,0 atm. Usar autoclave a 120°C necessita ~2 atm de pressão.', hint:'Clausius-Clapeyron: ln(P₂/P₁) = (ΔHvap/R)(1/T₁ - 1/T₂). R=8,314.' },
+  { q:'A transição vidro (glass transition) do polímero difere da fusão porque:', opts:['A temperatura de vidro é sempre maior que a de fusão','Tg é transição de 2ª ordem (sem descontinuidade em entalpia); Tf é transição de 1ª ordem (entalpia descontinua, calor latente)','Vidro é exclusivo de sílica (SiO₂)','Acima de Tg, o polímero vira gás'], ans:1, exp:'Fusão (1ª ordem): descontinuidade em H, V, S — há calor latente. Tg (vidro, 2ª ordem): sem descontinuidade em H — apenas mudança na Cp, α, etc. Abaixo de Tg: vidro rígido (movimento segmental bloqueado). Acima: borracha ou fundido. PET: Tg ≈ 80°C, Tf ≈ 265°C.', hint:'1ª ordem: calor latente, V muda abruptamente. 2ª ordem: sem calor latente, Cp muda.' }
 ];
 
 let _subKey   = 'water';
@@ -128,10 +141,27 @@ function _buildHTML() {
       pura é termodinamicamente estável. As <strong>linhas de equilíbrio</strong> separam as
       regiões e indicam coexistência de duas fases. Dois pontos especiais definem a topologia:
     </p>
+    <p class="module-text">
+      As três fases da matéria diferem essencialmente na relação entre energia cinética
+      molecular (kT) e a energia das forças intermoleculares (ε). Em sólidos, kT &lt;&lt; ε:
+      moléculas vibram em posições fixas. Em líquidos, kT ~ ε: moléculas se movem mas
+      permanecem próximas (coesão mantida). Em gases, kT &gt;&gt; ε: moléculas se movem
+      independentemente. As transições de fase ocorrem quando a temperatura (ou pressão)
+      altera essa relação — não abruptamente no nível molecular, mas com nucleação e
+      crescimento de nova fase.
+    </p>
+    <p class="module-text">
+      A <strong>regra das fases de Gibbs</strong> descreve o número de variáveis independentes
+      (graus de liberdade F) de um sistema em equilíbrio:
+      <strong>F = C - P + 2</strong>, onde C = número de componentes e P = número de fases.
+      Para a água pura (C=1): ao longo de uma curva de equilíbrio líquido-vapor (P=2),
+      F = 1-2+2 = 1 — apenas T <em>ou</em> p podem ser variados independentemente.
+      No ponto triplo (P=3), F = 0 — temperatura e pressão são fixas (273,16 K; 611,7 Pa).
+    </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-electron)">Ponto triplo</h3>
-        <p style="font-size:var(--text-sm)">Única T e P onde sólido, líquido e gás coexistem. Invariante: F = C − P + 2 = 1 − 3 + 2 = <strong>0</strong> graus de liberdade.</p>
+        <p style="font-size:var(--text-sm)">Única T e P onde sólido, líquido e gás coexistem. Invariante: F = C - P + 2 = 1 - 3 + 2 = <strong>0</strong> graus de liberdade.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-reaction)">Ponto crítico</h3>
@@ -139,7 +169,7 @@ function _buildHTML() {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-bond)">Regra das fases de Gibbs</h3>
-        <p style="font-size:var(--text-sm)">F = C − P + 2. F = graus de liberdade, C = componentes, P = fases. Numa fase (P=1): F=2 (T e P livres). Na coexistência de duas fases: F=1. No ponto triplo: F=0.</p>
+        <p style="font-size:var(--text-sm)">F = C - P + 2. F = graus de liberdade, C = componentes, P = fases. Numa fase (P=1): F=2 (T e P livres). Na coexistência de duas fases: F=1. No ponto triplo: F=0.</p>
       </div>
       <div class="info-card">
         <h3 style="margin-top:0;color:var(--accent-organic)">Linhas de equilíbrio</h3>
@@ -158,13 +188,13 @@ function _buildHTML() {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-base);color:var(--accent-electron);margin-bottom:.5rem">
-        ln(P₂/P₁) = −(ΔH<sub>vap</sub>/R) × (1/T₂ − 1/T₁)
+        ln(P₂/P₁) = -(ΔH<sub>vap</sub>/R) × (1/T₂ - 1/T₁)
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         P₁, P₂ = pressões de vapor em T₁ e T₂ (mesmas unidades)<br>
         ΔH<sub>vap</sub> = entalpia de vaporização (J/mol)<br>
         R = 8,314 J/(mol·K) &nbsp;|&nbsp; T em Kelvin<br>
-        <em>Plot de ln P vs 1/T gera reta com inclinação −ΔH<sub>vap</sub>/R</em>
+        <em>Plot de ln P vs 1/T gera reta com inclinação -ΔH<sub>vap</sub>/R</em>
       </p>
     </div>
 
@@ -218,6 +248,16 @@ function _buildHTML() {
   <section class="module-section">
     <h2 class="module-section-title">Diagrama de fases — interativo</h2>
     <p class="module-text">
+      O diagrama de fases mapeia o estado termodinâmico estável de uma substância em
+      função de temperatura e pressão. As curvas de equilíbrio delimitam regiões de fase:
+      a <strong>curva de sublimação</strong> (sólido-vapor), a <strong>curva de fusão</strong>
+      (sólido-líquido) e a <strong>curva de vaporização</strong> (líquido-vapor).
+      A inclinação da curva de fusão é positiva para a maioria das substâncias (pressão aumenta
+      o ponto de fusão), mas <em>negativa para a água</em> — o gelo é menos denso que a
+      água líquida (densidade 0,917 vs 1,000 g/cm³), então compressão favorece a fusão.
+      Isso permite a patinação no gelo e é crucial para a geologia glacial.
+    </p>
+    <p class="module-text">
       Selecione a substância e mova os sliders para explorar regiões do diagrama de fases.
       O ponto vermelho indica as condições escolhidas e a fase termodinamicamente estável.
     </p>
@@ -252,6 +292,16 @@ function _buildHTML() {
   ============================================================ -->
   <section class="module-section">
     <h2 class="module-section-title">Lei de Raoult — soluções ideais</h2>
+    <p class="module-text">
+      A Lei de Raoult expressa que a pressão de vapor parcial de um componente volátil
+      em uma solução ideal é proporcional à sua fração molar: P_A = x_A · P°_A.
+      A solução é <em>ideal</em> quando as interações A–B são iguais às interações A–A e B–B
+      — caso típico de moléculas muito semelhantes (benzeno + tolueno, hexano + heptano).
+      Desvios positivos (P_total &gt; P_Raoult) ocorrem quando A–B é mais fraca que A–A e B–B
+      (exemplo: etanol + água), podendo levar a azeótropos de mínimo. Desvios negativos
+      (P_total &lt; P_Raoult) ocorrem quando A–B é mais forte — clorofórmio + acetona
+      (ligação H entre Cl e C=O). Azeótropos impossibilitam separação por destilação simples.
+    </p>
     <p class="module-text">
       Para soluções <strong>ideais</strong> (interações A-A ≈ A-B ≈ B-B):
       a pressão parcial de vapor de cada componente é proporcional à sua fração molar e

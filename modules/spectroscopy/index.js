@@ -105,7 +105,7 @@ const MS_MOLECULES = [
     M: 60,
     peaks: [
       { mz: 60,  rel: 20,  label: 'M⁺• (íon molecular)' },
-      { mz: 45,  rel: 100, label: 'M−15 (perde CH₃)' },
+      { mz: 45,  rel: 100, label: 'M-15 (perde CH₃)' },
       { mz: 43,  rel: 80,  label: 'CH₃CO⁺ / C₃H₇⁺' },
       { mz: 31,  rel: 15,  label: 'CHO⁺ / CH₂OH⁺' },
       { mz: 27,  rel: 30,  label: 'C₂H₃⁺' },
@@ -117,7 +117,7 @@ const MS_MOLECULES = [
     M: 72,
     peaks: [
       { mz: 72,  rel: 30,  label: 'M⁺•' },
-      { mz: 57,  rel: 100, label: 'M−15 (perde CH₃) → RC≡O⁺' },
+      { mz: 57,  rel: 100, label: 'M-15 (perde CH₃) → RC≡O⁺' },
       { mz: 43,  rel: 90,  label: 'CH₃C≡O⁺ (acílio)' },
       { mz: 29,  rel: 40,  label: 'C₂H₅⁺' },
     ],
@@ -180,6 +180,19 @@ const EXERCISES = [
     exp: 'Bromo tem dois isótopos estáveis: ⁷⁹Br (50,5%) e ⁸¹Br (49,5%) — proporção quase 1:1. Isso gera dois picos M e M+2 de intensidades iguais, padrão isotópico diagnóstico. Cloro tem padrão M:M+2 ≈ 3:1 (⁳⁵Cl 75%, ³⁷Cl 25%).',
     hint: 'Dois picos separados por 2 unidades de massa com intensidades iguais — qual elemento tem dois isótopos em proporção 1:1?',
   },
+
+  { q: 'Um CH₂ ao lado de C=O aparece em RMN ¹H a δ ≈ 2,5 ppm. Por quê é desblindado?', opts: ['Efeito de anel benzênico','Efeito indutivo do C=O — retira densidade eletrônica do CH₂','Campo magnético interno mais forte','Presença de halogênio'], ans: 1, exp: 'O grupo C=O é fortemente retirador de elétrons por indução. Menos densidade eletrônica no CH₂ → campo externo necessário menor → δ maior (desblindado).', hint: 'Grupos retiradores de elétrons próximos aumentam ou diminuem o deslocamento químico δ?' },
+  { q: 'Na espectrometria de massa, o pico do íon molecular M⁺ representa:', opts: ['O fragmento mais abundante','A molécula que perdeu um elétron mas permanece intacta','O fragmento mais leve','O produto de recombinação'], ans: 1, exp: 'M⁺ (ou M•⁺): molécula original ionizada por perda de um elétron. m/z = M_molecular. A abundância relativa depende da estabilidade do radical cátion.', hint: 'M⁺ é a molécula inteira menos um elétron. O que isso diz sobre m/z?' },,
+  { q:'No espectro IV, a banda em ~1715 cm⁻¹ é característica de:', opts:['O-H livre de álcool','C=O de cetona (estiramento carbonílico)','C-H sp³','N-H de amina primária'], ans:1, exp:'A banda do estiramento C=O é a mais intensa e diagnóstica no IV. Cetona: ~1715 cm⁻¹. Aldeído: ~1725. Éster: ~1735. Ácido: ~1710. Amida: ~1680. Arilcetona: ~1680 (conjugação abaixa a frequência).', hint:'C=O cetona: ~1715 cm⁻¹. Mais conjugação = frequência mais baixa.' },
+  { q:'Um espectro de RMN ¹H mostra um tripleto a δ 1,2 ppm (3H) e um quarteto a δ 3,5 ppm (2H). Qual o fragmento mais provável?', opts:['-CH₂-CH₃ como em éster etílico (EtO-)','Dois CH₃ isolados','Anel aromático','Aldeído'], ans:0, exp:'Tripleto (n+1=3 → n=2 vizinhos) para 3H = CH₃ com 2H vizinhos. Quarteto (n+1=4 → n=3 vizinhos) para 2H = CH₂ com 3H vizinhos. O fragmento -CH₂CH₃ (etil) dá exatamente quarteto+tripleto. Em etanol ou ésteres etílicos, δ(CH₂) ≈ 3-4 ppm.', hint:'Multiplicidade = n+1 onde n = n° de H vizinhos. Tripleto → 2 vizinhos.' },
+  { q:'Na espectroscopia UV-Vis, uma solução com absorbância A=0,30 transmite que porcentagem de luz?', opts:['30%','70%','50%','~50%'], ans:2, exp:'A = -log(T). T = 10^(-A) = 10^(-0,30) = 0,501 ≈ 50%. Absorbância 0,30 = transmitância 50%. A escala log de absorbância comprime valores: A=1 → T=10%; A=2 → T=1%.', hint:'T = 10^(-A). A = -log(T). A=0,3: T = 10^(-0,3) ≈ 0,5 = 50%.' },
+  { q:'O deslocamento químico δ no RMN ¹H de um H em anel aromático (~7-8 ppm) é maior que de H alifático (~1 ppm) porque:', opts:['Carbonos sp² são maiores','A corrente de anel diamagnética dos elétrons π desblinda os H externos ao anel','H aromático tem mais ligações de H','O anel absorve campos mais fortes'], ans:1, exp:'Corrente de anel: o campo magnético externo induz circulação dos elétrons π do benzeno, gerando campo secundário. Fora do anel (onde estão os H): campo secundário somado ao externo → desblindagem → δ maior. Dentro do anel ou acima/abaixo: blindagem → δ menor (ex: [18]anuleno interno: δ=-3 ppm).', hint:'Corrente de anel: H fora do anel = desblindado (δ alto). H dentro = blindado (δ baixo).' },
+  { q:'A espectroscopia de massa determina a fórmula molecular de compostos orgânicos porque:', opts:['Fragmenta apenas ligações C-C','O pico do íon molecular M⁺ dá a massa molar exata; com alta resolução, a fórmula molecular exata é determinada','Absorve UV proporcionalmente ao peso molecular','Mede a carga dos elétrons do composto'], ans:1, exp:'MS de alta resolução mede a massa exata do M⁺ com precisão de mDa. Como ¹²C, ¹H, ¹⁴N, ¹⁶O têm massas exatas não-inteiras (ex: ¹H=1,00783 Da), combinações diferentes de C,H,N,O dão massas diferentes → fórmula molecular única. Ex: C₂H₆O e CH₂O₂ têm mesma massa nominal (46) mas massas exatas diferentes.', hint:'HRMS: massa exata → combinação única de C,H,N,O,S → fórmula molecular.' },
+  { q:'A espectroscopia Raman é complementar ao IV porque:', opts:['Mede as mesmas vibrações que o IV com maior sensibilidade','Vibrações IV-ativas têm Δμ≠0; vibrações Raman-ativas têm Δα≠0 — moléculas com centro de inversão têm regra de exclusão mútua','Raman usa raios-X; IV usa luz visível','Raman não pode analisar líquidos'], ans:1, exp:'Regra de seleção: IV requer variação do momento dipolar (Δμ≠0). Raman requer variação da polarizabilidade (Δα≠0). Moléculas com centro de inversão (i): modos IV-ativos são Raman-inativos e vice-versa (regra de exclusão mútua). CO₂: modo de estiramento simétrico (Raman) vs. antissimétrico (IV).', hint:'IV: Δμ≠0. Raman: Δα≠0. Com centro de inversão: exclusão mútua.' },
+  { q:'No experimento de ressonância de spin eletrônico (RPE/ESR), o que é detectado?', opts:['Núcleos com spin ½ como ¹H','Espécies com elétrons desemparelhados (radicais, complexos paramagnéticos)','Todos os compostos orgânicos','Apenas metais de transição isolados'], ans:1, exp:'RPE detecta transições entre estados de spin eletrônico em campo magnético. Requer elétrons desemparelhados: radicais livres (DPPH, O₂), metais de transição (Cu²⁺, Fe³⁺, Mn²⁺), defeitos em sólidos. Complementar ao RMN (que detecta spins nucleares).', hint:'RPE: elétrons desemparelhados. RMN: spins nucleares. RPE detecta radicais.' },
+  { q:'A fluorescência acontece em escala de tempo de nanosegundos e a fosforescência em milissegundos a segundos porque:', opts:['Fluorescência usa fótons de menor energia','Fluorescência é S₁→S₀ (mesma multiplicidade, permitida); fosforescência é T₁→S₀ (spin proibida — mais lenta)','A fosforescência envolve mais energia','Fluorescência ocorre no IV; fosforescência no UV'], ans:1, exp:'Fluorescência: S₁→S₀ (singleto→singleto), transição permitida por spin → 10⁻⁹ s. Fosforescência: T₁→S₀ (tripleto→singleto), proibida por spin — requer acoplamento spin-órbita → 10⁻³-10² s. A proibição de spin retarda muito a emissão.', hint:'Spin permitida (S→S): rápida (ns). Spin proibida (T→S): lenta (ms-s).' },
+  { q:'A espectroscopia de absorção atômica (AAS) é seletiva para cada elemento porque:', opts:['Cada elemento tem comprimento de onda de absorção único (espectro atômico discreto)','Usa filtros de cores diferentes para cada metal','Cada elemento tem massa atômica diferente','A temperatura da chama seleciona os elementos'], ans:0, exp:'Átomos gasosos em chama ou forno absorvem fótons em comprimentos de onda exatamente iguais aos das suas transições eletrônicas (específicas para cada elemento). Fonte: lâmpada de cátodo oco do mesmo elemento → emite linha característica → amostra absorve proporcionalmente à concentração. AAS é altamente seletivo e sensível (ppb).', hint:'Cada elemento tem linhas de absorção únicas. AAS usa lâmpada do mesmo elemento como fonte.' },
+  { q:'No RMN ¹³C, o DEPT (Distortionless Enhancement by Polarization Transfer) distingue:', opts:['Diferentes isótopos de carbono','CH₃, CH₂, CH e C quaternário — pelo número de H diretamente ligados ao carbono','Carbonos sp e sp²','Carbonos aromáticos de carbonos alifáticos apenas'], ans:1, exp:'DEPT 135: CH e CH₃ apontam para cima; CH₂ aponta para baixo; C quaternário não aparece. Fundamental para identificar estruturas orgânicas: carbonila (C quaternário, ausente no DEPT), CH₂ de cadeia (para baixo), etc. Complementa o RMN ¹³C padrão que mostra todos os carbonos.', hint:'DEPT diferencia CH₃, CH₂, CH (por fase no espectro) e C quaternário (ausente).' }
 ];
 
 let _irIdx      = 0;
@@ -233,7 +246,7 @@ function _buildHTML() {
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         A = absorbância (adimensional) &nbsp;|&nbsp; ε = absortividade molar (L·mol⁻¹·cm⁻¹)<br>
         c = concentração (mol/L) &nbsp;|&nbsp; l = caminho óptico (cm)<br>
-        T = I/I₀ = transmitância &nbsp;|&nbsp; A = −log T
+        T = I/I₀ = transmitância &nbsp;|&nbsp; A = -log T
       </p>
     </div>
 
@@ -409,7 +422,7 @@ function _buildHTML() {
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
         <strong style="color:var(--accent-bond)">Protocolo de elucidação estrutural:</strong>
         <span style="font-family:monospace"> MS → IHD → ¹H/¹³C 1D → DEPT → HSQC → COSY → HMBC → NOESY</span><br>
-        IHD = (2C + 2 + N − H) / 2. Cada anel ou dupla ligação = 1 IHD. Tripla = 2 IHD. Aromático = 4 IHD.
+        IHD = (2C + 2 + N - H) / 2. Cada anel ou dupla ligação = 1 IHD. Tripla = 2 IHD. Aromático = 4 IHD.
       </p>
     </div>
   </section>
@@ -425,10 +438,10 @@ function _buildHTML() {
     </p>
     <div class="info-card" style="background:var(--bg-raised);margin-bottom:var(--space-5)">
       <p style="font-family:monospace;font-size:var(--text-sm);color:var(--accent-electron);margin-bottom:.3rem">
-        Δν̃ = ν̃_laser − ν̃_emitido &nbsp;&nbsp;|&nbsp;&nbsp; I_Raman ∝ (dα/dQ)² · ν₀⁴
+        Δν̃ = ν̃_laser - ν̃_emitido &nbsp;&nbsp;|&nbsp;&nbsp; I_Raman ∝ (dα/dQ)² · ν₀⁴
       </p>
       <p style="font-size:var(--text-sm);color:var(--text-secondary)">
-        Stokes (emite menos energia): mais comum a T ambiente. Anti-Stokes: molécula já excitada — razão I_AS/I_S = exp(−hν/kT) → termometria molecular.<br>
+        Stokes (emite menos energia): mais comum a T ambiente. Anti-Stokes: molécula já excitada — razão I_AS/I_S = exp(-hν/kT) → termometria molecular.<br>
         Água é transparente no Raman → ideal para amostras biológicas em solução aquosa.
       </p>
     </div>
@@ -536,7 +549,7 @@ function _buildHTML() {
 // ---------------------------------------------------------------------------
 // Canvas — Espectro IV simulado
 // ---------------------------------------------------------------------------
-function _drawIR(ctx, W, H, group) {
+function _drawIR(ctx, W, H, group, t = 1) {
   clearCanvas(ctx, W, H);
   const MX = 45, MY = 10, PW = W - MX - 10, PH = H - MY - 30;
   const WN_MAX = 4000, WN_MIN = 400;
@@ -575,7 +588,7 @@ function _drawIR(ctx, W, H, group) {
     group.bands.forEach(b => {
       const diff = wn - b.wn;
       const gauss = Math.exp(-diff * diff / (2 * b.width * b.width));
-      T -= b.intensity * gauss;
+      T -= b.intensity * gauss * t;
     });
     T = Math.max(0.02, Math.min(1, T));
     pts.push({ x: MX + px, y: MY + PH - T * PH });
@@ -649,7 +662,7 @@ function _drawNMR(ctx, W, H) {
 // ---------------------------------------------------------------------------
 // Canvas — Mass spectrum
 // ---------------------------------------------------------------------------
-function _drawMS(ctx, W, H, mol) {
+function _drawMS(ctx, W, H, mol, t = 1) {
   clearCanvas(ctx, W, H);
   const MX = 40, MY = 10, PW = W - MX - 20, PH = H - MY - 30;
 
@@ -715,7 +728,7 @@ function _initSpectroscopy() {
 
     function renderIR(idx) {
       const g = IR_GROUPS[idx];
-      _drawIR(ctx, W, H, g);
+      _animateIR(ctx, W, H, g);
       const info = document.getElementById('ir-info');
       if (info) info.innerHTML = `
         <span style="font-weight:700;color:${g.color}">${esc(g.name)}</span>
@@ -756,7 +769,7 @@ function _initSpectroscopy() {
 
     function renderMS(idx) {
       const mol = MS_MOLECULES[idx];
-      _drawMS(ctx, W, H, mol);
+      _animateMS(ctx, W, H, mol);
       const info = document.getElementById('ms-info');
       if (info) info.innerHTML = `
         <span style="font-weight:700;color:var(--accent-electron)">${esc(mol.name)}</span>
@@ -819,4 +832,37 @@ function _initSpectroscopy() {
   });
 }
 
-export function destroy() {}
+// ---------------------------------------------------------------------------
+// Estado de animação dos canvas de espectroscopia
+// ---------------------------------------------------------------------------
+let _irAnimId  = null;
+let _msAnimId  = null;
+
+function _animateIR(ctx, W, H, group) {
+  if (_irAnimId) cancelAnimationFrame(_irAnimId);
+  let t = 0;
+  function step() {
+    t = Math.min(1, t + 0.07);
+    _drawIR(ctx, W, H, group, t);
+    if (t < 1) _irAnimId = requestAnimationFrame(step);
+    else _irAnimId = null;
+  }
+  _irAnimId = requestAnimationFrame(step);
+}
+
+function _animateMS(ctx, W, H, mol) {
+  if (_msAnimId) cancelAnimationFrame(_msAnimId);
+  let t = 0;
+  function step() {
+    t = Math.min(1, t + 0.07);
+    _drawMS(ctx, W, H, mol, t);
+    if (t < 1) _msAnimId = requestAnimationFrame(step);
+    else _msAnimId = null;
+  }
+  _msAnimId = requestAnimationFrame(step);
+}
+
+export function destroy() {
+  if (_irAnimId) { cancelAnimationFrame(_irAnimId); _irAnimId = null; }
+  if (_msAnimId) { cancelAnimationFrame(_msAnimId); _msAnimId = null; }
+}
