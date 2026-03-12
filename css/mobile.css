@@ -174,3 +174,11 @@
     max-width: 100%;
   }
 }
+
+/* Laboratório — abas em mobile */
+@media (max-width: 600px) {
+  .lab-tab-btn { padding: 0.35rem 0.55rem; font-size: 0.75rem; }
+  .lab-tab-icon { display: none; }
+  .lab-input-row { flex-wrap: wrap; }
+  .lab-number-input { width: 75px; }
+}

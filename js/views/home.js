@@ -215,6 +215,7 @@ export function renderHome(outlet) {
         ['Quintiliano','Língua Portuguesa',  'https://luddevergard3n.github.io/quintiliano/',     'https://github.com/LuddEvergard3n/quintiliano'],
         ['Johnson',    'Inglês',             'https://luddevergard3n.github.io/johnson-english/', 'https://github.com/LuddEvergard3n/johnson-english'],
         ['Humboldt',   'Geografia',          'https://luddevergard3n.github.io/humboldt/',        'https://github.com/LuddEvergard3n/humboldt'],
+        ['Archimedes', 'Física',             'https://luddevergard3n.github.io/archimedes/',      'https://github.com/LuddEvergard3n/archimedes'],
       ].map(([name, subject, url, repo]) => `
         <div class="ecosystem-item">
           <a href="${esc(url)}" target="_blank" rel="noopener" class="ecosystem-link">

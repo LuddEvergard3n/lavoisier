@@ -2,10 +2,10 @@
 
 > Laboratório interativo de pensamento químico. Do ensino médio ao ensino superior.
 >
-> **v1.5.0** — 24 módulos — 123 exercícios — ~12h25min de conteúdo
+> **v1.9.1** — 26 módulos — 460 exercícios — 7 ferramentas de laboratório
 
 Parte do ecossistema educacional:
-[Heródoto](https://luddevergard3n.github.io/Herodoto/) · [Euclides](https://luddevergard3n.github.io/euclides/) · [Quintiliano](https://luddevergard3n.github.io/quintiliano/) · [Johnson](https://luddevergard3n.github.io/johnson-english/) · [Humboldt](https://luddevergard3n.github.io/humboldt/)
+[Heródoto](https://luddevergard3n.github.io/Herodoto/) · [Euclides](https://luddevergard3n.github.io/euclides/) · [Quintiliano](https://luddevergard3n.github.io/quintiliano/) · [Johnson](https://luddevergard3n.github.io/johnson-english/) · [Humboldt](https://luddevergard3n.github.io/humboldt/) · [Archimedes](https://luddevergard3n.github.io/archimedes/)
 
 ---
 
@@ -17,8 +17,9 @@ Parte do ecossistema educacional:
 | Euclides | Matemática | [site](https://luddevergard3n.github.io/euclides/) | [repo](https://github.com/LuddEvergard3n/euclides) |
 | Quintiliano | Língua Portuguesa | [site](https://luddevergard3n.github.io/quintiliano/) | [repo](https://github.com/LuddEvergard3n/quintiliano) |
 | Johnson | Inglês | [site](https://luddevergard3n.github.io/johnson-english/) | [repo](https://github.com/LuddEvergard3n/johnson-english) |
-| **Lavoisier** | **Química** | **este projeto** | — |
 | Humboldt | Geografia | [site](https://luddevergard3n.github.io/humboldt/) | [repo](https://github.com/LuddEvergard3n/humboldt) |
+| Archimedes | Física | [site](https://luddevergard3n.github.io/archimedes/) | [repo](https://github.com/LuddEvergard3n/archimedes) |
+| **Lavoisier** | **Química** | **este projeto** | — |
 
 ---
 
@@ -201,8 +202,11 @@ lavoisier/
 │   │   ├── interaction.js — canvasPoint, hitCircle, hitRect, DragManager (mouse + touch)
 │   │   └── feedback.js    — evaluateAnswer(), renderHintBox()
 │   └── views/
-│       ├── home.js, modules-list.js, sandbox.js, about.js
-├── modules/           — 24 módulos (todos disponíveis)
+│       ├── home.js, modules-list.js, sandbox.js
+│       ├── about.js, teacher.js, lesson-planner.js
+│       └── lab/  — 6 ferramentas (equation-balancer, orbital-viewer, titration-sim,
+│                     stoich-calc, lewis-builder, solubility-table)
+├── modules/           — 26 módulos (todos disponíveis)
 │   ├── atomic-structure/
 │   ├── periodic-table/
 │   ├── chemical-bonds/
@@ -226,13 +230,29 @@ lavoisier/
 │   ├── solidstate/
 │   ├── coordination/
 │   ├── supramolecular/
-│   └── symmetry/
+│   ├── symmetry/
+│   ├── photochemistry/
+│   └── catalysis/
 ├── data/
 │   ├── elements.json  — 53 elementos com Z, s, n, m, c, p, g
-│   └── modules.json   — 24 módulos com level, topics, prerequisites, estimatedTime
+│   └── modules.json   — 26 módulos com level, topics, prerequisites, estimatedTime
 └── tests/
-    └── test-runner.js — 591 testes, Node.js stdlib only
+    └── test-runner.js — 603 testes, Node.js stdlib only
 ```
+
+---
+
+## Navegação
+
+| Rota | View | Descrição |
+|------|------|-----------|
+| `/` | `home.js` | Página inicial com grid de módulos por nível |
+| `/modules` | `modules-list.js` | Lista completa com filtro |
+| `/module/:id` | módulo dinâmico | Carrega `modules/:id/index.js` |
+| `/sandbox` | `sandbox.js` | Hub com 7 ferramentas de laboratório |
+| `/teacher` | `teacher.js` | Guia do Professor — sidebar sticky + atividades |
+| `/planner` | `lesson-planner.js` | Gerador de plano de aula com BNCC e impressão |
+| `/about` | `about.js` | Sobre o projeto, métricas e ecossistema |
 
 ---
 
@@ -246,7 +266,7 @@ python3 -m http.server 8080 --directory lavoisier/
 
 # Testes
 node lavoisier/tests/test-runner.js
-# Resultado esperado: 591 passed, 0 failed
+# Resultado esperado: 603 passed, 0 failed
 ```
 
 ---
@@ -276,3 +296,7 @@ node lavoisier/tests/test-runner.js
 | Dynamic imports por módulo | Carrega apenas na visita; cacheado após primeira vez |
 | `esc()` em todo HTML dinâmico | Prevenção de XSS em `innerHTML` |
 | Zero dependências externas | Deploy estático puro, sem toolchain |
+| `AbortController` em ferramentas do lab | Cleanup de todos os listeners ao trocar de aba sem recarregar o módulo |
+| `typeof x === 'object' && x !== null` | `typeof null === 'object'` em JS — guarda explícita obrigatória antes de acessar propriedades |
+| `width:100%; box-sizing:border-box` em inputs de grid | Sem isso inputs com padding ultrapassam células `1fr`, causando overflow |
+| Modo 2 do stoich-calc com `display:none` por padrão | Evita seção vazia visível antes de parse bem-sucedido |

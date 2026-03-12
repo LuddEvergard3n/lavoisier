@@ -4,6 +4,83 @@ Todas as alterações notáveis seguem o formato [Semantic Versioning](https://s
 
 ---
 
+## [1.9.1] — 2026-03-12 — Correções de bug no Laboratório e Plano de Aula
+
+### Correções
+
+#### `lab/orbital-viewer.js`
+- `esc` estava sendo usado em template literal mas ausente do import de `../../ui.js`
+- Causa: `ReferenceError: esc is not defined` ao abrir a aba Orbitais
+
+#### `lab/lewis-builder.js`
+- `typeof null === 'object'` em JavaScript causava entrada no `else if` de toggle
+  quando `_pendingToggle` era `null` (estado após reset), acessando `null.id`
+- Causa: `TypeError: can't access property "id", a is null` ao clicar em átomo após toggle
+- Correção: guarda explícita `_pendingToggle !== null` adicionada à condição
+
+#### `lab/stoich-calc.js`
+- Seção "Modo 2 — Reagente limitante" (título + inputs) aparecia em tela
+  mesmo antes de uma equação válida ser analisada, gerando aparência de conteúdo vazio
+- Correção: seção envolvida em `#sc-mode2-section` com `display:none` por padrão;
+  visível apenas após `parse()` bem-sucedido; re-escondida em caso de erro
+
+#### `lesson-planner.js`
+- Campo "Turma" transbordava o grid de 3 colunas de identificação
+- Causa: `.lp-input` sem `width: 100%` nem `box-sizing: border-box`
+- Inputs usavam tamanho intrínseco padrão do browser (~20ch + padding > célula 1fr)
+- Correção: adicionado `width: 100%; box-sizing: border-box` ao `.lp-input`
+
+---
+
+## [1.9.0] — 2026-03-11 — Páginas pedagógicas e Archimedes no ecossistema
+
+### Novas views
+
+#### `/about` — Página Sobre reescrita
+- Epígrafe da lei de Lavoisier com borda-left estilo acadêmico
+- Grid de 6 métricas (`auto-fit minmax(130px, 1fr)`)
+- Seção "Por que Lavoisier?" conectando o nome à lei da conservação da massa
+- Ciclo pedagógico visual com 6 etapas numeradas (Fenômeno → Aplicação)
+- Três cards de nível de ensino (Médio, Graduação, Pós-graduação)
+- Grid do ecossistema com card ativo `pointer-events: none`
+
+#### `/teacher` — Guia do Professor (novo)
+- Layout sidebar 220px (`flex-shrink: 0`, sticky) + conteúdo `flex: 1; min-width: 0`
+- Sidebar com grupos não-clicáveis (`sec-group`) + links âncora
+- `scroll-margin-top` em todos os destinos de âncora
+- 4 cards de atividade com header gradiente, badge, meta-tags e corpo
+- `.teacher-warning` (borda 4px, accent-reaction) e `.teacher-note` (borda 3px, accent-energy)
+- Tabela de ferramentas do laboratório com objetivos pedagógicos por ferramenta
+- Seção de limitações posicionada por último (design deliberado)
+- Smooth scroll via `scrollIntoView` nos links da sidebar
+
+#### `/planner` — Gerador de Plano de Aula (novo)
+- Dois painéis: formulário 460px fixo + preview `1fr` sticky
+- Habilidades BNCC Ciências da Natureza embutidas no JS (EF9, EM1, EM2, EM3)
+- Módulos do Lavoisier como checkboxes filtrados por ano
+- Carga horária calculada automaticamente (nº aulas × duração)
+- Preview em tempo real com documento formatado em branco
+- `window.print()` com `@media print` isolando apenas o documento
+- `print-color-adjust: exact` para preservar fundos coloridos na impressão
+- Data pré-preenchida na inicialização; `AbortController` para cleanup
+
+### Ecossistema
+- Archimedes (Física — `luddevergard3n.github.io/archimedes/`) adicionado em:
+  `about.js`, `home.js`, `README.md`
+
+### Correções de layout
+- `.teacher-page` e `.lp-page` receberam `max-width: 1200px; margin: 0 auto`
+  para alinhamento consistente com o restante do app
+- Botões do gerador de plano reduzidos com `btn-sm`
+- `.lp-doc` com `max-height: calc(100vh - 180px)` e `overflow-y: auto`
+
+### Navegação
+- Dois novos botões no header: `Guia` (`/teacher`) e `Plano de Aula` (`/planner`)
+- Sidebar móvel atualizada com as mesmas rotas
+- Rotas registradas em `main.js` com `destroyLessonPlanner()` no `_activeModule`
+
+---
+
 ## [1.5.0] — 2026-03-10 — Expansão de conteúdo e documentação
 
 ### Novas visualizações interativas

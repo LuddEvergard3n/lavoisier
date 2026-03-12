@@ -1138,3 +1138,639 @@
 .module-grid .info-card > div:last-child {
   flex-grow: 1;
 }
+
+/* =========================================================================
+   Laboratório — Hub de abas e componentes das ferramentas
+   ========================================================================= */
+
+/* Barra de abas */
+.lab-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.lab-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.lab-tab-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+.lab-tab-btn.active {
+  background: var(--accent-electron-faint, rgba(79,195,247,0.12));
+  border-color: var(--accent-electron);
+  color: var(--accent-electron);
+}
+
+.lab-tab-icon { font-size: 1rem; }
+.lab-tab-label { }
+
+/* Descrição da aba ativa */
+.lab-tab-desc {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin: 0.5rem 0 0;
+  min-height: 1.25rem;
+}
+
+/* Container genérico de ferramenta */
+.lab-tool {
+  padding-top: 0.25rem;
+}
+
+.lab-tool-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Linha de input com botão ao lado */
+.lab-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Input de texto das ferramentas */
+.lab-text-input {
+  padding: 0.45rem 0.65rem;
+  background: var(--bg-input, #0d1117);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.lab-text-input:focus { border-color: var(--accent-electron); }
+
+/* Input numérico compacto */
+.lab-number-input {
+  width: 90px;
+  padding: 0.4rem 0.5rem;
+  background: var(--bg-input, #0d1117);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.lab-number-input:focus { border-color: var(--accent-electron); }
+
+/* Label de parâmetro (label + input empilhados) */
+.lab-param-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Título de seção dentro de ferramenta */
+.lab-section-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0.75rem 0 0.4rem;
+}
+
+/* Card de resultado */
+.lab-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+/* Equação balanceada em destaque */
+.lab-balanced-eq {
+  font-family: monospace;
+  font-size: 1.125rem;
+  color: var(--accent-organic);
+  letter-spacing: 0.02em;
+}
+
+/* Mensagem de erro */
+.lab-error {
+  color: var(--accent-reaction);
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+}
+
+/* Tabela genérica de resultados */
+.lab-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+.lab-table th,
+.lab-table td {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--border-subtle);
+  text-align: left;
+  vertical-align: middle;
+}
+.lab-table thead tr {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.lab-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+/* =========================================================================
+   Página Sobre — v2
+   ========================================================================= */
+
+.about-page-v2 {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-16);
+}
+
+.about-hero {
+  text-align: center;
+  padding: var(--space-12) 0 var(--space-10);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: var(--space-10);
+}
+.about-title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--accent-electron);
+  margin: 0 0 var(--space-2);
+  letter-spacing: -0.02em;
+}
+.about-subtitle {
+  font-size: var(--text-md);
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-8);
+}
+.about-epigraph {
+  margin: 0 auto;
+  max-width: 580px;
+  border-left: 3px solid var(--accent-electron);
+  padding: var(--space-3) var(--space-6);
+  text-align: left;
+}
+.about-epigraph-text {
+  display: block;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: var(--space-2);
+}
+.about-epigraph-cite {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  display: block;
+}
+
+.about-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.about-section { }
+.about-section--ecosystem { }
+
+.about-h2 {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.about-section p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0 0 var(--space-4);
+}
+
+/* Métricas */
+.about-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--space-4);
+}
+.about-metric-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: center;
+}
+.about-metric-val {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--accent-electron);
+  line-height: 1;
+}
+.about-metric-label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Callout */
+.about-callout {
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  margin: var(--space-4) 0;
+}
+.about-callout--accent {
+  background: rgba(79,195,247,0.06);
+  border-left: 3px solid var(--accent-electron);
+  color: var(--text-secondary);
+}
+.about-callout--neutral {
+  background: rgba(179,157,219,0.06);
+  border-left: 3px solid var(--accent-neutral);
+  color: var(--text-secondary);
+}
+
+/* Ciclo pedagógico */
+.about-cycle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+.about-cycle-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+}
+.about-cycle-num {
+  width: 20px;
+  height: 20px;
+  background: var(--accent-electron);
+  color: var(--bg-base);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.about-cycle-label { font-size: 0.8125rem; color: var(--text-primary); }
+.about-cycle-arrow { color: var(--text-muted); font-size: 0.875rem; }
+
+/* Níveis */
+.about-levels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+.about-level-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.about-level-card p { margin: 0; font-size: 0.8125rem; line-height: 1.6; color: var(--text-secondary); }
+.about-level-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  width: fit-content;
+}
+
+/* Ecossistema */
+.about-ecosystem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+.about-eco-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: border-color .15s;
+}
+.about-eco-card:hover { border-color: var(--border-default); }
+.about-eco-card--active {
+  border-color: var(--accent-electron);
+  background: rgba(79,195,247,0.04);
+  pointer-events: none;
+}
+.about-eco-top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.about-eco-name { font-weight: 600; font-size: 0.9375rem; color: var(--text-primary); }
+.about-eco-sub  { font-size: var(--text-sm); color: var(--text-secondary); }
+.about-eco-links { display: flex; gap: var(--space-2); }
+.about-eco-link {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: border-color .15s, color .15s;
+}
+.about-eco-link:hover { border-color: var(--accent-electron); color: var(--accent-electron); }
+.about-eco-link--ghost { background: transparent; }
+
+/* =========================================================================
+   Guia do Professor
+   ========================================================================= */
+
+.teacher-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-16);
+}
+.teacher-layout {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+}
+
+/* Sidebar */
+.teacher-sidebar { width: 220px; flex-shrink: 0; }
+.teacher-sidebar-panel {
+  position: sticky;
+  top: 1.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.teacher-sidebar-group {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: var(--space-3) var(--space-2) var(--space-1);
+  margin-top: var(--space-2);
+}
+.teacher-sidebar-group:first-child { margin-top: 0; }
+.teacher-sidebar-link {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-sm);
+  border-left: 2px solid transparent;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.teacher-sidebar-link:hover {
+  color: var(--accent-electron);
+  border-left-color: var(--accent-electron);
+  background: rgba(79,195,247,0.05);
+}
+.teacher-sidebar-link--indent { padding-left: var(--space-5); font-size: 0.75rem; }
+
+/* Conteúdo */
+.teacher-content {
+  flex: 1;
+  min-width: 0;
+}
+.teacher-content-header {
+  margin-bottom: var(--space-10);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.teacher-content-header h1 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+}
+.teacher-lead {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 640px;
+  margin: 0;
+}
+
+.teacher-section {
+  margin-bottom: var(--space-12);
+  scroll-margin-top: 1.5rem;
+}
+.teacher-h2 {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.teacher-h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent-electron);
+  margin: var(--space-6) 0 var(--space-3);
+}
+.teacher-section p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0 0 var(--space-4);
+}
+
+/* Warning / Note */
+.teacher-warning {
+  background: rgba(239,71,111,0.07);
+  border-left: 4px solid var(--accent-reaction);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-3) var(--space-5);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: var(--space-4) 0;
+}
+.teacher-note {
+  background: rgba(255,167,38,0.07);
+  border-left: 3px solid var(--accent-energy);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-3) var(--space-5);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: var(--space-4) 0;
+}
+
+/* Cards de atividade */
+.teacher-activity {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+  scroll-margin-top: 1.5rem;
+}
+.teacher-activity-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: linear-gradient(90deg, rgba(79,195,247,0.08) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.teacher-activity-num {
+  background: var(--accent-electron);
+  color: var(--bg-base);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.teacher-activity-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+.teacher-activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.teacher-meta-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  background: rgba(79,195,247,0.08);
+  border: 1px solid rgba(79,195,247,0.2);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+.teacher-activity-body {
+  padding: var(--space-5);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.teacher-activity-body p { margin: 0 0 var(--space-3); }
+.teacher-activity-body p:last-child { margin-bottom: 0; }
+
+/* Nav guide */
+.teacher-nav-guide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+.teacher-nav-item {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.teacher-nav-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-bond);
+  background: rgba(255,209,102,0.08);
+  border: 1px solid rgba(255,209,102,0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* Tabela do guia */
+.teacher-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  margin: var(--space-4) 0;
+}
+.teacher-table th,
+.teacher-table td {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-subtle);
+  text-align: left;
+  vertical-align: top;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.teacher-table thead tr { background: var(--bg-raised); }
+.teacher-table th { font-weight: 600; color: var(--text-primary); }
+.teacher-table tbody tr:hover { background: var(--bg-surface); }
+
+/* Badges de nível */
+.teacher-level-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  white-space: nowrap;
+}
+.teacher-level-tag--medio  { background:rgba(107,203,119,0.12); color:var(--accent-organic);  border-color:var(--accent-organic); }
+.teacher-level-tag--grad   { background:rgba(79,195,247,0.12);  color:var(--accent-electron); border-color:var(--accent-electron); }
+.teacher-level-tag--pos    { background:rgba(179,157,219,0.12); color:var(--accent-neutral);  border-color:var(--accent-neutral); }
+
+@media (max-width: 768px) {
+  .teacher-layout { flex-direction: column; }
+  .teacher-sidebar { width: 100%; }
+  .teacher-sidebar-panel { position: static; }
+}

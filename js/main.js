@@ -108,8 +108,24 @@ function _registerRoutes() {
   // ---- Laboratório livre ----
   route('/sandbox', async () => {
     _destroyActive();
-    const { renderSandbox } = await import('./views/sandbox.js');
-    renderSandbox(getOutlet());
+    const mod = await import('./views/sandbox.js');
+    mod.renderSandbox(getOutlet());
+    _activeModule = { destroy: mod.destroy };
+  });
+
+  // ---- Guia do Professor ----
+  route('/teacher', async () => {
+    _destroyActive();
+    const { renderTeacher } = await import('./views/teacher.js');
+    renderTeacher(getOutlet());
+  });
+
+  // ---- Gerador de Plano de Aula ----
+  route('/planner', async () => {
+    _destroyActive();
+    const mod = await import('./views/lesson-planner.js');
+    mod.renderLessonPlanner(getOutlet());
+    _activeModule = { destroy: mod.destroyLessonPlanner };
   });
 
   // ---- Sobre ----
