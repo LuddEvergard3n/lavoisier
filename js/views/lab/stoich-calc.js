@@ -25,7 +25,6 @@ const MOLAR_MASS = {
   As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62, Y:88.906, Zr:91.22,
   Ag:107.868,Cd:112.41,In:114.818,Sn:118.71,Sb:121.76,I:126.904,Ba:137.327,
   Pt:195.084,Au:196.967,Hg:200.592,Pb:207.2, Bi:208.98,
-  Na:22.990, Mg:24.305,
 };
 
 function molarMassOf(formula) {
@@ -113,6 +112,7 @@ function fmtNum(v) {
 let _abortController = null;
 
 export function renderStoichCalc(container) {
+  if (_abortController) _abortController.abort();
   _abortController = new AbortController();
   const sig = _abortController.signal;
 

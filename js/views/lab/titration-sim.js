@@ -299,6 +299,7 @@ let _ctx    = null;
 let _state  = null;
 
 export function renderTitrationSim(container) {
+  if (_abortController) _abortController.abort();
   _abortController = new AbortController();
   const sig = _abortController.signal;
 

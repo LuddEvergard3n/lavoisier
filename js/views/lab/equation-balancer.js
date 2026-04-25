@@ -281,6 +281,7 @@ const EXAMPLES = [
 let _abortController = null;
 
 export function renderEquationBalancer(container) {
+  if (_abortController) _abortController.abort();
   _abortController = new AbortController();
   const sig = _abortController.signal;
 

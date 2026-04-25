@@ -164,6 +164,7 @@ function sec(title, items) {
 let _abortController = null;
 
 export function renderLessonPlanner(outlet) {
+  if (_abortController) _abortController.abort();
   _abortController = new AbortController();
   const sig = _abortController.signal;
 

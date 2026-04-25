@@ -234,6 +234,7 @@ let _canvas          = null;
 let _ctx             = null;
 
 export function renderOrbitalViewer(container) {
+  if (_abortController) _abortController.abort();
   _abortController = new AbortController();
   const sig = _abortController.signal;
   _currentOrbIdx = 0;

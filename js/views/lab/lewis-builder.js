@@ -259,13 +259,16 @@ export function renderLewisBuilder(container) {
   }, 30);
   _loop.start();
 
-  _drag = new DragManager(_canvas, {
-    hitTest: (x, y) => _atoms.find(a => hitCircle(x, y, a.x, a.y, a.r + 4)),
-    onDrag:  (atom, dx, dy) => {
-      atom.x = Math.max(atom.r, Math.min(_W - atom.r, atom.x + dx));
-      atom.y = Math.max(atom.r, Math.min(_H - atom.r, atom.y + dy));
-    },
-  });
+  _drag = new DragManager(_canvas);
+  _drag.onDragStart = (x, y) => {
+    // Retorna o átomo sob o cursor, ou null se nenhum
+    return _atoms.find(a => hitCircle(x, y, a.x, a.y, a.r + 4)) || null;
+  };
+  _drag.onDragMove = (x, y, atom) => {
+    if (!atom) return;
+    atom.x = Math.max(atom.r, Math.min(_W - atom.r, x));
+    atom.y = Math.max(atom.r, Math.min(_H - atom.r, y));
+  };
 
   function updateStatus() {
     const props = calcLewisProps(_atoms, _bonds);

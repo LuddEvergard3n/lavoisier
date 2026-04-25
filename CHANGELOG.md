@@ -4,6 +4,58 @@ Todas as alterações notáveis seguem o formato [Semantic Versioning](https://s
 
 ---
 
+## [1.9.2] — 2026-04-25 — Auditoria completa: 6 bugs corrigidos
+
+### Bugs corrigidos
+
+#### `engine/interaction.js` — DragManager: window listeners jamais removidos (crítico)
+- `destroy()` era no-op: comentário sem implementação real
+- Cada navegação para um módulo com DragManager acumulava handlers órfãos
+  em `window` (`mousemove`, `mouseup`, `touchmove`, `touchend`)
+- Correção: `_bindEvents()` usa `AbortController` interno (`this._abort`)
+  com `{ signal: sig }` em todos os listeners de window; `destroy()` chama
+  `this._abort.abort()`, removendo todos os listeners atomicamente
+
+#### `engine/interaction.js` — `canvasPoint()` crash em touchend (crítico no mobile)
+- `event.touches` é `TouchList` truthy mas `event.touches[0]` é `undefined`
+  em `touchend` (dedo já levantado). Acesso a `src.clientX` lançava
+  `TypeError: Cannot read property 'clientX' of undefined`
+- Correção: fallback para `event.changedTouches[0]` (contém a posição do
+  último toque encerrado) antes de usar o evento diretamente
+
+#### `lewis-builder.js` — DragManager API errada: drag de átomos completamente quebrado (crítico)
+- `new DragManager(_canvas, { hitTest, onDrag })` passava opções como segundo
+  argumento — o construtor só aceita `canvas`. Opções eram silenciosamente
+  ignoradas, `onDragStart` e `onDragMove` permaneciam `null`
+- Resultado: nenhum átomo podia ser arrastado no Lewis Builder
+- Correção: `_drag.onDragStart` e `_drag.onDragMove` definidos na instância
+  após construção, usando a API correta do `DragManager`
+
+#### `solubility-table.js` — `getDetail()` retornava null para hidróxidos (médio)
+- Construção dinâmica de chave: `'Fe(OH)'.replace(/[()]/g,'') = 'FeOH'`
+  não casava com `'Fe(OH)3'` em `DETAILS`
+- Fe(OH)₂, Fe(OH)₃, Cu(OH)₂, Mg(OH)₂, Ca₃(PO₄)₂ — todos retornavam null
+- Correção: substituído por `KEY_MAP` com mapeamento direto
+  `'cat-an'` → chave exata em `DETAILS`
+
+#### `stoich-calc.js` — chaves duplicadas em `MOLAR_MASS` (menor)
+- `Na:22.990` e `Mg:24.305` apareciam duas vezes no objeto literal
+- Em JS, a última definição vence; ambas tinham o mesmo valor (sem impacto
+  funcional), mas o código era enganoso
+- Correção: linha duplicada removida
+
+#### Todas as ferramentas do laboratório — guard contra double-render ausente (defensivo)
+- Seis arquivos com `_abortController` module-level não abortavam o controller
+  anterior se `render*()` fosse chamado novamente sem `destroy*()` antes
+- Correção: adicionado `if (_abortController) _abortController.abort();`
+  no início de cada função de renderização (equation-balancer, titration-sim,
+  orbital-viewer, stoich-calc, solubility-table, lesson-planner)
+
+### Sem alterações funcionais visíveis ao usuário
+Todas as correções são de robustez e correção de comportamento silenciosamente quebrado.
+
+---
+
 ## [1.9.1] — 2026-03-12 — Correções de bug no Laboratório e Plano de Aula
 
 ### Correções

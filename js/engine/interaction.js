@@ -16,7 +16,11 @@
  */
 export function canvasPoint(event, canvas) {
   const rect = canvas.getBoundingClientRect();
-  const src  = event.touches ? event.touches[0] : event;
+  // touches[0] é undefined em touchend (dedo já levantado).
+  // changedTouches[0] contém a posição do último toque encerrado.
+  const src  = (event.touches && event.touches[0])
+             || (event.changedTouches && event.changedTouches[0])
+             || event;
   return {
     x: src.clientX - rect.left,
     y: src.clientY - rect.top,
@@ -66,6 +70,7 @@ export class DragManager {
     this._canvas  = canvas;
     this._item    = null;
     this._active  = false;
+    this._abort   = new AbortController();
 
     /** @type {function(number, number): unknown} */
     this.onDragStart = null;
@@ -78,15 +83,26 @@ export class DragManager {
   }
 
   _bindEvents() {
-    const c = this._canvas;
-    // Mouse
-    c.addEventListener('mousedown',  e => this._start(e));
-    window.addEventListener('mousemove', e => this._move(e));
-    window.addEventListener('mouseup',   e => this._end(e));
-    // Touch
-    c.addEventListener('touchstart', e => { e.preventDefault(); this._start(e); }, { passive: false });
-    window.addEventListener('touchmove', e => { e.preventDefault(); this._move(e); }, { passive: false });
-    window.addEventListener('touchend',  e => this._end(e));
+    const c   = this._canvas;
+    const sig = this._abort.signal;
+
+    // Mouse — canvas recebe mousedown, window recebe move/up para capturar
+    // arrastar fora do canvas sem perder o evento
+    c.addEventListener('mousedown',  e => this._start(e), { signal: sig });
+    window.addEventListener('mousemove', e => this._move(e), { signal: sig });
+    window.addEventListener('mouseup',   e => this._end(e),  { signal: sig });
+
+    // Touch — passive:false permite preventDefault() para bloquear scroll
+    // durante drag; signal garante remoção automática no destroy()
+    c.addEventListener('touchstart',
+      e => { e.preventDefault(); this._start(e); },
+      { passive: false, signal: sig }
+    );
+    window.addEventListener('touchmove',
+      e => { if (this._active) e.preventDefault(); this._move(e); },
+      { passive: false, signal: sig }
+    );
+    window.addEventListener('touchend', e => this._end(e), { signal: sig });
   }
 
   _start(e) {
@@ -110,10 +126,13 @@ export class DragManager {
     this._active = false;
   }
 
-  /** Remove todos os listeners. Chame ao destruir o componente. */
+  /**
+   * Remove todos os event listeners registrados pelo DragManager.
+   * Deve ser chamado quando o componente que contém o canvas for destruído.
+   */
   destroy() {
-    // Nota: listeners de window sao referencias internas. Numa app real
-    // usariamos AbortController. Para simplicidade, o DragManager e
-    // presumido viver enquanto o canvas existe.
+    this._abort.abort();
+    this._item   = null;
+    this._active = false;
   }
 }

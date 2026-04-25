@@ -90,17 +90,27 @@ const DETAILS = {
 };
 
 function getDetail(cat, an) {
-  // Tentativa de construir nome do composto
-  const names = {
-    H:'H', Li:'Li', Na:'Na', K:'K', NH4:'NH4', Mg:'Mg', Ca:'Ca', Sr:'Sr', Ba:'Ba',
-    Al:'Al', Fe2:'Fe', Fe3:'Fe', Cu2:'Cu', Zn:'Zn', Ag:'Ag', Pb:'Pb', Hg2:'Hg2',
+  // Mapa direto cátion+ânion → chave em DETAILS.
+  // Evita construção dinâmica de chave que falha para compostos com
+  // índices estequiométricos (Fe(OH)3, Ca3(PO4)2, etc.).
+  const KEY_MAP = {
+    'Ag-Cl':    'AgCl',
+    'Ag-Br':    'AgBr',
+    'Ag-I':     'AgI',
+    'Ag-CrO4':  'Ag2CrO4',
+    'Ba-SO4':   'BaSO4',
+    'Ca-CO3':   'CaCO3',
+    'Fe3-OH':   'Fe(OH)3',
+    'Fe2-OH':   'Fe(OH)2',
+    'Cu2-OH':   'Cu(OH)2',
+    'Pb-SO4':   'PbSO4',
+    'Pb-I':     'PbI2',
+    'Zn-S2':    'ZnS',
+    'Cu2-S2':   'CuS',
+    'Mg-OH':    'Mg(OH)2',
+    'Ca-PO4':   'Ca3(PO4)2',
   };
-  const anNames = {
-    OH:'(OH)', Cl:'Cl', Br:'Br', I:'I', NO3:'(NO3)', CH3COO:'(CH3COO)',
-    SO4:'SO4', CO3:'CO3', PO4:'(PO4)', S2:'S', CrO4:'CrO4', F:'F',
-  };
-  const key = `${names[cat]}${anNames[an]}`.replace(/[()]/g,'');
-  return DETAILS[key] || DETAILS[`${names[cat]}(${anNames[an]})`] || null;
+  return DETAILS[KEY_MAP[`${cat}-${an}`]] || null;
 }
 
 function solColor(s) {
@@ -119,6 +129,7 @@ function solColor(s) {
 let _abortController = null;
 
 export function renderSolubilityTable(container) {
+  if (_abortController) _abortController.abort();
   _abortController = new AbortController();
   const sig = _abortController.signal;
 
