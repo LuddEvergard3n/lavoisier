@@ -726,7 +726,7 @@ function _buildHTML() {
 
 
   <section class="module-section">
-    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/5)</h2>
+    <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/${EXERCISES.length})</h2>
     <div class="exercise-card">
       <p class="exercise-question" id="ex-question">
         O <strong>CO₂</strong> possui ligações covalentes polares (C–O).
