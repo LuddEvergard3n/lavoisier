@@ -621,7 +621,6 @@ export function render(outlet) {
     _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
     loadExercise(_exIdx);
   });
-  });
 
   _initBandGap();
   markSectionDone('supramolecular', 'visited');

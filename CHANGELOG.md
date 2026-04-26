@@ -4,6 +4,52 @@ Todas as alterações notáveis seguem o formato [Semantic Versioning](https://s
 
 ---
 
+## [1.9.3] — 2026-04-26 — Correção de SyntaxErrors em 7 módulos
+
+### Contexto
+
+`node --check` não detectava estes erros porque usa um parser menos estrito
+que o browser em modo ESM. Os módulos falhavam silenciosamente no runtime
+do browser com `SyntaxError: missing ] after element list`.
+
+### Bugs corrigidos
+
+#### Aspas simples não escapadas dentro de strings delimitadas por aspas simples
+
+- **`analytical`**: `k'` (fator de retenção cromatográfico) nos campos `q`, `exp`
+  e `hint` do exercício — o `'` após `k` fechava a string prematuramente.
+  Corrigido: `k\'`
+
+- **`biochemistry`**: `OH em 2'` e `ribose (OH em 2')` — notação de posição
+  do carbono 2 do açúcar. Corrigido: `2\'`
+
+- **`coordination`**: `5'-GG-3'` (notação de fita de DNA) — ambos os `'` fechavam
+  strings prematuramente. Corrigido: `5\'-GG-3\'`
+
+- **`symmetry`**: `σv'` (sigma v prima, segundo plano vertical) nos campos
+  `opts` e `exp` do exercício sobre C₂v. Corrigido: `σv\'`
+
+#### Vírgulas faltando entre elementos de array de objetos
+
+- **`atomic-structure`**: `} {` sem vírgula entre exercícios as-ex-03 e as-ex-04.
+  Corrigido: `},` adicionado
+
+#### `})` duplicado na inicialização de `render()`
+
+- **`analytical`**: `});` extra antes de `_initQKsp()`. Removido.
+- **`biochemistry`**: `});` extra ao final do bloco de inicialização. Removido.
+- **`nuclear`**: `});` extra antes de `}` de fechamento do `render()`. Removido.
+- **`supramolecular`**: `});` extra antes de `_initBandGap()`. Removido.
+
+#### Outros erros estruturais
+
+- **`symmetry`**: vírgula dupla `,,` após elemento do array de exercícios. Removida.
+- **`symmetry`**: `const exBtns` faltando — template literal de botão de opção
+  existia sem a linha de abertura do `.map()`. Adicionado `const exBtns =
+  EXERCISES[0]?.opts?.map((opt, i) => ...`.
+
+---
+
 ## [1.9.2] — 2026-04-25 — Auditoria completa: 6 bugs corrigidos
 
 ### Bugs corrigidos

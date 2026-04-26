@@ -744,7 +744,7 @@ const EXERCISES = [
       'Quem calculou raios precisos para as órbitas eletrônicas do hidrogênio?'
     ],
     explanation: 'Niels Bohr (1913) propôs que os elétrons orbitam o núcleo em camadas de energia definida. Elétrons só emitem ou absorvem energia ao mudar de camada, explicando os espectros atômicos.'
-  }
+  },
   {
     id: 'as-ex-04',
     question: 'A configuração eletrônica do Fe (Z=26) no estado fundamental é:',

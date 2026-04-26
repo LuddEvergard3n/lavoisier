@@ -173,7 +173,7 @@ const EXERCISES = [
   { q:'O ponto isoelétrico (pI) de um aminoácido é o pH em que:', opts:['Ele está 100% protonado','A carga líquida é zero (forma zwitteriônica predomina)','Ele precipita','A solubilidade é máxima'], ans:1, exp:'No pI, a forma zwitteriônica (NH₃⁺-CHR-COO⁻) predomina e a carga líquida é zero. Abaixo do pI: carga positiva. Acima: carga negativa. Para Gly: pI = (pKa1+pKa2)/2 = (2,34+9,60)/2 = 5,97. Proteínas precipitam no pI (mínima solubilidade, sem repulsão eletrostática).', hint:'pI = pH de carga líquida zero. Precipita no pI.' },
   { q:'A fotossíntese divide-se em fase clara (tilacoides) e fase escura (estroma). A fase clara produz:', opts:['Glicose diretamente','ATP + NADPH + O₂ (pela oxidação da água)','CO₂ + H₂O','Amido'], ans:1, exp:'Fase clara: luz excita clorofila → eletrões fluem pela cadeia (PS II → plastoquinona → citocromo → PS I → ferredoxina → NADP⁺-redutase) → NADPH. Fotofosforilação → ATP. Oxidação da água: 2H₂O → 4H⁺ + 4e⁻ + O₂. Fase escura (Calvin): CO₂ + ATP + NADPH → G3P → glicose.', hint:'Fase clara: gera ATP, NADPH, libera O₂. Fase escura (Calvin): usa ATP+NADPH para fixar CO₂.' },
   { q:'A enzima ribonuclease A (RNAse A) é inativada por desnaturação a 95°C mas redobra espontaneamente ao resfriar. Isso demonstra:', opts:['A sequência primária não contém a informação da estrutura terciária','A estrutura terciária está completamente determinada pela sequência de aminoácidos (Anfinsen)','A desnaturação é sempre irreversível','Os dissulfetos são necessários para dobramento'], ans:1, exp:'Experiência de Anfinsen (Nobel 1972): RNAse A desnaturada (8M uréia + mercaptoetanol) recupera atividade ao remover desnaturantes → dobramento espontâneo. Conclusão: a sequência primária contém toda a informação para o dobramento. Prêmio Nobel de Química 1972.', hint:'Anfinsen: desnaturação reversível prova que a sequência determina a estrutura.' },
-  { q:'A diferença entre DNA e RNA inclui:', opts:['RNA tem timina; DNA tem uracila','DNA tem desoxirribose e timina; RNA tem ribose e uracila','DNA é de fita simples; RNA de dupla fita','RNA não contém informação genética'], ans:1, exp:'DNA: desoxirribose (sem OH em 2'), timina (T), dupla fita, mais estável. RNA: ribose (OH em 2'), uracila (U) no lugar de timina, geralmente fita simples (mRNA, tRNA, rRNA). O OH do RNA o torna mais reativo → menor estabilidade → RNA mensageiro é transitório.', hint:'DNA: desoxirribose + T. RNA: ribose + U. DNA dupla fita; RNA fita simples.' }
+  { q:'A diferença entre DNA e RNA inclui:', opts:['RNA tem timina; DNA tem uracila','DNA tem desoxirribose e timina; RNA tem ribose e uracila','DNA é de fita simples; RNA de dupla fita','RNA não contém informação genética'], ans:1, exp:'DNA: desoxirribose (sem OH em 2\'), timina (T), dupla fita, mais estável. RNA: ribose (OH em 2\'), uracila (U) no lugar de timina, geralmente fita simples (mRNA, tRNA, rRNA). O OH do RNA o torna mais reativo → menor estabilidade → RNA mensageiro é transitório.', hint:'DNA: desoxirribose + T. RNA: ribose + U. DNA dupla fita; RNA fita simples.' }
 ];
 
 export function render(outlet) {
@@ -560,7 +560,6 @@ export function render(outlet) {
   document.getElementById('ex-next')?.addEventListener('click', () => {
     _exIdx = Math.min(_exIdx + 1, EXERCISES.length - 1);
     loadExercise(_exIdx);
-  });
   });
 }
 
