@@ -472,7 +472,7 @@ export function render(outlet) {
   <!-- Exercício -->
   <section class="module-section">
     <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/${EXERCISES.length})</h2>
-    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <p class="module-text" id="ex-question">${esc(EXERCISES[0].q)}</p>
     <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
       ${EXERCISES[0].opts.map((opt, i) => `
         <button class="btn btn-ghost" style="text-align:left;justify-content:flex-start"

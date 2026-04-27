@@ -7,7 +7,7 @@
  * Para forçar atualização em produção: incrementar CACHE_VERSION.
  */
 
-const CACHE_VERSION = 'lavoisier-v1.8.0';
+const CACHE_VERSION = 'lavoisier-v1.9.4';
 
 // Lista completa de assets a pré-cachear.
 // Gerada automaticamente a partir da estrutura de arquivos do projeto.
@@ -31,6 +31,9 @@ const PRECACHE_ASSETS = [
   './js/engine/renderer.js',
   './js/engine/simulation.js',
   './js/views/about.js',
+  './js/views/teacher.js',
+  './js/views/lesson-planner.js',
+  './js/views/reference.js',
   './js/views/home.js',
   './js/views/modules-list.js',
   './js/views/sandbox.js',

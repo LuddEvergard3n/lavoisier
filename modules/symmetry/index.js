@@ -255,10 +255,6 @@ export function render(outlet) {
     `<button class="btn btn-xs ${k === 'C2v' ? 'btn-secondary' : 'btn-ghost'}" data-tbl="${k}">${CHAR_TABLES[k].name}</button>`
   ).join('');
 
-  const exBtns = EXERCISES[0]?.opts?.map((opt, i) =>
-    `<button class="btn btn-ghost" style="text-align:left;justify-content:flex-start" data-exopt="${i}">${esc(opt)}</button>`
-  ).join('') ?? '';
-
   outlet.innerHTML = `
 <div class="page module-page">
   <button class="module-back btn-ghost" data-nav="/modules">&larr; Módulos</button>
@@ -486,7 +482,7 @@ export function render(outlet) {
   <!-- Exercício -->
   <section class="module-section">
     <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/${EXERCISES.length})</h2>
-    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <p class="module-text" id="ex-question">${esc(EXERCISES[0].q)}</p>
     <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem"></div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
     <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo &#8594;</button>

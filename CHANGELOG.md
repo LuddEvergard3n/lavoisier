@@ -4,6 +4,47 @@ Todas as alterações notáveis seguem o formato [Semantic Versioning](https://s
 
 ---
 
+## [1.9.4] — 2026-04-27 — Referência Rápida e correções sistêmicas
+
+### Nova view: `/reference` — Referência Rápida de Química
+
+Rota acessível pelo menu ("Referência"), com sidebar sticky idêntica ao Guia
+do Professor. Conteúdo dividido em 4 níveis de ensino:
+
+- **EF I (1–5º ano)**: estados da matéria, mudanças de estado com macetes,
+  misturas e métodos de separação, propriedades e anomalias da água.
+- **EF II (6–9º ano)**: átomos/íons/moléculas, ligações químicas (iônica,
+  covalente, metálica), funções inorgânicas completas com nomenclatura,
+  pH, tipos de reação e leis ponderais.
+- **Ensino Médio**: mol e estequiometria, termoquímica com tabela de
+  espontaneidade de Gibbs, cinética e Le Chatelier, eletroquímica com Nox
+  e Faraday, gases (todas as leis), orgânica com macete IUPAC.
+- **Ensino Superior**: termodinâmica (van't Hoff, fugacidade), mecânica
+  quântica (Schrödinger, 4 números quânticos, TOM/LCAO), cinética avançada
+  (Eyring, Michaelis-Menten), espectroscopia (Beer-Lambert, IV, RMN, MS),
+  equilíbrio em solução (Henderson-Hasselbalch, Ksp).
+
+**Tabela Periódica Completa** (118 elementos):
+- Grid CSS 18×7 para os períodos 1–7
+- Bloco f (14 colunas × 2 linhas) para lantanídeos (Ce–Lu) e actinídeos (Th–Lr)
+- La e Ac permanecem no grid principal (grupo 3, períodos 6 e 7)
+- 10 categorias com cor e legenda
+- Hover com zoom e sombra
+
+### Correções
+
+- **`sw.js`**: versão de cache atualizada para `lavoisier-v1.9.4`; adicionados
+  `teacher.js`, `lesson-planner.js` e `reference.js` ao precache.
+- **`reference.js`**: f-block corrigido de 15 para 14 colunas (Ce–Lu = 14 elementos).
+- **`symmetry`**: `const exBtns` (dead code — nunca usado no template) removido.
+- **12 módulos** (`analytical`, `biochemistry`, `electrochemistry`, `kinetics`,
+  `organic`, `solutions`, `stoichiometry`, `supramolecular`, `symmetry`,
+  `thermochemistry`, `nuclear`): adicionado `id="ex-question"` ao parágrafo
+  da questão — necessário para `loadExercise()` atualizar o texto corretamente.
+- `catalysis`: usa `id="cat-ex-question"` próprio — correto, sem alteração.
+
+---
+
 ## [1.9.3] — 2026-04-26 — Correção de SyntaxErrors em 7 módulos
 
 ### Contexto

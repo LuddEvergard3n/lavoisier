@@ -2,7 +2,7 @@
 
 > Laboratório interativo de pensamento químico. Do ensino médio ao ensino superior.
 >
-> **v1.9.3** — 26 módulos — 460 exercícios — 7 ferramentas de laboratório
+> **v1.9.4** — 26 módulos — 460 exercícios — 7 ferramentas de laboratório
 
 Parte do ecossistema educacional:
 [Heródoto](https://luddevergard3n.github.io/Herodoto/) · [Euclides](https://luddevergard3n.github.io/euclides/) · [Quintiliano](https://luddevergard3n.github.io/quintiliano/) · [Johnson](https://luddevergard3n.github.io/johnson-english/) · [Humboldt](https://luddevergard3n.github.io/humboldt/) · [Archimedes](https://luddevergard3n.github.io/archimedes/)

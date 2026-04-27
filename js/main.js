@@ -113,6 +113,13 @@ function _registerRoutes() {
     _activeModule = { destroy: mod.destroy };
   });
 
+  // ---- Referência Rápida ----
+  route('/reference', async () => {
+    _destroyActive();
+    const { renderReference } = await import('./views/reference.js');
+    renderReference(getOutlet());
+  });
+
   // ---- Guia do Professor ----
   route('/teacher', async () => {
     _destroyActive();

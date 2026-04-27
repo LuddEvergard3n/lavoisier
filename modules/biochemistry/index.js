@@ -462,7 +462,7 @@ export function render(outlet) {
 
   <section class="module-section">
     <h2 class="module-section-title">Exercícios (<span id="ex-counter">1</span>/${EXERCISES.length})</h2>
-    <p class="module-text">${esc(EXERCISES[0].q)}</p>
+    <p class="module-text" id="ex-question">${esc(EXERCISES[0].q)}</p>
     <div id="ex-options" style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">${exOpts}</div>
     <div id="exercise-feedback" style="margin-top:1rem"></div>
     <button class="btn btn-ghost btn-sm" id="ex-next" style="margin-top:1rem;display:none">Próximo exercício &#8594;</button>
