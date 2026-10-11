@@ -13,6 +13,7 @@
 
 const fs   = require('fs');
 const path = require('path');
+const { spawnSync } = require('child_process');
 
 /* -----------------------------------------------------------------------
    Utilitários de asserção
@@ -214,6 +215,105 @@ suite('State JS (análise estática)', () => {
   ok(stateSrc.includes('export function recordAttempt'),  'Exporta recordAttempt()');
   ok(stateSrc.includes('localStorage'),                   'Usa localStorage');
   ok(stateSrc.includes('try'),                            'Tem tratamento de erro no storage');
+});
+
+/* -----------------------------------------------------------------------
+   Suite 7 — Contrato editorial e científico
+----------------------------------------------------------------------- */
+suite('Contrato editorial e científico', () => {
+  const editorial = readJSON('data/editorial.json');
+  const modules = readJSON('data/modules.json');
+  equal(editorial.version, 2, 'Versão editorial é 2');
+  ok(/^\d{4}-\d{2}-\d{2}$/.test(editorial.lastReviewed), 'Data global de revisão é ISO');
+  equal(modules.length, 26, 'Inventário tem exatamente 26 módulos');
+  equal(Object.keys(editorial.modules).length, 26, 'Todos os módulos têm metadados editoriais');
+
+  modules.forEach(module => {
+    const review = editorial.modules[module.id];
+    ok(Boolean(review), `${module.id}: possui revisão editorial`);
+    if (!review) return;
+    ['learningObjectives','misconceptions','modelLimitations','advancedSections','sourceIds','citations'].forEach(field =>
+      ok(Array.isArray(review[field]) && review[field].length > 0, `${module.id}: ${field} preenchido`));
+    review.sourceIds.forEach(sourceId => ok(Boolean(editorial.sources[sourceId]), `${module.id}: fonte '${sourceId}' resolvida`));
+    review.citations.forEach(citation => {
+      ['section','claim','status'].forEach(field => ok(Boolean(citation[field]), `${module.id}: citação tem ${field}`));
+      ok(Array.isArray(citation.sourceIds) && citation.sourceIds.length > 0, `${module.id}: citação possui fontes`);
+      citation.sourceIds.forEach(sourceId => ok(Boolean(editorial.sources[sourceId]), `${module.id}: citação resolve '${sourceId}'`));
+    });
+  });
+
+  Object.entries(editorial.sources).forEach(([id, source]) => {
+    ['author','title','type','year','url','accessed','scope','method','limitations'].forEach(field =>
+      ok(Boolean(source[field]), `Fonte '${id}' tem ${field}`));
+  });
+});
+
+/* -----------------------------------------------------------------------
+   Suite 8 — Grafo de pré-requisitos
+----------------------------------------------------------------------- */
+suite('Grafo de pré-requisitos', () => {
+  const modules = readJSON('data/modules.json');
+  const ids = new Set(modules.map(module => module.id));
+  const graph = new Map(modules.map(module => [module.id, module.prerequisites || []]));
+  modules.forEach(module => (module.prerequisites || []).forEach(id =>
+    ok(ids.has(id), `${module.id}: pré-requisito '${id}' existe`)));
+
+  const visiting = new Set();
+  const visited = new Set();
+  function acyclic(id) {
+    if (visiting.has(id)) return false;
+    if (visited.has(id)) return true;
+    visiting.add(id);
+    const valid = (graph.get(id) || []).every(acyclic);
+    visiting.delete(id);
+    visited.add(id);
+    return valid;
+  }
+  graph.forEach((_deps, id) => ok(acyclic(id), `${id}: cadeia de pré-requisitos sem ciclo`));
+});
+
+/* -----------------------------------------------------------------------
+   Suite 9 — JavaScript carregável e integração estática
+----------------------------------------------------------------------- */
+suite('JavaScript e integração', () => {
+  const files = [];
+  function collect(dir) {
+    fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }).forEach(entry => {
+      const rel = path.join(dir, entry.name);
+      if (entry.isDirectory()) collect(rel);
+      else if (entry.name.endsWith('.js')) files.push(rel);
+    });
+  }
+  collect('js');
+  collect('modules');
+  files.forEach(file => {
+    const result = spawnSync(process.execPath, ['--check', path.join(ROOT, file)], { encoding: 'utf8' });
+    ok(result.status === 0, `${file}: sintaxe válida`);
+  });
+
+  const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const precache = [...sw.matchAll(/'\.\/([^']+)'/g)].map(match => match[1]);
+  precache.forEach(asset => ok(exists(asset), `Precache resolve: ${asset}`));
+  ['css/editorial.css','js/editorial.js','data/editorial.json'].forEach(asset => {
+    ok(index.includes(asset) || sw.includes(`./${asset}`), `${asset}: integrado à aplicação`);
+    ok(sw.includes(`'./${asset}'`), `${asset}: disponível offline`);
+  });
+  ok(sw.includes('Promise.allSettled'), 'Pré-cache tolera falha isolada de asset');
+  ok(!index.includes('React') && !index.includes('tailwind'), 'Sem framework de interface remoto');
+});
+
+/* -----------------------------------------------------------------------
+   Suite 10 — Ferramentas e metadados públicos
+----------------------------------------------------------------------- */
+suite('Laboratório e manifesto', () => {
+  const sandbox = fs.readFileSync(path.join(ROOT, 'js/views/sandbox.js'), 'utf8');
+  const toolIds = [...sandbox.matchAll(/id:\s*'([^']+)',\s*label:/g)].map(match => match[1]);
+  equal(toolIds.length, 7, 'Laboratório declara sete ferramentas');
+  equal(new Set(toolIds).size, 7, 'IDs das ferramentas são únicos');
+  const manifest = readJSON('manifest.json');
+  ok(manifest.shortcuts.some(item => item.description.includes('26 módulos')), 'Manifesto anuncia 26 módulos');
+  ok(manifest.shortcuts.some(item => item.description.includes('Tabela periódica')), 'Manifesto descreve a tabela sem contagem divergente');
 });
 
 /* -----------------------------------------------------------------------

@@ -112,8 +112,8 @@ Os módulos são classificados em três níveis:
 | Nível | Descrição | Módulos |
 |-------|-----------|---------|
 | `high-school` | Ensino Médio (1º–3º ano) e ENEM | 7 módulos |
-| `university` | Graduação em Química, Engenharia, Biologia | 15 módulos |
-| `graduate` | Pós-graduação ou disciplinas optativas avançadas | 2 módulos |
+| `university` | Graduação em Química, Engenharia, Biologia | 16 módulos |
+| `graduate` | Pós-graduação ou disciplinas optativas avançadas | 3 módulos |
 
 O grafo de pré-requisitos no `modules.json` define a ordem recomendada de estudo.
 Um aluno de graduação pode começar diretamente em `quantum` se já tiver base de EM,

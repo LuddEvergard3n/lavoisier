@@ -1,0 +1,10 @@
+{
+  "name": "lavoisier",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Laboratório editorial de química, estático e sem dependências de execução.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/test-runner.js"
+  }
+}

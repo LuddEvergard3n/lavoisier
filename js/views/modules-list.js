@@ -10,7 +10,7 @@
  */
 
 import { esc }                        from '../ui.js';
-import { moduleProgress, getState }   from '../state.js';
+import { moduleProgress, getState, setState } from '../state.js';
 
 // Seções usadas para calcular o progresso de cada módulo.
 // 'visited' = usuário abriu o módulo; 'exercise' = acertou ao menos um exercício.
@@ -39,12 +39,18 @@ let _searchQuery  = '';
 // Render principal
 // -------------------------------------------------------------------------
 export async function renderModules(outlet) {
-  _activeLevel = 'all';
-  _searchQuery = '';
+  const savedFilters = getState().recentFilters || {};
+  _activeLevel = savedFilters.level || 'all';
+  _searchQuery = savedFilters.query || '';
 
   // Esqueleto imediato enquanto carrega
   outlet.innerHTML = _buildShell();
   _bindEvents(outlet);
+  const search = document.getElementById('module-search');
+  if (search) search.value = _searchQuery;
+  outlet.querySelectorAll('[data-level]').forEach(button => {
+    button.className = 'btn btn-xs ' + (button.dataset.level === _activeLevel ? 'btn-secondary' : 'btn-ghost');
+  });
 
   if (!_cachedModules) {
     try {
@@ -332,6 +338,7 @@ function _bindEvents(outlet) {
     if (!btn) return;
 
     _activeLevel = btn.dataset.level;
+    setState({ recentFilters: { level: _activeLevel, query: _searchQuery } });
 
     // Atualiza estilo dos botões
     outlet.querySelectorAll('[data-level]').forEach(b => {
@@ -349,6 +356,7 @@ function _bindEvents(outlet) {
     clearTimeout(_debounceId);
     _debounceId = setTimeout(() => {
       _searchQuery = e.target.value;
+      setState({ recentFilters: { level: _activeLevel, query: _searchQuery } });
       _renderGrid();
     }, 150);
   });

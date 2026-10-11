@@ -8,6 +8,7 @@ index.html
         ├── loadState()           — restaura localStorage
         ├── initSidebar()         — hamburger menu mobile
         ├── initToast()           — região de feedback
+        ├── enhanceModule()       — objetivos, etapas, fontes e aprofundamentos
         ├── _registerRoutes()     — registra handlers no router
         └── initRouter(outlet)    — dispara rota inicial
 ```
@@ -75,6 +76,7 @@ export function render(outlet) {
 
 ```
 AppState {
+  version:      number
   currentRoute: string
   progress:     { [moduleId]: { [section]: boolean } }
   attempts:     { [exerciseId]: number }
@@ -82,6 +84,13 @@ AppState {
   theme:        'dark'
   fontSize:     number
   highContrast: boolean
+  lastModule:   string | null
+  lastSection:  string | null
+  history:      string[]
+  favorites:    string[]
+  recentFilters:{ level: string, query: string }
+  openDepth:    object
+  recentTools:  string[]
 }
 ```
 
@@ -309,3 +318,10 @@ export const COLOR = {
 
 Campos `level`, `topics`, `prerequisites` e `estimatedTime` permitem filtros e
 recomendação de ordem de estudo na interface.
+
+## Contrato editorial
+
+`data/editorial.json` mantém fontes, citações, objetivos, equívocos frequentes,
+limitações dos modelos e tópicos de aprofundamento dos 26 módulos. A camada
+`js/editorial.js` combina esse catálogo com `modules.json` depois que o módulo é
+renderizado, sem alterar a API pública `render(outlet)` / `destroy()`.

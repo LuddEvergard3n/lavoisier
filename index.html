@@ -18,9 +18,11 @@
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/editorial.css" />
   <link rel="stylesheet" href="css/mobile.css" />
 </head>
 <body>
+  <a class="skip-link" href="#app">Ir para o conteúdo</a>
 
   <!-- =====================================================================
        HEADER
@@ -69,7 +71,7 @@
   </header>
 
   <!-- Mobile sidebar -->
-  <aside class="sidebar" id="sidebar" aria-label="Menu lateral" aria-hidden="true">
+  <aside class="sidebar" id="sidebar" aria-label="Menu lateral" aria-hidden="true" aria-modal="true" role="dialog">
     <button class="sidebar-close" id="sidebar-close" aria-label="Fechar menu">&#x2715;</button>
     <nav class="sidebar-nav" aria-label="Navegação lateral">
       <button class="nav-btn sidebar-link" data-route="/">Início</button>
@@ -103,11 +105,6 @@
       <p>Carregando laboratório...</p>
     </div>
   </main>
-
-  <!-- =====================================================================
-       SKIP LINK (acessibilidade)
-  ====================================================================== -->
-  <a class="skip-link" href="#app">Ir para o conteúdo</a>
 
   <!-- =====================================================================
        TOAST / FEEDBACK

@@ -74,6 +74,7 @@ export function initSidebar() {
     sidebar.removeAttribute('aria-hidden');
     overlay.classList.add('visible');
     hamburger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open');
     closeBtn.focus();
   }
 
@@ -82,6 +83,7 @@ export function initSidebar() {
     sidebar.setAttribute('aria-hidden', 'true');
     overlay.classList.remove('visible');
     hamburger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
     hamburger.focus();
   }
 
@@ -97,6 +99,14 @@ export function initSidebar() {
   // ESC fecha sidebar
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && sidebar.classList.contains('open')) close();
+    if (e.key !== 'Tab' || !sidebar.classList.contains('open')) return;
+    const focusable = [...sidebar.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+      .filter(element => !element.disabled && element.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 }
 

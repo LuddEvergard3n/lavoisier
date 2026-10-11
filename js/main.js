@@ -7,6 +7,7 @@
 import { initRouter, route, navigate, getOutlet } from './router.js';
 import { initSidebar, initToast, esc }             from './ui.js';
 import { loadState }                               from './state.js';
+import { enhanceModule }                           from './editorial.js';
 
 /* -----------------------------------------------------------------------
    Inicialização principal
@@ -89,6 +90,7 @@ function _registerRoutes() {
       const mod = await _loadModule(id);
       _activeModule = mod;
       mod.render(getOutlet());
+      await enhanceModule(getOutlet(), id);
     } catch (err) {
       console.error(`[main] módulo não encontrado: ${id}`, err);
       getOutlet().innerHTML = `
@@ -196,7 +198,7 @@ boot().catch(err => {
         <p style="color:var(--text-secondary);margin-top:0.5rem;font-family:monospace">${esc(String(err))}</p>
         <p style="color:var(--text-muted);margin-top:1rem;font-size:0.875rem">
           Este projeto requer um servidor HTTP (não funciona via file://). <br>
-          Execute: <code>python3 -m http.server 8080</code> e acesse http://localhost:8080
+          Execute: <code>npm start</code> e acesse http://localhost:8080
         </p>
       </div>
     `;

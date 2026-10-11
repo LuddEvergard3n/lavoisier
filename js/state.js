@@ -7,6 +7,7 @@
  */
 
 const STORAGE_KEY = 'lavoisier_v1';
+const STATE_VERSION = 2;
 
 /**
  * Estado padrão da aplicação.
@@ -23,6 +24,7 @@ const STORAGE_KEY = 'lavoisier_v1';
  */
 
 let _state = {
+  version:       STATE_VERSION,
   currentRoute:  '/',
   progress:      {},
   attempts:      {},
@@ -30,6 +32,13 @@ let _state = {
   theme:         'dark',
   fontSize:      1,
   highContrast:  false,
+  lastModule:    null,
+  lastSection:   null,
+  history:       [],
+  favorites:     [],
+  recentFilters: { level: 'all', query: '' },
+  openDepth:     {},
+  recentTools:   [],
 };
 
 /**
@@ -41,8 +50,13 @@ export function loadState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     const saved = JSON.parse(raw);
-    // Merge seguro: campos novos adicionados no futuro são preservados
-    _state = Object.assign({}, _state, saved);
+    if (!saved || typeof saved !== 'object' || Array.isArray(saved)) return;
+    _state = Object.assign({}, _state, saved, { version: STATE_VERSION });
+    _state.history = Array.isArray(saved.history) ? saved.history.slice(0, 6) : [];
+    _state.favorites = Array.isArray(saved.favorites) ? saved.favorites : [];
+    _state.recentTools = Array.isArray(saved.recentTools) ? saved.recentTools.slice(0, 7) : [];
+    _state.recentFilters = Object.assign({ level: 'all', query: '' }, saved.recentFilters);
+    _state.openDepth = saved.openDepth && typeof saved.openDepth === 'object' ? saved.openDepth : {};
   } catch (_e) {
     // localStorage indisponível ou JSON corrompido — ignora
   }

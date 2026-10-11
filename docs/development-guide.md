@@ -387,8 +387,8 @@ O runner em `tests/test-runner.js` verifica:
 6. State — exports e localStorage
 
 ```bash
-node tests/test-runner.js
-# Resultado esperado: 591 passed, 0 failed
+npm test
+# Resultado esperado: todas as verificações aprovadas
 ```
 
 Para verificar sintaxe JS sem executar:
@@ -397,16 +397,10 @@ Para verificar sintaxe JS sem executar:
 node --check modules/kinetics/index.js
 ```
 
-Para detectar o caractere `−` (U+2212, mathematical minus) que causa SyntaxError em template literals:
+Para detectar o caractere `−` (U+2212, mathematical minus) em arquivos JavaScript:
 
-```bash
-python3 -c "
-import glob
-for p in glob.glob('modules/*/index.js'):
-    data = open(p,'rb').read()
-    if b'\xe2\x88\x92' in data:
-        print('AVISO U+2212:', p)
-"
+```powershell
+rg -n "−" modules -g "*.js"
 ```
 
 ---

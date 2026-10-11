@@ -4,6 +4,21 @@ Todas as alterações notáveis seguem o formato [Semantic Versioning](https://s
 
 ---
 
+## [2.0.0] — 2026-10-10 — Laboratório editorial
+
+- Nova linguagem visual escura, responsiva e orientada por fenômenos.
+- Entrada prioritária pelo Ensino Médio, busca global, retomada de estudo e filtros persistentes.
+- Catálogo editorial para os 26 módulos com objetivos, equívocos frequentes, limites de modelo, fontes e citações.
+- Conteúdo avançado de Estrutura Atômica movido para aprofundamento progressivo.
+- Estado local migrado para a versão 2 sem apagar progresso anterior.
+- Pré-cache resiliente: um asset ausente não invalida toda a instalação offline.
+- Servidor local em Node.js e comandos `npm start` / `npm test`, sem dependências externas.
+- Correções científicas em spin, ocupação eletrônica, destilação e nomenclatura de complexos.
+- Correção de erros de sintaxe antes invisíveis nos módulos de Reações e Coordenação.
+- Testes ampliados para sintaxe de todos os módulos, fontes, citações, pré-requisitos, ferramentas e assets offline.
+
+---
+
 ## [1.9.4] — 2026-04-27 — Referência Rápida e correções sistêmicas
 
 ### Nova view: `/reference` — Referência Rápida de Química

@@ -7,7 +7,7 @@
  * Para forçar atualização em produção: incrementar CACHE_VERSION.
  */
 
-const CACHE_VERSION = 'lavoisier-v1.9.4';
+const CACHE_VERSION = 'lavoisier-v2.0.0';
 
 // Lista completa de assets a pré-cachear.
 // Gerada automaticamente a partir da estrutura de arquivos do projeto.
@@ -21,10 +21,12 @@ const PRECACHE_ASSETS = [
   './css/layout.css',
   './css/mobile.css',
   './css/theme.css',
+  './css/editorial.css',
   './js/main.js',
   './js/router.js',
   './js/state.js',
   './js/ui.js',
+  './js/editorial.js',
   './js/engine/feedback.js',
   './js/engine/hint-system.js',
   './js/engine/interaction.js',
@@ -39,6 +41,7 @@ const PRECACHE_ASSETS = [
   './js/views/sandbox.js',
   './data/elements.json',
   './data/modules.json',
+  './data/editorial.json',
   './modules/analytical/index.js',
   './modules/atomic-structure/index.js',
   './modules/biochemistry/index.js',
@@ -73,7 +76,7 @@ const PRECACHE_ASSETS = [
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_VERSION)
-      .then(cache => cache.addAll(PRECACHE_ASSETS))
+      .then(cache => Promise.allSettled(PRECACHE_ASSETS.map(asset => cache.add(asset))))
       .then(() => self.skipWaiting())  // ativa imediatamente sem esperar aba fechar
   );
 });

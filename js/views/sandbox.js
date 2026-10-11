@@ -20,7 +20,7 @@ import {
   clearCanvas, drawAtom, drawBond, drawLabel, COLOR,
 } from '../engine/renderer.js';
 import { DragManager, hitCircle }  from '../engine/interaction.js';
-import { markSectionDone }         from '../state.js';
+import { markSectionDone, getState, setState } from '../state.js';
 
 import {
   renderEquationBalancer, destroyEquationBalancer,
@@ -48,36 +48,43 @@ const TABS = [
   {
     id: 'molecules', label: 'Construtor', icon: '\u2B21',
     desc: 'Monte moléculas livremente por arrastar e soltar.',
+    level: 'Ensino Médio', example: 'Compare H₂O e CO₂.', limitation: 'Geometrias e ligações são modelos 2D qualitativos.',
     mount: mountMolecules, unmount: unmountMolecules,
   },
   {
     id: 'lewis', label: 'Lewis', icon: '\u26AC',
     desc: 'Estruturas de Lewis com pares não-ligantes e carga formal.',
+    level: 'Ensino Médio', example: 'Represente NH₃ e CO₂.', limitation: 'Lewis não descreve deslocalização e orbitais por completo.',
     mount: c => renderLewisBuilder(c), unmount: destroyLewisBuilder,
   },
   {
     id: 'balancer', label: 'Balanceador', icon: '\u21CC',
     desc: 'Balanceie equações químicas por álgebra linear.',
+    level: 'Ensino Médio', example: 'Balanceie Fe + O₂ → Fe₂O₃.', limitation: 'O balanceador conserva átomos, mas não infere mecanismo ou condições.',
     mount: c => renderEquationBalancer(c), unmount: destroyEquationBalancer,
   },
   {
     id: 'stoich', label: 'Estequiometria', icon: '\u2697',
     desc: 'Calcule quantidades e identifique o reagente limitante.',
+    level: 'Ensino Médio', example: 'Converta mol em massa e encontre o limitante.', limitation: 'O cálculo assume fórmulas válidas e reação ideal conforme informada.',
     mount: c => renderStoichCalc(c), unmount: destroyStoichCalc,
   },
   {
     id: 'titration', label: 'Titulação', icon: '\u223F',
     desc: 'Simule curvas de pH em titulações ácido-base.',
+    level: 'Graduação', example: 'Compare ácido forte e ácido fraco.', limitation: 'A simulação usa aproximações de equilíbrio e não substitui calibração experimental.',
     mount: c => renderTitrationSim(c), unmount: destroyTitrationSim,
   },
   {
     id: 'orbitals', label: 'Orbitais', icon: '\u25CE',
     desc: 'Visualize a densidade de probabilidade dos orbitais atômicos.',
+    level: 'Graduação', example: 'Compare orbitais s, p e d.', limitation: 'A imagem é uma seção/projeção didática de uma distribuição tridimensional.',
     mount: c => renderOrbitalViewer(c), unmount: destroyOrbitalViewer,
   },
   {
     id: 'solubility', label: 'Solubilidade', icon: '\u229E',
     desc: 'Tabela interativa de solubilidade com detalhes dos precipitados.',
+    level: 'Ensino Médio', example: 'Preveja precipitado ao misturar dois sais.', limitation: 'Regras qualitativas têm exceções e dependem de concentração e temperatura.',
     mount: c => renderSolubilityTable(c), unmount: destroySolubilityTable,
   },
 ];
@@ -141,6 +148,12 @@ function _hubHTML() {
 
   <p id="lab-tab-desc" class="lab-tab-desc">${esc(TABS[0].desc)}</p>
 
+  <aside class="lab-bench-meta" id="lab-bench-meta">
+    <div><span class="eyebrow">${esc(TABS[0].level)}</span><strong>${esc(TABS[0].example)}</strong></div>
+    <p><b>Limite:</b> ${esc(TABS[0].limitation)}</p>
+    <button class="btn btn-secondary btn-sm" id="lab-reset-tool">Reiniciar ferramenta</button>
+  </aside>
+
   <section class="module-section" style="padding-top:0.75rem">
     <div id="lab-tool-container"></div>
   </section>
@@ -155,6 +168,13 @@ function _bindTabClicks() {
   if (!_outlet || _tabClickBound) return;
   _tabClickBound = true;
   _outlet.addEventListener('click', e => {
+    if (e.target.closest('#lab-reset-tool')) {
+      const tab = TABS[_activeTabIdx];
+      tab.unmount?.();
+      const container = _outlet.querySelector('#lab-tool-container');
+      if (container) { container.innerHTML = ''; tab.mount(container); }
+      return;
+    }
     const btn = e.target.closest('[data-tabidx]');
     if (!btn) return;
     const idx = parseInt(btn.dataset.tabidx, 10);
@@ -171,6 +191,8 @@ function _mountTab(idx) {
 
   _activeTabIdx = idx;
   const tab = TABS[idx];
+  const state = getState();
+  setState({ recentTools: [tab.id, ...(state.recentTools || []).filter(id => id !== tab.id)].slice(0, 7) });
 
   // Atualizar botões
   _outlet.querySelectorAll('.lab-tab-btn').forEach((btn, i) => {
@@ -181,6 +203,8 @@ function _mountTab(idx) {
   // Atualizar descrição
   const descEl = _outlet.querySelector('#lab-tab-desc');
   if (descEl) descEl.textContent = tab.desc;
+  const meta = _outlet.querySelector('#lab-bench-meta');
+  if (meta) meta.innerHTML = `<div><span class="eyebrow">${esc(tab.level)}</span><strong>${esc(tab.example)}</strong></div><p><b>Limite:</b> ${esc(tab.limitation)}</p><button class="btn btn-secondary btn-sm" id="lab-reset-tool">Reiniciar ferramenta</button>`;
 
   // Montar ferramenta no container
   const container = _outlet.querySelector('#lab-tool-container');

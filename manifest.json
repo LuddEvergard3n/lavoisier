@@ -40,12 +40,12 @@
     {
       "name": "Tabela Periódica",
       "url": "./index.html#/module/periodic-table",
-      "description": "51 elementos interativos e tendências periódicas"
+      "description": "Tabela periódica de referência e tendências interativas"
     },
     {
       "name": "Lista de módulos",
       "url": "./index.html#/modules",
-      "description": "Todos os 24 módulos disponíveis"
+      "description": "Todos os 26 módulos disponíveis"
     }
   ]
 }

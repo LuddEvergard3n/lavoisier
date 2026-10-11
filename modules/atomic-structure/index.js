@@ -234,7 +234,7 @@ function _buildHTML() {
       30 m/s, λ ~ 2×10⁻³⁴ m — indetectável. Heisenberg (1927):
       <strong>Δx·Δp ≥ ℏ/2</strong>. O princípio da incerteza não é limitação técnica,
       é uma propriedade fundamental da natureza ondulatória da matéria.
-    </p> Elétrons só são ejetados de um metal quando E_fóton &gt; φ (função de trabalho). Energia cinética do elétron ejetado: <strong>Ec = hf - φ</strong>.</p>
+    </p>
     <div class="module-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
       <div class="info-card"><p style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:.3rem">Função de trabalho φ de metais comuns</p>
         <p style="font-family:monospace;font-size:var(--text-xs)">Cs: 2,0 eV | Na: 2,3 eV<br>Al: 4,3 eV | Cu: 4,7 eV<br>Au: 5,1 eV | Pt: 5,7 eV</p></div>
@@ -309,15 +309,16 @@ function _buildHTML() {
       <p>
         O <strong>núcleo</strong> contém prótons (carga +1) e nêutrons (carga 0).
         O <strong>número atômico (Z)</strong> é o número de prótons e define o elemento.
-        Os <strong>elétrons</strong> (carga -1) orbitam o núcleo em camadas de energia.
+        Os <strong>elétrons</strong> (carga -1) ocupam estados quânticos distribuídos ao redor do núcleo.
       </p>
     </div>
 
     <div class="info-card" style="margin-top:1rem">
       <h3>Distribuição eletrônica</h3>
       <p>
-        A primeira camada comporta até 2 elétrons. A segunda e a terceira, até 8.
-        Essa distribuição determina as propriedades químicas do elemento —
+        A capacidade máxima de uma camada principal é 2n²; a ordem real de preenchimento
+        depende das energias dos subníveis. Para os primeiros elementos, isso produz 2 elétrons
+        na primeira camada e até 8 na segunda. Essa distribuição influencia as propriedades químicas —
         especialmente os elétrons da última camada (camada de valência).
       </p>
     </div>
@@ -369,7 +370,7 @@ function _buildHTML() {
       </div>
       <div class="info-card">
         <h3 style="margin-top:0">mₛ — Spin</h3>
-        <p style="font-size:var(--text-sm)">Direção do giro intrínseco.<br>+½ (seta para cima ↑)<br>-½ (seta para baixo ↓)</p>
+        <p style="font-size:var(--text-sm)">Número quântico intrínseco, sem equivalente de rotação clássica.<br>+½ (↑)<br>-½ (↓)</p>
       </div>
     </div>
 

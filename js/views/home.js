@@ -4,6 +4,7 @@
  */
 
 import { esc } from '../ui.js';
+import { getState, setState } from '../state.js';
 
 /* SVG inline para ícone dos feature cards */
 const DIAMOND_SVG = `<svg class="info-card-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 2L16 9L9 16L2 9Z" fill="var(--accent-electron)"/></svg>`;
@@ -156,11 +157,14 @@ window.addEventListener('sw-update-available', () => {
 });
 
 export function renderHome(outlet) {
+  const state = getState();
+  const lastModule = ALL_MODULES.find(module => module.id === state.lastModule);
   outlet.innerHTML = `
 <div class="page">
 
   <!-- Hero -->
   <section class="home-hero">
+    <p class="editorial-kicker">Laboratório editorial de química</p>
     <h1 class="home-hero-title">
       Química que você<br><span>vê e experimenta</span>
     </h1>
@@ -171,10 +175,17 @@ export function renderHome(outlet) {
     </p>
     <div class="home-actions">
       <button class="btn btn-primary" data-route="/module/atomic-structure">
-        Começar: Estrutura Atômica
+        Iniciar trilha do Ensino Médio
       </button>
+      <button class="btn btn-secondary" data-route="/sandbox">Abrir laboratório</button>
     </div>
+    <form class="home-search" id="home-search" role="search">
+      <input type="search" id="home-search-input" aria-label="Buscar tema ou fenômeno" placeholder="Busque pH, combustão, ligações, espectros…">
+      <button class="btn btn-primary" type="submit">Explorar módulos</button>
+    </form>
   </section>
+
+  ${lastModule ? `<section class="continue-card" aria-label="Continuar estudando"><div><p class="eyebrow">Continuar estudando</p><h2>${esc(lastModule.title)}</h2><p>${esc(lastModule.desc)}</p></div><button class="btn btn-primary" data-route="/module/${esc(lastModule.id)}">Retomar aula</button></section>` : ''}
 
   <!-- Filosofia rápida -->
   <section class="feature-cards-section">
@@ -193,6 +204,8 @@ export function renderHome(outlet) {
       `).join('')}
     </div>
   </section>
+
+  <section class="lab-callout"><div><p class="eyebrow">Sete instrumentos locais</p><h2>Experimente antes de decorar</h2><p>Monte moléculas, balanceie equações, investigue titulações, orbitais e solubilidade sem cadastro nem envio de dados.</p></div><button class="btn btn-secondary" data-route="/sandbox">Explorar bancada</button></section>
 
   <!-- Banner de instalação PWA (aparece dinamicamente via JS) -->
   <div id="pwa-install-banner"
@@ -269,4 +282,11 @@ export function renderHome(outlet) {
 
   // Mostrar banner de instalação se elegível
   _showInstallBanner();
+
+  document.getElementById('home-search')?.addEventListener('submit', event => {
+    event.preventDefault();
+    const query = document.getElementById('home-search-input')?.value.trim() || '';
+    setState({ recentFilters: { level: 'all', query } });
+    location.hash = '#/modules';
+  });
 }
