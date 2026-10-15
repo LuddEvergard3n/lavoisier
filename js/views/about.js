@@ -18,6 +18,10 @@ const METRICS = [
 ];
 
 const ECOSYSTEM = [
+  { name: 'Alberti',    sub: 'Arte',              url: 'https://luddevergard3n.github.io/alberti/',        repo: 'https://github.com/LuddEvergard3n/alberti' },
+  { name: 'Archimedes', sub: 'Física',            url: 'https://luddevergard3n.github.io/archimedes/',      repo: 'https://github.com/LuddEvergard3n/archimedes' },
+  { name: 'Aristóteles',sub: 'Filosofia',         url: 'https://luddevergard3n.github.io/aristoteles/',     repo: 'https://github.com/LuddEvergard3n/aristoteles' },
+  { name: 'Darwin',     sub: 'Biologia',          url: 'https://luddevergard3n.github.io/darwin/',          repo: 'https://github.com/LuddEvergard3n/darwin' },
   { name: 'Heródoto',   sub: 'História',          url: 'https://luddevergard3n.github.io/Herodoto/',       repo: 'https://github.com/LuddEvergard3n/Herodoto' },
   { name: 'Euclides',   sub: 'Matemática',         url: 'https://luddevergard3n.github.io/euclides/',        repo: 'https://github.com/LuddEvergard3n/euclides' },
   { name: 'Quintiliano',sub: 'Língua Portuguesa',  url: 'https://luddevergard3n.github.io/quintiliano/',     repo: 'https://github.com/LuddEvergard3n/quintiliano' },

@@ -259,6 +259,9 @@ export function renderHome(outlet) {
     <p class="home-ecosystem-label">Ecossistema educacional</p>
     <div class="home-ecosystem-grid">
       ${[
+        ['Alberti',    'Arte',                'https://luddevergard3n.github.io/alberti/',        'https://github.com/LuddEvergard3n/alberti'],
+        ['Aristóteles','Filosofia',           'https://luddevergard3n.github.io/aristoteles/',     'https://github.com/LuddEvergard3n/aristoteles'],
+        ['Darwin',     'Biologia',            'https://luddevergard3n.github.io/darwin/',          'https://github.com/LuddEvergard3n/darwin'],
         ['Heródoto',   'História',           'https://luddevergard3n.github.io/Herodoto/',       'https://github.com/LuddEvergard3n/Herodoto'],
         ['Euclides',   'Matemática',         'https://luddevergard3n.github.io/euclides/',        'https://github.com/LuddEvergard3n/euclides'],
         ['Quintiliano','Língua Portuguesa',  'https://luddevergard3n.github.io/quintiliano/',     'https://github.com/LuddEvergard3n/quintiliano'],
